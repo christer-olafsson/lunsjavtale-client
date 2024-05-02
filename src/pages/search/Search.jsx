@@ -9,6 +9,7 @@ import LoadingBar from '../../common/loadingBar/LoadingBar'
 import PostCodeAvailable from './PostcodeAvailable'
 import PostCodeNotAvailable from './PostcodeNotAvailable'
 import toast from 'react-hot-toast'
+import ErrorMsg from '../../common/ErrorMsg/ErrorMsg'
 
 const Search = () => {
   const [postcode, setPostcode] = useState('');
@@ -24,7 +25,7 @@ const Search = () => {
   const handleNotAvailabe = () => {
     setPostcodeNotAvailabe(false);
   }
-  const { loading } = useQuery(CHECk_POST_CODE, {
+  const { loading, error } = useQuery(CHECk_POST_CODE, {
     variables: {
       postCode: parseInt(postcode)
     },
@@ -84,7 +85,7 @@ const Search = () => {
             mb: { xs: 2, md: 4 }
           }}>Better food, less food waste, more time</Typography>
           {
-            postcodeAvailable ?
+            error? <ErrorMsg/> : postcodeAvailable ?
               <PostCodeAvailable handleAvailabe={handleAvailabe} postCode={postcode} />
               : postcodeNotAvailabe ? <PostCodeNotAvailable handleNotAvailabe={handleNotAvailabe} /> :
                 <Box>

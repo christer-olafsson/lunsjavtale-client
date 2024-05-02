@@ -59,7 +59,7 @@ const Login = (props) => {
   console.log('forgotEmail', forgotEmail)
   const dispatch = useDispatch()
 
-  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+  const [loginUser, { loading ,error:loginErr}] = useMutation(LOGIN_USER, {
     onCompleted: (res) => {
       console.log('login res:', res)
       localStorage.setItem("token", res.loginUser.access);
@@ -92,6 +92,7 @@ const Login = (props) => {
       setPayloadError({ ...payloadError, password: 'Please enter password!' })
       return;
     }
+    if(loginErr) toast.error('SomeThing went wrong!')
     loginUser({ variables: payload })
   }
 
