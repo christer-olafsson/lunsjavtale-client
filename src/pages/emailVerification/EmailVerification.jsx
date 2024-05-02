@@ -20,11 +20,7 @@ const EmailVerification = () => {
   const [emailVerify, { loading, data, error }] = useMutation(EMAIL_VERIFY, {
     onCompleted: (res) => {
       toast.success(res.emailVerify.message)
-      if (res.emailVerify.succes) {
-        setTimeout(() => {
-          navigate('/login')
-        }, 2000);
-      }
+      navigate('/login')
     }
   });
 
