@@ -21,3 +21,12 @@ export const CREATE_VALID_COMPANY = gql`
     }
   }
 `
+
+export const CREATE_COMPANY = gql`
+  mutation CreateCompany ($input:CompanyMutationInput!){
+    createCompany(input:$input){
+      success
+      message
+    }
+  }
+`

@@ -87,7 +87,7 @@ const Search = () => {
           {
             error? <ErrorMsg/> : postcodeAvailable ?
               <PostCodeAvailable handleAvailabe={handleAvailabe} postCode={postcode} />
-              : postcodeNotAvailabe ? <PostCodeNotAvailable handleNotAvailabe={handleNotAvailabe} /> :
+              : postcodeNotAvailabe ? <PostCodeNotAvailable postCode={postcode} handleNotAvailabe={handleNotAvailabe} /> :
                 <Box>
                   <Typography sx={{
                     fontSize: { xs: '14px', md: '18px' },

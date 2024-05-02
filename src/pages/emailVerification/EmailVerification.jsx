@@ -1,30 +1,41 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { EMAIL_VERIFY } from './graphql/mutation'
 import { Button, Stack, Typography } from '@mui/material'
 import { Check } from '@mui/icons-material'
 import { useTheme } from '@emotion/react'
 import CButton from '../../common/CButton/CButton'
+import toast from 'react-hot-toast'
+import Loader from '../../common/loader/Index'
 
 const EmailVerification = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const token = searchParams.get('token');
 
-  const theme = useTheme()
+  const theme = useTheme();
+  const navigate = useNavigate()
 
-  const [emailVerify, { loading, data, error }] = useMutation(EMAIL_VERIFY);
+  const [emailVerify, { loading, data, error }] = useMutation(EMAIL_VERIFY, {
+    onCompleted: (res) => {
+      toast.success(res.emailVerify.message)
+      if (res.emailVerify.succes) {
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000);
+      }
+    }
+  });
 
-  console.log('data', data)
-
-  function handleVerify() {
+  useEffect(() => {
     emailVerify({
       variables: {
         token: token
       }
     })
-  }
+  }, [])
+
 
   return (
     <Stack sx={{
@@ -32,8 +43,7 @@ const EmailVerification = () => {
       height: '100vh'
     }} alignItems='center' justifyContent='center'>
       {
-        !data?.emailVerify?.success &&
-        <CButton isLoading={loading} disable={loading} onClick={handleVerify} variant='contained'>Click to verify</CButton>
+        loading && <Loader />
       }
       {
         error && <Typography sx={{ color: 'red', mt: 1 }}>{error?.message}</Typography>
@@ -50,11 +60,8 @@ const EmailVerification = () => {
           }} alignItems='center' justifyContent='center'>
             <Check sx={{ fontSize: '50px', color: 'primary.main' }} />
           </Stack>
-          <Typography variant='h2'>Email Verified</Typography>
-          <Typography>{data?.emailVerify?.message}</Typography>
-          <Link to='/login'>
-            <Button variant='contained'>Back to login</Button>
-          </Link>
+          <Typography variant='h2'>Email Verified!</Typography>
+          <Typography variant='body'>Redirect to login page..</Typography>
         </Stack>
       }
     </Stack>

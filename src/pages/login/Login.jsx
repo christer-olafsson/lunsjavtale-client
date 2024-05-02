@@ -55,11 +55,15 @@ const Login = (props) => {
   const [emailNotReceivedSecOpen, setEmailNotReceivedSecOpen] = useState(false)
   const [disableResendBtn, setDisableResendBtn] = useState(false);
   const [forgotEmail, setForgotEmail] = useState({ email: '' });
+  const [passResetMailSendDone, setPassResetMailSendDone] = useState(false)
 
-  console.log('forgotEmail', forgotEmail)
+
   const dispatch = useDispatch()
 
-  const [loginUser, { loading ,error:loginErr}] = useMutation(LOGIN_USER, {
+
+
+
+  const [loginUser, { loading, error: loginErr }] = useMutation(LOGIN_USER, {
     onCompleted: (res) => {
       console.log('login res:', res)
       localStorage.setItem("token", res.loginUser.access);
@@ -79,6 +83,8 @@ const Login = (props) => {
     },
   });
 
+
+
   const handleInputChange = (e) => {
     setPayloadError({ ...payloadError, [e.target.name]: '' });
     setPayload({ ...payload, [e.target.name]: e.target.value })
@@ -92,9 +98,11 @@ const Login = (props) => {
       setPayloadError({ ...payloadError, password: 'Please enter password!' })
       return;
     }
-    if(loginErr) toast.error('SomeThing went wrong!')
+    if (loginErr) toast.error('SomeThing went wrong!')
     loginUser({ variables: payload })
   }
+
+
 
   const [resendMail] = useMutation(SEND_VERIFICATION_MAIL, {
     onCompleted: (res) => {
@@ -118,10 +126,12 @@ const Login = (props) => {
     }, 50000);
   };
 
-  const [passwordReset, { loading: passResetLoading }] = useMutation(PASSWORD_RESET, {
+
+
+  const [passwordReset, { loading: passResetLoading, data: passResetData }] = useMutation(PASSWORD_RESET, {
     onCompleted: (res) => {
-      toast.success(res.passwordResetMail.message)
-      setForgotEmail('')
+      // toast.success(res.passwordResetMail.message)
+      setForgotEmail({ email: '' })
     },
     onError: (err) => {
       console.log(err)
@@ -129,7 +139,7 @@ const Login = (props) => {
     }
   });
 
-  const handleForgoteEmail = () => {
+  const handleForgotePassword = () => {
     if (!forgotEmail.email) {
       toast.error('Please enter your email!')
       return;
@@ -140,6 +150,8 @@ const Login = (props) => {
       }
     })
   }
+
+
 
 
   const passwordVisibilityHandler = () => setPasswordVisibility(!passwordVisibility);
@@ -221,14 +233,25 @@ const Login = (props) => {
               <Stack sx={{ width: '100%' }} direction='row' alignItems='center' justifyContent={'space-between'}>
 
                 <Button onClick={() => setForgotePassSecOpen(false)} sx={{
-                  color: 'primary.main',
+                  color: 'gray',
+                  fontSize:'22px',
                   mb: 2,
                 }} startIcon={<KeyboardArrowLeft />}> Back </Button>
               </Stack>
-              <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Forgote Password?</Typography>
-              <Input value={forgotEmail.email} sx={{ mb: 2 }} placeholder='Enter Your Email' onChange={(e) => setForgotEmail({ email: e.target.value })} type="text" />
-              {/* <TextField onChange={(e)=> setForgotEmail(e.target.value)} sx={{ mb: 2 }} fullWidth placeholder='email address' variant="outlined" /> */}
-              <CButton isLoading={passResetLoading} disable={passResetLoading} onClick={handleForgoteEmail} variant='contained'>Submit</CButton>
+              {
+                passResetData ?
+                  <Typography sx={{
+                    bgcolor:'light.main',
+                    borderRadius:'8px',
+                    px:2,py:1,color:'primary.main'
+                  }}>{passResetData.passwordResetMail.message}</Typography> :
+                  <Stack>
+                    <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Forgote Password?</Typography>
+                    <Input value={forgotEmail.email} sx={{ mb: 2 }} placeholder='Enter Your Email' onChange={(e) => setForgotEmail({ email: e.target.value })} type="text" />
+                    {/* <TextField onChange={(e)=> setForgotEmail(e.target.value)} sx={{ mb: 2 }} fullWidth placeholder='email address' variant="outlined" /> */}
+                    <CButton isLoading={passResetLoading} disable={passResetLoading} onClick={handleForgotePassword} variant='contained'>Submit</CButton>
+                  </Stack>
+              }
             </Stack>
 
           ) : (

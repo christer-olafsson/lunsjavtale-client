@@ -30,7 +30,7 @@ function App() {
   }, [])
 
   return (
-    <div className="">
+    <div>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={token ? <Navigate to='/dashboard/myside' /> : <Login />} />

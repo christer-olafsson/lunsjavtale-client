@@ -39,7 +39,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
     confirmPass: ''
   });
 
-  const [validCreateCompany, { loading, error }] = useMutation(CREATE_VALID_COMPANY, {
+  const [validCreateCompany, { data: createCompanyData, loading, error }] = useMutation(CREATE_VALID_COMPANY, {
     onCompleted: (res) => {
       setRegSuccess(res.validCreateCompany.success)
       toast.success('Registration Success! Please Check email')
@@ -159,86 +159,90 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
               borderRadius: '8px',
               fontSize: '18px',
               color: 'primary.main'
-            }}>Registration Success! please check your inox or spam box and active your account.</Typography>
+            }}>Registration Success! please check your inbox or spam box and active your account.</Typography>
             <Box sx={{ mt: 1, ml: 3, display: 'inline-flex', alignItems: 'center' }}>
-              <Typography >Don't get email?</Typography>
+              <Typography sx={{fontSize:'14px'}}>Don't get email?</Typography>
               <Button onClick={handleResendMail} disabled={disableResendBtn}>Click to send again</Button>
             </Box>
           </Box>
           :
-          <Typography sx={{
-            width: '100%',
-            padding: '8px 24px',
-            bgcolor: 'primary.main',
-            borderRadius: '8px',
-            fontSize: '18px',
-            color: '#fff'
-          }}>
-            We  deliver to this postcode yet. But fill in the fields below and we'll see what we can do. 🧑‍🍳
-          </Typography>
+          <Box>
+            <Typography sx={{
+              width: '100%',
+              padding: '8px 24px',
+              bgcolor: 'primary.main',
+              borderRadius: '8px',
+              fontSize: '18px',
+              color: '#fff'
+            }}>
+              We  deliver to this postcode yet. But fill in the fields below and we'll see what we can do. 🧑‍🍳
+            </Typography>
+            <Typography sx={{ fontSize: '24px', fontWeight: '600', my: 3 }}>Create your company account</Typography>
+
+            <Stack gap={2}>
+              <Stack direction='row' gap={2}>
+                <TextField value={payload.company} helperText={payloadErr.company} error={Boolean(payloadErr.company)} onChange={handleInputChange} name='company' fullWidth label="Name of the company" variant="outlined" />
+                <TextField value={payload.name} helperText={payloadErr.name} error={Boolean(payloadErr.name)} onChange={handleInputChange} name='name' fullWidth label="Your name" variant="outlined" />
+              </Stack>
+              <Stack direction='row' gap={2}>
+                <TextField value={payload.email} helperText={payloadErr.email} error={Boolean(payloadErr.email)} onChange={handleInputChange} name='email' fullWidth label="Email" variant="outlined" />
+                <TextField value={payload.phone} helperText={payloadErr.phone} type='number' error={Boolean(payloadErr.phone)} onChange={handleInputChange} name='phone' fullWidth label="Phone" variant="outlined" />
+              </Stack>
+              <TextField
+                value={payload.password}
+                helperText={payloadErr.password}
+                error={Boolean(payloadErr.password)}
+                onChange={handleInputChange}
+                name='password'
+                type={passwordVisibility ? "text" : "password"}
+                fullWidth
+                label="Password"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={passwordVisibilityHandler}
+                        onMouseDown={passwordVisibilityHandler}
+                        edge="end"
+                      >
+                        {passwordVisibility ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField value={payload.confirmPass} helperText={payloadErr.confirmPass} error={Boolean(payloadErr.confirmPass)} onChange={handleInputChange} name='confirmPass' type='password' fullWidth label="Confirm password" variant="outlined" />
+              {
+                errors.length > 0 &&
+                <ul style={{ color: 'red', fontSize: '13px' }}>
+                  {
+                    errors.map((err, id) => (
+                      <li key={id}>{err}</li>
+                    ))
+                  }
+                </ul>
+              }
+              <FormControlLabel control={<Checkbox />} label="Remember me" />
+            </Stack>
+
+            <Stack direction='row' gap={2} mt={2}>
+              <Button onClick={handleAvailabe}>Back</Button>
+              <CButton isLoading={loading} disabled={loading} onClick={handleSubmit} variant='contained' color='primary'>Sign up</CButton>
+            </Stack>
+            <Box sx={{
+              display: 'inline-flex', mt: 2
+            }}>
+            </Box>
+          </Box>
       }
-      <Typography sx={{ fontSize: '24px', fontWeight: '600', my: 3 }}>Create your company account</Typography>
-
-      <Stack gap={2}>
-        <Stack direction='row' gap={2}>
-          <TextField value={payload.company} helperText={payloadErr.company} error={Boolean(payloadErr.company)} onChange={handleInputChange} name='company' fullWidth label="Name of the company" variant="outlined" />
-          <TextField value={payload.name} helperText={payloadErr.name} error={Boolean(payloadErr.name)} onChange={handleInputChange} name='name' fullWidth label="Your name" variant="outlined" />
-        </Stack>
-        <Stack direction='row' gap={2}>
-          <TextField value={payload.email} helperText={payloadErr.email} error={Boolean(payloadErr.email)} onChange={handleInputChange} name='email' fullWidth label="Email" variant="outlined" />
-          <TextField value={payload.phone} helperText={payloadErr.phone} type='number' error={Boolean(payloadErr.phone)} onChange={handleInputChange} name='phone' fullWidth label="Phone" variant="outlined" />
-        </Stack>
-        <TextField
-          value={payload.password}
-          helperText={payloadErr.password}
-          error={Boolean(payloadErr.password)}
-          onChange={handleInputChange}
-          name='password'
-          type={passwordVisibility ? "text" : "password"}
-          fullWidth
-          label="Password"
-          variant="outlined"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={passwordVisibilityHandler}
-                  onMouseDown={passwordVisibilityHandler}
-                  edge="end"
-                >
-                  {passwordVisibility ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <TextField value={payload.confirmPass} helperText={payloadErr.confirmPass} error={Boolean(payloadErr.confirmPass)} onChange={handleInputChange} name='confirmPass' type='password' fullWidth label="Confirm password" variant="outlined" />
-        {
-          errors.length > 0 &&
-          <ul style={{ color: 'red', fontSize: '13px' }}>
-            {
-              errors.map((err, id) => (
-                <li key={id}>{err}</li>
-              ))
-            }
-          </ul>
-        }
-        <FormControlLabel control={<Checkbox />} label="Remember me" />
-      </Stack>
-
-      <Stack direction='row' gap={2} mt={2}>
-        <Button onClick={handleAvailabe}>Back</Button>
-        <CButton isLoading={loading} disabled={loading} onClick={handleSubmit} variant='contained' color='primary'>Sign up</CButton>
-      </Stack>
-      <Box sx={{
-        display: 'inline-flex', mt: 2
-      }}>
+      <Stack direction='row' sx={{mt:2}}>
         <Typography>Already have a account? </Typography>
         <Link to='/login'>
           <Typography sx={{ fontWeight: 'bold', color: 'primary.main', ml: 1 }}>Sign in here </Typography>
         </Link>
-      </Box>
+      </Stack>
     </Box >
   )
 }
