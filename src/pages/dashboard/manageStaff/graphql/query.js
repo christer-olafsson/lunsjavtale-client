@@ -6,14 +6,40 @@ export const GET_COMPANY_STAFFS = gql`
   edges {
     node {
       id
+      photoUrl
       email
       firstName
       lastName
       dateJoined
       jobTitle
       phone
+      isStaff
+      username
+      role
+      allergies{
+        edges{
+          node{
+             name
+            id
+          }
+        }
+      }
     }
   }
 }
+}
+`
+
+export const GET_INGREDIENTS = gql`
+  query{
+    ingredients{
+      edges{
+        node{
+          id
+          name
+          isActive
+      }
+    }
+  }
 }
 `

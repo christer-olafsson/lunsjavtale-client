@@ -1,11 +1,11 @@
-import { BorderColor, BorderColorOutlined, Close, Search } from '@mui/icons-material'
-import { Box, Button, DialogActions, IconButton, Input, Stack, Typography, useMediaQuery } from '@mui/material'
+import { BorderColor, BorderColorOutlined, Close, ModeEdit, Search } from '@mui/icons-material'
+import { Avatar, Box, Button, DialogActions, IconButton, Input, Stack, Typography, useMediaQuery } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import DataTable from '../../../components/dashboard/DataTable'
 import CDialog from '../../../common/dialog/CDialog';
 import AddStaff from './AddStaff';
 import EditStaff from './EditStaff';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { GET_COMPANY_STAFFS } from './graphql/query';
 import LoadingBar from '../../../common/loadingBar/LoadingBar';
 import { format } from 'date-fns';
@@ -19,82 +19,114 @@ const ManageStaff = () => {
   const [editStaffDialogOpen, setEditStaffDilogOpen] = useState(false);
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
+  const [editStaffData, setEditStaffData] = useState({})
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-  const { loading, error } = useQuery(GET_COMPANY_STAFFS, {
+  const [getCompanyStaffs,{ loading, error }] = useLazyQuery(GET_COMPANY_STAFFS, {
+    fetchPolicy: "network-only",
     onCompleted: (res) => {
       const data = res.companyStaffs.edges
       setRowData(data)
     },
   });
-
-  const rows = rowdata?.map(item => {
-    return {
-      id: item.node.id,
-      name: item.node.firstName + ' ' + item.node.lastName,
-      firstName: item.node.firstName,
-      lastName: item.node.lastName,
-      email: item.node.email,
-      jobTitle: item.node.jobTitle,
-      phone: item.node.phone,
-      join: format(new Date(item.node.dateJoined), 'MMMM dd, yyyy')
-    }
-  })
-
-
   useEffect(() => {
-    setColumnVisibilityModel({
-      email: isMobile ? false : true,
-      phone: isMobile ? false : true,
-      join: isMobile ? false : true,
-    })
-  }, [isMobile])
+    getCompanyStaffs()
+  }, [])
+  
+
+  const rows = rowdata?.map(item => ({
+    id: item.node.id,
+    firstName: item.node.firstName || '',
+    lastName: item.node.lastName || '',
+    username: item.node.username,
+    role: item.node.role,
+    email: item.node.email,
+    jobTitle: item.node.jobTitle,
+    phone: item.node.phone,
+    photoUrl: item.node.photoUrl,
+    join: format(new Date(item.node.dateJoined), 'MMMM dd, yyyy'),
+    allergies: item.node.allergies
+  })).sort((a, b) => {
+    if (a.role === 'owner') return -1;
+    if (b.role === 'owner') return 1;
+    if (a.role === 'manager') return -1;
+    if (b.role === 'manager') return 1;
+    // if (a.role === 'employee') return -1;
+    // if (b.role === 'employee') return 1;
+    return 0;
+  });
 
 
   function handleStaffEdit(row) {
     setEditStaffDilogOpen(true)
-    console.log(row)
+    setEditStaffData(row)
   }
   function handleRemove(row) {
     setRemoveDialogOpen(true)
   }
 
+  const handleAddStaffDialogClose = () => {
+    setAddStaffDilogOpen(false)
+  }
+
   const columns = [
-    { field: 'id', headerName: 'Staff ID', flex: 1 },
     {
-      field: 'name',
-      headerName: 'Name',
-      flex: 1
+      field: 'id', headerName: 'ID', width: 50
+    },
+    {
+      field: 'users',
+      headerName: 'Users',
+      width: 300,
+      renderCell: (params) => {
+        const { row } = params
+        return (
+          <Stack direction='row' gap={1} alignItems='center'>
+            <Avatar src={params.row?.photoUrl ? row.photoUrl : ''} />
+            <Box>
+              <Typography sx={{ fontSize: '16px' }}>{row.firstName + row.lastName}</Typography>
+              <Stack direction='row' alignItems='center' gap={2}>
+                <Typography sx={{ fontSize: '12px' }}>@{row.username}</Typography>
+                <Typography sx={{
+                  fontSize: '12px',
+                  bgcolor: row.role === 'manager' ? 'primary.main' : row.role === 'owner' ? 'purple' : 'gray.main',
+                  px: 1, borderRadius: '50px',
+                  color: row.role === 'manager' ? '#fff' : row.role === 'owner' ? '#fff' : 'inherit',
+                }}>{params.row.role}</Typography>
+              </Stack>
+            </Box>
+          </Stack>
+        )
+      }
     },
     {
       field: 'email',
       headerName: 'Email',
-      flex: 1,
+      width: 250,
     },
     {
       field: 'phone',
       headerName: 'Phone Number',
-      flex: 1
+      width: 200,
     },
     {
       field: 'join',
       headerName: 'Joining Date',
-      flex: 1
+      width: 200,
     },
     {
       field: 'action',
       headerName: 'Action',
       flex: 1,
       renderCell: (params) => (
-        <Stack sx={{ height: '100%' }} direction='row' gap={2} alignItems='center'>
+        <Stack sx={{ height: '100%', display: params.row.role === 'owner' ? 'none' : 'flex' }} direction='row' gap={2} alignItems='center'>
           <IconButton sx={{
             bgcolor: 'light.main',
             borderRadius: '5px',
             width: '40px',
             height: '40px',
           }} onClick={() => handleStaffEdit(params.row)}>
-            <BorderColor fontSize='small' />
+            <ModeEdit fontSize='small' />
           </IconButton>
           <IconButton sx={{
             border: '1px solid lightgray',
@@ -108,6 +140,14 @@ const ManageStaff = () => {
       ),
     },
   ];
+
+  useEffect(() => {
+    setColumnVisibilityModel({
+      email: isMobile ? false : true,
+      phone: isMobile ? false : true,
+      join: isMobile ? false : true,
+    })
+  }, [isMobile])
 
 
   return (
@@ -135,11 +175,11 @@ const ManageStaff = () => {
       </Stack>
       {/* Add Staff */}
       <CDialog openDialog={addStaffDialogOpen} >
-        <AddStaff closeDialog={() => setAddStaffDilogOpen(false)} />
+        <AddStaff closeDialog={handleAddStaffDialogClose} getCompanyStaffs={getCompanyStaffs} />
       </CDialog>
       {/* edit staff */}
       <CDialog openDialog={editStaffDialogOpen} >
-        <EditStaff closeDialog={() => setEditStaffDilogOpen(false)} />
+        <EditStaff data={editStaffData} closeDialog={() => setEditStaffDilogOpen(false)} getCompanyStaffs={getCompanyStaffs}/>
       </CDialog>
       {/* remove staff */}
       <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
@@ -151,7 +191,7 @@ const ManageStaff = () => {
       </CDialog>
       <Box>
         {
-          loading ? <Loader/> : error ? <ErrorMsg /> :
+          loading ? <Loader /> : error ? <ErrorMsg /> :
             <DataTable
               rows={rows}
               columns={columns}
