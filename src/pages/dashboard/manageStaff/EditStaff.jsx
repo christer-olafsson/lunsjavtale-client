@@ -122,7 +122,7 @@ console.log(data)
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' mb={4}>
-        <button onClick={fileDetet}>delete</button>
+        {/* <button onClick={fileDetet}>delete</button> */}
         <Typography variant='h4'>Edit Staff</Typography>
         <IconButton onClick={closeDialog}>
           <Close />
