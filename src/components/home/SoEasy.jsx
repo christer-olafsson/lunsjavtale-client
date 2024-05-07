@@ -78,7 +78,7 @@ const SoEasy = () => {
         </Stack>
         <CDialog
           openDialog={meetingDialogOpen}
-          maxWidth='md'
+          maxWidth='sm'
           fullWidth
         >
           <FormGroup>
@@ -93,54 +93,55 @@ const SoEasy = () => {
                   <TextField label='Company name' />
                   <TextField label='Phone number' />
                   <TextField type='date' helperText='Meeting date' />
-                  <FormControl fullWidth>
-                    <InputLabel>Meeting Type</InputLabel>
-                    <Select
-                      label="Meeting Type"
-                    >
-                      <MenuItem value={20}>Remote</MenuItem>
-                      <MenuItem value={30}>Interview</MenuItem>
-                      <MenuItem value={40}>Lively</MenuItem>
-                    </Select>
-                  </FormControl>
                 </Stack>
                 <Stack flex={1} gap={2}>
                   <TextField label='Last name' />
                   <TextField label='Email' />
-                  {/* meeting topic */}
-                  <Autocomplete
-                    multiple
-                    options={allCategories ? allCategories : []}
-                    disableCloseOnSelect
-                    getOptionLabel={(option) => option.node.name}
-                    renderOption={(props, option, { selected }) => (
-                      <li {...props}>
-                        <Checkbox
-                          icon={icon}
-                          checkedIcon={checkedIcon}
-                          style={{ marginRight: 8 }}
-                          checked={selected}
-                        />
-                        {option.node.name}
-                      </li>
-                    )}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Meeting Topic" />
-                    )}
-                  />
-                  <TextField type='time' helperText='Meeting time' />
                   <FormControl fullWidth>
-                    <InputLabel>Attendees</InputLabel>
-                    <Select
-                      label="Attendees"
-                    >
-                      <MenuItem value={20}>Owner</MenuItem>
-                      <MenuItem value={30}>Manager</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <InputLabel>Attendees</InputLabel>
+                  <Select
+                    label="Attendees"
+                  >
+                    <MenuItem value={20}>Owner</MenuItem>
+                    <MenuItem value={30}>Manager</MenuItem>
+                  </Select>
+                </FormControl>
+                  <TextField type='time' helperText='Meeting time' />
                 </Stack>
               </Stack>
-              <TextField sx={{ mb: 2 }} label='Description' rows={4} multiline />
+              <Stack gap={2}>
+                <Autocomplete
+                  multiple
+                  options={allCategories ? allCategories : []}
+                  disableCloseOnSelect
+                  getOptionLabel={(option) => option.node.name}
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                      />
+                      {option.node.name}
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Meeting Topic" />
+                  )}
+                />
+                <FormControl fullWidth>
+                  <InputLabel>Meeting Type</InputLabel>
+                  <Select
+                    label="Meeting Type"
+                  >
+                    <MenuItem value={20}>Remote</MenuItem>
+                    <MenuItem value={30}>Interview</MenuItem>
+                    <MenuItem value={40}>Lively</MenuItem>
+                  </Select>
+                </FormControl>
+              </Stack>
+              <TextField sx={{ my: 2 }} label='Description' rows={4} multiline />
               <CButton variant='contained'>Create Meeting</CButton>
             </Stack>
           </FormGroup>
