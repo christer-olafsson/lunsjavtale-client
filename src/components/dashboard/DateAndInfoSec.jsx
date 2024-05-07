@@ -3,9 +3,13 @@ import React from 'react'
 import DateSelector from './DateSelector'
 import { removeSelectedDate } from '../../redux/selectedDateSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useQuery } from '@apollo/client'
+import { ME } from '../../graphql/query'
 
 const DateAndInfoSec = () => {
   const selectedDate = useSelector((state) => state.selectedDate.date)
+  const { data: user } = useQuery(ME)
+  console.log(user)
   const dispatch = useDispatch()
   return (
     <Box>
@@ -55,15 +59,31 @@ const DateAndInfoSec = () => {
         bgcolor: 'light.main',
         p: 2, borderRadius: '8px', mb: 2
       }}>
-        <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Company Information</Typography>
-        <Typography sx={{ fontSize: '16px', fontWeight: '400' }}>Provato Solutions AS</Typography>
-      </Box>
-      <Box sx={{
-        bgcolor: 'light.main',
-        p: 2, borderRadius: '8px', mb: 2
-      }}>
-        <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Address</Typography>
-        <Typography sx={{ fontSize: '16px', fontWeight: '400' }}>1901 Thornridge Cir. Shiloh, Hawaii 81063</Typography>
+        <Typography sx={{ fontSize: '17px', fontWeight: '600', mb: 1 }}>Company Information</Typography>
+        <Stack direction='row' gap={2}>
+          <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Id :</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>{user?.me.company.id}</Typography>
+        </Stack>
+        <Stack direction='row' gap={2}>
+          <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Name :</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>{user?.me.company.name}</Typography>
+        </Stack>
+        <Stack direction='row' gap={2}>
+          <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Email :</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>{user?.me.company.email}</Typography>
+        </Stack>
+        <Stack direction='row' gap={2}>
+          <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Address :</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>{user?.me.address}</Typography>
+        </Stack>
+        <Stack direction='row' gap={2}>
+          <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Post Code :</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>{user?.me.company.postCode}</Typography>
+        </Stack>
+        <Stack direction='row' gap={2}>
+          <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Total Employe :</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>{user?.me.company.noOfEmployees}</Typography>
+        </Stack>
       </Box>
     </Box>
   )
