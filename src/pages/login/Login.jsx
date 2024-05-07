@@ -7,8 +7,6 @@ import Carousel from 'react-multi-carousel';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER, PASSWORD_RESET } from './graphql/mutation';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/authSlice';
 import { SEND_VERIFICATION_MAIL } from '../search/graphql/mutation';
 
 
@@ -55,11 +53,6 @@ const Login = (props) => {
   const [emailNotReceivedSecOpen, setEmailNotReceivedSecOpen] = useState(false)
   const [disableResendBtn, setDisableResendBtn] = useState(false);
   const [forgotEmail, setForgotEmail] = useState({ email: '' });
-  const [passResetMailSendDone, setPassResetMailSendDone] = useState(false)
-
-
-  const dispatch = useDispatch()
-
 
 
 
@@ -67,7 +60,6 @@ const Login = (props) => {
     onCompleted: (res) => {
       console.log('login res:', res)
       localStorage.setItem("token", res.loginUser.access);
-      dispatch(setUser(res.loginUser.user))
       toast.success('Login Success!');
       window.location.href = "/dashboard/myside";
     },

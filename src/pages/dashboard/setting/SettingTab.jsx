@@ -96,6 +96,7 @@ const SettingTab = () => {
       </Stack>
 
       <Box sx={{ p: {xs:1,lg:3} }}>
+        {/* <CustomTabPanel value={tabIndex} index={0}><CheckboxesTags /></CustomTabPanel> */}
         <CustomTabPanel value={tabIndex} index={0}><General /></CustomTabPanel>
         <CustomTabPanel value={tabIndex} index={1}><Account/></CustomTabPanel>
         <CustomTabPanel value={tabIndex} index={2}><Notification/></CustomTabPanel>

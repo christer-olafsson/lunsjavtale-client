@@ -7,14 +7,14 @@ import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_COMPANY_STAFF } from './graphql/mutation';
 import { GET_INGREDIENTS } from './graphql/query';
 import Loader from '../../../common/loader/Index';
-import { useSelector } from 'react-redux';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import toast from 'react-hot-toast';
 import { fileUpload } from '../../../utils/fileHandle/fileUpload';
 import { fileDelete } from '../../../utils/fileHandle/fileDelete';
+import { ME } from '../../../graphql/query';
 
 
-const AddStaff = ({ closeDialog,getCompanyStaffs }) => {
+const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const [file, setFile] = useState(null);
   const [selectedAllergiesId, setSelectedAllergiesId] = useState([]);
   const [ingredients, setIngredients] = useState([]);
@@ -30,8 +30,7 @@ const AddStaff = ({ closeDialog,getCompanyStaffs }) => {
     phone: ''
   });
 
-  const user = useSelector(state => state.auth.user)
-  // console.log(user)
+  const { data: user } = useQuery(ME)
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
@@ -139,7 +138,10 @@ const AddStaff = ({ closeDialog,getCompanyStaffs }) => {
                   label="Staff Role"
                   onChange={handleRoleChange}
                 >
-                  <MenuItem value={'manager'}>Manager</MenuItem>
+                  {
+                    user?.me.role === 'owner' &&
+                    <MenuItem value={'manager'}>Manager</MenuItem>
+                  }
                   <MenuItem value={'employee'}>Employee</MenuItem>
                 </Select>
                 {errors.role && <FormHelperText>{errors.role}</FormHelperText>}

@@ -5,35 +5,6 @@ export const LOGIN_USER = gql`
     loginUser(email: $email, password:$password){
       success
       access
-      user{
-      id
-      username
-      email
-      firstName
-      lastName
-      isStaff
-      postCode
-      role
-      jobTitle
-      address
-      about
-      photoUrl
-      company{
-        id
-        name
-        email
-        postCode
-        logoUrl
-        noOfEmployees
-        addresses{
-          edges{
-            node{
-        			address
-            }
-          }
-        }
-      }
-    }
     }
   }
 `

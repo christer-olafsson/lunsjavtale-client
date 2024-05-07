@@ -17,9 +17,8 @@ import { fileDelete } from '../../../utils/fileHandle/fileDelete';
 
 const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
   const [file, setFile] = useState(null);
-  const [allergies, setAllergies] = useState([])
   const [selectedAllergiesId, setSelectedAllergiesId] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
+  const [allergies, setAllergies] = useState([]);
   const [role, setRole] = useState('');
   const [errors, setErrors] = useState({});
   const [fileUploadLoading, setFileUploadLoading] = useState(false)
@@ -30,7 +29,7 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
     email: '',
     phone: ''
   });
-console.log(data)
+  console.log(data)
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
@@ -81,7 +80,7 @@ console.log(data)
   //get all allergies
   const { error: ingredientErr, loading: ingredientLoading } = useQuery(GET_INGREDIENTS, {
     onCompleted: (res) => {
-      setIngredients(res.ingredients.edges)
+      setAllergies(res.ingredients.edges)
     }
   })
 
@@ -113,9 +112,13 @@ console.log(data)
     setRole(data.role)
   }, [data])
 
-  const fileDetet = async () => {
-    const data = await fileDelete('stage/staff/kkRWDzh3FkrsWMibBqgw7Z.png')
-    console.log('delete:',data)
+  const fileDetet = () => {
+    fileDelete('stage/staff/jPQf98tcwfvKbF8vS9gNX4.png')
+      .then((res) => console.log("Object deleted successfully", res))
+      .catch(err => console.error("Error deleting object:", err));
+
+    // const data = await fileDelete('stage/staff/gwnZYkkhadtz3xXuFRboL4.png')
+    // console.log('delete:',data)
   }
 
 
@@ -173,7 +176,7 @@ console.log(data)
         <Typography variant='h6' mb={1}>Allergies</Typography>
         {
           <Stack direction='row' flexWrap='wrap'>
-            {ingredientLoading ? <Loader /> : ingredientErr ? <ErrorMsg /> : ingredients.map((allergy, index) => (
+            {ingredientLoading ? <Loader /> : ingredientErr ? <ErrorMsg /> : allergies.map((allergy, index) => (
               <Box
                 key={index}
                 onClick={() => toggleAllergy(allergy.node.id)}

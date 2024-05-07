@@ -20,14 +20,20 @@ import OrderSingleDetails from './pages/dashboard/orders/OrderSingleDetails'
 import { useEffect, useState } from 'react'
 import EmailVerification from './pages/emailVerification/EmailVerification'
 import PassReset from './pages/passReset/PassReset'
+import { useQuery } from '@apollo/client'
+import { ME } from './graphql/query'
 
 function App() {
 
   const [token, setToken] = useState(localStorage.getItem('token'));
+  const { data: user } = useQuery(ME, {
+    skip: !token
+  });
 
   useEffect(() => {
     setToken(localStorage.getItem('token'))
   }, [])
+
 
   return (
     <div>
@@ -42,7 +48,10 @@ function App() {
           <Route path='/dashboard/myside/cart' element={<CartPage />} />
           <Route path='/dashboard/myside/checkout' element={<Checkout />} />
           <Route path='/dashboard/complete' element={<OrderComplete />} />
-          <Route path='/dashboard/manage-staff' element={<ManageStaff />} />
+          {
+            (user?.me.role === 'owner' || user?.me.role === 'manager') &&
+            <Route path='/dashboard/manage-staff' element={<ManageStaff />} />
+          }
           <Route path='/dashboard/products' element={<Products />} />
           <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
           <Route path='/dashboard/products/checkout' element={<ProductCheckout />} />

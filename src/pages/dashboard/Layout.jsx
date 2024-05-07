@@ -12,12 +12,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AccountCircle, CategoryOutlined, DoubleArrow, Logout, MailOutline, NotificationsNone, PeopleAltOutlined, Search, Settings, SettingsOutlined, ViewStreamOutlined } from '@mui/icons-material';
-import { Avatar, Badge, ClickAwayListener, Collapse, InputAdornment, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
+import { Avatar, Badge, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
 import toast from 'react-hot-toast';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useSelector } from 'react-redux';
+import { ME } from '../../graphql/query';
 
 const drawerWidth = 264;
 
@@ -97,7 +98,7 @@ function Layout() {
 
   const { pathname } = useLocation()
 
-  const user = useSelector(state => state.auth.user)
+  const { data: user } = useQuery(ME)
 
   const [logout, { loading }] = useMutation(LOGOUT, {
     onCompleted: (res) => {
@@ -106,9 +107,9 @@ function Layout() {
       window.location.href = '/'
     },
   });
-  
+
   const handleLogout = () => {
-    // logout()
+    logout()
     localStorage.clear()
     toast.success('Logout Success!')
     window.location.href = '/'
@@ -157,8 +158,8 @@ function Layout() {
       </Toolbar>
       <Typography sx={{
         padding: '16px 12px',
-        maxWidth:'200px',
-        width:'100%',
+        maxWidth: '200px',
+        width: '100%',
         color: 'primary.main',
         bgcolor: 'light.main',
         borderRadius: '8px',
@@ -166,7 +167,7 @@ function Layout() {
         fontWeight: 500,
         textAlign: 'center',
         m: 3
-      }}><b>Deal:</b> {user.company.name}</Typography>
+      }}><b>Deal:</b> {user?.me.company.name}</Typography>
       <Stack>
         <Typography sx={{
           color: '#C2C2C2',
@@ -175,8 +176,11 @@ function Layout() {
         }}>Jacqueline Hellestøl</Typography>
         <ListBtn onClick={handleDrawerClose} notification={'5'} link='/dashboard/myside' icon={<DoubleArrow />} text='My Side'
           selected={pathname === '/dashboard/myside' || pathname === '/dashboard/myside/cart' || pathname === '/dashboard/myside/checkout' || pathname === '/dashboard/myside/complete'} />
-        <ListBtn onClick={handleDrawerClose} link='/dashboard/manage-staff' icon={<PeopleAltOutlined />} text='Manage Staff'
-          selected={pathname === '/dashboard/manage-staff'} />
+        {
+          (user?.me.role === 'owner' || user?.me.role === 'manager') &&
+          <ListBtn onClick={handleDrawerClose} link='/dashboard/manage-staff' icon={<PeopleAltOutlined />} text='Manage Staff'
+            selected={pathname === '/dashboard/manage-staff'} />
+        }
         <Typography sx={{
           color: '#C2C2C2',
           textTransform: 'uppercase',
@@ -219,7 +223,7 @@ function Layout() {
           >
             <MenuIcon />
           </IconButton>
-          <Box/>
+          <Box />
           {/* <TextField sx={{
             mr: { xs: 0, sm: 2, md: 20 },
             maxWidth: '700px',
@@ -326,12 +330,16 @@ function Layout() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
-                <MenuItem sx={{ width: '200px' }} onClick={handleUserMenuClose}>
-                  <ListItemIcon>
-                    <AccountCircle />
-                  </ListItemIcon>
-                  Profile
-                </MenuItem>
+                <Link className='link' to='/dashboard/setting'>
+                  <MenuItem sx={{ width: '200px' }} onClick={handleUserMenuClose}>
+                    <ListItemIcon>
+                      <AccountCircle />
+                    </ListItemIcon>
+                    <ListItemText>
+                      Profile
+                    </ListItemText>
+                  </MenuItem>
+                </Link>
                 <Divider />
                 {/* <MenuItem onClick={handleUserMenuClose}>
                   <ListItemIcon>

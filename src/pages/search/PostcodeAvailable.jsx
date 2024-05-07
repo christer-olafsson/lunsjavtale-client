@@ -19,6 +19,7 @@ const inputStyle = {
 const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
   const [errors, setErrors] = useState([]);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState(false);
   const [regSuccess, setRegSuccess] = useState(null);
   const [disableResendBtn, setDisableResendBtn] = useState(true);
   const [userEmail, setUserEmail] = useState('')
@@ -93,6 +94,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
   }
 
   const passwordVisibilityHandler = () => setPasswordVisibility(!passwordVisibility);
+  const confirmPasswordVisibilityHandler = () => setConfirmPasswordVisibility(!confirmPasswordVisibility);
 
   const handleSubmit = () => {
     if (!payload.company) {
@@ -213,7 +215,32 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                   ),
                 }}
               />
-              <TextField value={payload.confirmPass} helperText={payloadErr.confirmPass} error={Boolean(payloadErr.confirmPass)} onChange={handleInputChange} name='confirmPass' type='password' fullWidth label="Confirm password" variant="outlined" />
+              <TextField
+                value={payload.confirmPass}
+                helperText={payloadErr.confirmPass}
+                error={Boolean(payloadErr.confirmPass)}
+                onChange={handleInputChange}
+                name='confirmPass'
+                type={confirmPasswordVisibility ? "text" : "password"}
+                fullWidth
+                label="Confirm Password"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={confirmPasswordVisibilityHandler}
+                        onMouseDown={confirmPasswordVisibilityHandler}
+                        edge="end"
+                      >
+                        {confirmPasswordVisibility ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {/* <TextField value={payload.confirmPass} helperText={payloadErr.confirmPass} error={Boolean(payloadErr.confirmPass)} onChange={handleInputChange} name='confirmPass' type='password' fullWidth label="Confirm password" variant="outlined" /> */}
               {
                 errors.length > 0 &&
                 <ul style={{ color: 'red', fontSize: '13px' }}>
