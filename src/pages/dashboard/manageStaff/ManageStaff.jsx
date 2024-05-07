@@ -5,12 +5,15 @@ import DataTable from '../../../components/dashboard/DataTable'
 import CDialog from '../../../common/dialog/CDialog';
 import AddStaff from './AddStaff';
 import EditStaff from './EditStaff';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { GET_COMPANY_STAFFS } from './graphql/query';
 import LoadingBar from '../../../common/loadingBar/LoadingBar';
 import { format } from 'date-fns';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import Loader from '../../../common/loader/Index';
+import { USER_DELETE } from './graphql/mutation';
+import toast from 'react-hot-toast';
+import CButton from '../../../common/CButton/CButton';
 
 
 const ManageStaff = () => {
@@ -19,21 +22,37 @@ const ManageStaff = () => {
   const [editStaffDialogOpen, setEditStaffDilogOpen] = useState(false);
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
-  const [editStaffData, setEditStaffData] = useState({})
+  const [editStaffData, setEditStaffData] = useState({});
+  const [selectedDeteleMail, setSelectedDeteleMail] = useState('')
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-  const [getCompanyStaffs,{ loading, error }] = useLazyQuery(GET_COMPANY_STAFFS, {
+  const [getCompanyStaffs, { loading, error }] = useLazyQuery(GET_COMPANY_STAFFS, {
     fetchPolicy: "network-only",
     onCompleted: (res) => {
-      const data = res.companyStaffs.edges
-      setRowData(data)
+      const data = res.companyStaffs.edges.filter(({ node }) => !node.isDeleted);
+      setRowData(data);
     },
   });
-  useEffect(() => {
-    getCompanyStaffs()
-  }, [])
-  
+
+  const [userDelete, { loading: userDeleteLoading }] = useMutation(USER_DELETE, {
+    onCompleted: (res) => {
+      toast.success(res.userDelete.message)
+      getCompanyStaffs()
+      setRemoveDialogOpen(false)
+    },
+    onError: (err) => {
+      toast.error(err.message)
+    }
+  });
+
+  const handleUserDelete = () => {
+    userDelete({
+      variables: {
+        email: selectedDeteleMail
+      }
+    })
+  }
 
   const rows = rowdata?.map(item => ({
     id: item.node.id,
@@ -52,8 +71,6 @@ const ManageStaff = () => {
     if (b.role === 'owner') return 1;
     if (a.role === 'manager') return -1;
     if (b.role === 'manager') return 1;
-    // if (a.role === 'employee') return -1;
-    // if (b.role === 'employee') return 1;
     return 0;
   });
 
@@ -64,6 +81,7 @@ const ManageStaff = () => {
   }
   function handleRemove(row) {
     setRemoveDialogOpen(true)
+    setSelectedDeteleMail(row.email)
   }
 
   const handleAddStaffDialogClose = () => {
@@ -141,6 +159,12 @@ const ManageStaff = () => {
     },
   ];
 
+
+  useEffect(() => {
+    getCompanyStaffs()
+  }, [])
+
+
   useEffect(() => {
     setColumnVisibilityModel({
       email: isMobile ? false : true,
@@ -179,14 +203,14 @@ const ManageStaff = () => {
       </CDialog>
       {/* edit staff */}
       <CDialog openDialog={editStaffDialogOpen} >
-        <EditStaff data={editStaffData} closeDialog={() => setEditStaffDilogOpen(false)} getCompanyStaffs={getCompanyStaffs}/>
+        <EditStaff data={editStaffData} closeDialog={() => setEditStaffDilogOpen(false)} getCompanyStaffs={getCompanyStaffs} />
       </CDialog>
       {/* remove staff */}
       <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
         <Typography variant='h5'>Confirm Remove?</Typography>
         <DialogActions>
           <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Cancel</Button>
-          <Button variant='contained'>Confirm</Button>
+          <CButton isLoading={userDeleteLoading} onClick={handleUserDelete} variant='contained'>Confirm</CButton>
         </DialogActions>
       </CDialog>
       <Box>

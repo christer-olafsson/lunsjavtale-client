@@ -111,7 +111,6 @@ function Layout() {
   const handleLogout = () => {
     logout()
     localStorage.clear()
-    toast.success('Logout Success!')
     window.location.href = '/'
   }
   const open = Boolean(userMenuOpen);
@@ -318,7 +317,7 @@ function Layout() {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                <Avatar src={user?.me.photoUrl ? user?.me.photoUrl : ''} sx={{ width: 32, height: 32 }}>M</Avatar>
               </IconButton>
               <Menu
                 anchorEl={userMenuOpen}

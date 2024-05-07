@@ -8,3 +8,12 @@ export const CREATE_COMPANY_STAFF = gql`
     }
   }
 `
+
+export const USER_DELETE = gql`
+  mutation UserDelete ($email: String!){
+    userDelete(email:$email){
+      success
+      message 
+    }
+  }
+`

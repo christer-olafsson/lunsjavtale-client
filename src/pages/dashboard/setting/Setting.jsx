@@ -1,15 +1,19 @@
 import { BorderColor } from '@mui/icons-material'
 import { Avatar, Box, IconButton, Stack, Typography } from '@mui/material'
 import SettingTab from './SettingTab'
+import { useQuery } from '@apollo/client'
+import { ME } from '../../../graphql/query'
 
 const Setting = () => {
+  const { data: user } = useQuery(ME)
+
   return (
     <Box maxWidth='lg'>
       <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>System Settings</Typography>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={4} mt={4}>
         <Box sx={{
-          position: {xs:'none',lg: 'sticky'} ,
-          top:100,
+          position: { xs: 'none', lg: 'sticky' },
+          top: 100,
           flex: 1,
           height: 'fit-content',
           p: 3,
@@ -18,7 +22,7 @@ const Setting = () => {
         }}>
           <Stack alignItems='center'>
             <Box sx={{
-              width: {xs:'100%',md:'360px'}
+              width: { xs: '100%', md: '360px' }
             }}>
               <img style={{ width: '100%' }} src="/img21232.png" alt="" />
             </Box>
@@ -29,9 +33,9 @@ const Setting = () => {
               width: '96px',
               height: '96px',
               p: .5
-            }}><Avatar sx={{ width: '100%', height: '100%', }} />
+            }}><Avatar src={user?.me.photoUrl ? user.me.photoUrl : ''} sx={{ width: '100%', height: '100%', }} />
             </Box>
-            <Typography sx={{ fontSize: '18px', fontWeight: 500 }}>Provato Solutions AS</Typography>
+            <Typography sx={{ fontSize: '18px', fontWeight: 500 }}>{user?.me.company.name}</Typography>
             <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>IT Tecnhology</Typography>
             <Box sx={{
               bgcolor: '#fff',

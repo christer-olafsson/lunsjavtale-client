@@ -11,6 +11,7 @@ export const GET_COMPANY_STAFFS = gql`
       firstName
       lastName
       dateJoined
+      isDeleted
       jobTitle
       phone
       isStaff

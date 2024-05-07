@@ -10,16 +10,10 @@ import { useQuery } from '@apollo/client';
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
 
-const topicList = [
-  { name: 'Topic 1' },
-  { name: 'Topic 2' },
-  { name: 'Topic 3' },
-]
-
 
 const SoEasy = () => {
   const [meetingDialogOpen, setMeetingDialogOpen] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  const [meetingDate, setMeetingDate] = useState(new Date());
   const [allCategories, setAllCategories] = useState([])
 
   const { loading, error } = useQuery(GET_ALL_CATEGORY, {

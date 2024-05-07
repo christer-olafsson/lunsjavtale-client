@@ -78,7 +78,6 @@ const Account = () => {
       setForgotEmail({ email: '' })
     },
     onError: (err) => {
-      console.log(err)
       toast.error(err.message)
     }
   });
