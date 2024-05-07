@@ -1,9 +1,11 @@
-import { Autocomplete, Box, Checkbox, Container, Divider, FormControlLabel, FormGroup, IconButton, List, ListItem, ListItemIcon, ListItemText, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Checkbox, Container, Divider, FormControl, FormControlLabel, FormGroup, IconButton, InputLabel, List, ListItem, ListItemIcon, ListItemText, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CButton from '../../common/CButton/CButton';
 import { Link } from 'react-router-dom';
 import CDialog from '../../common/dialog/CDialog';
 import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material';
+import { GET_ALL_CATEGORY } from '../../graphql/query';
+import { useQuery } from '@apollo/client';
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
@@ -13,21 +15,19 @@ const topicList = [
   { name: 'Topic 2' },
   { name: 'Topic 3' },
 ]
-const meetingType = [
-  { name: 'Meeting Type 1' },
-  { name: 'Meeting Type 2' },
-  { name: 'Meeting Type 3' },
-]
-const attendees = [
-  { name: 'Attendees 1' },
-  { name: 'Attendees 2' },
-  { name: 'Attendees 3' },
-]
 
 
 const SoEasy = () => {
   const [meetingDialogOpen, setMeetingDialogOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
+  const [allCategories, setAllCategories] = useState([])
+
+  const { loading, error } = useQuery(GET_ALL_CATEGORY, {
+    onCompleted: (data) => {
+      const res = data?.categories?.edges
+      setAllCategories(res)
+    },
+  });
   return (
     <Container sx={{ my: { xs: 5, md: 10 } }} maxWidth='lg'>
       <Stack sx={{ width: '100%' }} gap={{ xs: 8, md: 4 }} direction={{ xs: 'column', lg: 'row' }} alignItems='center' justifyContent='space-between'>
@@ -93,36 +93,26 @@ const SoEasy = () => {
                   <TextField label='Company name' />
                   <TextField label='Phone number' />
                   <TextField type='date' helperText='Meeting date' />
-                  <Autocomplete
-                    multiple
-                    options={meetingType}
-                    disableCloseOnSelect
-                    getOptionLabel={(option) => option.name}
-                    renderOption={(props, option, { selected }) => (
-                      <li {...props}>
-                        <Checkbox
-                          icon={icon}
-                          checkedIcon={checkedIcon}
-                          style={{ marginRight: 8 }}
-                          checked={selected}
-                        />
-                        {option.name}
-                      </li>
-                    )}
-                    // style={{ width: 500 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Meeting type" placeholder="Meeting type" />
-                    )}
-                  />
+                  <FormControl fullWidth>
+                    <InputLabel>Meeting Type</InputLabel>
+                    <Select
+                      label="Meeting Type"
+                    >
+                      <MenuItem value={20}>Remote</MenuItem>
+                      <MenuItem value={30}>Interview</MenuItem>
+                      <MenuItem value={40}>Lively</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Stack>
                 <Stack flex={1} gap={2}>
                   <TextField label='Last name' />
                   <TextField label='Email' />
+                  {/* meeting topic */}
                   <Autocomplete
                     multiple
-                    options={topicList}
+                    options={allCategories ? allCategories : []}
                     disableCloseOnSelect
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) => option.node.name}
                     renderOption={(props, option, { selected }) => (
                       <li {...props}>
                         <Checkbox
@@ -131,39 +121,26 @@ const SoEasy = () => {
                           style={{ marginRight: 8 }}
                           checked={selected}
                         />
-                        {option.name}
+                        {option.node.name}
                       </li>
                     )}
-                    // style={{ width: 500 }}
                     renderInput={(params) => (
-                      <TextField {...params} label="Meeting topic" placeholder="Topic" />
+                      <TextField {...params} label="Meeting Topic" />
                     )}
                   />
                   <TextField type='time' helperText='Meeting time' />
-                  <Autocomplete
-                    multiple
-                    options={attendees}
-                    disableCloseOnSelect
-                    getOptionLabel={(option) => option.name}
-                    renderOption={(props, option, { selected }) => (
-                      <li {...props}>
-                        <Checkbox
-                          icon={icon}
-                          checkedIcon={checkedIcon}
-                          style={{ marginRight: 8 }}
-                          checked={selected}
-                        />
-                        {option.name}
-                      </li>
-                    )}
-                    // style={{ width: 500 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Attendees" placeholder="Attendees" />
-                    )}
-                  />
+                  <FormControl fullWidth>
+                    <InputLabel>Attendees</InputLabel>
+                    <Select
+                      label="Attendees"
+                    >
+                      <MenuItem value={20}>Owner</MenuItem>
+                      <MenuItem value={30}>Manager</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Stack>
               </Stack>
-              <TextField sx={{mb:2}} label='Description' rows={4} multiline />
+              <TextField sx={{ mb: 2 }} label='Description' rows={4} multiline />
               <CButton variant='contained'>Create Meeting</CButton>
             </Stack>
           </FormGroup>
