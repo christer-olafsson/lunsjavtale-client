@@ -1,5 +1,5 @@
-import { Close } from '@mui/icons-material'
-import { Avatar, Box, Button, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
+import { ArrowDropDown, Close } from '@mui/icons-material'
+import { Avatar, Box, Button, Collapse, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import CButton from '../../../common/CButton/CButton';
 import { useTheme } from '@emotion/react';
@@ -20,7 +20,8 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const [allAllergies, setAllAllergies] = useState([]);
   const [role, setRole] = useState('');
   const [errors, setErrors] = useState({});
-  const [fileUploadLoading, setFileUploadLoading] = useState(false)
+  const [fileUploadLoading, setFileUploadLoading] = useState(false);
+  const [allergySecOpen, setAllergySecOpen] = useState(false)
   const [payload, setPayload] = useState({
     firstName: '',
     lastName: '',
@@ -157,8 +158,10 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
         </Stack>
       </FormGroup>
 
-      <Box mt={2}>
-        <Typography variant='h6' mb={1}>Allergies</Typography>
+      <Box >
+        <Button onClick={() => setAllergySecOpen(!allergySecOpen)} variant='outlined' endIcon={<ArrowDropDown />}>Select Allergies</Button>
+        <Collapse in={allergySecOpen}>
+          <Typography variant='h6' mb={1}>Allergies</Typography>
           <Stack direction='row' flexWrap='wrap'>
             {ingredientLoading ? <Loader /> : ingredientErr ? <ErrorMsg /> : allAllergies.map((allergy, index) => (
               <Box
@@ -179,6 +182,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
               </Box>
             ))}
           </Stack>
+        </Collapse>
       </Box>
 
       {/* <Box sx={{
