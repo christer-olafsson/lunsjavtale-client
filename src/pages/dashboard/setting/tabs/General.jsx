@@ -29,7 +29,7 @@ const General = () => {
     firstName: '',
     lastName: '',
     address: '',
-    postCode: '',
+    // postCode: '',
     dateOfBirth: '',
     gender: '',
     phone: '',
@@ -50,6 +50,9 @@ const General = () => {
 
 
   const [profileUpdate, { loading: updateLoading }] = useMutation(GENERAL_PROFILE_UPDATE, {
+    refetchQueries: [
+      { query: ME }
+    ],
     onCompleted: (res) => {
       const data = res.generalProfileUpdate
       toast.success(data.message);
@@ -74,7 +77,7 @@ const General = () => {
     }
   });
 
-  
+
   const handleInputChange = (e) => {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   };
@@ -108,7 +111,7 @@ const General = () => {
       firstName: user?.me.firstName ? user.me.firstName : '',
       lastName: user?.me.lastName ? user.me.lastName : '',
       address: user?.me.address ? user.me.address : '',
-      postCode: user?.me.postCode ? user.me.postCode : '',
+      // postCode: user?.me.postCode ? user.me.postCode : '',
       dateOfBirth: user?.me.dateOfBirth ? user.me.dateOfBirth : null,
       gender: user?.me.gender ? user.me.gender : '',
       phone: user?.me.phone ? user.me.phone : '',
@@ -124,16 +127,18 @@ const General = () => {
     <Box>
       <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Profile</Typography>
       <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>View and update your profile  details</Typography>
-      <Stack direction={{ xs: 'column', lg: 'row' }} gap={3} alignItems='center' justifyContent='space-between' mt={4}>
+      <Stack direction={{ xs: 'column', lg: 'row' }} gap={3} alignItems='center' justifyContent='space-between' mt={1}>
         <Stack direction='row' gap={3} alignItems='center'>
-          <Avatar src={file ? URL.createObjectURL(file) : user?.me.photoUrl ? user?.me.photoUrl : ''} sx={{ width: '80px', height: '80px' }} />
           {
             payloadEditOn &&
-            <label style={{
-              border: '1px solid lightgray',
-              padding: '5px 24px',
-              borderRadius: '6px',
-            }} htmlFor="avatar">Choose</label>
+            <>
+              <Avatar src={file ? URL.createObjectURL(file) : user?.me.photoUrl ? user?.me.photoUrl : ''} sx={{ width: '80px', height: '80px' }} />
+              <label style={{
+                border: '1px solid lightgray',
+                padding: '5px 24px',
+                borderRadius: '6px',
+              }} htmlFor="avatar">Choose</label>
+            </>
           }
           <input onChange={(e) => setFile(e.target.files[0])} type="file" id="avatar" hidden accept="jpg,png,gif" />
           {/* <Button disabled={!payloadEditOn} onClick={() => setFile(null)} startIcon={<Delete />}>Remove</Button> */}
@@ -146,11 +151,10 @@ const General = () => {
               <TextField disabled={!payloadEditOn} value={payload.firstName} onChange={handleInputChange} name='firstName' size='small' label='First Name' />
               <TextField disabled={!payloadEditOn} value={payload.address} onChange={handleInputChange} name='address' size='small' label='Address' />
               <TextField disabled={!payloadEditOn} value={payload.phone} onChange={handleInputChange} name='phone' size='small' label='Phone number' />
-              <TextField disabled={!payloadEditOn} value={payload.dateOfBirth ? payload.dateOfBirth : ''} name='dateOfBirth' onChange={handleInputChange} size='small' type='date' helperText={`Date of birth`} />
             </Stack>
             <Stack flex={1} gap={2}>
               <TextField disabled={!payloadEditOn} value={payload.lastName} onChange={handleInputChange} name='lastName' size='small' label='Last Name' />
-              <TextField disabled={!payloadEditOn} value={payload.postCode} onChange={handleInputChange} name='postCode' type='number' size='small' label='Post Code' />
+              {/* <TextField disabled={!payloadEditOn} value={payload.postCode} onChange={handleInputChange} name='postCode' type='number' size='small' label='Post Code' /> */}
               <FormControl disabled={!payloadEditOn} size='small'>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                 <Select
@@ -164,6 +168,7 @@ const General = () => {
                   <MenuItem value={'other'}>Other</MenuItem>
                 </Select>
               </FormControl>
+              <TextField disabled={!payloadEditOn} value={payload.dateOfBirth ? payload.dateOfBirth : ''} name='dateOfBirth' onChange={handleInputChange} size='small' type='date' helperText={`Date of birth`} />
 
             </Stack>
           </Stack>

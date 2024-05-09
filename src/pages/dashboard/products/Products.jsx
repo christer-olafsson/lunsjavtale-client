@@ -72,7 +72,7 @@ const Products = () => {
 
   const { loading, error } = useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
-      const res = data?.categories?.edges
+      const res = data?.categories?.edges.filter((item) => item.node.isActive)
       setAllCategorys(res)
     },
   });

@@ -82,7 +82,7 @@ const DateAndInfoSec = () => {
         </Stack>
         <Stack direction='row' gap={2}>
           <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Total Employe :</Typography>
-          <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>{user?.me.company.noOfEmployees}</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>{user?.me.company.totalEmployee}</Typography>
         </Stack>
       </Box>
     </Box>

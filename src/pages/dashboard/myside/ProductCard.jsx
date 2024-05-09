@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Add } from '@mui/icons-material'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
@@ -17,7 +18,8 @@ const ProductCard = ({ item }) => {
       p: { xs: 1, lg: 2.5 },
       borderRadius: '8px'
     }}>
-      <img style={{ width: '94px', height: '94px', objectFit: 'cover', borderRadius: '12px' }} src={item.node.attachments.edges[0].node.fileUrl} alt="" />
+      <img style={{ width: '94px', height: '94px', objectFit: 'cover', borderRadius: '12px' }} 
+      src={item.node.attachments.edges[0] ? item?.node.attachments.edges[0].node.fileUrl : ''} alt="" />
       <Stack gap={1}>
         <Typography sx={{ fontSize: '18px', fontWeight: '600' }}>{item.node?.name}</Typography>
         <Typography sx={{ fontSize: '14px' }}>{item.node?.description}</Typography>

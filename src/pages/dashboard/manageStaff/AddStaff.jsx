@@ -17,7 +17,7 @@ import { ME } from '../../../graphql/query';
 const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const [file, setFile] = useState(null);
   const [selectedAllergiesId, setSelectedAllergiesId] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
+  const [allAllergies, setAllAllergies] = useState([]);
   const [role, setRole] = useState('');
   const [errors, setErrors] = useState({});
   const [fileUploadLoading, setFileUploadLoading] = useState(false)
@@ -83,7 +83,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   //get all allergies
   const { error: ingredientErr, loading: ingredientLoading } = useQuery(GET_INGREDIENTS, {
     onCompleted: (res) => {
-      setIngredients(res.ingredients.edges)
+      setAllAllergies(res.ingredients.edges)
     }
   })
 
@@ -159,9 +159,8 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
 
       <Box mt={2}>
         <Typography variant='h6' mb={1}>Allergies</Typography>
-        {
           <Stack direction='row' flexWrap='wrap'>
-            {ingredientLoading ? <Loader /> : ingredientErr ? <ErrorMsg /> : ingredients.map((allergy, index) => (
+            {ingredientLoading ? <Loader /> : ingredientErr ? <ErrorMsg /> : allAllergies.map((allergy, index) => (
               <Box
                 key={index}
                 onClick={() => toggleAllergy(allergy.node.id)}
@@ -180,7 +179,6 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
               </Box>
             ))}
           </Stack>
-        }
       </Box>
 
       {/* <Box sx={{
@@ -193,7 +191,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
           macadamia nuts)</Typography>
       </Box> */}
 
-      <CButton isLoading={createStaffLoading} onClick={handleAddStaff} variant='contained' style={{ width: '100%', mt: 2, height: { xs: '45px', md: '45px' } }}>
+      <CButton isLoading={createStaffLoading || fileUploadLoading} onClick={handleAddStaff} variant='contained' style={{ width: '100%', mt: 2, height: { xs: '45px', md: '45px' } }}>
         Add
       </CButton>
 

@@ -34,7 +34,7 @@ const OpProductCard = ({ item }) => {
         objectFit: 'cover',
         position: 'absolute',
         top: 0, zIndex: -2
-      }} src={item.node.attachments.edges[0].node?.fileUrl} alt="" />
+      }} src={item?.node.attachments.edges[0] ? item?.node.attachments.edges[0].node.fileUrl : ''} alt="" />
       <Stack sx={{
         bgcolor: 'rgb(0,0,0,10'
       }} gap={1}>

@@ -23,7 +23,8 @@ const SmallProductCard = ({ data }) => {
       p: { xs: 1, lg: 2.5 },
       borderRadius: '8px'
     }}>
-      <img style={{ width: '238px', height: '148px', objectFit: 'cover', borderRadius: '4px' }} src={data?.node?.attachments.edges[0].node.fileUrl} alt="" />
+      <img style={{ width: '238px', height: '148px', objectFit: 'cover', borderRadius: '4px' }} 
+      src={data?.node.attachments.edges[0] ? data?.node.attachments.edges[0].node.fileUrl : ''} alt="" />
       <Stack gap={1}>
         <Typography sx={{ fontSize: { xs: '14px', lg: '18px' }, fontWeight: '600' }}>{data?.node?.name}</Typography>
         <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>{data.node.description}</Typography>

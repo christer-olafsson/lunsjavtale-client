@@ -35,7 +35,8 @@ const ProductCard = ({ data }) => {
         height: '280px',
         mb: 2
       }}>
-        <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src={data?.node?.attachments.edges[0].node.fileUrl} alt="" />
+        <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} 
+        src={data?.node.attachments.edges[0] ? data?.node.attachments.edges[0].node.fileUrl : ''} alt="" />
       </Box>
       <Typography sx={{
         fontSize: { xs: '12px', md: '14px' }

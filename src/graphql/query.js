@@ -24,7 +24,7 @@ export const ME = gql`
         email
         postCode
         logoUrl
-        noOfEmployees
+        totalEmployee
       }
       allergies{
         edges{
@@ -46,6 +46,7 @@ query{
       id
       name
       description
+      isActive
       products{
         edges{
           node{
