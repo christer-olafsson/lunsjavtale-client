@@ -8,11 +8,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_COMPANY_STAFF } from './graphql/mutation';
 import { GET_INGREDIENTS } from './graphql/query';
 import Loader from '../../../common/loader/Index';
-import { useSelector } from 'react-redux';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import toast from 'react-hot-toast';
-import { fileUpload } from '../../../utils/fileHandle/fileUpload';
-import { fileDelete } from '../../../utils/fileHandle/fileDelete';
+import { uploadFile } from '../../../utils/uploadFile';
+import { deleteFile } from '../../../utils/deleteFile';
 
 
 const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
@@ -29,7 +28,7 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
     email: '',
     phone: ''
   });
-  console.log(data)
+
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
@@ -58,18 +57,23 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
 
   const handleEditStaff = async () => {
     let photoUrl = data.photoUrl;
+    let fileId = data.fileId;
     if (file) {
       setFileUploadLoading(true)
-      const { location } = await fileUpload(file, 'staff');
+      const { public_id, secure_url } = await uploadFile(file, 'staffs')
+      await deleteFile(data.fileId)
+      photoUrl = secure_url
+      fileId = public_id
       setFileUploadLoading(false)
-      photoUrl = location || data.photoUrl;
+      // photoUrl = location || data.photoUrl;
     }
     editStaff({
       variables: {
         input: {
           ...payload,
-          role: role,
-          photoUrl: photoUrl,
+          role,
+          photoUrl,
+          fileId,
           allergies: selectedAllergiesId,
           id: parseInt(data.id)
         }
@@ -112,20 +116,10 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
     setRole(data.role)
   }, [data])
 
-  const fileDetet = () => {
-    fileDelete('stage/staff/jPQf98tcwfvKbF8vS9gNX4.png')
-      .then((res) => console.log("Object deleted successfully", res))
-      .catch(err => console.error("Error deleting object:", err));
-
-    // const data = await fileDelete('stage/staff/gwnZYkkhadtz3xXuFRboL4.png')
-    // console.log('delete:',data)
-  }
-
 
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' mb={4}>
-        {/* <button onClick={fileDetet}>delete</button> */}
         <Typography variant='h4'>Edit Staff</Typography>
         <IconButton onClick={closeDialog}>
           <Close />

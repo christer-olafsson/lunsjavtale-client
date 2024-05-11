@@ -1,19 +1,19 @@
-import { BorderColor, BorderColorOutlined, Close, ModeEdit, Search } from '@mui/icons-material'
+import { Close, ModeEdit, Search } from '@mui/icons-material'
 import { Avatar, Box, Button, DialogActions, IconButton, Input, Stack, Typography, useMediaQuery } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DataTable from '../../../components/dashboard/DataTable'
 import CDialog from '../../../common/dialog/CDialog';
 import AddStaff from './AddStaff';
 import EditStaff from './EditStaff';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation} from '@apollo/client';
 import { GET_COMPANY_STAFFS } from './graphql/query';
-import LoadingBar from '../../../common/loadingBar/LoadingBar';
 import { format } from 'date-fns';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import Loader from '../../../common/loader/Index';
 import { USER_DELETE } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
+import { deleteFile } from '../../../utils/deleteFile';
 
 
 const ManageStaff = () => {
@@ -23,7 +23,7 @@ const ManageStaff = () => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
   const [editStaffData, setEditStaffData] = useState({});
-  const [selectedDeteleMail, setSelectedDeteleMail] = useState('')
+  const [deleteStaffData, setDeleteStaffData] = useState({email:'',fileId:''})
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -46,10 +46,11 @@ const ManageStaff = () => {
     }
   });
 
-  const handleUserDelete = () => {
+  const handlStaffDelete = async () => {
+    await deleteFile(deleteStaffData.fileId);
     userDelete({
       variables: {
-        email: selectedDeteleMail
+        email: deleteStaffData.email
       }
     })
   }
@@ -64,6 +65,7 @@ const ManageStaff = () => {
     jobTitle: item.node.jobTitle,
     phone: item.node.phone,
     photoUrl: item.node.photoUrl,
+    fileId: item.node.fileId,
     join: format(new Date(item.node.dateJoined), 'MMMM dd, yyyy'),
     allergies: item.node.allergies
   })).sort((a, b) => {
@@ -79,9 +81,9 @@ const ManageStaff = () => {
     setEditStaffDilogOpen(true)
     setEditStaffData(row)
   }
-  function handleRemove(row) {
+  function handleStaffRemove(row) {
+    setDeleteStaffData({email: row.email, fileId: row.fileId})
     setRemoveDialogOpen(true)
-    setSelectedDeteleMail(row.email)
   }
 
   const handleAddStaffDialogClose = () => {
@@ -151,7 +153,7 @@ const ManageStaff = () => {
             borderRadius: '5px',
             width: '40px',
             height: '40px',
-          }} onClick={() => handleRemove(params.row)}>
+          }} onClick={() => handleStaffRemove(params.row)}>
             <Close fontSize='small' />
           </IconButton>
         </Stack>
@@ -210,7 +212,7 @@ const ManageStaff = () => {
         <Typography variant='h5'>Confirm Remove?</Typography>
         <DialogActions>
           <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Cancel</Button>
-          <CButton isLoading={userDeleteLoading} onClick={handleUserDelete} variant='contained'>Confirm</CButton>
+          <CButton isLoading={userDeleteLoading} onClick={handlStaffDelete} variant='contained'>Confirm</CButton>
         </DialogActions>
       </CDialog>
       <Box>

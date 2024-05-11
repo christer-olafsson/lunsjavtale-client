@@ -2,7 +2,6 @@ import { CheckBox, CheckBoxOutlineBlank, Delete } from '@mui/icons-material'
 import { Autocomplete, Avatar, Box, Button, Checkbox, FormControl, FormGroup, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CButton from '../../../../common/CButton/CButton'
-import { useSelector } from 'react-redux'
 import { useMutation, useQuery } from '@apollo/client'
 import { GENERAL_PROFILE_UPDATE } from './graphql/mutation'
 import { ME } from '../../../../graphql/query'
@@ -10,10 +9,8 @@ import toast from 'react-hot-toast'
 import { GET_INGREDIENTS } from '../../manageStaff/graphql/query'
 import Loader from '../../../../common/loader/Index'
 import ErrorMsg from '../../../../common/ErrorMsg/ErrorMsg'
-import { fileUpload } from '../../../../utils/fileHandle/fileUpload'
-
-const icon = <CheckBoxOutlineBlank fontSize="small" />;
-const checkedIcon = <CheckBox fontSize="small" />;
+import { uploadFile } from '../../../../utils/uploadFile'
+import { deleteFile } from '../../../../utils/deleteFile'
 
 
 const General = () => {
@@ -86,11 +83,16 @@ const General = () => {
     const postCodeValue = parseInt(payload.postCode);
     const dateOfBirthValue = payload.dateOfBirth !== undefined ? payload.dateOfBirth : null;
     let photoUrl = user.me.photoUrl;
+    let fileId = user.me.fileId;
     if (file) {
       setFileUploadLoading(true)
-      const { location } = await fileUpload(file, 'company-owner');
+      const { public_id, secure_url } = await uploadFile(file, 'owners')
+      if (user.me.fileId) {
+        await deleteFile(user.me.fileId)
+      }
+      photoUrl = secure_url
+      fileId = public_id
       setFileUploadLoading(false)
-      photoUrl = location || user.me.photoUrl;
     }
     profileUpdate({
       variables: {
@@ -100,7 +102,8 @@ const General = () => {
           postCode: postCodeValue,
           dateOfBirth: dateOfBirthValue,
           allergies: selectedAllergiesId,
-          photoUrl
+          photoUrl,
+          fileId
         }
       }
     })

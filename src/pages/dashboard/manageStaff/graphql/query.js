@@ -7,6 +7,7 @@ export const GET_COMPANY_STAFFS = gql`
     node {
       id
       photoUrl
+      fileId
       email
       firstName
       lastName

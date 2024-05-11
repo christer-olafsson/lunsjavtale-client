@@ -6,10 +6,5 @@ export default defineConfig({
   plugins: [react()],
   server:{
     port: 3000
-  },
-  resolve:{
-    alias:{
-      'aws-sdk': 'aws-sdk/dist/aws-sdk.min.js',
-    }
   }
 })

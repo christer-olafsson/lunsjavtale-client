@@ -1,5 +1,5 @@
 import { ArrowDropDown, Close } from '@mui/icons-material'
-import { Avatar, Box, Button, Collapse, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
+import { Avatar, Box, Button, Collapse, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CButton from '../../../common/CButton/CButton';
 import { useTheme } from '@emotion/react';
@@ -9,9 +9,8 @@ import { GET_INGREDIENTS } from './graphql/query';
 import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import toast from 'react-hot-toast';
-import { fileUpload } from '../../../utils/fileHandle/fileUpload';
-import { fileDelete } from '../../../utils/fileHandle/fileDelete';
 import { ME } from '../../../graphql/query';
+import { uploadFile } from '../../../utils/uploadFile';
 
 
 const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
@@ -58,18 +57,21 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
 
   const handleAddStaff = async () => {
     let photoUrl = '';
+    let fileId = '';
     if (file) {
       setFileUploadLoading(true)
-      const { location } = await fileUpload(file, 'staff');
+      const { public_id, secure_url } = await uploadFile(file, 'staffs')
       setFileUploadLoading(false)
-      photoUrl = location
+      photoUrl = secure_url
+      fileId = public_id
     }
     createStaff({
       variables: {
         input: {
           ...payload,
-          photoUrl: photoUrl,
-          role: role,
+          photoUrl,
+          fileId,
+          role,
           allergies: selectedAllergiesId
         }
       }
