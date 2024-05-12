@@ -24,9 +24,10 @@ const TabItem = styled(Tab)(({ theme }) => ({
     minWidth: 120,
   },
   [`&.${tabClasses.selected}`]: {
-    color: "#FFFFFF",
-    backgroundColor: theme.palette.secondary.main,
-    // boxShadow: "0 7px 10px -5px rgba(76, 175, 80, 0.4)",
+    // color: "#FFFFFF",
+    // backgroundColor: theme.palette.secondary.main,
+    border: `1px solid gray`,
+
   },
 }));
 
@@ -60,8 +61,8 @@ function WhoAreYou() {
   const theme = useTheme()
   return (
     <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 } }}>
-      <Typography sx={{ fontSize: { xs: '22px', md: '32px' }, fontWeight: 600, textAlign: 'center', mb: 2 }}>Who are you?</Typography>
-      <Typography sx={{ fontSize: { xs: '16px', md: '24px' }, fontWeight: 500, textAlign: 'center', mb: 6 }}>The lunch collective gives you the canteen right in your pocket</Typography>
+      <Typography sx={{ fontSize: { xs: '22px', md: '32px' }, fontWeight: 600, textAlign: 'center', mb: 2 }}>Hvem er du?</Typography>
+      <Typography sx={{ fontSize: { xs: '16px', md: '24px' }, fontWeight: 500, textAlign: 'center', mb: 6 }}>Lunsjkollektivet gir deg kantinen rett i lomma</Typography>
       <Stack direction='row' sx={{
         mb: { xs: 3, md: 10 },
         justifyContent: 'center',
@@ -71,7 +72,7 @@ function WhoAreYou() {
           onChange={(e, index) => setTabIndex(index)}
           sx={{
             width: "fit-content",
-            border: `1px solid ${theme.palette.secondary.main}`,
+            // border: `1px solid ${theme.palette.secondary.main}`,
             // px: 2,
             borderRadius: '50px',
             [`& .${tabsClasses.indicator}`]: {
@@ -79,9 +80,9 @@ function WhoAreYou() {
             },
           }}
         >
-          <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"The Boss"} />
-          <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Employee"} />
-          <TabItem style={{ borderRadius: "30px" }} disableRipple label={"Lunch Manager"} />
+          <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Sjefen"} />
+          <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Ansatt"} />
+          <TabItem style={{ borderRadius: "30px" }} disableRipple label={"Lunsjsjef"} />
         </Tabs>
       </Stack>
 
@@ -90,25 +91,31 @@ function WhoAreYou() {
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
-            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>The boss</Typography>
-            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Cut costs and get more for <br /> your money.</Typography>
-            <Typography mb={1}>Because what is the point of canteen contribution? We have no running costs and of course you pay nothing for lunch that no one should eat. Our customers cut an average of 25% of their lunch costs!</Typography>
+            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Sjefen</Typography>
+            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader og få mer for <br /> dine Penger.</Typography>
+            <Typography mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
             <List>
               {
-                [1, 2, 3, 4, 5].map((_, id) => (
+                [
+                  'Oppdag næringsrike måltidsalternativer skreddersydd for dine smakspreferanser.',
+                  'Få personlige måltidsplaner utformet for å oppfylle dine diettmål.',
+                  'Utforsk eksperternæringstips og råd for å forbedre ditt velvære.',
+                  'Få tilgang til et bredt utvalg av sunne oppskrifter for deilige og sunne måltider.',
+                  'Lær effektive teknikker for å forberede måltider for å spare tid og holde deg på rett spor med kostholdet ditt.',
+                ].map((text, id) => (
                   <ListItem sx={{ mb: 1 }} disablePadding key={id}>
                     <ListItemIcon>
                       <img src="/ok.png" alt="" />
                     </ListItemIcon>
                     <ListItemText sx={{ ml: -3 }}>
-                      <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Typography>
+                      <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
                     </ListItemText>
                   </ListItem>
                 ))
               }
             </List>
             <Link to='/search'>
-              <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Get Start</CButton>
+              <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Få start</CButton>
             </Link>
           </Stack>
           <Stack sx={{
@@ -163,18 +170,24 @@ function WhoAreYou() {
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
-            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Employer</Typography>
-            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Choose between 12 different lunch dishes every day</Typography>
-            <Typography mb={1}>There is guaranteed to be something everyone likes here - and new dishes on the menu every single day! We can't fix everything, but we can arrange a stress-free break and ensure that you get food that is not only good, but also good for the body.</Typography>
+            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Arbeidsgiver</Typography>
+            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Velg mellom 12 ulike lunsjretter hver dag</Typography>
+            <Typography mb={1}>Her er det garantert noe alle liker – og nye retter på menyen hver eneste dag! Vi kan ikke fikse alt, men vi kan arrangere en stressfri pause og sørge for at du får mat som ikke bare er bra, men også bra for kroppen.</Typography>
             <List>
               {
-                [1, 2, 3, 4, 5].map((_, id) => (
+                [
+                  'Oppdag næringsrike måltidsalternativer skreddersydd for dine smakspreferanser.',
+                  'Få personlige måltidsplaner utformet for å oppfylle dine diettmål.',
+                  'Utforsk eksperternæringstips og råd for å forbedre ditt velvære.',
+                  'Få tilgang til et bredt utvalg av sunne oppskrifter for deilige og sunne måltider.',
+                  'Lær effektive teknikker for å forberede måltider for å spare tid og holde deg på rett spor med kostholdet ditt.',
+                ].map((text, id) => (
                   <ListItem sx={{ mb: 1 }} disablePadding key={id}>
                     <ListItemIcon>
                       <img src="/ok.png" alt="" />
                     </ListItemIcon>
                     <ListItemText sx={{ ml: -3 }}>
-                      <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Typography>
+                      <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
                     </ListItemText>
                   </ListItem>
                 ))
@@ -182,9 +195,9 @@ function WhoAreYou() {
             </List>
             <Stack direction='row ' gap={2}>
               <Link to='/search'>
-                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Get Start</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Få start</CButton>
               </Link>
-              <CButton variant='outlined' style={{ height: { xs: '45px', md: '56px' }, width: '136px' }}>Tip The Boss</CButton>
+              <CButton variant='outlined' style={{ height: { xs: '45px', md: '56px' }, width: '136px' }}>Tips sjefen</CButton>
             </Stack>
           </Stack>
         </Stack>
@@ -195,16 +208,16 @@ function WhoAreYou() {
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
-            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Lunch manager</Typography>
-            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Do you spend unnecessary time organizing lunch for everyone?</Typography>
-            <Typography mb={1}>Flexible everyday working life requires flexible solutions. Let employees themselves keep order about what they should eat and when they have a home office.</Typography>
+            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Lunsjsjef</Typography>
+            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Bruker du unødvendig tid på å organisere lunsj for alle?</Typography>
+            <Typography mb={1}>Fleksibel arbeidshverdag krever fleksible løsninger. La ansatte selv holde orden på hva de skal spise og når de har hjemmekontor.</Typography>
             <List>
               <ListItem sx={{ mb: 1 }} disablePadding>
                 <ListItemIcon>
                   <img src="/ok.png" alt="" />
                 </ListItemIcon>
                 <ListItemText sx={{ ml: -3 }}>
-                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Stress-free tech allows you to manage employees, have full cost control and decide how much the company will pay.</Typography>
+                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Stressfri teknologi lar deg administrere ansatte, ha full kostnadskontroll og bestemme hvor mye selskapet skal betale.</Typography>
                 </ListItemText>
               </ListItem>
               <ListItem sx={{ mb: 2 }} disablePadding>
@@ -212,7 +225,7 @@ function WhoAreYou() {
                   <img src="/ok.png" alt="" />
                 </ListItemIcon>
                 <ListItemText sx={{ ml: -3 }}>
-                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>We even fix payroll deductions and have full control over tax rules😇</Typography>
+                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Vi fikser til og med lønnstrekk og har full kontroll på skattereglene😇</Typography>
                 </ListItemText>
               </ListItem>
               <ListItem sx={{ mb: 2 }} disablePadding>
@@ -220,13 +233,13 @@ function WhoAreYou() {
                   <img src="/ok.png" alt="" />
                 </ListItemIcon>
                 <ListItemText sx={{ ml: -3 }}>
-                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Let's fix lunch. Then you can focus on everything else!</Typography>
+                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>La oss fikse lunsj. Da kan du fokusere på alt annet!</Typography>
                 </ListItemText>
               </ListItem>
             </List>
             <Stack direction='row ' gap={2}>
               <Link to='/search'>
-                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '219px', color: 'secondary.main' }}>Become a customer</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '219px', color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
             </Stack>
           </Stack>

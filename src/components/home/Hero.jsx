@@ -63,31 +63,31 @@ const Hero = () => {
           }}>
             <Typography sx={{
               mt: { xs: 5, md: 0 },
-              fontSize: { xs: '32px', md: '58px' },
+              fontSize: { xs: '32px', md: '68px' },
               fontWeight: 800,
-              lineHeight: {xs:'40px',md:'57.6px'}
-            }}>The next generation <br /> of work lunches</Typography>
-            <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 1 }}>Let employees manage their own lunch with just a few keystrokes. Cut administration, costs and food waste, while employees are delivered exactly the lunch they want.</Typography>
+              lineHeight: {xs:'40px',md:'60px'},
+            }}>Den neste generasjonen<br /> av arbeidslunsjer</Typography>
+            <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 1 }}>La ansatte styre sin egen lunsj med bare noen få tastetrykk. Kutt administrasjon, kostnader og matsvinn, samtidig som ansatte får levert akkurat den lunsjen de ønsker.</Typography>
 
             <Stack direction='row' alignItems='center' gap={2} justifyContent={{ xs: 'center', sm: 'space-around', lg: 'space-between' }}>
               <Stack sx={{
                 width: { xs: '111px', md: '174px' }
               }} direction='row' alignItems='center' gap={1}>
                 <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>12</Typography>
-                <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>dishes to choose from every day</Typography>
+                <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>retter å velge mellom hver dag</Typography>
               </Stack>
               <img src="/Line.png" alt="" />
               <Stack sx={{
                 width: { xs: '64px', md: '93px' }
               }} direction='row' alignItems='center' gap={1}>
                 <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>59</Typography>
-                <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>From <br /> NOK</Typography>
+                <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Fra <br /> NOK</Typography>
               </Stack>
               <img src="/Line.png" alt="" />
               <Typography sx={{
                 width: { xs: '111px', md: '165px  ' },
                 fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' }
-              }}>Simple administration for the company</Typography>
+              }}>Enkel administrasjon for bedriften</Typography>
             </Stack>
 
             <Stack direction='row' sx={{
@@ -111,7 +111,7 @@ const Hero = () => {
                   borderRadius: '38px',
                   px: { xs: 3, md: 5 },
                   py: { xs: 1, md: 2 }
-                }} startIcon={<Chat size='small' />}>I want to start now</Button>
+                }} startIcon={<Chat size='small' />}>Jeg vil begynne nå</Button>
               </Link>
             </Stack>
 

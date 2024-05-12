@@ -41,10 +41,10 @@ const HaveQ = () => {
         }}>
           <img style={{ width: '100%' }} src="/Avatar group.png" alt="" />
         </Box>
-        <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Do you still have questions?</Typography>
-        <Typography sx={{ textAlign: 'center' }}>We are available on chat, otherwise you can call the thread at any time</Typography>
+        <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du fortsatt spørsmål?</Typography>
+        <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelige på chat, eller så kan du ringe tråden når som helst</Typography>
         <CButton onClick={handleOpenDialog} variant='contained' style={{ height: { xs: '37px', md: '56px' }, mt: 3, width: '150px' }}>
-          Contact Us
+          Kontakt Oss
         </CButton>
         <Dialog
           // onClose={handleCloseDialog}
@@ -57,27 +57,27 @@ const HaveQ = () => {
             <FormGroup>
               <Stack >
                 <IconButton sx={{alignSelf:'flex-end'}} onClick={handleCloseDialog}><Close /></IconButton>
-                <Typography sx={{ fontWeight: 700, fontSize: '16px', color: 'primary.main', textAlign: 'center' }}>Contact us</Typography>
-                <Typography sx={{ fontSize: '32px', fontWeight: 700, mb: 1, textAlign: 'center' }}>Get in touch</Typography>
-                <Typography sx={{ fontSize: '18px', fontWeight: 400, mb: 1, textAlign: 'center' }}>We’d love to hear from you. Please fill out this form.</Typography>
+                <Typography sx={{ fontWeight: 700, fontSize: '16px', color: 'primary.main', textAlign: 'center' }}>Kontakt oss</Typography>
+                <Typography sx={{ fontSize: '32px', fontWeight: 700, mb: 1, textAlign: 'center' }}>Kom i kontakt</Typography>
+                <Typography sx={{ fontSize: '18px', fontWeight: 400, mb: 1, textAlign: 'center' }}>Vi vil gjerne høre fra deg. Vennligst fyll ut dette skjemaet.</Typography>
                 <Stack direction='row' gap={2} mb={2}>
                   <Stack flex={1} gap={2}>
-                    <TextField label='Name of the Company' />
-                    <TextField label='Phone Number' />
+                    <TextField label='Bedriftens navn' />
+                    <TextField label='Telefonnummer' />
                   </Stack>
                   <Stack flex={1} gap={2}>
-                    <TextField label='Your Name' />
-                    <TextField label='Number of employees' />
+                    <TextField label='Ditt navn' />
+                    <TextField label='Antall ansatte' />
                   </Stack>
                 </Stack>
-                <TextField sx={{mb:2}} label='Number of employees' />
-                <TextField sx={{mb:2}} label='Number of employees' />
-                <TextField label='Message' rows={4} multiline />
+                <TextField sx={{mb:2}} label='E-postadresse' />
+                <TextField sx={{mb:2}} label='Emne' />
+                <TextField label='Melding' rows={4} multiline />
                 <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
-                  <FormControlLabel required control={<Checkbox />} label="You agree to our friendly" />
-                  <a href="">privacy policy.</a>
+                  <FormControlLabel required control={<Checkbox />} label="Du godtar vår vennlige" />
+                  <a href="">personvernpolicy.</a>
                 </Box>
-                <Button type='submit' size='large' variant='contained'>Send Message</Button>
+                <Button type='submit' size='large' variant='contained'>Send melding</Button>
               </Stack>
             </FormGroup>
           </DialogContent>

@@ -24,12 +24,12 @@ const CreateProfile = () => {
             flex: 1,
             maxWidth: '582px'
           }}>
-            <Typography sx={smTitle}>01. Create a pofile</Typography>
-            <Typography mb={3} sx={bigTitle}>Register your company in minutes</Typography>
-            <Typography mb={3}>Our standard categories are fixed throughout the year, but the dish itself changes daily. This means that if you choose salad, you will receive a new salad every day!</Typography>
+            <Typography sx={smTitle}>01. Lag en pofil</Typography>
+            <Typography mb={3} sx={bigTitle}>Registrer bedriften din på få minutter</Typography>
+            <Typography mb={3}>Våre standardkategorier er faste gjennom hele året, men selve retten endres daglig. Det betyr at hvis du velger salat, får du en ny salat hver dag!</Typography>
             <Link to='/search'>
               <CButton variant='outlined' style={{ height: { xs: '37px', md: '56px' }, width: '150px' }}>
-                Let&apos;s try
+              La oss prøve
               </CButton>
             </Link>
           </Box>
@@ -38,73 +38,6 @@ const CreateProfile = () => {
             maxWidth: '560px'
           }}>
             <img style={{width:'100%',height:'100%',borderRadius:'30px'}} src="/signupart.jpg" alt="" />
-            {/* <Stack sx={{
-              position: 'relative',
-              width: { xs: '100%', md: '490px' },
-              height: '459px',
-              backgroundImage: 'url(/GroupAll.png)',
-              backgroundPosition: 'center',
-              backgroundSize: 'contain'
-            }} justifyContent='center' alignItems='center'>
-              <Stack sx={{
-                bgcolor: '#B3CAFF',
-                width: '279px',
-                height: '300px',
-                borderRadius: '10px',
-                mt: '50px'
-              }} justifyContent='center' alignItems='center' gap={1.5}>
-                <Typography>Sign up</Typography>
-                <Input disableUnderline sx={{ bgcolor: '#fff', width: '188px', px: 1, fontSize: '13px' }} type='text' placeholder='First Name' />
-                <Input disableUnderline sx={{ bgcolor: '#fff', width: '188px', px: 1, fontSize: '13px' }} type='text' placeholder='Last Name' />
-                <Input disableUnderline sx={{ bgcolor: '#fff', width: '188px', px: 1, fontSize: '13px' }} type='email' placeholder='Email' />
-                <Input disableUnderline sx={{ bgcolor: '#fff', width: '188px', px: 1, fontSize: '13px' }} type='password' placeholder='Password' />
-                <Stack direction='row' alignItems='center'>
-                  <Typography sx={{ fontSize: '12px' }}>Already a member?</Typography>
-                  <Link to='/login'>
-                    <button style={{ border: 'none', outline: 'none', backgroundColor: 'transparent', cursor: 'pointer' }}>Login</button>
-                  </Link>
-                </Stack>
-                <Button variant="contained" sx={{ width: '188px', height: '32px', bgcolor: '#407BFF', borderRadius: '0px', mb: 2 }}>
-                  Register
-                </Button>
-              </Stack>
-              <Box sx={{
-                position: 'absolute',
-                right: { xs: -20, md: 0 },
-                top: '20px',
-                width: '67px',
-                height: '73px'
-              }}>
-                <img style={{
-                  width: '100%',
-                  height: '100%'
-                }} src="/Group (2).png" alt="" />
-              </Box>
-              <Box sx={{
-                position: 'absolute',
-                left: { xs: 0, md: '30px' },
-                bottom: '20px',
-                width: '81px',
-                height: '141px'
-              }}>
-                <img style={{
-                  width: '100%',
-                  height: '100%'
-                }} src="/Group (3).png" alt="" />
-              </Box>
-              <Box sx={{
-                position: 'absolute',
-                right: { xs: -20, md: 0 },
-                bottom: { xs: 60, md: 0 },
-                width: { xs: '140px', md: '172px' },
-                height: { xs: '300px', md: '366px' }
-              }}>
-                <img style={{
-                  width: '100%',
-                  height: '100%'
-                }} src="/Group.png" alt="" />
-              </Box>
-            </Stack> */}
           </Box>
         </Stack>
 
@@ -118,12 +51,12 @@ const CreateProfile = () => {
           <Box sx={{
             flex: 1
           }}>
-            <Typography sx={smTitle}>02. Invite employees</Typography>
-            <Typography sx={bigTitle} mb={3}>It is just as quick to onboard 2 as 200 employees</Typography>
-            <Typography mb={3}>We know how important it is both for the person who administers and the person who will have something new &quot;thrown&quot; at them that it does not feel like a &quot;burden&quot;. We have created a system that means that, no matter how big or small your company is, it is just as easy to get started.</Typography>
+            <Typography sx={smTitle}>02. Inviter ansatte</Typography>
+            <Typography sx={bigTitle} mb={3}>Det er like raskt å ombord 2 som 200 ansatte</Typography>
+            <Typography mb={3}>Vi vet hvor viktig det er både for den som administrerer og den som skal få noe nytt «kastet» på seg at det ikke føles som en «belastning». Vi har laget et system som gjør at uansett hvor stor eller liten bedriften din er, er det like enkelt å komme i gang.</Typography>
             <Link to='/search'>
               <CButton variant='outlined' style={{ height: { xs: '37px', md: '56px' }, width: '150px' }}>
-                Get Started
+              Kom i gang
               </CButton>
             </Link>
           </Box>
@@ -133,13 +66,13 @@ const CreateProfile = () => {
           <Box sx={{
             flex: 1
           }}>
-            <Typography sx={smTitle}>03. Delivery</Typography>
-            <Typography sx={bigTitle} mb={3}>Stress-free and hearty work lunch delivered to the office</Typography>
-            <Typography mb={2}>All employees receive a stress-free and good lunch that is good for the body, delivered to the door by 11:15 every day. </Typography>
-            <Typography mb={3}>The company saves time on administration and gets a flexible lunch arrangement, where you of course do not pay for lunch on the days that are cancelled. Have a good lunch!</Typography>
+            <Typography sx={smTitle}>03. Levering</Typography>
+            <Typography sx={bigTitle} mb={3}>Stressfri og solid arbeidslunsj levert på kontoret</Typography>
+            <Typography mb={2}>Alle ansatte får en stressfri og god lunsj som er god for kroppen, levert på døra innen kl 11:15 hver dag. </Typography>
+            <Typography mb={3}>Bedriften sparer tid på administrasjon og får en fleksibel lunsjordning, hvor du selvfølgelig ikke betaler for lunsj de dagene som er avlyst. Ha en fin lunsj!</Typography>
             <Link to='/search'>
               <CButton variant='outlined' style={{ height: { xs: '37px', md: '56px' }, width: '150px' }}>
-                Order Now
+              Bestill nå
               </CButton>
             </Link>
           </Box>

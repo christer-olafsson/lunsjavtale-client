@@ -27,25 +27,30 @@ const SoEasy = () => {
       <Stack sx={{ width: '100%' }} gap={{ xs: 8, md: 4 }} direction={{ xs: 'column', lg: 'row' }} alignItems='center' justifyContent='space-between'>
 
         <Box >
-          <Typography sx={{ fontWeight: 800, fontSize: { xs: '32px', md: '58px' } }}>So easy!</Typography>
+          <Typography sx={{ fontWeight: 800, fontSize: { xs: '32px', md: '58px' } }}>Så lett!</Typography>
           <Divider sx={{ width: '64px', borderBottomWidth: '2px', my: { xs: 1, md: 3 } }} />
           <List>
-            {
-              [1, 2, 3, 4, 5].map((_, id) => (
-                <ListItem sx={{ mb: { xs: 1, md: 2 } }} disablePadding key={id}>
-                  <ListItemIcon><img src="/ok.png" alt="" /></ListItemIcon>
-                  <ListItemText sx={{ ml: -3 }}>
-                    <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Typography>
-                  </ListItemText>
-                </ListItem>
-              ))
-            }
+            {[
+              "Med våre tjenester kan du enkelt administrere dine møtematbehov.",
+              "Få tilgang til et bredt utvalg av matkategorier for dine møter.",
+              "Bestill møtemat på nettet på et øyeblikk.",
+              "Vi tilbyr også et enkelt grensesnitt for administrering av møter og matbestillinger.",
+              "Få tilgang til vår fleksible planleggingstjeneste for møtemat.",
+              "Opplev den enkle og effektive måten å håndtere dine møtematbehov på."
+            ].map((text, index) => (
+              <ListItem key={index} sx={{ mb: { xs: 1, md: 1 } }} disablePadding>
+                <ListItemIcon><img src="/ok.png" alt="" /></ListItemIcon>
+                <ListItemText sx={{ ml: -3 }}>
+                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
+                </ListItemText>
+              </ListItem>
+            ))}
           </List>
           <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 2, md: 3 }}>
             <Link to='/search'>
-              <CButton variant='contained' color='secondary' style={{ width: { xs: '100%', md: '119px' }, textWrap: 'noWrap' }}>Get Started</CButton>
+              <CButton variant='contained' color='secondary' style={{ width: { xs: '100%', md: '119px' }, textWrap: 'noWrap' }}>Kom i gang</CButton>
             </Link>
-            <CButton onClick={() => setMeetingDialogOpen(true)} variant='outlined' style={{ width: '100%' }}>Do you need meeting food?</CButton>
+            <CButton onClick={() => setMeetingDialogOpen(true)} variant='outlined' style={{ width: '100%' }}>Trenger du møtemat?</CButton>
           </Stack>
         </Box>
         <Stack direction='row' alignItems='center' gap={2}>
@@ -92,14 +97,14 @@ const SoEasy = () => {
                   <TextField label='Last name' />
                   <TextField label='Email' />
                   <FormControl fullWidth>
-                  <InputLabel>Attendees</InputLabel>
-                  <Select
-                    label="Attendees"
-                  >
-                    <MenuItem value={20}>Owner</MenuItem>
-                    <MenuItem value={30}>Manager</MenuItem>
-                  </Select>
-                </FormControl>
+                    <InputLabel>Attendees</InputLabel>
+                    <Select
+                      label="Attendees"
+                    >
+                      <MenuItem value={20}>Owner</MenuItem>
+                      <MenuItem value={30}>Manager</MenuItem>
+                    </Select>
+                  </FormControl>
                   <TextField type='time' helperText='Meeting time' />
                 </Stack>
               </Stack>

@@ -38,10 +38,10 @@ const InstagramSec = () => {
         py: '12px', px: '24px',
         borderRadius: '8px', mb: 2
       }} >
-        Follow us on Instagram
+        Følg oss på Instagram
       </Box>
-      <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>See what's happening on some</Typography>
-      <Typography alignSelf='center' mb={6}>The lunch collective is a digital canteen that makes lunch easier (and smarter)!</Typography>
+      <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>Se hva som skjer på noen</Typography>
+      <Typography alignSelf='center' mb={6}>Lunsjkollektivet er en digital kantine som gjør lunsjen enklere (og smartere)!</Typography>
       <Stack direction={{ xs: 'column', md: 'row' }} gap={3} justifyContent='center'>
         <Box sx={imgContainer}>
           <img style={imgContainerImg} src="/insImg1.png" alt="" />
