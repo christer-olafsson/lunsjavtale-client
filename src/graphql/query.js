@@ -48,14 +48,14 @@ query{
       name
       description
       isActive
-      products{
+      products(isDeleted: false){
         edges{
           node{
             id
             actualPrice
             name
             description
-            attachments(isCover:true){
+            attachments{
               edges{
                 node{
                   id
