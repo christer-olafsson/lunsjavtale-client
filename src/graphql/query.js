@@ -48,18 +48,32 @@ query{
       name
       description
       isActive
-      products(isDeleted: false){
+      products(isDeleted: false, availability : true){
         edges{
           node{
             id
-            actualPrice
             name
+            title
+            actualPrice
+            priceWithTax
+            contains
             description
+            availability
+            discountAvailability
+            isDeleted
             attachments{
               edges{
                 node{
                   id
                   fileUrl
+                }
+              }
+            }
+            ingredients{
+              edges{
+                node{
+                  id
+                  name
                 }
               }
             }
@@ -76,7 +90,7 @@ export const GET_SINGLE_CATEGORY = gql`
   query SingleCategory ($id: ID){
     category(id: $id){
       name
-      products{
+      products(isDeleted: false, availability: true){
         edges{
           node{
             id

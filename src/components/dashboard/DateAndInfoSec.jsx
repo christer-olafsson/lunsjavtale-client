@@ -9,7 +9,7 @@ import { ME } from '../../graphql/query'
 const DateAndInfoSec = () => {
   const selectedDate = useSelector((state) => state.selectedDate.date)
   const { data: user } = useQuery(ME)
-  console.log(user)
+ 
   const dispatch = useDispatch()
   return (
     <Box>

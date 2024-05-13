@@ -7,7 +7,7 @@ import AddItem from '../../../components/dashboard/AddItem'
 
 const SmallProductCard = ({ data }) => {
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
-
+console.log(data)
   const handleProductDialogClose = () => {
     setOpenProductAddDialog(false);
   };
@@ -30,7 +30,7 @@ const SmallProductCard = ({ data }) => {
         <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>{data.node.description}</Typography>
         <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
           <Box sx={{ padding: '6px 16px', mr: 2, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>
-            <Typography sx={{ fontSize: '14px' }}>${data.node.price}</Typography>
+            <Typography sx={{ fontSize: '14px' }}>${data.node.priceWithTax}</Typography>
           </Box>
           <IconButton
             onClick={() => setOpenProductAddDialog(true)}
