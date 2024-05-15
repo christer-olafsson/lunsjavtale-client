@@ -6,13 +6,13 @@ import { useTheme } from '@emotion/react'
 import { Link } from 'react-router-dom'
 
 const ProductCard = ({ data }) => {
-  console.log('product card:',data)
+  console.log('product card:', data)
   const theme = useTheme()
   return (
     <Stack sx={{
       alignSelf: 'center',
       width: { xs: '100%', md: '396px' },
-      p: { xs: '12px', md: '24px' },
+      p: { xs: '12px', md: '20px' },
       border: `1px solid ${theme.palette.primary.main}`,
       borderRadius: '8px',
       cursor: 'grab'
@@ -36,19 +36,22 @@ const ProductCard = ({ data }) => {
         height: '280px',
         mb: 2
       }}>
-        <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} 
-        src={data?.node.attachments.edges[0] ? data?.node.attachments.edges[0].node.fileUrl : ''} alt="" />
+        <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }}
+          src={data?.node.attachments.edges[0] ? data?.node.attachments.edges[0].node.fileUrl : ''} alt="" />
       </Box>
       <Typography sx={{
         fontSize: { xs: '12px', md: '14px' }
       }} mb={2} >Topped with leaf salad, pickled carrot & pumpkin seeds. Spicy tahini dressing on the side.</Typography>
-      <Box sx={{ display: 'inline-flex', mb: 2 }}>
-        <Typography>Contains:</Typography>
-        <Typography sx={{ fontSize: '12px', ml: 1 }}>570 Calories, 40g carbohydrate , 31 g fat, 27 grams of protein</Typography>
-      </Box>
+      {
+        data.node.contains &&
+        <Box sx={{ display: 'inline-flex', mb: 2 }}>
+          <Typography>Contains:</Typography>
+          <Typography sx={{ fontSize: '12px', ml: 1 }}>{JSON.parse(data.node.contains)}</Typography>
+        </Box>
+      }
       <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
         <CButton variant='contained' color='light' style={{ flex: 1, height: { xs: '45px', md: '56px', fontSize: { xs: '14px', md: '16px' } } }}>
-          from <b> {data.node.priceWithTax}</b> , per person*
+          from<b style={{ marginLeft: '5px' }}>${data.node.priceWithTax}</b>, per person
         </CButton>
         <Link to='/search'>
           <CButton style={{ height: { xs: '45px', md: '56px', fontSize: { xs: '14px', md: '16px' } } }} variant='contained' color='secondary'>
