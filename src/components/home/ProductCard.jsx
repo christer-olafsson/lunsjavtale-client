@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Box, Stack, Typography } from '@mui/material'
 import React from 'react'
 import CButton from '../../common/CButton/CButton'
@@ -5,7 +6,7 @@ import { useTheme } from '@emotion/react'
 import { Link } from 'react-router-dom'
 
 const ProductCard = ({ data }) => {
-  // console.log('product card:',data)
+  console.log('product card:',data)
   const theme = useTheme()
   return (
     <Stack sx={{
@@ -47,7 +48,7 @@ const ProductCard = ({ data }) => {
       </Box>
       <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
         <CButton variant='contained' color='light' style={{ flex: 1, height: { xs: '45px', md: '56px', fontSize: { xs: '14px', md: '16px' } } }}>
-          from 89, per person*
+          from <b> {data.node.priceWithTax}</b> , per person*
         </CButton>
         <Link to='/search'>
           <CButton style={{ height: { xs: '45px', md: '56px', fontSize: { xs: '14px', md: '16px' } } }} variant='contained' color='secondary'>

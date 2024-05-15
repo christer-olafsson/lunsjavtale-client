@@ -68,7 +68,7 @@ const Footer = () => {
           <Typography>Instagram</Typography>
           <Typography>LinkedIn</Typography>
           <Typography mt={3}>hei@lunsjavtale.no</Typography>
-          <Typography>+ 47 729 09 005</Typography>
+          <Typography>+47 483 06 377</Typography>
         </Box>
       </Container>
     </Container>
