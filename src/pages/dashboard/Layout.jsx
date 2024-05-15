@@ -17,7 +17,6 @@ import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
 import toast from 'react-hot-toast';
 import { useMutation, useQuery } from '@apollo/client';
-import { useSelector } from 'react-redux';
 import { ME } from '../../graphql/query';
 
 const drawerWidth = 264;

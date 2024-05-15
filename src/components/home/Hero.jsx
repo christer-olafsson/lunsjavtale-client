@@ -47,7 +47,7 @@ const Hero = () => {
               </Link> :
               <Link to='/login'>
                 <CButton variant='contained' endIcon={<ArrowRightAlt />} style={{ fontSize: { xs: '14px', md: '16px' }, width: { xs: '104px', md: '136px' }, height: { xs: '37px', md: '56px     ' } }}>
-                  Sign In
+                  Logg inn
                 </CButton>
               </Link>
           }
@@ -65,7 +65,7 @@ const Hero = () => {
               mt: { xs: 5, md: 0 },
               fontSize: { xs: '32px', md: '68px' },
               fontWeight: 800,
-              lineHeight: {xs:'40px',md:'60px'},
+              lineHeight: { xs: '40px', md: '60px' },
             }}>Den neste generasjonen<br /> av arbeidslunsjer</Typography>
             <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 1 }}>La ansatte styre sin egen lunsj med bare noen få tastetrykk. Kutt administrasjon, kostnader og matsvinn, samtidig som ansatte får levert akkurat den lunsjen de ønsker.</Typography>
 

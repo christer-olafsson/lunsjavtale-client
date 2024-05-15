@@ -4,8 +4,8 @@ import { Autocomplete, Avatar, Box, Button, Checkbox, FormControl, FormControlLa
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { GET_ALL_CATEGORY } from '../../graphql/query';
 import { useQuery } from '@apollo/client';
+import { GET_ALL_CATEGORY } from '../../../graphql/query';
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;

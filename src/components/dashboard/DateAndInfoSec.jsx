@@ -56,6 +56,7 @@ const DateAndInfoSec = () => {
         }
       </Box>
       <Box sx={{
+        display: {xs:'none',lg: 'block'},
         bgcolor: 'light.main',
         p: 2, borderRadius: '8px', mb: 2
       }}>

@@ -70,7 +70,7 @@ const MySide = (props) => {
       setProducts(res.category)
     },
   });
-  const { loading: opLoading, error: opErr } = useQuery(GET_SINGLE_CATEGORY, {
+  const { loading: singleCatLoading, error: singleCatErr } = useQuery(GET_SINGLE_CATEGORY, {
     variables: {
       id: parseInt(4)
     },
@@ -84,7 +84,7 @@ const MySide = (props) => {
   return (
     <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
       <Box sx={{
-        width: { xs: '100%', lg: '70%' }
+        width: { xs: '100%', lg: '70%' },
       }}>
         {
           loading ? <LoadingBar /> : error ? <ErrorMsg /> :
@@ -114,7 +114,7 @@ const MySide = (props) => {
             </Paper>
         }
         {
-          opLoading ? <LoadingBar /> : opErr ? <ErrorMsg /> :
+          singleCatLoading ? <LoadingBar /> : singleCatErr ? <ErrorMsg /> :
             <Paper sx={{ mt: 6, width: '100%' }} elevation={3}>
               <Typography sx={{
                 bgcolor: '#52525B',
@@ -171,7 +171,9 @@ const MySide = (props) => {
         {
           SelectedItem
             ?
-            <MiniCart path='/dashboard/myside/cart' />
+            <Box >
+              <MiniCart path='/dashboard/myside/cart' />
+            </Box>
             :
             <Box sx={{
               p: 2, borderRadius: '8px', mb: 2,

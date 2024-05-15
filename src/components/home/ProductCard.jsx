@@ -17,13 +17,16 @@ const ProductCard = ({ data }) => {
       borderRadius: '8px',
       cursor: 'grab'
     }}>
+      {
+        data.node.title &&
+        <Typography sx={{
+          fontSize: { xs: '14px', md: '18px' },
+          fontWeight: 700,
+          color: 'primary.main'
+        }}>{data.node.title}</Typography>
+      }
       <Typography sx={{
-        fontSize: { xs: '14px', md: '18px' },
-        fontWeight: 700,
-        color: 'primary.main'
-      }}>Todays</Typography>
-      <Typography sx={{
-        fontSize: { xs: '24px', md: '32px' },
+        fontSize: { xs: '20px', md: '26px' },
         fontWeight: 600,
         mb: { xs: 1, md: 2 }
       }}>{data?.node?.name}</Typography>
@@ -49,12 +52,16 @@ const ProductCard = ({ data }) => {
           <Typography sx={{ fontSize: '12px', ml: 1 }}>{JSON.parse(data.node.contains)}</Typography>
         </Box>
       }
-      <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
-        <CButton variant='contained' color='light' style={{ flex: 1, height: { xs: '45px', md: '56px', fontSize: { xs: '14px', md: '16px' } } }}>
-          from<b style={{ marginLeft: '5px' }}>${data.node.priceWithTax}</b>, per person
-        </CButton>
+      <Stack direction='row' gap={1}>
+        <Typography sx={{ flex: 1, 
+          bgcolor: 'light.main',
+          paddingY:'8px',
+          borderRadius: '4px',
+          textAlign:'center',
+          color:'black'
+          }}>NOK {data.node.priceWithTax}</Typography>
         <Link to='/search'>
-          <CButton style={{ height: { xs: '45px', md: '56px', fontSize: { xs: '14px', md: '16px' } } }} variant='contained' color='secondary'>
+          <CButton style={{ }} variant='contained' color='secondary'>
             Get Stared
           </CButton>
         </Link>

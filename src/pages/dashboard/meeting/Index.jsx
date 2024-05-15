@@ -1,11 +1,10 @@
 import { Add, BorderColor, DateRangeOutlined, Delete, DeleteForeverOutlined, DeleteOutline, EditOutlined, LockOpenOutlined, LockOutlined, ModeEditOutlineOutlined, MoreHoriz, MoreVert, Remove, ScheduleOutlined, Search } from '@mui/icons-material'
 import { Avatar, Box, Button, FormControl, IconButton, Input, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import NewMeeting from './NewMeeting';
-import CDialog from '../../common/dialog/CDialog';
 import EditMeeting from './EditMeeting';
-import DataTable from '../../components/dashboard/DataTable';
+import CDialog from '../../../common/dialog/CDialog';
+import DataTable from '../../../components/dashboard/DataTable';
+import { useState } from 'react';
 
 const rows = [
   { id: '987', name: 'Phoenix Baker', username: 'phoenix11', email: 'phoenix@untitledui.com', type: 'Remote', meetingDate: '10 Feb, 2023', meetingTime: '3.00pm', startIn: '22hours', status: 'upcoming' },
@@ -135,7 +134,7 @@ const Meeting = () => {
           px: 1
         }}>10 meetings</Typography>
       </Stack>
-      <Stack direction='row' justifyContent='space-between' mt={3} sx={{ height: '40px' }}>
+      <Stack direction={{xs:'column',md: 'row'}} gap={2} justifyContent='space-between' mt={3} sx={{ height: '40px' }}>
         <Box sx={{ minWidth: 200 }}>
           <FormControl size='small' fullWidth>
             <InputLabel>Filter</InputLabel>
@@ -172,7 +171,7 @@ const Meeting = () => {
           </Stack>
         </Box>
       </CDialog>
-      <Box mt={3}>
+      <Box mt={{xs:10,md:3}}>
         <DataTable
           columns={columns}
           rows={rows}

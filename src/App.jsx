@@ -22,7 +22,7 @@ import EmailVerification from './pages/emailVerification/EmailVerification'
 import PassReset from './pages/passReset/PassReset'
 import { useQuery } from '@apollo/client'
 import { ME } from './graphql/query'
-import Meeting from './pages/meeting/Index'
+import Meeting from './pages/dashboard/meeting/Index'
 
 function App() {
 
