@@ -13,7 +13,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const HaveQ = () => {
+const Contact = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   function handleOpenDialog() {
@@ -43,10 +43,12 @@ const HaveQ = () => {
         </Box>
         <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du fortsatt spørsmål?</Typography>
         <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelige på chat, eller så kan du ringe tråden når som helst</Typography>
-        <CButton onClick={handleOpenDialog} variant='contained' style={{ height: { xs: '37px', md: '56px' }, mt: 3, width: '150px' }}>
-          Kontakt Oss
-        </CButton>
-        <Dialog
+        <a href="https://wa.me/+4748306377" target='blank'>
+          <CButton variant='contained' style={{ height: { xs: '37px', md: '56px' }, mt: 3, width: '150px' }}>
+            Kontakt Oss
+          </CButton>
+        </a>
+        {/* <Dialog
           // onClose={handleCloseDialog}
           aria-labelledby="customized-dialog-title"
           open={openDialog}
@@ -81,10 +83,10 @@ const HaveQ = () => {
               </Stack>
             </FormGroup>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </Stack>
     </Container>
   )
 }
 
-export default HaveQ
+export default Contact

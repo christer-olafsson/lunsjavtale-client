@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/home/Home'
 import NotFound from './pages/notFound/Index'
 import Search from './pages/search/Search'
@@ -22,6 +22,7 @@ import EmailVerification from './pages/emailVerification/EmailVerification'
 import PassReset from './pages/passReset/PassReset'
 import { useQuery } from '@apollo/client'
 import { ME } from './graphql/query'
+import Meeting from './pages/meeting/Index'
 
 function App() {
 
@@ -29,6 +30,11 @@ function App() {
   const { data: user } = useQuery(ME, {
     skip: !token
   });
+
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     setToken(localStorage.getItem('token'))
@@ -49,8 +55,12 @@ function App() {
           <Route path='/dashboard/myside/checkout' element={<Checkout />} />
           <Route path='/dashboard/complete' element={<OrderComplete />} />
           {
-            (user?.me.role === 'owner' || user?.me.role === 'manager') &&
-            <Route path='/dashboard/manage-staff' element={<ManageStaff />} />
+            (user?.me.role === 'owner' || user?.me.role === 'manager') && (
+              <>
+                <Route path='/dashboard/manage-staff' element={<ManageStaff />} />
+                <Route path='/dashboard/meetings' element={<Meeting />} />
+              </>
+            )
           }
           <Route path='/dashboard/products' element={<Products />} />
           <Route path='/dashboard/products/cart' element={<ProductCartPage />} />

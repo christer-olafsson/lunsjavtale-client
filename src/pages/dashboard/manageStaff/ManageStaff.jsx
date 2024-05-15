@@ -23,7 +23,8 @@ const ManageStaff = () => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
   const [editStaffData, setEditStaffData] = useState({});
-  const [deleteStaffData, setDeleteStaffData] = useState({email:'',fileId:''})
+  const [deleteStaffData, setDeleteStaffData] = useState({email:'',fileId:''});
+  const [loadingFiledelete, setLoadingFileDelete] = useState(false)
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -47,7 +48,9 @@ const ManageStaff = () => {
   });
 
   const handlStaffDelete = async () => {
+    setLoadingFileDelete(true)
     await deleteFile(deleteStaffData.fileId);
+    setLoadingFileDelete(false)
     userDelete({
       variables: {
         email: deleteStaffData.email
@@ -212,7 +215,7 @@ const ManageStaff = () => {
         <Typography variant='h5'>Confirm Remove?</Typography>
         <DialogActions>
           <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Cancel</Button>
-          <CButton isLoading={userDeleteLoading} onClick={handlStaffDelete} variant='contained'>Confirm</CButton>
+          <CButton isLoading={userDeleteLoading || loadingFiledelete} onClick={handlStaffDelete} variant='contained'>Confirm</CButton>
         </DialogActions>
       </CDialog>
       <Box>

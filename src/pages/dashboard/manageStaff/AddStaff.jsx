@@ -11,13 +11,13 @@ import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import toast from 'react-hot-toast';
 import { ME } from '../../../graphql/query';
 import { uploadFile } from '../../../utils/uploadFile';
+import { deleteFile } from '../../../utils/deleteFile';
 
 
 const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const [file, setFile] = useState(null);
   const [selectedAllergiesId, setSelectedAllergiesId] = useState([]);
   const [allAllergies, setAllAllergies] = useState([]);
-  const [role, setRole] = useState('');
   const [errors, setErrors] = useState({});
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
   const [allergySecOpen, setAllergySecOpen] = useState(false)
@@ -33,7 +33,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const { data: user } = useQuery(ME)
 
   const handleRoleChange = (event) => {
-    setRole(event.target.value);
+    setPayload({...payload, role: event.target.value});
   };
 
   const [createStaff, { loading: createStaffLoading }] = useMutation(CREATE_COMPANY_STAFF, {
@@ -56,6 +56,22 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   });
 
   const handleAddStaff = async () => {
+    if(!payload.username){
+      setErrors({username: 'User Name required!'});
+      return
+    }
+    if(!payload.email){
+      setErrors({email: 'Email required!'});
+      return
+    }
+    if(!payload.role){
+      setErrors({role: 'User Role required!'});
+      return
+    }
+    if(!payload.phone){
+      setErrors({phone: 'Phone number required!'});
+      return
+    }
     let photoUrl = '';
     let fileId = '';
     if (file) {
@@ -71,7 +87,6 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
           ...payload,
           photoUrl,
           fileId,
-          role,
           allergies: selectedAllergiesId
         }
       }
@@ -137,7 +152,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
               <FormControl error={Boolean(errors.role)} size='small' fullWidth>
                 <InputLabel>Staff Role</InputLabel>
                 <Select
-                  value={role}
+                  value={payload.role}
                   label="Staff Role"
                   onChange={handleRoleChange}
                 >

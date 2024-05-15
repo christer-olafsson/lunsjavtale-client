@@ -7,9 +7,9 @@ import LogoSlide from '../../components/home/LogoSlide'
 import CategoryTab from '../../components/home/CategoryTab'
 import CreateProfile from '../../components/home/CreateProfile'
 import FAskedQ from '../../components/home/FAskedQ'
-import HaveQ from '../../components/home/HaveQ'
 import InstagramSec from '../../components/home/InstagramSec'
 import Footer from '../../components/home/Footer'
+import Contact from '../../components/home/Contact'
 
 const Home = () => {
   return (
@@ -22,7 +22,7 @@ const Home = () => {
       <CategoryTab/>
       <CreateProfile/>
       <FAskedQ/>
-      <HaveQ/>
+      <Contact/>
       <InstagramSec/>
       <Footer/>
     </div>
