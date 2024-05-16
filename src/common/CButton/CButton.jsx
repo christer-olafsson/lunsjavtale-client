@@ -12,6 +12,7 @@ const CButton = (props) => {
         height: '40px',
         fontSize: '16px',
         borderRadius: '4px',
+        whiteSpace:'nowrap',
         // border: '1px solid lightgray',
         position: "relative",
         ...props.style,
