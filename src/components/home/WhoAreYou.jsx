@@ -62,7 +62,7 @@ function WhoAreYou() {
   return (
     <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 } }}>
       <Typography sx={{ fontSize: { xs: '22px', md: '32px' }, fontWeight: 600, textAlign: 'center', mb: 2 }}>Hvem er du?</Typography>
-      <Typography sx={{ fontSize: { xs: '16px', md: '24px' }, fontWeight: 500, textAlign: 'center', mb: 6 }}>Lunsjkollektivet gir deg kantinen rett i lomma</Typography>
+      <Typography sx={{ fontSize: { xs: '16px', md: '24px' }, fontWeight: 500, textAlign: 'center', mb: 6 }}>lunsjavtale gir deg kantinen rett i lomma</Typography>
       <Stack direction='row' sx={{
         mb: { xs: 3, md: 10 },
         justifyContent: 'center',
@@ -115,7 +115,7 @@ function WhoAreYou() {
               }
             </List>
             <Link to='/search'>
-              <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Få start</CButton>
+              <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Bli kunde</CButton>
             </Link>
           </Stack>
           <Stack sx={{
@@ -195,7 +195,7 @@ function WhoAreYou() {
             </List>
             <Stack direction='row ' gap={2}>
               <Link to='/search'>
-                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Få start</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
               <CButton variant='outlined' style={{ height: { xs: '45px', md: '56px' }, width: '136px' }}>Tips sjefen</CButton>
             </Stack>

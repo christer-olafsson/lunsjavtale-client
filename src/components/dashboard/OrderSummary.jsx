@@ -4,12 +4,15 @@ import React, { useState } from 'react'
 import CDialog from '../../common/dialog/CDialog';
 import { useTheme } from '@emotion/react';
 import { Link, useLocation } from 'react-router-dom';
+import { ME } from '../../graphql/query';
+import { useQuery } from '@apollo/client';
 
 const OrderSummary = () => {
   const [allowanceDialog, setAllowanceDialog] = useState(false);
   const [allowanceValue, setAllowanceValue] = useState('0%');
 
   const { pathname } = useLocation();
+  const { data: user } = useQuery(ME)
 
   const isMySideCartPage = pathname === '/dashboard/myside/cart';
   const isProductCartPage = pathname === '/dashboard/products/cart';
@@ -23,8 +26,8 @@ const OrderSummary = () => {
   return (
     <Stack sx={{
       flex: 1,
-      mt: {xs:6,lg:0},
-      mb:6,
+      mt: { xs: 6, lg: 0 },
+      mb: 6,
       border: isMySideCartPage || isProductCartPage ? '' : `1px solid ${theme.palette.primary.main}`,
       borderRadius: '8px'
     }}>
@@ -34,9 +37,9 @@ const OrderSummary = () => {
         p: 2, mt: 2,
         display: isMySideCartPage || isProductCartPage ? 'none' : 'flex'
       }} direction='row' justifyContent='space-between'>
-        <Typography sx={{flex:1, fontWeight: 600, fontSize: '14px' }}>Product</Typography>
-        <Typography sx={{flex:1, fontWeight: 600, fontSize: '14px' }}>Product Info</Typography>
-        <Typography sx={{flex:1, fontWeight: 600, fontSize: '14px' }}>Price</Typography>
+        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: '14px' }}>Product</Typography>
+        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: '14px' }}>Product Info</Typography>
+        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: '14px' }}>Price</Typography>
       </Stack>
 
       {/* company allowance dialog */}
@@ -125,9 +128,10 @@ const OrderSummary = () => {
         </Stack>
       </Stack>
       {
-        pathname === '/dashboard/complete' ?
+        (user?.me.role === 'owner' || user?.me.role === 'manager') &&
+        (pathname === '/dashboard/complete' ?
           <Button disableRipple sx={{ mx: 4 }} variant='outlined'>Company Allowance {allowanceValue}</Button> :
-          <Button sx={{mx: isMySideCartPage ? 0 : 4  }} onClick={() => setAllowanceDialog(true)} endIcon={<Edit />} variant='outlined'>Company Allowance {allowanceValue}</Button>
+          <Button sx={{ mx: isMySideCartPage ? 0 : 4 }} onClick={() => setAllowanceDialog(true)} endIcon={<Edit />} variant='outlined'>Company Allowance {allowanceValue}</Button>)
       }
       <Stack sx={{
         bgcolor: 'light.main',

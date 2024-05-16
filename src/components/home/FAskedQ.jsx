@@ -13,10 +13,10 @@ const FAskedQ = () => {
         py: '12px', px: '24px',
         borderRadius: '8px', mb: 2
       }} >
-        See if we deliver to you
+        Se om vi leverer til deg
       </Box>
-      <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>Frequently Asked Questions</Typography>
-      <Typography alignSelf='center'>The lunch collective is a digital canteen that makes lunch easier (and smarter)!</Typography>
+      <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>Ofte stilte spørsmål</Typography>
+      <Typography alignSelf='center'>Lunsjavtalen er en digital kantine som gjør lunsjen enklere (og smartere)!</Typography>
 
       <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 0, md: 5 }} mt={{ xs: 2, md: 10 }}>
         <Box sx={{ flex: 1 }}>
@@ -27,10 +27,10 @@ const FAskedQ = () => {
               id="panel1-header"
               sx={{ fontWeight: 'bold', color: 'primary.main', p: 0 }}
             >
-              Company agreement - Administrator
+              Firmaavtale - Administrator
             </AccordionSummary>
             <AccordionDetails sx={{ p: 0 }}>
-            Are you a company administrator and want to manage your company's profile? Log in to your profile > select company agreement in the blue circle in the right corner. / Add employees: Company agreement > settings > employees in the agreement. Paste the email address of the employee in the field at the bottom > add. / Change orders for one or more of the employees: Company agreement > settings > employees in the agreement > select the one or those who will not have lunch > select your action and date from - to > confirm. Here you can also cancel subscriptions for employees who have quit or will be away for a longer period.
+            Er du en bedriftsadministrator og ønsker å administrere bedriftens profil? Logg inn på din profil > velg firmaavtale i den blå sirkelen i høyre hjørne. / Legg til ansatte: Firmaavtale > innstillinger > ansatte i avtalen. Lim inn e-postadressen til den ansatte i feltet nederst > legg til. / Endre bestillinger for en eller flere av de ansatte: Firmaavtale > innstillinger > ansatte i avtalen > velg den eller de som ikke skal spise lunsj > velg din handling og dato fra - til > bekreft. Her kan du også si opp abonnement for ansatte som har sluttet eller skal være borte i en lengre periode.
             </AccordionDetails>
           </Accordion>
 

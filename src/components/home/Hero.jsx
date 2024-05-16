@@ -65,8 +65,8 @@ const Hero = () => {
               mt: { xs: 5, md: 0 },
               fontSize: { xs: '32px', md: '68px' },
               fontWeight: 800,
-              lineHeight: { xs: '40px', md: '60px' },
-            }}>Den neste generasjonen<br /> av arbeidslunsjer</Typography>
+              lineHeight: { xs: '40px', md: '80px' },
+            }}>Nytt lunsjkonsept på arbeidsplassen</Typography>
             <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 1 }}>La ansatte styre sin egen lunsj med bare noen få tastetrykk. Kutt administrasjon, kostnader og matsvinn, samtidig som ansatte får levert akkurat den lunsjen de ønsker.</Typography>
 
             <Stack direction='row' alignItems='center' gap={2} justifyContent={{ xs: 'center', sm: 'space-around', lg: 'space-between' }}>
