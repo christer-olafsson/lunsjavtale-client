@@ -81,7 +81,7 @@ function WhoAreYou() {
           }}
         >
           <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Sjefen"} />
-          <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Ansatt"} />
+          <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Arbeidsgiver"} />
           <TabItem style={{ borderRadius: "30px" }} disableRipple label={"Lunsjsjef"} />
         </Tabs>
       </Stack>
