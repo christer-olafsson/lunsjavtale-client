@@ -81,7 +81,7 @@ function WhoAreYou() {
           }}
         >
           <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Sjefen"} />
-          <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Arbeidsgiver"} />
+          <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Ansatt"} />
           <TabItem style={{ borderRadius: "30px" }} disableRipple label={"Lunsjsjef"} />
         </Tabs>
       </Stack>
@@ -170,7 +170,7 @@ function WhoAreYou() {
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
-            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Arbeidsgiver</Typography>
+            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Ansatt</Typography>
             <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Velg mellom 12 ulike lunsjretter hver dag</Typography>
             <Typography mb={1}>Her er det garantert noe alle liker – og nye retter på menyen hver eneste dag! Vi kan ikke fikse alt, men vi kan arrangere en stressfri pause og sørge for at du får mat som ikke bare er bra, men også bra for kroppen.</Typography>
             <List>
