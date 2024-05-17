@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
+html{
+  scroll-behavior: smooth;
+}
+
 /* button hover effect */
 .btn41-43 {
   transition: all 0.3s ease;

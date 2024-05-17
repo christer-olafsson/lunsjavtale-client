@@ -117,3 +117,19 @@ export const CHECk_POST_CODE = gql`
     checkPostCode(postCode: $postCode)
   }
 `
+export const SUPPORTED_BRANDS = gql`
+  query{
+  supportedBrands{
+    edges{
+      node{
+        id
+        name
+        siteUrl
+        logoUrl
+        fileId
+        isActive
+      }
+    }
+  }
+}
+`
