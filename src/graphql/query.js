@@ -133,3 +133,23 @@ export const SUPPORTED_BRANDS = gql`
   }
 }
 `
+
+export const PROMOTIONS = gql`
+  query{
+    promotions{
+      edges{
+        node{
+          id
+          title
+          description
+          photoUrl
+          fileId
+          productUrl
+          startDate
+          endDate
+          isActive
+        }
+      }
+  }
+}
+`

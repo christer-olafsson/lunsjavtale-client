@@ -1,13 +1,17 @@
+/* eslint-disable react/prop-types */
 import { Box, Button, Checkbox, Container, FormControl, FormControlLabel, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CButton from '../../common/CButton/CButton'
 import { Link, useNavigate } from 'react-router-dom'
 import { Google, KeyboardArrowLeft, Visibility, VisibilityOff } from '@mui/icons-material';
 import Carousel from 'react-multi-carousel';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { LOGIN_USER, PASSWORD_RESET } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import { SEND_VERIFICATION_MAIL } from '../search/graphql/mutation';
+import { PROMOTIONS } from '../../graphql/query';
+import Loader from '../../common/loader/Index';
+import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
 
 
 const responsive = {
@@ -29,7 +33,8 @@ const responsive = {
   }
 };
 
-const SlideItem = () => {
+const SlideItem = ({ data }) => {
+
   return (
     <Stack sx={{ maxWidth: '521px' }}>
       <Box sx={{
@@ -37,10 +42,18 @@ const SlideItem = () => {
         borderRadius: '8px',
         overflow: 'hidden'
       }}>
-        <img style={{ width: '100%', height: '100%', borderRadius: '8px' }} src="/Group121.png" alt="" />
+        <Box sx={{
+          width: '100%',
+          height: '250px',
+          borderRadius: '8px',
+          overflow: 'hidden'
+        }}>
+          <img style={{ width: '100%', height: '100%', borderRadius: '8px' }}
+            src={data?.node?.photoUrl ? data?.node?.photoUrl : '/noImage.png'} alt="" />
+        </Box>
       </Box>
-      <Typography sx={{ fontSize: { xs: '18px', md: '32px' }, fontWeight: 700, mt: { xs: 1, md: 2 }, textAlign: 'center' }}>Welcome to Lunsjavtale Restaurant. </Typography>
-      <Typography sx={{ fontSize: '14px', fontWeight: 400, mt: { xs: 1, md: 3 }, textAlign: 'center' }}>Complementing the exquisite cuisine is Lunsjavtale's thoughtfully curated selection of wines and spirits.</Typography>
+      <Typography sx={{ fontSize: { xs: '18px', md: '32px' }, fontWeight: 700, mt: { xs: 1, md: 2 }, textAlign: 'center' }}>{data.node.title}</Typography>
+      <Typography sx={{ fontSize: '14px', fontWeight: 400, mt: { xs: 1, md: 3 }, textAlign: 'center' }}>{data.node.description}</Typography>
     </Stack>
   )
 }
@@ -53,6 +66,14 @@ const Login = (props) => {
   const [emailNotReceivedSecOpen, setEmailNotReceivedSecOpen] = useState(false)
   const [disableResendBtn, setDisableResendBtn] = useState(false);
   const [forgotEmail, setForgotEmail] = useState({ email: '' });
+  const [promotions, setPromotions] = useState([])
+
+
+  const { loading: promotionLoading, error: promotionErr } = useQuery(PROMOTIONS, {
+    onCompleted: (res) => {
+      setPromotions(res.promotions.edges)
+    }
+  })
 
 
 
@@ -184,34 +205,37 @@ const Login = (props) => {
         background: { xs: 'none', md: `linear-gradient(90deg, #EDF3FF 0%, #FFE8D7 100%, #F0FFDF 100%)` }
       }}>
         <Box sx={{ width: { xs: '100%', md: '500px' } }}>
-          <Carousel
-            swipeable={true}
-            // draggable={true}
-            showDots={true}
-            arrows={false}
-            rewindWithAnimation={true}
-            rewind={true}
-            responsive={responsive}
-            infinite={true}
-            renderButtonGroupOutside={true}
-            autoPlay={true}
-            autoPlaySpeed={2000}
-            keyBoardControl={true}
-            customTransition="all 1s"
-            transitionDuration={1000}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={["tablet", "mobile"]}
-            deviceType={props.deviceType}
-          >
+          {
+            promotionLoading ? <Loader /> : promotionErr ? <ErrorMsg /> :
+              <Carousel
+                swipeable={true}
+                // draggable={true}
+                showDots={true}
+                arrows={false}
+                rewindWithAnimation={true}
+                rewind={true}
+                responsive={responsive}
+                infinite={true}
+                renderButtonGroupOutside={true}
+                autoPlay={true}
+                autoPlaySpeed={3000}
+                keyBoardControl={true}
+                customTransition="all 1s"
+                transitionDuration={1000}
+                containerClass="carousel-container"
+                removeArrowOnDeviceType={["tablet", "mobile"]}
+                deviceType={props.deviceType}
+              >
 
-            {
-              [1, 2, 3].map((item, id) => (
-                <Box key={id} px={1} py={5}>
-                  <SlideItem />
-                </Box>
-              ))
-            }
-          </Carousel>
+                {
+                  promotions.map(data => (
+                    <Box key={data.node.id} py={5}>
+                      <SlideItem data={data} />
+                    </Box>
+                  ))
+                }
+              </Carousel>
+          }
         </Box>
 
       </Stack>
@@ -226,16 +250,16 @@ const Login = (props) => {
 
                 <Button onClick={() => setForgotePassSecOpen(false)} sx={{
                   color: 'gray',
-                  fontSize:'22px',
+                  fontSize: '22px',
                   mb: 2,
                 }} startIcon={<KeyboardArrowLeft />}> Back </Button>
               </Stack>
               {
                 passResetData ?
                   <Typography sx={{
-                    bgcolor:'light.main',
-                    borderRadius:'8px',
-                    px:2,py:1,color:'primary.main'
+                    bgcolor: 'light.main',
+                    borderRadius: '8px',
+                    px: 2, py: 1, color: 'primary.main'
                   }}>{passResetData.passwordResetMail.message}</Typography> :
                   <Stack>
                     <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Forgote Password?</Typography>
