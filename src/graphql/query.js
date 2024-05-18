@@ -66,6 +66,7 @@ query{
                 node{
                   id
                   fileUrl
+                  isCover
                 }
               }
             }
@@ -151,5 +152,20 @@ export const PROMOTIONS = gql`
         }
       }
   }
+}
+`
+
+export const FAQ_LIST = gql`
+  query{
+    FAQList{
+      edges{
+        node{
+          id
+          question
+          answer
+          isActive
+        }
+      }
+    }
 }
 `
