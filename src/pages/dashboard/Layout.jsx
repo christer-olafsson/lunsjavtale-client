@@ -133,8 +133,7 @@ function Layout() {
       setMobileOpen(!mobileOpen);
     }
   };
-
-
+  console.log(user)
   const drawer = (
     <Box sx={{
       display: 'flex',
@@ -154,7 +153,7 @@ function Layout() {
           </Box>
         </Link>
       </Toolbar>
-      <Typography sx={{
+      <Stack justifyContent='center' sx={{
         padding: '16px 12px',
         maxWidth: '200px',
         width: '100%',
@@ -165,7 +164,9 @@ function Layout() {
         fontWeight: 500,
         textAlign: 'center',
         m: 3
-      }}><b>Deal:</b> {user?.me.company.name}</Typography>
+      }}>
+        <Typography><b>Deal:</b> {user?.me.company.name}</Typography>
+      </Stack>
       <Stack>
         <Typography sx={{
           color: '#C2C2C2',
@@ -259,8 +260,8 @@ function Layout() {
                 <IconButton onClick={() => (
                   setOpenEmail(!openEmail),
                   setOpenNotification(false)
-                )} sx={{ color: 'gray.main' }}>
-                  <Badge badgeContent={4} color="error">
+                )} sx={{ color: 'darkgray' }}>
+                  <Badge badgeContent={0} color="error">
                     <MailOutline />
                   </Badge>
                 </IconButton>
@@ -291,7 +292,7 @@ function Layout() {
                 <IconButton onClick={() => (
                   setOpenNotification(!openNotification),
                   setOpenEmail(false)
-                )} sx={{ color: 'gray.main' }} color="inherit"
+                )} sx={{ color: 'darkgray' }} color="inherit"
                 >
                   <Badge badgeContent={0} color="error">
                     <NotificationsNone />
@@ -319,13 +320,23 @@ function Layout() {
             {/* user menu */}
             <Box>
               <IconButton
+              disableRipple
                 onClick={handleUserMenuOpen}
                 size="small"
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Avatar src={user?.me.photoUrl ? user?.me.photoUrl : ''} sx={{ width: 32, height: 32 }}>M</Avatar>
+                <Avatar src={user?.me.photoUrl ? user?.me.photoUrl : ''} sx={{ width: 32, height: 32 }} />
+                <Box ml={1}>
+                  <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{user?.me.username}</Typography>
+                  <Typography sx={{
+                    fontSize: '12px',
+                    bgcolor: user?.me.role === 'manager' ? 'primary.main' : user?.me.role === 'owner' ? 'purple' : 'gray.main',
+                    px: 1, borderRadius: '50px',
+                    color: user?.me.role === 'manager' ? '#fff' : user?.me.role === 'owner' ? '#fff' : 'inherit',
+                  }}>{user?.me.role}</Typography>
+                </Box>
               </IconButton>
               <Menu
                 anchorEl={userMenuOpen}
