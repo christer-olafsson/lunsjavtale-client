@@ -11,7 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Logout, MailOutline, NotificationsNone, PeopleAltOutlined, Search, Settings, SettingsOutlined, ViewStreamOutlined } from '@mui/icons-material';
+import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Logout, MailOutline, NotificationsNone, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
 import { Avatar, Badge, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
@@ -168,23 +168,18 @@ function Layout() {
         <Typography><b>Deal:</b> {user?.me.company.name}</Typography>
       </Stack>
       <Stack>
-        <Typography sx={{
-          color: '#C2C2C2',
-          textTransform: 'uppercase',
-          fontSize: '14px', mb: 2, mt: 2
-        }}>Jacqueline Hellestøl</Typography>
-        <ListBtn onClick={handleDrawerClose} notification={''} link='/dashboard/myside' icon={<DoubleArrow />} text='My Side'
+        <ListBtn onClick={handleDrawerClose} notification={''} link='/dashboard/myside' icon={<SpaceDashboardOutlined />} text='My Side'
           selected={pathname === '/dashboard/myside' || pathname === '/dashboard/myside/cart' || pathname === '/dashboard/myside/checkout' || pathname === '/dashboard/myside/complete'} />
         {
           (user?.me.role === 'owner' || user?.me.role === 'manager') &&
           <ListBtn onClick={handleDrawerClose} link='/dashboard/manage-staff' icon={<PeopleAltOutlined />} text='Manage Staff'
             selected={pathname === '/dashboard/manage-staff'} />
         }
-        <Typography sx={{
+        {/* <Typography sx={{
           color: '#C2C2C2',
           textTransform: 'uppercase',
           fontSize: '14px', my: 2
-        }}>Company</Typography>
+        }}>Company</Typography> */}
         {
           (user?.me.role === 'owner' || user?.me.role === 'manager') &&
           <ListBtn onClick={handleDrawerClose}

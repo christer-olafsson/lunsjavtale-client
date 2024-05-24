@@ -1,23 +1,23 @@
 /* eslint-disable react/prop-types */
-import { Close } from '@mui/icons-material'
-import { Avatar, Box, Button, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
+import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material'
+import { Autocomplete, Avatar, Box, Checkbox, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CButton from '../../../common/CButton/CButton';
-import { useTheme } from '@emotion/react';
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_COMPANY_STAFF } from './graphql/mutation';
 import { GET_INGREDIENTS } from './graphql/query';
-import Loader from '../../../common/loader/Index';
-import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import toast from 'react-hot-toast';
 import { uploadFile } from '../../../utils/uploadFile';
 import { deleteFile } from '../../../utils/deleteFile';
 
 
+const icon = <CheckBoxOutlineBlank fontSize="small" />;
+const checkedIcon = <CheckBox fontSize="small" />;
+
 const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
   const [file, setFile] = useState(null);
-  const [selectedAllergiesId, setSelectedAllergiesId] = useState([]);
-  const [allergies, setAllergies] = useState([]);
+  const [selectedAllergies, setSelectedAllergies] = useState([]);
+  const [allAllergies, setAllAllergies] = useState([]);
   const [role, setRole] = useState('');
   const [errors, setErrors] = useState({});
   const [fileUploadLoading, setFileUploadLoading] = useState(false)
@@ -36,7 +36,7 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
 
 
   const [editStaff, { loading: editStaffLoading }] = useMutation(CREATE_COMPANY_STAFF, {
-    onCompleted: (res) => {
+    onCompleted: () => {
       toast.success('Successfully Updated!');
       getCompanyStaffs()
       closeDialog()
@@ -47,12 +47,18 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
         const { extensions } = graphqlError;
         if (extensions && extensions.errors) {
           setErrors(extensions.errors)
-          // setErrors(Object.values(extensions.errors));
-          // const { name, workingEmail, email, contact, password } = extensions.errors;
         }
       }
     }
   });
+
+  //get all allergies
+  useQuery(GET_INGREDIENTS, {
+    onCompleted: (res) => {
+      setAllAllergies(res.ingredients.edges.map(item => item.node))
+    }
+  })
+
 
 
   const handleEditStaff = async () => {
@@ -74,38 +80,20 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
           role,
           photoUrl,
           fileId,
-          allergies: selectedAllergiesId,
+          allergies: selectedAllergies.map(item => item.id),
           id: parseInt(data.id)
         }
       }
     });
   };
 
-  //get all allergies
-  const { error: ingredientErr, loading: ingredientLoading } = useQuery(GET_INGREDIENTS, {
-    onCompleted: (res) => {
-      setAllergies(res.ingredients.edges)
-    }
-  })
-
-
   const handleInputChange = (e) => {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   }
 
-  const theme = useTheme()
-
-  const toggleAllergy = (allergy) => {
-    const isSelected = selectedAllergiesId.includes(allergy);
-    if (isSelected) {
-      setSelectedAllergiesId(selectedAllergiesId.filter(item => item !== allergy));
-    } else {
-      setSelectedAllergiesId([...selectedAllergiesId, allergy]);
-    }
-  };
 
   useEffect(() => {
-    setSelectedAllergiesId(data.allergies.edges.map(item => item.node.id))
+    setSelectedAllergies(data.allergies.edges.map(item => item.node))
     setPayload({
       firstName: data.firstName,
       lastName: data.lastName,
@@ -166,41 +154,29 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
         </Stack>
       </FormGroup>
 
-      <Box mt={2}>
-        <Typography variant='h6' mb={1}>Allergies</Typography>
-        {
-          <Stack direction='row' flexWrap='wrap'>
-            {ingredientLoading ? <Loader /> : ingredientErr ? <ErrorMsg /> : allergies.map((allergy, index) => (
-              <Box
-                key={index}
-                onClick={() => toggleAllergy(allergy.node.id)}
-                sx={{
-                  padding: { xs: '3px 5px', md: '6px 10px' },
-                  margin: '5px',
-                  cursor: 'pointer',
-                  border: `1px solid ${theme.palette.primary.main}`,
-                  borderRadius: '8px',
-                  color: selectedAllergiesId.includes(allergy.node.id) ? '#fff' : 'inherit',
-                  bgcolor: selectedAllergiesId.includes(allergy.node.id) ? 'primary.main' : 'transparent',
-                  userSelect: 'none'
-                }}
-              >
-                <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{allergy.node.name}</Typography>
-              </Box>
-            ))}
-          </Stack>
-        }
-      </Box>
-
-      {/* <Box sx={{
-        padding: { xs: '5px 10px', md: '12px 24px' },
-        border: `1px solid ${theme.palette.primary.main}`,
-        borderRadius: '8px', mt: 2,
-        textAlign: 'center'
-      }}>
-        <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Nuts (almonds, hazelnuts, walnuts, cashews, pecans, pistachios, brazil nuts and
-          macadamia nuts)</Typography>
-      </Box> */}
+      <Autocomplete
+        size='small'
+        multiple
+        options={allAllergies}
+        disableCloseOnSelect
+        value={selectedAllergies}
+        getOptionLabel={(option) => option.name}
+        onChange={(event, value) => setSelectedAllergies(value.map(item => item))}
+        renderOption={(props, option, { selected }) => (
+          <li {...props}>
+            <Checkbox
+              icon={icon}
+              checkedIcon={checkedIcon}
+              style={{ marginRight: 8 }}
+              checked={selected}
+            />
+            {option.name}
+          </li>
+        )}
+        renderInput={(params) => (
+          <TextField {...params} label="Select Allergies" />
+        )}
+      />
 
       <CButton isLoading={editStaffLoading || fileUploadLoading} onClick={handleEditStaff} variant='contained' style={{ width: '100%', mt: 2, height: { xs: '45px', md: '45px' } }}>
         Update

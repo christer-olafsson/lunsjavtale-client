@@ -1,24 +1,25 @@
-import { CheckBox, CheckBoxOutlineBlank, Delete } from '@mui/icons-material'
-import { Autocomplete, Avatar, Box, Button, Checkbox, FormControl, FormGroup, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material'
+import { Autocomplete, Avatar, Box, Checkbox, FormControl, FormGroup, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
 import CButton from '../../../../common/CButton/CButton'
 import { useMutation, useQuery } from '@apollo/client'
 import { GENERAL_PROFILE_UPDATE } from './graphql/mutation'
 import { ME } from '../../../../graphql/query'
 import toast from 'react-hot-toast'
 import { GET_INGREDIENTS } from '../../manageStaff/graphql/query'
-import Loader from '../../../../common/loader/Index'
-import ErrorMsg from '../../../../common/ErrorMsg/ErrorMsg'
 import { uploadFile } from '../../../../utils/uploadFile'
 import { deleteFile } from '../../../../utils/deleteFile'
 
+
+const icon = <CheckBoxOutlineBlank fontSize="small" />;
+const checkedIcon = <CheckBox fontSize="small" />;
 
 const General = () => {
   const [file, setFile] = useState(null)
   const [payloadEditOn, setPayloadEditOn] = useState(false);
   const [errors, setErrors] = useState([])
-  const [allergies, setAllergies] = useState([]);
-  const [selectedAllergiesId, setSelectedAllergiesId] = useState([]);
+  const [allAllergies, setAllAllergies] = useState([]);
+  const [selectedAllergies, setSelectedAllergies] = useState([]);
   const [fileUploadLoading, setFileUploadLoading] = useState(false)
 
 
@@ -34,16 +35,6 @@ const General = () => {
   })
 
   const { data: user } = useQuery(ME);
-
-  const toggleAllergy = (allergy) => {
-    const isSelected = selectedAllergiesId.includes(allergy);
-    if (isSelected) {
-      setSelectedAllergiesId(selectedAllergiesId.filter(item => item !== allergy));
-    } else {
-      setSelectedAllergiesId([...selectedAllergiesId, allergy]);
-    }
-  };
-
 
 
   const [profileUpdate, { loading: updateLoading }] = useMutation(GENERAL_PROFILE_UPDATE, {
@@ -68,9 +59,9 @@ const General = () => {
   })
 
   //get all allergies
-  const { error: ingredientErr, loading: ingredientLoading } = useQuery(GET_INGREDIENTS, {
+  useQuery(GET_INGREDIENTS, {
     onCompleted: (res) => {
-      setAllergies(res.ingredients.edges)
+      setAllAllergies(res.ingredients.edges.map(item => item.node))
     }
   });
 
@@ -101,7 +92,7 @@ const General = () => {
           id: user.id,
           postCode: postCodeValue,
           dateOfBirth: dateOfBirthValue,
-          allergies: selectedAllergiesId,
+          allergies: selectedAllergies.map(item => item.id),
           photoUrl,
           fileId
         }
@@ -121,7 +112,7 @@ const General = () => {
       about: user?.me.about ? user.me.about : ''
     });
     if (user?.me.allergies) {
-      setSelectedAllergiesId(user?.me.allergies.edges.map(item => item.node.id))
+      setSelectedAllergies(user?.me.allergies.edges.map(item => item.node))
     }
   }, [user]);
 
@@ -181,26 +172,31 @@ const General = () => {
             payloadEditOn &&
             <Box mt={2}>
               <Typography variant='h6' mb={1}>Allergies</Typography>
-              <Stack direction='row' flexWrap='wrap'>
-                {ingredientLoading ? <Loader /> : ingredientErr ? <ErrorMsg /> : allergies.map((allergy, index) => (
-                  <Box
-                    key={index}
-                    onClick={() => toggleAllergy(allergy.node.id)}
-                    sx={{
-                      padding: { xs: '3px 5px', md: '6px 10px' },
-                      margin: '5px',
-                      cursor: 'pointer',
-                      border: '1px solid lightgray',
-                      borderRadius: '8px',
-                      color: selectedAllergiesId.includes(allergy.node.id) ? '#fff' : 'inherit',
-                      bgcolor: selectedAllergiesId.includes(allergy.node.id) ? 'primary.main' : 'transparent',
-                      userSelect: 'none'
-                    }}
-                  >
-                    <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{allergy.node.name}</Typography>
-                  </Box>
-                ))}
-              </Stack>
+
+              <Autocomplete
+                size='small'
+                multiple
+                options={allAllergies}
+                disableCloseOnSelect
+                value={selectedAllergies}
+                getOptionLabel={(option) => option.name}
+                onChange={(event, value) => setSelectedAllergies(value.map(item => item))}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      icon={icon}
+                      checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }}
+                      checked={selected}
+                    />
+                    {option.name}
+                  </li>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} label="Select Allergies" />
+                )}
+              />
+
             </Box>
           }
           {

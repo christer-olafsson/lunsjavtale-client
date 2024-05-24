@@ -1,18 +1,17 @@
-import { ArrowDropDown, Close } from '@mui/icons-material'
-import { Avatar, Box, Button, Collapse, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
+import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material'
+import { Autocomplete, Avatar, Box, Checkbox, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CButton from '../../../common/CButton/CButton';
-import { useTheme } from '@emotion/react';
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_COMPANY_STAFF } from './graphql/mutation';
 import { GET_INGREDIENTS } from './graphql/query';
-import Loader from '../../../common/loader/Index';
-import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import toast from 'react-hot-toast';
 import { ME } from '../../../graphql/query';
 import { uploadFile } from '../../../utils/uploadFile';
-import { deleteFile } from '../../../utils/deleteFile';
 
+
+const icon = <CheckBoxOutlineBlank fontSize="small" />;
+const checkedIcon = <CheckBox fontSize="small" />;
 
 const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const [file, setFile] = useState(null);
@@ -20,7 +19,6 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const [allAllergies, setAllAllergies] = useState([]);
   const [errors, setErrors] = useState({});
   const [fileUploadLoading, setFileUploadLoading] = useState(false);
-  const [allergySecOpen, setAllergySecOpen] = useState(false)
   const [payload, setPayload] = useState({
     firstName: '',
     lastName: '',
@@ -33,7 +31,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const { data: user } = useQuery(ME)
 
   const handleRoleChange = (event) => {
-    setPayload({...payload, role: event.target.value});
+    setPayload({ ...payload, role: event.target.value });
   };
 
   const [createStaff, { loading: createStaffLoading }] = useMutation(CREATE_COMPANY_STAFF, {
@@ -48,28 +46,34 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
         const { extensions } = graphqlError;
         if (extensions && extensions.errors) {
           setErrors(extensions.errors)
-          // setErrors(Object.values(extensions.errors));
-          // const { name, workingEmail, email, contact, password } = extensions.errors;
         }
       }
     }
   });
 
+  //get all allergies
+  const { error: ingredientErr, loading: ingredientLoading } = useQuery(GET_INGREDIENTS, {
+    onCompleted: (res) => {
+      setAllAllergies(res.ingredients.edges.map(item => item.node))
+    }
+  })
+
+
   const handleAddStaff = async () => {
-    if(!payload.username){
-      setErrors({username: 'User Name required!'});
+    if (!payload.username) {
+      setErrors({ username: 'User Name required!' });
       return
     }
-    if(!payload.email){
-      setErrors({email: 'Email required!'});
+    if (!payload.email) {
+      setErrors({ email: 'Email required!' });
       return
     }
-    if(!payload.role){
-      setErrors({role: 'User Role required!'});
+    if (!payload.role) {
+      setErrors({ role: 'User Role required!' });
       return
     }
-    if(!payload.phone){
-      setErrors({phone: 'Phone number required!'});
+    if (!payload.phone) {
+      setErrors({ phone: 'Phone number required!' });
       return
     }
     let photoUrl = '';
@@ -93,38 +97,13 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
     })
   }
 
-  // const handleDelete = async () => {
-  //   const data = await fileDelete()
-  //   console.log(data)
-  // }
-
-  //get all allergies
-  const { error: ingredientErr, loading: ingredientLoading } = useQuery(GET_INGREDIENTS, {
-    onCompleted: (res) => {
-      setAllAllergies(res.ingredients.edges)
-    }
-  })
-
 
   const handleInputChange = (e) => {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   }
 
-  const theme = useTheme()
-
-  const toggleAllergy = (allergy) => {
-    const isSelected = selectedAllergiesId.includes(allergy);
-    if (isSelected) {
-      setSelectedAllergiesId(selectedAllergiesId.filter(item => item !== allergy));
-    } else {
-      setSelectedAllergiesId([...selectedAllergiesId, allergy]);
-    }
-  };
-
-
   return (
     <Box>
-      {/* <button onClick={handleDelete}>delete staff</button> */}
       <Stack direction='row' justifyContent='space-between' mb={4}>
         <Typography variant='h4'>Add Staff</Typography>
         <IconButton onClick={closeDialog}>
@@ -175,42 +154,28 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
         </Stack>
       </FormGroup>
 
-      <Box >
-        <Button onClick={() => setAllergySecOpen(!allergySecOpen)} variant='outlined' endIcon={<ArrowDropDown />}>Select Allergies</Button>
-        <Collapse in={allergySecOpen}>
-          <Typography variant='h6' mb={1}>Allergies</Typography>
-          <Stack direction='row' flexWrap='wrap'>
-            {ingredientLoading ? <Loader /> : ingredientErr ? <ErrorMsg /> : allAllergies.map((allergy, index) => (
-              <Box
-                key={index}
-                onClick={() => toggleAllergy(allergy.node.id)}
-                sx={{
-                  padding: { xs: '3px 5px', md: '6px 10px' },
-                  margin: '5px',
-                  cursor: 'pointer',
-                  border: `1px solid ${theme.palette.primary.main}`,
-                  borderRadius: '8px',
-                  color: selectedAllergiesId.includes(allergy.node.id) ? '#fff' : 'inherit',
-                  bgcolor: selectedAllergiesId.includes(allergy.node.id) ? 'primary.main' : 'transparent',
-                  userSelect: 'none'
-                }}
-              >
-                <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{allergy.node.name}</Typography>
-              </Box>
-            ))}
-          </Stack>
-        </Collapse>
-      </Box>
-
-      {/* <Box sx={{
-        padding: { xs: '5px 10px', md: '12px 24px' },
-        border: `1px solid ${theme.palette.primary.main}`,
-        borderRadius: '8px', mt: 2,
-        textAlign: 'center'
-      }}>
-        <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Nuts (almonds, hazelnuts, walnuts, cashews, pecans, pistachios, brazil nuts and
-          macadamia nuts)</Typography>
-      </Box> */}
+      <Autocomplete
+        size='small'
+        multiple
+        options={allAllergies}
+        disableCloseOnSelect
+        getOptionLabel={(option) => option.name}
+        onChange={(event, value) => setSelectedAllergiesId(value.map(item => item.id))}
+        renderOption={(props, option, { selected }) => (
+          <li {...props}>
+            <Checkbox
+              icon={icon}
+              checkedIcon={checkedIcon}
+              style={{ marginRight: 8 }}
+              checked={selected}
+            />
+            {option.name}
+          </li>
+        )}
+        renderInput={(params) => (
+          <TextField {...params} label="Select Allergies" />
+        )}
+      />
 
       <CButton isLoading={createStaffLoading || fileUploadLoading} onClick={handleAddStaff} variant='contained' style={{ width: '100%', mt: 2, height: { xs: '45px', md: '45px' } }}>
         Add

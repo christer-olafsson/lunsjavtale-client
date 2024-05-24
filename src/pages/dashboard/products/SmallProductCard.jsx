@@ -8,14 +8,13 @@ import { Link } from 'react-router-dom'
 
 const SmallProductCard = ({ data }) => {
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
-
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const handleProductDialogClose = () => {
     setOpenProductAddDialog(false);
   };
   return (
-    <Stack direction={{ xs: 'column', lg: 'row' }} gap={{ xs: 0, lg: 2 }} sx={{
+    <Stack direction={{ xs: 'column', lg: 'row' }} alignItems='center' gap={{ xs: 0, lg: 2 }} sx={{
       width: '100%',
       maxWidth: '1000px',
       bgcolor: 'light.main',
@@ -37,7 +36,7 @@ const SmallProductCard = ({ data }) => {
         </Stack>
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
           <Link to={`/dashboard/products/${data.id}`}>
-            <Button endIcon={<ArrowRightAltOutlined/>}>Details</Button>
+            <Button endIcon={<ArrowRightAltOutlined />}>Details</Button>
           </Link>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
             <Box sx={{ padding: '6px 16px', mr: 2, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>

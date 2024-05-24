@@ -10,15 +10,13 @@ import CheckPage from '../checkPage/Index';
 
 const ProductCheckout = () => {
   const navigate = useNavigate()
- 
+
   return (
     <Box sx={{ maxWidth: '1368px' }}>
       <Stack direction='row' alignItems='center'>
-        <Link to={navigate(-1)}>
-          <IconButton>
-            <ArrowBack />
-          </IconButton>
-        </Link>
+        <IconButton onClick={() => navigate(-1)}>
+          <ArrowBack />
+        </IconButton>
         <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Checkout</Typography>
       </Stack>
 
@@ -28,7 +26,7 @@ const ProductCheckout = () => {
           width: { xs: '100%', lg: '70%' },
           p: { xs: 0, lg: 3 },
         }}>
-        <CheckPage/>
+          <CheckPage />
         </Box>
         <OrderSummary />
       </Stack>

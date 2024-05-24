@@ -1,21 +1,15 @@
-import { Add, ArrowBack, ArrowForward } from '@mui/icons-material'
-import { Box, Button, Grid, IconButton, Paper, Stack, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { ArrowBack, ArrowForward } from '@mui/icons-material'
+import { Box, Grid, IconButton, Paper, Stack, Typography } from '@mui/material'
+import { useState } from 'react'
 import Carousel from 'react-multi-carousel';
-import CDialog from '../../../common/dialog/CDialog';
-import AddItem from '../products/AddItem';
-import { useDispatch, useSelector } from 'react-redux';
-import SelectDate from './SelectDate';
-import DateSelector from '../../../components/dashboard/DateSelector';
-import { removeSelectedDate } from '../../../redux/selectedDateSlice';
-import DateAndInfoSec from '../../../components/dashboard/DateAndInfoSec';
-import { GET_SINGLE_CATEGORY, PRODUCTS } from '../../../graphql/query';
+import { PRODUCTS } from '../../../graphql/query';
 import { useQuery } from '@apollo/client';
 import LoadingBar from '../../../common/loadingBar/LoadingBar';
 import ProductCard from './ProductCard';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import OpProductCard from './OpProductCard';
 import MiniCart from '../products/MiniCart';
+import { ADDED_PRODUCTS } from '../products/graphql/query';
 
 
 
@@ -43,8 +37,6 @@ const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
 
     <Stack direction='row' sx={{
       display: { xs: 'none', md: 'block' },
-
-      // position:'absolute',top:0
     }}>
       <IconButton disabled={currentSlide === 0 ? true : false} onClick={() => previous()} variant='outlined' style={{ height: '40px', mr: 2, borderRadius: '50px', width: '90px' }}>
         <ArrowBack />
@@ -56,22 +48,12 @@ const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
   );
 };
 
-
-
 const MySide = (props) => {
   const [products, setProducts] = useState({});
   const [optionProducts, setOptionProducts] = useState({})
+  const [addedProducts, setAddedProducts] = useState([]);
 
-  // const { loading, error } = useQuery(GET_SINGLE_CATEGORY, {
-  //   variables: {
-  //     id: parseInt(2)
-  //   },
-  //   onCompleted: (res) => {
-  //     setProducts(res.category)
-  //   },
-  // });
-
-  const { loading, error } = useQuery(PRODUCTS, {
+  const { loading, error, refetch } = useQuery(PRODUCTS, {
     variables: {
       category: "2"
     },
@@ -79,7 +61,6 @@ const MySide = (props) => {
       setProducts(res.products.edges.map(item => item.node))
     },
   });
-
 
   useQuery(PRODUCTS, {
     variables: {
@@ -89,35 +70,29 @@ const MySide = (props) => {
       setOptionProducts(res.products.edges.map(item => item.node))
     },
   });
-  console.log('optional', optionProducts)
 
-  
-
-  // const { loading: singleCatLoading, error: singleCatErr } = useQuery(GET_SINGLE_CATEGORY, {
-  //   variables: {
-  //     id: parseInt(4)
-  //   },
-  //   onCompleted: (res) => {
-  //     setOptionProducts(res.category)
-  //   },
-  // });
-
-  const SelectedItem = true
+  useQuery(ADDED_PRODUCTS, {
+    fetchPolicy: 'no-cache',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (res) => {
+      setAddedProducts(res.addedProducts.edges.map(item => item.node))
+    }
+  });
 
   return (
-    <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
+    <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column', lg: 'row' }} gap={3}>
       <Box sx={{
         width: { xs: '100%', lg: '70%' },
       }}>
         {
           loading ? <LoadingBar /> : error ? <ErrorMsg /> :
-            <Paper sx={{ mt: { xs: 15, lg: 0 } }} elevation={3}>
+            <Paper elevation={3}>
               <Typography sx={{
                 bgcolor: '#52525B',
                 padding: '12px 24px',
                 color: '#fff',
                 textAlign: 'center',
-                borderRadius: '5px'
+                borderRadius: '5px',
               }}>{products[0]?.category?.name}</Typography>
               <Box sx={{
                 height: '470px',
@@ -128,7 +103,7 @@ const MySide = (props) => {
                   {
                     products?.length > 0 &&
                     products?.map((item, id) => (
-                      <Grid item xs={0} md={6} key={id}>
+                      <Grid sx={{ width: '100%' }} item xs={0} xl={6} key={id}>
                         <ProductCard data={item} />
                       </Grid>
                     ))
@@ -138,63 +113,63 @@ const MySide = (props) => {
             </Paper>
         }
         {
-            <Paper sx={{ mt: 6, width: '100%' }} elevation={3}>
-              <Typography sx={{
-                bgcolor: '#52525B',
-                padding: '12px 24px',
-                color: '#fff',
-                textAlign: 'center',
-                borderRadius: '5px',
-                mb: 2
-              }}>{optionProducts[0]?.category?.name}</Typography>
-              <Box sx={{
-                width: { xs: '100%', sm: '100%' },
-                px: 2,
-                overflow: 'hidden'
-              }}>
-                {
-                  optionProducts?.length > 0 &&
-                  <Carousel
-                    swipeable={true}
-                    draggable={true}
-                    showDots={false}
-                    arrows={false}
-                    rewindWithAnimation={true}
-                    customRightArrow={true}
-                    rewind={true}
-                    centerMode={true}
-                    responsive={responsive}
-                    pauseOnHover
-                    autoPlay={true}
-                    renderButtonGroupOutside={true}
-                    customButtonGroup={<ButtonGroup />}
-                    autoPlaySpeed={2000}
-                    keyBoardControl={true}
-                    customTransition="all 1s"
-                    transitionDuration={1000}
-                    containerClass="carousel-container"
-                    removeArrowOnDeviceType={["mobile"]}
-                    deviceType={props.deviceType}
-                  >
-                    {
-                      optionProducts?.map((item, id) => (
-                        <OpProductCard key={id} item={item} />
-                      ))
-                    }
-                  </Carousel>
-                }
-              </Box>
-            </Paper>
+          <Paper sx={{ mt: 6, width: '100%' }} elevation={3}>
+            <Typography sx={{
+              bgcolor: '#52525B',
+              padding: '12px 24px',
+              color: '#fff',
+              textAlign: 'center',
+              borderRadius: '5px',
+              mb: 2
+            }}>{optionProducts[0]?.category?.name}</Typography>
+            <Box sx={{
+              width: { xs: '100%', sm: '100%' },
+              px: 2,
+              overflow: 'hidden'
+            }}>
+              {
+                optionProducts?.length > 0 &&
+                <Carousel
+                  swipeable={true}
+                  draggable={true}
+                  showDots={false}
+                  arrows={false}
+                  rewindWithAnimation={true}
+                  customRightArrow={true}
+                  rewind={true}
+                  centerMode={true}
+                  responsive={responsive}
+                  pauseOnHover
+                  autoPlay={true}
+                  renderButtonGroupOutside={true}
+                  customButtonGroup={<ButtonGroup />}
+                  autoPlaySpeed={2000}
+                  keyBoardControl={true}
+                  customTransition="all 1s"
+                  transitionDuration={1000}
+                  containerClass="carousel-container"
+                  removeArrowOnDeviceType={["mobile"]}
+                  deviceType={props.deviceType}
+                >
+                  {
+                    optionProducts?.map((item, id) => (
+                      <OpProductCard key={id} item={item} />
+                    ))
+                  }
+                </Carousel>
+              }
+            </Box>
+          </Paper>
         }
       </Box>
       <Box sx={{
         flex: 1
       }}>
         {
-          SelectedItem
+          addedProducts.length
             ?
             <Box >
-              <MiniCart path='/dashboard/myside/cart' />
+              <MiniCart refetch={refetch} path='/dashboard/myside/cart' />
             </Box>
             :
             <Box sx={{

@@ -1,7 +1,6 @@
 import { Close, Edit } from '@mui/icons-material';
-import { Autocomplete, Box, Button, IconButton, Paper, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useTheme } from '@emotion/react';
+import { Autocomplete, Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import CDialog from '../../../common/dialog/CDialog';
@@ -15,16 +14,14 @@ const OrderSummary = () => {
   const [totalCalculatedValue, setTotalCalculatedValue] = useState({})
 
 
-
-
   const calculateTotals = (data) => {
     const totalPricesWithTax = data.reduce((acc, item) => acc + parseFloat(item.totalPriceWithTax), 0);
     const totalPrices = data.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0);
-    const totalTax = totalPricesWithTax - totalPrices;
+    const totalQuantity = data.reduce((acc, item) => acc + parseFloat(item.quantity), 0);
     return {
       totalPrices: totalPrices.toFixed(2),
       totalPricesWithTax: totalPricesWithTax.toFixed(2),
-      totalTax: totalTax.toFixed(2)
+      totalQuantity,
     };
   };
 
@@ -34,16 +31,10 @@ const OrderSummary = () => {
   }, [addedCarts])
 
 
-
-
-
-
-  console.log(totalCalculatedValue)
-
   const { pathname } = useLocation();
   const { data: user } = useQuery(ME)
 
-  const { loading, error } = useQuery(ADDED_CARTS, {
+  useQuery(ADDED_CARTS, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
@@ -131,15 +122,15 @@ const OrderSummary = () => {
       <Stack direction='row' justifyContent='space-between' p={isMySideCartPage ? 0 : 2}>
         <Stack sx={{ px: 2 }} gap={3}>
           <Typography>SubTotal :</Typography>
+          <Typography>Total Quantity :</Typography>
           {/* <Typography>Discount (VELZON15) :</Typography> */}
           {/* <Typography>Shipping Charge :</Typography> */}
-          <Typography>Estimated Tax (15%) :</Typography>
         </Stack>
-        <Stack sx={{ px: 2, mb: 2 }} gap={3}>
+        <Stack sx={{ px: 2}} gap={3}>
           <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>kr {totalCalculatedValue.totalPrices}</Typography>
+          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}> {totalCalculatedValue.totalQuantity}</Typography>
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>- $ 53.99</Typography> */}
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>$ 65.00</Typography> */}
-          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>kr {totalCalculatedValue.totalTax}</Typography>
         </Stack>
       </Stack>
       {
@@ -153,7 +144,7 @@ const OrderSummary = () => {
         bgcolor: 'light.main',
         p: 2, borderRadius: '8px', mt: 2
       }} direction='row' justifyContent='space-between'>
-        <Typography sx={{ fontWeight: 600 }}>Total(NOK) :</Typography>
+        <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Tax 15%)</i>  :</Typography>
         <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.totalPricesWithTax}</Typography>
       </Stack>
       {

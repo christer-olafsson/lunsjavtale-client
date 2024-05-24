@@ -1,7 +1,7 @@
 import { ArrowBack } from '@mui/icons-material';
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CartCard from './CartCard';
 import OrderSummary from './OrderSummary';
 import { useMutation, useQuery } from '@apollo/client';
@@ -13,6 +13,8 @@ import toast from 'react-hot-toast';
 
 const ProductCartPage = () => {
   const [addedCarts, setAddedCarts] = useState([])
+
+  const navigate = useNavigate()
 
   const { loading, error } = useQuery(ADDED_CARTS, {
     fetchPolicy: 'network-only',
@@ -26,12 +28,10 @@ const ProductCartPage = () => {
   return (
     <Box maxWidth='lg'>
       <Stack direction='row' alignItems='center'>
-        <Link to='/dashboard/products'>
-          <IconButton>
-            <ArrowBack />
-          </IconButton>
-        </Link>
-        <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Shopping Cart</Typography>
+        <IconButton onClick={() => navigate(-1)}>
+          <ArrowBack />
+        </IconButton>
+        <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Product Cart</Typography>
       </Stack>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={{ xs: 2, lg: 3 }} mt={3}>
         <Stack gap={3} sx={{

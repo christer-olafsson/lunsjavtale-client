@@ -97,12 +97,12 @@ const Products = () => {
     <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
       <Paper sx={{
         width: { xs: '100%', lg: '70%' },
+        position:'relative',
         boxShadow: {
           xs: 'none', 
           lg: 2,    
         }
       }}>
-        <Typography sx={{ fontSize: '18px', fontWeight: 600, m: 2 }}>Product Details</Typography>
         <Stack direction='row' sx={{
           mb: 3,
           justifyContent: 'center',

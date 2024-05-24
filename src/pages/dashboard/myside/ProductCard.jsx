@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Add, ArrowRightAltOutlined } from '@mui/icons-material'
-import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
+import { Box, Button, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog';
 import AddItem from '../products/AddItem';
@@ -9,6 +9,8 @@ import { useTheme } from '@emotion/react';
 
 const ProductCard = ({ data }) => {
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
 const theme = useTheme()
   return (
 
@@ -28,7 +30,7 @@ const theme = useTheme()
           src={data?.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
       </Box>
       <Stack sx={{ flex: 1 }} justifyContent='space-between'>
-        <Stack gap={1} mb={1}>
+        <Stack gap={1} mb={1} mt={{xs:1,lg:0}}>
           <Typography sx={{ fontSize: { xs: '14px', lg: '18px' }, fontWeight: '600' }}>{data?.name}</Typography>
           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>{data.description}</Typography>
           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography>
@@ -50,8 +52,8 @@ const theme = useTheme()
         </Stack>
       </Stack>
       {/* product add dialog */}
-      <CDialog maxWidth='md' openDialog={openProductAddDialog}>
-          <AddItem  closeDialog={()=> setOpenProductAddDialog(false)} maxWidth={'xl'} data={data} />
+      <CDialog fullScreen={isMobile} maxWidth='md' openDialog={openProductAddDialog}>
+          <AddItem closeDialog={()=> setOpenProductAddDialog(false)} maxWidth={'xl'} data={data} />
         </CDialog>
     </Stack>
 

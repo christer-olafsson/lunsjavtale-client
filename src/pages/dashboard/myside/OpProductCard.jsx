@@ -1,11 +1,13 @@
 import { Add } from '@mui/icons-material'
-import { Box, IconButton, Stack, Typography } from '@mui/material'
+import { Box, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog';
 import AddItem from '../products/AddItem';
 
 const OpProductCard = ({ item }) => {
   const [openOptionProductAddDialog, setOpenOptionProductAddDialog] = useState(false);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
 
   return (
     <Box sx={{
@@ -61,7 +63,7 @@ const OpProductCard = ({ item }) => {
           </IconButton>
         </Box>
       </Stack>
-      <CDialog maxWidth='md' openDialog={openOptionProductAddDialog}>
+      <CDialog fullScreen={isMobile} maxWidth='md' openDialog={openOptionProductAddDialog}>
         <AddItem closeDialog={()=> setOpenOptionProductAddDialog(false)} data={item} option={true} />
       </CDialog>
     </Box>
