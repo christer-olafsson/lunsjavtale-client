@@ -87,6 +87,52 @@ query{
 }
 `
 
+export const PRODUCTS = gql`
+  query Products ($id: ID, $category: String) {
+      products(id:$id, category: $category){
+        edges{
+          node{
+          id
+          name
+          priceWithTax
+          actualPrice
+          description
+          availability
+          discountAvailability
+          isDeleted
+          title
+          contains
+          ingredients{
+            edges{
+              node{
+                id
+                name
+                description
+                isActive
+              }
+            }
+          }
+          attachments{
+            edges{
+              node{
+                id
+                fileUrl
+                fileId
+                isCover
+              }
+            }
+          }
+          category{
+            id
+            name
+          }
+      }
+    }
+      }
+  }
+
+`
+
 export const GET_SINGLE_CATEGORY = gql`
   query SingleCategory ($id: ID){
     category(id: $id){
@@ -103,6 +149,7 @@ export const GET_SINGLE_CATEGORY = gql`
               edges{
                 node{
                   fileUrl
+                  isCover
               }
             }
           }

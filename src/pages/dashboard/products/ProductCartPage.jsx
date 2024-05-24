@@ -1,29 +1,50 @@
 import { ArrowBack } from '@mui/icons-material';
 import { Box, IconButton, Stack, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import Cart from '../../../components/dashboard/Cart';
-import OrderSummary from '../../../components/dashboard/OrderSummary';
+import CartCard from './CartCard';
+import OrderSummary from './OrderSummary';
+import { useMutation, useQuery } from '@apollo/client';
+import { ADDED_CARTS } from './graphql/query';
+import Loader from '../../../common/loader/Index';
+import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
+import { REMOVE_CART } from './graphql/mutation';
+import toast from 'react-hot-toast';
 
 const ProductCartPage = () => {
+  const [addedCarts, setAddedCarts] = useState([])
+
+  const { loading, error } = useQuery(ADDED_CARTS, {
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (res) => {
+      setAddedCarts(res.addedCarts.edges.map(item => item.node))
+    }
+  });
+
+
   return (
     <Box maxWidth='lg'>
-      <Stack direction='row' justifyContent='space-between' alignItems='center'>
+      <Stack direction='row' alignItems='center'>
         <Link to='/dashboard/products'>
           <IconButton>
             <ArrowBack />
           </IconButton>
         </Link>
         <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Shopping Cart</Typography>
-        <Box></Box>
       </Stack>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={{ xs: 2, lg: 3 }} mt={3}>
-        <Box sx={{
+        <Stack gap={3} sx={{
           width: { xs: '100%', lg: '70%' },
           p: { xs: 0, lg: 3 },
         }}>
-          <Cart />
-        </Box>
+          {
+            loading ? <Loader /> : error ? <ErrorMsg /> :
+              addedCarts.map(data => (
+                <CartCard data={data} key={data.id} />
+              ))
+          }
+        </Stack>
         <OrderSummary />
       </Stack>
     </Box>

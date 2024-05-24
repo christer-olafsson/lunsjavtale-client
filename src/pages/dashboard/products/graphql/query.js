@@ -1,0 +1,113 @@
+import { gql } from "@apollo/client";
+
+export const GET_SINGLE_PRODUCTS = gql`
+  query Products ($id: ID, $category: String) {
+      products(id:$id, category: $category){
+        edges{
+          node{
+          id
+          name
+          priceWithTax
+          actualPrice
+          description
+          availability
+          discountAvailability
+          isDeleted
+          title
+          contains
+          ingredients{
+            edges{
+              node{
+                id
+                name
+                description
+                isActive
+              }
+            }
+          }
+          attachments{
+            edges{
+              node{
+                id
+                fileUrl
+                fileId
+                isCover
+              }
+            }
+          }
+          category{
+            id
+            name
+          }
+      }
+    }
+      }
+  }
+`
+
+export const ADDED_CARTS = gql`
+  query{
+    addedCarts{
+      edges{
+        node{
+          id
+          createdOn
+          quantity
+          date
+          totalPrice
+          totalPriceWithTax
+          priceWithTax
+          price
+          orderedQuantity
+          item{
+            id
+            name
+            priceWithTax
+            description
+            category{
+              id
+              name
+            }
+            attachments{
+              edges{
+                node{
+                  id
+                  fileUrl
+                  isCover
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+export const ADDED_PRODUCTS = gql`
+  query{
+  addedProducts{
+    edges{
+      node{
+        id
+        name
+        priceWithTax
+        attachments{
+          edges{
+            node{
+              id
+              fileUrl
+              isCover
+            }
+          }
+        }
+        category{
+          id
+          name
+          isActive
+        }
+      }
+    }
+  }
+}
+`

@@ -2,16 +2,16 @@ import { useTheme } from '@emotion/react'
 import { ArrowBack } from '@mui/icons-material'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import React from 'react'
-import { Link } from 'react-router-dom'
-import OrderSummary from '../../../components/dashboard/OrderSummary'
+import { Link, useNavigate } from 'react-router-dom'
+import OrderSummary from './OrderSummary'
 
 const OrderComplete = () => {
-  const theme = useTheme()
+  const navigate = useNavigate()
   return (
     <Box sx={{ maxWidth: '1368px' }}>
 
       <Stack direction='row' justifyContent='space-between' alignItems='center'>
-        <Link to='/dashboard/myside/checkout'>
+        <Link to={navigate(-1)}>
           <IconButton>
             <ArrowBack />
           </IconButton>

@@ -9,8 +9,7 @@ import ManageStaff from './pages/dashboard/manageStaff/ManageStaff'
 import Products from './pages/dashboard/products/Products'
 import Orders from './pages/dashboard/orders/Orders'
 import Setting from './pages/dashboard/setting/Setting'
-import Checkout from './pages/dashboard/myside/Checkout'
-import OrderComplete from './pages/dashboard/myside/OrderComplete'
+import OrderComplete from './pages/dashboard/products/OrderComplete'
 import CartPage from './pages/dashboard/myside/CartPage'
 import ProductCartPage from './pages/dashboard/products/ProductCartPage'
 import ProductCheckout from './pages/dashboard/products/ProductCheckout'
@@ -23,6 +22,8 @@ import PassReset from './pages/passReset/PassReset'
 import { useQuery } from '@apollo/client'
 import { ME } from './graphql/query'
 import Meeting from './pages/dashboard/meeting/Index'
+import FoodDetails from './pages/dashboard/products/FoodDetails'
+import CheckOut from './pages/dashboard/checkOut/CheckOut'
 
 function App() {
 
@@ -52,7 +53,7 @@ function App() {
         <Route element={token ? <Layout /> : <Navigate to='/login' />}>
           <Route path='/dashboard/myside' element={<MySide />} />
           <Route path='/dashboard/myside/cart' element={<CartPage />} />
-          <Route path='/dashboard/myside/checkout' element={<Checkout />} />
+          <Route path='/dashboard/myside/checkout' element={<CheckOut />} />
           <Route path='/dashboard/complete' element={<OrderComplete />} />
           {
             (user?.me.role === 'owner' || user?.me.role === 'manager') && (
@@ -63,6 +64,7 @@ function App() {
             )
           }
           <Route path='/dashboard/products' element={<Products />} />
+          <Route path='/dashboard/products/:id' element={<FoodDetails />} />
           <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
           <Route path='/dashboard/products/checkout' element={<ProductCheckout />} />
           <Route path='/dashboard/orders' element={<Orders />} />

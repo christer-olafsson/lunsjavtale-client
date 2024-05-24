@@ -1,16 +1,13 @@
-import { Box, IconButton, Paper, Stack, Tab, Tabs, Typography, styled, tabClasses, tabsClasses } from '@mui/material'
+import { Box, Paper, Stack, Tab, Tabs, Typography, styled, tabClasses, tabsClasses } from '@mui/material'
 import React, { useState } from 'react'
-import MiniCart from '../../../components/dashboard/MiniCart';
+import MiniCart from './MiniCart';
 import { useQuery } from '@apollo/client';
-import PropTypes from 'prop-types';
-import { GET_ALL_CATEGORY } from '../../../graphql/query';
+import { GET_ALL_CATEGORY, PRODUCTS } from '../../../graphql/query';
 import Loader from '../../../common/loader/Index';
-import { Add } from '@mui/icons-material';
-import CDialog from '../../../common/dialog/CDialog';
-import AddItem from '../../../components/dashboard/AddItem';
 import DateAndInfoSec from '../../../components/dashboard/DateAndInfoSec';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import SmallProductCard from './SmallProductCard';
+import { ADDED_PRODUCTS } from './graphql/query';
 
 const TabItem = styled(Tab)(({ theme }) => ({
   position: "relative",
@@ -69,36 +66,43 @@ const Products = () => {
   const [allCategorys, setAllCategorys] = useState([]);
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
+  const [products, setProducts] = useState([])
+  const [addedProducts, setAddedProducts] = useState([]);
 
-  const { loading, error } = useQuery(GET_ALL_CATEGORY, {
+
+  const { loading: categoryLoading, error: categoryErr } = useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
       const res = data?.categories?.edges.filter((item) => item.node.isActive)
       setAllCategorys(res)
     },
   });
 
-  const handleProductDialogOpen = (id) => {
-    setSelectedProductId(id)
-    setOpenProductAddDialog(true);
-  };
-  const handleProductDialogClose = () => {
-    setOpenProductAddDialog(false);
-  };
+  const { loading: loadinProducts, error: errProducts } = useQuery(PRODUCTS, {
+    variables: {
+      category: categoryId
+    },
+    onCompleted: (res) => {
+      setProducts(res.products.edges.map(item => item.node))
+    },
+  });
 
-  // const { loading, error } = useQuery(GET_ALL_CATEGORY, {
-  //   onCompleted: (data) => {
-  //     const res = data?.categories?.edges
-  //     setAllCategorys(res)
-  //   },
-  // });
-  const SelectedItem = true
+  const { data: addedProductsData,refetch } = useQuery(ADDED_PRODUCTS, {
+    fetchPolicy: 'no-cache',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (res) => {
+      setAddedProducts(res.addedProducts.edges.map(item => item.node))
+    }
+  });
+
+ 
   return (
     <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
       <Paper sx={{
         width: { xs: '100%', lg: '70%' },
         boxShadow: {
-          xs: 'none', // No elevation for extra small screens
-          lg: 2,      // Elevation level 4 for large screens
+          xs: 'none', 
+          lg: 2,    
         }
       }}>
         <Typography sx={{ fontSize: '18px', fontWeight: 600, m: 2 }}>Product Details</Typography>
@@ -106,67 +110,71 @@ const Products = () => {
           mb: 3,
           justifyContent: 'center',
         }}>
-          <Tabs
-            variant="scrollable"
-            scrollButtons
-            allowScrollButtonsMobile
-            value={tabIndex}
-            onChange={(e, index) => setTabIndex(index)}
-            sx={{
-              width: "100%",
-              bgcolor: 'light.main',
-              py: 2,
-              [`& .${tabsClasses.indicator}`]: {
-                display: "none",
-              },
-            }}
-          >
+          <Stack sx={{
+            bgcolor: 'light.main',
+            width: '100%',
+            p: 3
+          }} direction='row' gap={2} flexWrap='wrap' my={4}>
+            <Box sx={{
+              border: '1px solid lightgray',
+              py: 1.5, px: 2,
+              borderRadius: '4px',
+              bgcolor: categoryId === null ? 'primary.main' : '#fff',
+              color: categoryId === null ? '#fff' : 'inherit',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }} onClick={() => setCategoryId(null)}>
+              <Typography>All {categoryId === null && <i style={{ fontSize: '14px' }}>({products.length})</i>}</Typography>
+            </Box>
             {
-              loading ? <Loader /> : error ? <ErrorMsg/> :
-              allCategorys.map((item) => (
-                <TabItem key={item.node.id} disableRipple label={item.node.name} />
-              ))
+              // loadingCategory ? <LoadingBar/> : 
+              categoryErr ? <ErrorMsg /> :
+                allCategorys?.map((item) => (
+                  <Box sx={{
+                    border: '1px solid lightgray',
+                    py: 1.5, px: 2,
+                    borderRadius: '4px',
+                    bgcolor: categoryId === item.node.id ? 'primary.main' : '#fff',
+                    color: categoryId === item.node.id ? '#fff' : 'inherit',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    opacity: !item.node.isActive ? '.4' : '1'
+                  }} onClick={() => setCategoryId(item.node.id)} key={item?.node.id}>
+                    <Typography>{item?.node.name} {categoryId === item.node.id && <i style={{ fontSize: '14px' }}>({products.length})</i>}</Typography>
+                  </Box>
+                ))
             }
-          </Tabs>
+          </Stack>
         </Stack>
-        {
-          loading ? <Loader /> : error ? <ErrorMsg/> :
-          allCategorys.map((item, id) => (
-            <CustomTabPanel key={id} value={tabIndex} index={id}>
-              <Stack sx={{
-                px: { xs: 0, lg: 3 },
-                maxHeight: { xs: '50vh', lg: '70vh' },
-                overflowY: 'auto'
-              }} gap={2}>
-                {
-                  item?.node?.products?.edges?.map((data, id) => (
-                    <SmallProductCard data={data} key={id}/>
-                  ))
-                }
-              </Stack>
-            </CustomTabPanel>
-          ))
-        }
+        <Stack direction='row' flexWrap='wrap' gap={2} px={{ xs: 0, lg: 3 }}>
+          {
+            loadinProducts ? <Loader /> : errProducts ? <ErrorMsg /> :
+              products.map(item => (
+                <SmallProductCard data={item} key={item.id} />
+              ))
+          }
+        </Stack>
       </Paper>
 
       <Box sx={{
         flex: 1
       }}>
-        <DateAndInfoSec/>
+        {/* <DateAndInfoSec /> */}
         {
-          SelectedItem
+          addedProducts.length
             ?
-            <MiniCart path='/dashboard/products/cart' />
+            <MiniCart refetch={refetch} />
             :
             <Box sx={{
-              p: 2, borderRadius: '8px', mb: 2,
+              position: 'sticky',
+              top:80,
+              p: 2, borderRadius: '8px',
+              mb: 2,
               bgcolor: 'primary.main',
               color: '#fff',
-              mt: 4,
-              cursor: 'pointer'
             }}>
               <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Shopping Cart</Typography>
-              <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>Choose some of the delicious dishes from the list below 😋</Typography>
+              <Typography sx={{ fontSize: '14px' }}>Choose some of the delicious dishes from the list.</Typography>
             </Box>
         }
       </Box>

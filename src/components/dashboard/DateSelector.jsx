@@ -18,7 +18,7 @@ const DateSelector = () => {
   }, [selectedDate])
 
 
-  const onChange = (dates) => {
+  const onChangeDate = (dates) => {
     const selectedDateList = dates.map((date) => format(date, 'MMMM dd, yyyy'));
     // const selectedDateList = dates.map((date) => date.toISOString());
     dispatch(setSelectedDate(selectedDateList))
@@ -42,7 +42,7 @@ const DateSelector = () => {
         // showIcon
         selectedDates={selectedDates}
         selectsMultiple
-        onChange={onChange}
+        onChange={onChangeDate}
         shouldCloseOnSelect={false}
         disabledKeyboardNavigation
       />

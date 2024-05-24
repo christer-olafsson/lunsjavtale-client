@@ -133,7 +133,7 @@ function Layout() {
       setMobileOpen(!mobileOpen);
     }
   };
-  console.log(user)
+
   const drawer = (
     <Box sx={{
       display: 'flex',

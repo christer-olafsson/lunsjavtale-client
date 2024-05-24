@@ -3,7 +3,7 @@ import { Add } from '@mui/icons-material'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog';
-import AddItem from '../../../components/dashboard/AddItem';
+import AddItem from '../products/AddItem';
 
 const ProductCard = ({ item }) => {
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
@@ -19,7 +19,7 @@ const ProductCard = ({ item }) => {
       borderRadius: '8px'
     }}>
       <img style={{ width: '94px', height: '94px', objectFit: 'cover', borderRadius: '12px' }} 
-      src={item.node.attachments.edges[0] ? item?.node.attachments.edges[0].node.fileUrl : ''} alt="" />
+      src={item.node.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
       <Stack gap={1}>
         <Typography sx={{ fontSize: '18px', fontWeight: '600' }}>{item.node?.name}</Typography>
         <Typography sx={{ fontSize: '14px' }}>{item.node?.description}</Typography>
@@ -33,8 +33,8 @@ const ProductCard = ({ item }) => {
             <Add fontSize='small' />
           </IconButton>
         </Box>
-        <CDialog openDialog={openProductAddDialog}>
-          <AddItem closeDialog={()=> setOpenProductAddDialog(false)} maxWidth={'xl'} data={item} />
+        <CDialog maxWidth='md' openDialog={openProductAddDialog}>
+          <AddItem  closeDialog={()=> setOpenProductAddDialog(false)} maxWidth={'xl'} data={item.node} />
         </CDialog>
       </Stack>
     </Box>

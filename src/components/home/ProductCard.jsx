@@ -44,14 +44,14 @@ const ProductCard = ({ data }) => {
           src={data?.node.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'}
           alt="" />
       </Box>
-      <Typography sx={{
+      {/* <Typography sx={{
         fontSize: { xs: '12px', md: '14px' }
-      }} mb={2} >Topped with leaf salad, pickled carrot & pumpkin seeds. Spicy tahini dressing on the side.</Typography>
+      }} mb={2} >Topped with leaf salad, pickled carrot & pumpkin seeds. Spicy tahini dressing on the side.</Typography> */}
       {
         data.node.contains &&
         <Box sx={{ display: 'inline-flex', mb: 2 }}>
-          <Typography>Contains:</Typography>
-          <Typography sx={{ fontSize: '12px', ml: 1 }}>{JSON.parse(data.node.contains)}</Typography>
+          {/* <Typography>Contains:</Typography> */}
+          <Typography sx={{ fontSize: '14px', ml: 1 }}> <b>Contains: </b> <i> {JSON.parse(data.node.contains)}</i> </Typography>
         </Box>
       }
       <Stack direction='row' gap={1}>

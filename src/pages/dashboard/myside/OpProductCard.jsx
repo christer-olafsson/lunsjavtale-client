@@ -2,7 +2,7 @@ import { Add } from '@mui/icons-material'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog';
-import AddItem from '../../../components/dashboard/AddItem';
+import AddItem from '../products/AddItem';
 
 const OpProductCard = ({ item }) => {
   const [openOptionProductAddDialog, setOpenOptionProductAddDialog] = useState(false);

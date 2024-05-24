@@ -9,12 +9,19 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import { Grow, Slide } from '@mui/material';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
 
 
-export default function CDialog({ openDialog, closeDialog, children,maxWidth }) {
+export default function CDialog({ openDialog, closeDialog, children, maxWidth,fullScreen }) {
 
   return (
     <Dialog
+      fullScreen={fullScreen}
+      TransitionComponent={Transition}
       maxWidth={maxWidth}
       fullWidth
       onClose={closeDialog}

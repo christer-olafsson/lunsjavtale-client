@@ -3,8 +3,7 @@ import { Box, Button, Grid, IconButton, Paper, Stack, Typography } from '@mui/ma
 import React, { useState } from 'react'
 import Carousel from 'react-multi-carousel';
 import CDialog from '../../../common/dialog/CDialog';
-import AddItem from '../../../components/dashboard/AddItem';
-import MiniCart from '../../../components/dashboard/MiniCart';
+import AddItem from '../products/AddItem';
 import { useDispatch, useSelector } from 'react-redux';
 import SelectDate from './SelectDate';
 import DateSelector from '../../../components/dashboard/DateSelector';
@@ -16,6 +15,7 @@ import LoadingBar from '../../../common/loadingBar/LoadingBar';
 import ProductCard from './ProductCard';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import OpProductCard from './OpProductCard';
+import MiniCart from '../products/MiniCart';
 
 
 
@@ -70,6 +70,9 @@ const MySide = (props) => {
       setProducts(res.category)
     },
   });
+
+  
+
   const { loading: singleCatLoading, error: singleCatErr } = useQuery(GET_SINGLE_CATEGORY, {
     variables: {
       id: parseInt(4)
@@ -167,7 +170,7 @@ const MySide = (props) => {
       <Box sx={{
         flex: 1
       }}>
-        <DateAndInfoSec />
+        {/* <DateAndInfoSec /> */}
         {
           SelectedItem
             ?

@@ -2,8 +2,8 @@ import { ArrowBack } from '@mui/icons-material';
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom';
-import Cart from '../../../components/dashboard/Cart';
-import OrderSummary from '../../../components/dashboard/OrderSummary';
+import CartCard from '../products/CartCard';
+import OrderSummary from '../products/OrderSummary';
 
 const CartPage = () => {
 
@@ -50,7 +50,7 @@ const CartPage = () => {
           width: { xs: '100%', lg: '70%' },
           p: { xs: 0, lg: 3 },
         }}>
-          <Cart />
+          <CartCard />
         </Box>
         <OrderSummary />
       </Stack>
