@@ -23,7 +23,7 @@ import { useQuery } from '@apollo/client'
 import { ME } from './graphql/query'
 import Meeting from './pages/dashboard/meeting/Index'
 import FoodDetails from './pages/dashboard/products/FoodDetails'
-import CheckOut from './pages/dashboard/checkOut/CheckOut'
+// import CheckOut from './pages/dashboard/checkOut/CheckOut'
 
 function App() {
 
@@ -53,7 +53,7 @@ function App() {
         <Route element={token ? <Layout /> : <Navigate to='/login' />}>
           <Route path='/dashboard/myside' element={<MySide />} />
           <Route path='/dashboard/myside/cart' element={<CartPage />} />
-          <Route path='/dashboard/myside/checkout' element={<CheckOut />} />
+          {/* <Route path='/dashboard/myside/checkout' element={<CheckOut />} /> */}
           <Route path='/dashboard/complete' element={<OrderComplete />} />
           {
             (user?.me.role === 'owner' || user?.me.role === 'manager') && (
