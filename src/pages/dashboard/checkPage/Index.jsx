@@ -27,7 +27,7 @@ function CustomTabPanel(props) {
 }
 
 
-const CheckOut = () => {
+const CheckPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [openAddAddressDialog, setOpenAddAddressDialog] = useState(false)
 
@@ -129,4 +129,4 @@ const CheckOut = () => {
   )
 }
 
-export default CheckOut
+export default CheckPage
