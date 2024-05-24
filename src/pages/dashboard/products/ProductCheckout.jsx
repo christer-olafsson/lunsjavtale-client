@@ -4,8 +4,6 @@ import { Autocomplete, Box, Button, Divider, IconButton, Paper, Stack, Tab, Tabs
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import OrderSummary from './OrderSummary';
-import CheckOut from '../checkOut/CheckOut';
-
 
 const ProductCheckout = () => {
   const navigate = useNavigate()
@@ -27,7 +25,7 @@ const ProductCheckout = () => {
           width: { xs: '100%', lg: '70%' },
           p: { xs: 0, lg: 3 },
         }}>
-         <CheckOut/>
+         {/* <CheckOut/> */}
         </Box>
         <OrderSummary />
       </Stack>
