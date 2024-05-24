@@ -7,7 +7,6 @@ import { Close } from '@mui/icons-material';
 import { ADDRESS_MUTATION } from './graphql/mutation';
 
 const AddAddress = ({ closeDialog }) => {
-  const [meetingDialogOpen, setMeetingDialogOpen] = useState(false);
   const [errors, setErrors] = useState({})
   const [payload, setPayload] = useState({
     address: '',
@@ -21,7 +20,7 @@ const AddAddress = ({ closeDialog }) => {
   })
 
 
-  const [meetingMutation, { loading: meetingLoading }] = useMutation(ADDRESS_MUTATION, {
+  const [addressMutation, { loading }] = useMutation(ADDRESS_MUTATION, {
     onCompleted: (res) => {
       toast.success(res.addressMutation.message)
       closeDialog()
@@ -42,23 +41,12 @@ const AddAddress = ({ closeDialog }) => {
   }
 
   const handleCreate = () => {
-    if (!payload.title) {
-      setErrors({ title: 'Meeting Title Required!' })
+    if (!payload.address) {
+      setErrors({ address: 'Address Required!' })
       return
     }
-    if (!payload.meetingType) {
-      setErrors({ meetingType: 'Meeting Type Required!' })
-      return
-    }
-    if (!payload.meetingTime) {
-      setErrors({ meetingTime: 'Meeting Time Required!' })
-      return
-    }
-    if (!payload.description) {
-      setErrors({ description: 'Meeting Description Required!' })
-      return
-    }
-    meetingMutation({
+   
+    addressMutation({
       variables: {
         input: {
           ...payload
@@ -103,7 +91,7 @@ const AddAddress = ({ closeDialog }) => {
               </Stack> */}
         </Stack>
         <TextField onChange={handleInputChange} name='instruction' label='Instruction' sx={{mb:2}} />
-        <CButton onClick={handleCreate} isLoading={meetingLoading} variant='contained'>Save Address</CButton>
+        <CButton onClick={handleCreate} isLoading={loading} variant='contained'>Save Address</CButton>
       </Stack>
     </FormGroup>
   )
