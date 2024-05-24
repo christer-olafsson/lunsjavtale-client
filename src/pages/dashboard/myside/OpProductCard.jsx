@@ -34,11 +34,11 @@ const OpProductCard = ({ item }) => {
         objectFit: 'cover',
         position: 'absolute',
         top: 0, zIndex: -2
-      }} src={item?.node.attachments.edges[0] ? item?.node.attachments.edges[0].node.fileUrl : ''} alt="" />
+      }} src={item.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
       <Stack sx={{
         bgcolor: 'rgb(0,0,0,10'
       }} gap={1}>
-        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#fff', textAlign: 'center' }}>{item.node?.name}</Typography>
+        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#fff', textAlign: 'center' }}>{item.name}</Typography>
         <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end' }}>
           <Box sx={{
             py: { xs: '8px', md: '6px' },
@@ -49,7 +49,7 @@ const OpProductCard = ({ item }) => {
             fontSize: '14px',
             border: '1px solid gray'
           }}>
-            <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>$200.00</Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '14px' },whiteSpace:'nowrap' }}>kr {item.priceWithTax}</Typography>
           </Box>
           <IconButton onClick={() => setOpenOptionProductAddDialog(true)} sx={{
             bgcolor: 'light.main',
@@ -61,7 +61,7 @@ const OpProductCard = ({ item }) => {
           </IconButton>
         </Box>
       </Stack>
-      <CDialog openDialog={openOptionProductAddDialog}>
+      <CDialog maxWidth='md' openDialog={openOptionProductAddDialog}>
         <AddItem closeDialog={()=> setOpenOptionProductAddDialog(false)} data={item} option={true} />
       </CDialog>
     </Box>

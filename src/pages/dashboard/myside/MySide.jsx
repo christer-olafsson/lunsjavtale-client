@@ -9,7 +9,7 @@ import SelectDate from './SelectDate';
 import DateSelector from '../../../components/dashboard/DateSelector';
 import { removeSelectedDate } from '../../../redux/selectedDateSlice';
 import DateAndInfoSec from '../../../components/dashboard/DateAndInfoSec';
-import { GET_SINGLE_CATEGORY } from '../../../graphql/query';
+import { GET_SINGLE_CATEGORY, PRODUCTS } from '../../../graphql/query';
 import { useQuery } from '@apollo/client';
 import LoadingBar from '../../../common/loadingBar/LoadingBar';
 import ProductCard from './ProductCard';
@@ -62,25 +62,45 @@ const MySide = (props) => {
   const [products, setProducts] = useState({});
   const [optionProducts, setOptionProducts] = useState({})
 
-  const { loading, error } = useQuery(GET_SINGLE_CATEGORY, {
+  // const { loading, error } = useQuery(GET_SINGLE_CATEGORY, {
+  //   variables: {
+  //     id: parseInt(2)
+  //   },
+  //   onCompleted: (res) => {
+  //     setProducts(res.category)
+  //   },
+  // });
+
+  const { loading, error } = useQuery(PRODUCTS, {
     variables: {
-      id: parseInt(2)
+      category: "2"
     },
     onCompleted: (res) => {
-      setProducts(res.category)
+      setProducts(res.products.edges.map(item => item.node))
     },
   });
+
+
+  useQuery(PRODUCTS, {
+    variables: {
+      category: "4"
+    },
+    onCompleted: (res) => {
+      setOptionProducts(res.products.edges.map(item => item.node))
+    },
+  });
+  console.log('optional', optionProducts)
 
   
 
-  const { loading: singleCatLoading, error: singleCatErr } = useQuery(GET_SINGLE_CATEGORY, {
-    variables: {
-      id: parseInt(4)
-    },
-    onCompleted: (res) => {
-      setOptionProducts(res.category)
-    },
-  });
+  // const { loading: singleCatLoading, error: singleCatErr } = useQuery(GET_SINGLE_CATEGORY, {
+  //   variables: {
+  //     id: parseInt(4)
+  //   },
+  //   onCompleted: (res) => {
+  //     setOptionProducts(res.category)
+  //   },
+  // });
 
   const SelectedItem = true
 
@@ -98,7 +118,7 @@ const MySide = (props) => {
                 color: '#fff',
                 textAlign: 'center',
                 borderRadius: '5px'
-              }}>{products?.name}</Typography>
+              }}>{products[0]?.category?.name}</Typography>
               <Box sx={{
                 height: '470px',
                 overflowY: 'auto',
@@ -106,9 +126,10 @@ const MySide = (props) => {
               }}>
                 <Grid container spacing={2}>
                   {
-                    products.products?.edges?.map((item, id) => (
+                    products?.length > 0 &&
+                    products?.map((item, id) => (
                       <Grid item xs={0} md={6} key={id}>
-                        <ProductCard item={item} />
+                        <ProductCard data={item} />
                       </Grid>
                     ))
                   }
@@ -117,7 +138,6 @@ const MySide = (props) => {
             </Paper>
         }
         {
-          singleCatLoading ? <LoadingBar /> : singleCatErr ? <ErrorMsg /> :
             <Paper sx={{ mt: 6, width: '100%' }} elevation={3}>
               <Typography sx={{
                 bgcolor: '#52525B',
@@ -126,14 +146,14 @@ const MySide = (props) => {
                 textAlign: 'center',
                 borderRadius: '5px',
                 mb: 2
-              }}>{optionProducts?.name}</Typography>
+              }}>{optionProducts[0]?.category?.name}</Typography>
               <Box sx={{
                 width: { xs: '100%', sm: '100%' },
                 px: 2,
                 overflow: 'hidden'
               }}>
                 {
-                  optionProducts?.products?.edges?.length > 0 &&
+                  optionProducts?.length > 0 &&
                   <Carousel
                     swipeable={true}
                     draggable={true}
@@ -157,7 +177,7 @@ const MySide = (props) => {
                     deviceType={props.deviceType}
                   >
                     {
-                      optionProducts?.products?.edges?.map((item, id) => (
+                      optionProducts?.map((item, id) => (
                         <OpProductCard key={id} item={item} />
                       ))
                     }
@@ -170,7 +190,6 @@ const MySide = (props) => {
       <Box sx={{
         flex: 1
       }}>
-        {/* <DateAndInfoSec /> */}
         {
           SelectedItem
             ?

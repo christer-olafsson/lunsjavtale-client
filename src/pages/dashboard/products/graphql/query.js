@@ -92,6 +92,15 @@ export const ADDED_PRODUCTS = gql`
         id
         name
         priceWithTax
+        productCarts{
+          edges{
+            node{
+              id
+              quantity
+              totalPriceWithTax
+            }
+          }
+        }
         attachments{
           edges{
             node{

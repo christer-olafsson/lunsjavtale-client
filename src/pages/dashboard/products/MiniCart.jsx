@@ -44,7 +44,6 @@ const MiniCart = ({refetch}) => {
       }
     })
   }
-
   const theme = useTheme()
   return (
     <Box sx={{
@@ -86,7 +85,9 @@ const MiniCart = ({refetch}) => {
                 }} src={data.attachments.edges.find(item => item.node.isCover).node.fileUrl || '/noImage.png'} alt="" />
                 <Box>
                   <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{data.name}</Typography>
-                  <Typography sx={{ fontSize: '13px' }}> <b> <i>Category:</i>  </b> {data.category.name}</Typography>
+                  <Typography sx={{ fontSize: '12px' }}> <b> Category: </b> {data.category.name}</Typography>
+                  <Typography sx={{ fontSize: '12px' }}> <b> Price: </b> {data.priceWithTax
+}</Typography>
                 </Box>
                 <IconButton onClick={() => handleProductRemoveDialog(data.id)} sx={{
                   position: 'absolute',

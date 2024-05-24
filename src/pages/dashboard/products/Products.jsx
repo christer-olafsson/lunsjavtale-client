@@ -62,16 +62,13 @@ const tabName = [
 ]
 
 const Products = () => {
-  const [tabIndex, setTabIndex] = useState(0);
   const [allCategorys, setAllCategorys] = useState([]);
-  const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState(null);
   const [categoryId, setCategoryId] = useState(null);
   const [products, setProducts] = useState([])
   const [addedProducts, setAddedProducts] = useState([]);
 
 
-  const { loading: categoryLoading, error: categoryErr } = useQuery(GET_ALL_CATEGORY, {
+  const { error: categoryErr } = useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
       const res = data?.categories?.edges.filter((item) => item.node.isActive)
       setAllCategorys(res)
