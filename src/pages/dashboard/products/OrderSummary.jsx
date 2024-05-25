@@ -177,12 +177,12 @@ const OrderSummary = () => {
         <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Company)</i>  :</Typography>
         <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.allowancePriceWithTax}</Typography>
       </Stack>
-      {/* {
+      {
         (isMySideCartPage || isProductCartPage) &&
         <Link to={isProductCartPage ? '/dashboard/products/checkout' : '/dashboard/myside/checkout'}>
           <Button variant='contained' sx={{ my: 3, width: '100%' }}>Checkout</Button>
         </Link>
-      } */}
+      }
     </Stack>
   )
 }
