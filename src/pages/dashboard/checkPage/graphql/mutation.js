@@ -7,3 +7,11 @@ export const ADDRESS_MUTATION = gql`
     }
   }
 `
+
+export const ADDRESS_DELETE = gql`
+  mutation AddressDelete ($id: ID!){
+    addressDelete(id:$id){
+    message
+  }
+  }
+`

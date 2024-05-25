@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Close, Edit } from '@mui/icons-material';
 import { Autocomplete, Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
@@ -8,9 +9,8 @@ import { ME } from '../../../graphql/query';
 import { ADDED_CARTS } from './graphql/query';
 import { useTheme } from '@emotion/react';
 
-const OrderSummary = () => {
+const OrderSummary = ({companyAllowance,setCompanyAllowance}) => {
   const [allowanceDialog, setAllowanceDialog] = useState(false);
-  const [allowanceValue, setAllowanceValue] = useState('0');
   const [addedCarts, setAddedCarts] = useState([]);
   const [totalCalculatedValue, setTotalCalculatedValue] = useState({})
 
@@ -33,12 +33,14 @@ const OrderSummary = () => {
     const totalQuantity = data.reduce((acc, item) => acc + parseFloat(item.quantity), 0);
 
     // Calculate the adjusted total price with tax based on the allowance percentage
-    const allowancePriceWithTax = totalPricesWithTax * (1 - allowancePercent / 100);
+    const payByStaffs = totalPricesWithTax * (1 - allowancePercent / 100);
+    const payByCompany = totalPricesWithTax - payByStaffs
     return {
       totalPrices: totalPrices.toFixed(2),
       totalPricesWithTax: totalPricesWithTax.toFixed(2),
-      allowancePriceWithTax: allowancePriceWithTax.toFixed(2),
+      payByStaffs: payByStaffs.toFixed(2),
       totalQuantity,
+      payByCompany: payByCompany.toFixed(2)
     };
   };
 
@@ -52,16 +54,16 @@ const OrderSummary = () => {
     setAllowanceDialog(false)
   }
 
-  useEffect(() => {
-    if (isCheckoutPage) {
-      setAllowanceDialog(true)
-    }
-  }, [isCheckoutPage])
+  // useEffect(() => {
+  //   if (isCheckoutPage) {
+  //     setAllowanceDialog(true)
+  //   }
+  // }, [isCheckoutPage])
 
 
   useEffect(() => {
-    setTotalCalculatedValue(calculateTotals(addedCarts, allowanceValue))
-  }, [addedCarts, allowanceValue])
+    setTotalCalculatedValue(calculateTotals(addedCarts, companyAllowance))
+  }, [addedCarts, companyAllowance])
 
   return (
     <Stack sx={{
@@ -103,7 +105,7 @@ const OrderSummary = () => {
             <Typography sx={{ fontWeight: 600, mb: 1 }}>How much you want to pay for this order</Typography>
             <Autocomplete
               onInputChange={(event, newInputValue) => {
-                setAllowanceValue(newInputValue);
+                setCompanyAllowance(newInputValue);
               }}
               freeSolo
               disablePortal
@@ -155,7 +157,7 @@ const OrderSummary = () => {
             onClick={() => setAllowanceDialog(true)}
             endIcon={<Edit />}
             variant='outlined'>
-            Company Allowance {allowanceValue}%
+            Company Allowance {companyAllowance}%
           </Button>)
       }
       <Stack sx={{
@@ -167,15 +169,26 @@ const OrderSummary = () => {
       </Stack>
       {
         (pathname === '/dashboard/products/checkout') &&
-        <Stack sx={{
-          bgcolor: 'light.main',
-          border: `1px solid ${theme.palette.primary.main}`,
-          // color:'#fff',
-          p: 2, borderRadius: '8px', mt: 2
-        }} direction='row' justifyContent='space-between'>
-          <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Company)</i>  :</Typography>
-          <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.allowancePriceWithTax}</Typography>
-        </Stack>
+        <>
+          <Stack sx={{
+            bgcolor: 'light.main',
+            // border: `1px solid ${theme.palette.primary.main}`,
+            // color:'#fff',
+            p: 2, borderRadius: '8px', mt: 2
+          }} direction='row' justifyContent='space-between'>
+            <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Staffs)</i>  :</Typography>
+            <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.payByStaffs}</Typography>
+          </Stack>
+          <Stack sx={{
+            bgcolor: 'light.main',
+            border: `1px solid ${theme.palette.primary.main}`,
+            // color:'#fff',
+            p: 2, borderRadius: '8px', mt: 2
+          }} direction='row' justifyContent='space-between'>
+            <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Company)</i>  :</Typography>
+            <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.payByCompany}</Typography>
+          </Stack>
+        </>
       }
       {
         (isMySideCartPage || isProductCartPage) &&

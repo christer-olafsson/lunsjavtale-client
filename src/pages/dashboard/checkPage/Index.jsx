@@ -1,10 +1,16 @@
 import { useTheme } from '@emotion/react';
-import { CheckCircle } from '@mui/icons-material';
-import { Box, Button, Divider, Paper, Stack, Tab, Tabs, TextField, Typography } from '@mui/material';
+import { ArrowBack, CheckCircle } from '@mui/icons-material';
+import { Box, Button, Divider, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Tab, Tabs, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CDialog from '../../../common/dialog/CDialog';
-import AddAddress from './AddAddress';
+import AddAddress from './tab/shippingInfo/AddAddress';
+import ShippingInfo from './tab/shippingInfo/ShippingInfo';
+import OrderSummary from '../products/OrderSummary';
+import { useQuery } from '@apollo/client';
+import { ADDRESSES } from './graphql/query';
+import toast from 'react-hot-toast';
+import CButton from '../../../common/CButton/CButton';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -29,102 +35,189 @@ function CustomTabPanel(props) {
 
 const CheckPage = () => {
   const [tabValue, setTabValue] = useState(0);
-  const [openAddAddressDialog, setOpenAddAddressDialog] = useState(false)
+  const [companyAllowance, setCompanyAllowance] = useState(null);
+  const [shippingAddressId, setShippingAddressId] = useState(null)
+  const [paymentType, setPaymentType] = useState('')
+  const [errors, setErrors] = useState({})
+  const [billingAddressPayload, setBillingAddressPayload] = useState({
+    firstName: '',
+    lastName: '',
+    address: '',
+    sector: '',
+    country: '',
+    phone: '',
+  })
+console.log(companyAllowance)
+  const { loading, error } = useQuery(ADDRESSES, {
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (res) => {
+      setShippingAddressId(res.addresses.edges.find(item => item.node.default)?.node.id ?? null);
+    }
+  })
 
+  const navigate = useNavigate()
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
+  const handleBillingInputChange = (e) => {
+    setBillingAddressPayload({ ...billingAddressPayload, [e.target.name]: e.target.value })
+  }
+
+  const handleSendPaymentInfo = () => {
+    if (!billingAddressPayload.address) {
+      setErrors({ address: 'Billing Address Required!' })
+      toast.error('Billing Address Required!')
+      return
+    }
+    if (companyAllowance === null) {
+      toast.error('CompanyAllowance Required!')
+      return
+    }
+    if (!shippingAddressId) {
+      setErrors({ shippingAddress: 'Shipping Address Required!' })
+      toast.error('Shipping Address Required!')
+      return
+    }
+    if (!paymentType) {
+      setErrors({ paymentType: 'Payment Type Required!' })
+      toast.error('Payment Type Required!')
+      return
+    }
+  }
+
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">
-          <Tab sx={{ textTransform: 'none' }} label="Billing Information" />
-          <Tab sx={{ textTransform: 'none' }} label="Shipping Information" />
-          <Tab sx={{ textTransform: 'none' }} label="Payment Information" />
-        </Tabs>
-      </Box>
+    <Box sx={{ maxWidth: '1368px' }}>
+      <Stack direction='row' alignItems='center'>
+        <IconButton onClick={() => navigate(-1)}>
+          <ArrowBack />
+        </IconButton>
+        <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Checkout</Typography>
+      </Stack>
+      <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 2, lg: 3 }} mt={3}>
 
-      <CustomTabPanel value={tabValue} index={0}>
-        <Box>
-          <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Billing Information</Typography>
-          <Typography>Please fill all information below</Typography>
+        <Box sx={{
+          width: { xs: '100%', lg: '70%' },
+          p: { xs: 0, lg: 3 },
+        }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} aria-label="basic tabs example">
+              <Tab sx={{ textTransform: 'none' }} label="Billing Information" />
+              <Tab sx={{ textTransform: 'none' }} label="Shipping Information" />
+              <Tab sx={{ textTransform: 'none' }} label="Payment Information" />
+            </Tabs>
+          </Box>
 
-          <Stack flex={1} gap={2} mt={3}>
-            <TextField id="standard-basic" label="Name" variant="standard" />
-            <TextField id="standard-basic" label="Business Address" variant="standard" />
-            <TextField id="standard-basic" label="First Name*" variant="standard" />
-            <TextField id="standard-basic" label="Sector" variant="standard" />
-            <TextField id="standard-basic" label="Country" variant="standard" />
-            <TextField id="standard-basic" label="Last Name*" variant="standard" />
-            <Button onClick={() => setTabValue(1)} variant='contained' sx={{ textWrap: 'nowrap', alignSelf: 'flex-end', justifySelf: 'end', mt: 2 }}>Processing to Shipping</Button>
-          </Stack>
+          <CustomTabPanel value={tabValue} index={0}>
+            <Box>
+              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Billing Information</Typography>
+              <Typography>Please fill all information below</Typography>
 
+              <Stack flex={1} gap={2} mt={3}>
+                <TextField
+                  value={billingAddressPayload.firstName}
+                  onChange={handleBillingInputChange}
+                  name='firstName'
+                  label="First Name"
+                  variant="standard"
+                />
+                <TextField
+                  value={billingAddressPayload.lastName}
+                  onChange={handleBillingInputChange}
+                  name='lastName'
+                  label="Last Name"
+                  variant="standard"
+                />
+                <TextField
+                  error={Boolean(errors.address)}
+                  helperText={errors.address}
+                  value={billingAddressPayload.address}
+                  onChange={handleBillingInputChange}
+                  name='address'
+                  label="Business Address"
+                  variant="standard"
+                />
+                <TextField
+                  value={billingAddressPayload.sector}
+                  onChange={handleBillingInputChange}
+                  name='sector'
+                  label="Sector"
+                  variant="standard"
+                />
+                <TextField
+                  value={billingAddressPayload.country}
+                  onChange={handleBillingInputChange}
+                  name='country'
+                  label="Country"
+                  variant="standard"
+                />
+                <TextField
+                  value={billingAddressPayload.phone}
+                  onChange={handleBillingInputChange}
+                  name='phone'
+                  type='number'
+                  label="Phone"
+                  variant="standard"
+                />
+                <Button
+                  onClick={() => setTabValue(1)}
+                  variant='contained'
+                  sx={{
+                    textWrap: 'nowrap',
+                    alignSelf: 'flex-end',
+                    justifySelf: 'end',
+                    mt: 2
+                  }}
+                >Processing to Shipping
+                </Button>
+              </Stack>
+
+            </Box>
+          </CustomTabPanel>
+
+          <CustomTabPanel value={tabValue} index={1}>
+            <ShippingInfo shippingInfoErr={errors.shippingAddress} />
+            <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
+              <Button onClick={() => setTabValue(0)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Billing Info</Button>
+              <Button onClick={() => setTabValue(2)} sx={{ textWrap: 'nowrap' }} variant='contained' >Continue to Payment</Button>
+            </Stack>
+          </CustomTabPanel>
+
+          <CustomTabPanel value={tabValue} index={2}>
+            <Stack>
+              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Payment Selection</Typography>
+              <Typography>Please fill all information below</Typography>
+
+              <FormControl error={Boolean(errors.paymentType)} fullWidth sx={{ my: 2 }}>
+                <InputLabel >Payment Type</InputLabel>
+                <Select
+                  value={paymentType}
+                  label="Payment Type"
+                  onChange={(e) => setPaymentType(e.target.value)}
+                >
+                  <MenuItem value={'online'}>Online</MenuItem>
+                  <MenuItem value={'pay-by-invoice'}>Pay By Invoice</MenuItem>
+                  <MenuItem value={'cash-on-delivery'}>Cash On Delivery</MenuItem>
+                </Select>
+              </FormControl>
+
+              {/* <Stack mt={5} gap={2}>
+                <TextField size='small' label='Name on card' />
+                <TextField size='small' label='Card Number' />
+                <TextField size='small' label='Exprit' />
+                <TextField size='small' label='CCV' />
+              </Stack> */}
+              <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
+                <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Shipping Info</Button>
+                {/* <Link to='/dashboard/complete'> */}
+                <CButton onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>Continue to Payment</CButton>
+                {/* </Link> */}
+              </Stack>
+            </Stack>
+          </CustomTabPanel>
         </Box>
-      </CustomTabPanel>
-
-      <CustomTabPanel value={tabValue} index={1}>
-        <Stack>
-          <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Shipping Information</Typography>
-          <Stack direction='row' justifyContent='space-between' my={2}>
-            <Box/>
-            <Button onClick={()=> setOpenAddAddressDialog(true)} variant='outlined'>Add Address</Button>
-          </Stack>
-          {/* add address */}
-          <CDialog openDialog={openAddAddressDialog}>
-            <AddAddress closeDialog={()=> setOpenAddAddressDialog(false)}/>
-          </CDialog>
-
-          {/* <Typography>Please fill all information below</Typography>
-          <Paper sx={{
-            pt: 3, pl: 3, pr: 3, pb: 1, mt: 4,
-            border: `1px solid ${theme.palette.primary.main}`,
-            bgcolor: 'light.main',
-            cursor: 'pointer'
-          }}>
-            <Stack direction='row' justifyContent='space-between'>
-              <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 2 }}>OFFICE ADDRESS</Typography>
-              <CheckCircle sx={{ alignSelf: 'flex-end', color: 'primary.main' }} />
-            </Stack>
-            <Typography>James Honda</Typography>
-            <Typography>1246 Virgil Street Pensacola, FL 32501 Mo. 012-345-6789</Typography>
-            <Divider sx={{ mt: 2 }} />
-            <Stack direction='row' justifyContent='space-between'>
-              <Button>Edit</Button>
-              <Button>Remove</Button>
-            </Stack>
-          </Paper> */}
-          <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
-            <Button onClick={() => setTabValue(0)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Billing Info</Button>
-            <Button onClick={() => setTabValue(2)} sx={{ textWrap: 'nowrap' }} variant='contained' >Continue to Payment</Button>
-          </Stack>
-        </Stack>
-      </CustomTabPanel>
-
-      <CustomTabPanel value={tabValue} index={2}>
-        <Stack>
-          <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Payment Selection</Typography>
-          <Typography>Please fill all information below</Typography>
-          <Stack direction={{ xs: 'column', lg: 'row' }} justifyContent='space-around' mt={4} gap={2}>
-            <Button variant='outlined'>Save Payment Method</Button>
-            <Button endIcon={<CheckCircle sx={{ color: 'primary.main' }} />} variant='outlined'>Credit/Debit Card</Button>
-            <Button variant='outlined'>Cash On Delivery</Button>
-          </Stack>
-          <Stack mt={5} gap={2}>
-            <TextField size='small' label='Name on card' />
-            <TextField size='small' label='Card Number' />
-            <TextField size='small' label='Exprit' />
-            <TextField size='small' label='CCV' />
-          </Stack>
-          <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
-            <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Shipping Info</Button>
-            <Link to='/dashboard/complete'>
-              <Button variant='contained' sx={{ textWrap: 'nowrap' }}>Continue to Payment</Button>
-            </Link>
-          </Stack>
-        </Stack>
-      </CustomTabPanel>
-
+        <OrderSummary 
+        companyAllowance={companyAllowance} 
+        setCompanyAllowance={setCompanyAllowance} />
+      </Stack>
     </Box>
   )
 }

@@ -10,9 +10,7 @@ import Products from './pages/dashboard/products/Products'
 import Orders from './pages/dashboard/orders/Orders'
 import Setting from './pages/dashboard/setting/Setting'
 import OrderComplete from './pages/dashboard/products/OrderComplete'
-import CartPage from './pages/dashboard/myside/CartPage'
 import ProductCartPage from './pages/dashboard/products/ProductCartPage'
-import ProductCheckout from './pages/dashboard/products/ProductCheckout'
 import EditOrder from './pages/dashboard/orders/EditOrder'
 import OrderDetails from './pages/dashboard/orders/OrderDetails'
 import OrderSingleDetails from './pages/dashboard/orders/OrderSingleDetails'
@@ -52,8 +50,8 @@ function App() {
         <Route path='/password-reset/:token?' element={<PassReset />} />
         <Route element={token ? <Layout /> : <Navigate to='/login' />}>
           <Route path='/dashboard/myside' element={<MySide />} />
-          <Route path='/dashboard/myside/cart' element={<CartPage />} />
-          <Route path='/dashboard/myside/checkout' element={<CheckPage />} />
+          {/* <Route path='/dashboard/myside/cart' element={<CartPage />} />
+          <Route path='/dashboard/myside/checkout' element={<CheckPage />} /> */}
           <Route path='/dashboard/complete' element={<OrderComplete />} />
           {
             (user?.me.role === 'owner' || user?.me.role === 'manager') && (
@@ -66,7 +64,7 @@ function App() {
           <Route path='/dashboard/products' element={<Products />} />
           <Route path='/dashboard/products/:id' element={<FoodDetails />} />
           <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
-          <Route path='/dashboard/products/checkout' element={<ProductCheckout />} />
+          <Route path='/dashboard/products/checkout' element={<CheckPage />} />
           <Route path='/dashboard/orders' element={<Orders />} />
           <Route path='/dashboard/orders/details/:id' element={<OrderDetails />} />
           <Route path='/dashboard/orders/details/single/:id' element={<OrderSingleDetails />} />

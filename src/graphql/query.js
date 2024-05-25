@@ -26,6 +26,15 @@ export const ME = gql`
         postCode
         logoUrl
         totalEmployee
+          billingAddress{
+          id
+          firstName
+          lastName
+          address
+          sector
+          country
+          phone
+        }
       }
       allergies{
         edges{
