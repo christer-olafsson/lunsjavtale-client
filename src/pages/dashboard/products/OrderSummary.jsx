@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client';
 import CDialog from '../../../common/dialog/CDialog';
 import { ME } from '../../../graphql/query';
 import { ADDED_CARTS } from './graphql/query';
+import { useTheme } from '@emotion/react';
 
 const OrderSummary = () => {
   const [allowanceDialog, setAllowanceDialog] = useState(false);
@@ -13,17 +14,18 @@ const OrderSummary = () => {
   const [addedCarts, setAddedCarts] = useState([]);
   const [totalCalculatedValue, setTotalCalculatedValue] = useState({})
 
+  const { pathname } = useLocation();
+  const { data: user } = useQuery(ME)
+  const theme = useTheme()
 
-  // const calculateTotals = (data) => {
-  //   const totalPricesWithTax = data.reduce((acc, item) => acc + parseFloat(item.totalPriceWithTax), 0);
-  //   const totalPrices = data.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0);
-  //   const totalQuantity = data.reduce((acc, item) => acc + parseFloat(item.quantity), 0);
-  //   return {
-  //     totalPrices: totalPrices.toFixed(2),
-  //     totalPricesWithTax: totalPricesWithTax.toFixed(2),
-  //     totalQuantity,
-  //   };
-  // };
+  useQuery(ADDED_CARTS, {
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (res) => {
+      setAddedCarts(res.addedCarts.edges.map(item => item.node))
+    }
+  });
+
 
   const calculateTotals = (data, allowancePercent = 0) => {
     const totalPricesWithTax = data.reduce((acc, item) => acc + parseFloat(item.totalPriceWithTax), 0);
@@ -42,30 +44,24 @@ const OrderSummary = () => {
 
 
 
-
-  useEffect(() => {
-    setTotalCalculatedValue(calculateTotals(addedCarts, allowanceValue))
-  }, [addedCarts,allowanceValue])
-
-
-  const { pathname } = useLocation();
-  const { data: user } = useQuery(ME)
-
-  useQuery(ADDED_CARTS, {
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (res) => {
-      setAddedCarts(res.addedCarts.edges.map(item => item.node))
-    }
-  });
-
   const isMySideCartPage = pathname === '/dashboard/myside/cart';
   const isProductCartPage = pathname === '/dashboard/products/cart';
+  const isCheckoutPage = pathname === '/dashboard/products/checkout';
 
   function handleAllowanceDialogClose() {
     setAllowanceDialog(false)
   }
 
+  useEffect(() => {
+    if (isCheckoutPage) {
+      setAllowanceDialog(true)
+    }
+  }, [isCheckoutPage])
+
+
+  useEffect(() => {
+    setTotalCalculatedValue(calculateTotals(addedCarts, allowanceValue))
+  }, [addedCarts, allowanceValue])
 
   return (
     <Stack sx={{
@@ -169,14 +165,18 @@ const OrderSummary = () => {
         <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Tax 15%)</i>  :</Typography>
         <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.totalPricesWithTax}</Typography>
       </Stack>
-      <Stack sx={{
-        bgcolor: 'primary.main',
-        color:'#fff',
-        p: 2, borderRadius: '8px', mt: 2
-      }} direction='row' justifyContent='space-between'>
-        <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Company)</i>  :</Typography>
-        <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.allowancePriceWithTax}</Typography>
-      </Stack>
+      {
+        (pathname === '/dashboard/products/checkout') &&
+        <Stack sx={{
+          bgcolor: 'light.main',
+          border: `1px solid ${theme.palette.primary.main}`,
+          // color:'#fff',
+          p: 2, borderRadius: '8px', mt: 2
+        }} direction='row' justifyContent='space-between'>
+          <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Company)</i>  :</Typography>
+          <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.allowancePriceWithTax}</Typography>
+        </Stack>
+      }
       {
         (isMySideCartPage || isProductCartPage) &&
         <Link to={isProductCartPage ? '/dashboard/products/checkout' : '/dashboard/myside/checkout'}>
