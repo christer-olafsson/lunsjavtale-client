@@ -94,7 +94,7 @@ const MySide = (props) => {
                 textAlign: 'center',
                 borderRadius: '5px',
               }}>{products[0]?.category?.name}</Typography>
-              <Box sx={{
+              <Box className='custom-scrollbar' sx={{
                 height: '470px',
                 overflowY: 'auto',
                 p: 2,
@@ -103,7 +103,7 @@ const MySide = (props) => {
                   {
                     products?.length > 0 &&
                     products?.map((item, id) => (
-                      <Grid sx={{ width: '100%' }} item xs={0} xl={6} key={id}>
+                      <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
                         <ProductCard data={item} />
                       </Grid>
                     ))
@@ -113,7 +113,7 @@ const MySide = (props) => {
             </Paper>
         }
         {
-          <Paper sx={{ mt: 6, width: '100%' }} elevation={3}>
+          <Paper sx={{ mt: 2, width: '100%' }} elevation={3}>
             <Typography sx={{
               bgcolor: '#52525B',
               padding: '12px 24px',
@@ -134,13 +134,14 @@ const MySide = (props) => {
                   draggable={true}
                   showDots={false}
                   arrows={false}
-                  rewindWithAnimation={true}
+                  // rewindWithAnimation={true}
                   customRightArrow={true}
-                  rewind={true}
+                  // rewind={true}
                   centerMode={true}
                   responsive={responsive}
                   pauseOnHover
                   autoPlay={true}
+                  infinite
                   renderButtonGroupOutside={true}
                   customButtonGroup={<ButtonGroup />}
                   autoPlaySpeed={2000}

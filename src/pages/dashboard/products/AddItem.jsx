@@ -29,7 +29,6 @@ const AddItem = ({ closeDialog, data }) => {
   const [allAllergies, setAllAllergies] = useState([]);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
 
-  console.log(formattedData)
   useQuery(GET_COMPANY_STAFFS, {
     onCompleted: (res) => {
       const data = res.companyStaffs.edges.filter(({ node }) => !node.isDeleted);
@@ -64,6 +63,10 @@ const AddItem = ({ closeDialog, data }) => {
     }
     if (!formattedData.some(item => item.quantity > 0)) {
       toast.error("No Quantity Selected!")
+      return
+    }
+    if (!formattedData.every(item => item.quantity > 0)) {
+      toast.error("Empty Quantity Selected!")
       return
     }
     addToCartMutation({

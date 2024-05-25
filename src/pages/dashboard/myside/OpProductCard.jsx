@@ -1,8 +1,9 @@
-import { Add } from '@mui/icons-material'
-import { Box, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
+import { Add, ArrowRightAltOutlined } from '@mui/icons-material'
+import { Box, Button, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog';
 import AddItem from '../products/AddItem';
+import { Link } from 'react-router-dom';
 
 const OpProductCard = ({ item }) => {
   const [openOptionProductAddDialog, setOpenOptionProductAddDialog] = useState(false);
@@ -37,10 +38,10 @@ const OpProductCard = ({ item }) => {
         position: 'absolute',
         top: 0, zIndex: -2
       }} src={item.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
-      <Stack sx={{
+      <Stack alignItems='center' sx={{
         bgcolor: 'rgb(0,0,0,10'
-      }} gap={1}>
-        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#fff', textAlign: 'center' }}>{item.name}</Typography>
+      }}>
+        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#fff', textAlign: 'center',mb:1 }}>{item.name}</Typography>
         <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end' }}>
           <Box sx={{
             py: { xs: '8px', md: '6px' },
@@ -51,7 +52,7 @@ const OpProductCard = ({ item }) => {
             fontSize: '14px',
             border: '1px solid gray'
           }}>
-            <Typography sx={{ fontSize: { xs: '12px', md: '14px' },whiteSpace:'nowrap' }}>kr {item.priceWithTax}</Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, whiteSpace: 'nowrap' }}>kr {item.priceWithTax}</Typography>
           </Box>
           <IconButton onClick={() => setOpenOptionProductAddDialog(true)} sx={{
             bgcolor: 'light.main',
@@ -62,9 +63,22 @@ const OpProductCard = ({ item }) => {
             <Add fontSize='small' />
           </IconButton>
         </Box>
+        <Link to={`/dashboard/products/${item.id}`}>
+          <button style={{
+            backgroundColor: 'transparent',
+            color:'#fff',
+            outline:'none',
+            border: '1px solid gray',
+            borderRadius:'50px',
+            paddingLeft:'20px',
+            paddingRight:'20px',
+            marginTop:'10px',
+            cursor:'pointer'
+          }}>Details</button>
+        </Link>
       </Stack>
       <CDialog fullScreen={isMobile} maxWidth='md' openDialog={openOptionProductAddDialog}>
-        <AddItem closeDialog={()=> setOpenOptionProductAddDialog(false)} data={item} option={true} />
+        <AddItem closeDialog={() => setOpenOptionProductAddDialog(false)} data={item} option={true} />
       </CDialog>
     </Box>
   )

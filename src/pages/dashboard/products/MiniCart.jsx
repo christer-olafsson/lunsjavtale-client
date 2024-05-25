@@ -46,7 +46,7 @@ const MiniCart = ({refetch}) => {
   }
   const theme = useTheme()
   return (
-    <Box sx={{
+    <Box className='custom-scrollbar' sx={{
       display: 'flex',
       position: 'sticky',
       maxHeight: '80vh',

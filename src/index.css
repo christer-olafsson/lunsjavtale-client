@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
-html{
+html {
   scroll-behavior: smooth;
 }
 
@@ -89,11 +89,33 @@ html{
 } */
 .react-datepicker__input-container input {
   border-radius: 4px;
-  border: 1px solid lightgray;
+  border: 1px solid #C4C4C4;
   padding: 15px 20px;
   outline: none;
-  width: 100%;
+  /* width: 100%; */
   cursor: pointer;
   font-size: 16px;
 }
 
+.react-datepicker__input-container input::placeholder {
+  color: green
+}
+
+
+/* customScrollbar*/
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}

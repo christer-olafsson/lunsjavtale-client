@@ -9,26 +9,43 @@ import { ADDED_CARTS } from './graphql/query';
 
 const OrderSummary = () => {
   const [allowanceDialog, setAllowanceDialog] = useState(false);
-  const [allowanceValue, setAllowanceValue] = useState('0%');
+  const [allowanceValue, setAllowanceValue] = useState('0');
   const [addedCarts, setAddedCarts] = useState([]);
   const [totalCalculatedValue, setTotalCalculatedValue] = useState({})
 
 
-  const calculateTotals = (data) => {
+  // const calculateTotals = (data) => {
+  //   const totalPricesWithTax = data.reduce((acc, item) => acc + parseFloat(item.totalPriceWithTax), 0);
+  //   const totalPrices = data.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0);
+  //   const totalQuantity = data.reduce((acc, item) => acc + parseFloat(item.quantity), 0);
+  //   return {
+  //     totalPrices: totalPrices.toFixed(2),
+  //     totalPricesWithTax: totalPricesWithTax.toFixed(2),
+  //     totalQuantity,
+  //   };
+  // };
+
+  const calculateTotals = (data, allowancePercent = 0) => {
     const totalPricesWithTax = data.reduce((acc, item) => acc + parseFloat(item.totalPriceWithTax), 0);
     const totalPrices = data.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0);
     const totalQuantity = data.reduce((acc, item) => acc + parseFloat(item.quantity), 0);
+
+    // Calculate the adjusted total price with tax based on the allowance percentage
+    const allowancePriceWithTax = totalPricesWithTax * (1 - allowancePercent / 100);
     return {
       totalPrices: totalPrices.toFixed(2),
       totalPricesWithTax: totalPricesWithTax.toFixed(2),
+      allowancePriceWithTax: allowancePriceWithTax.toFixed(2),
       totalQuantity,
     };
   };
 
 
+
+
   useEffect(() => {
-    setTotalCalculatedValue(calculateTotals(addedCarts))
-  }, [addedCarts])
+    setTotalCalculatedValue(calculateTotals(addedCarts, allowanceValue))
+  }, [addedCarts,allowanceValue])
 
 
   const { pathname } = useLocation();
@@ -92,9 +109,9 @@ const OrderSummary = () => {
               onInputChange={(event, newInputValue) => {
                 setAllowanceValue(newInputValue);
               }}
+              freeSolo
               disablePortal
-              id="combo-box-demo"
-              options={['0%', '25%', '30%', '35%', '40%', '45%', '50%', '75%', '100%']}
+              options={['0', '25', '30', '35', '40', '45', '50', '75', '100']}
               sx={{ width: '100%' }}
               renderInput={(params) => <TextField {...params} label="Select your percent" />}
             />
@@ -126,7 +143,7 @@ const OrderSummary = () => {
           {/* <Typography>Discount (VELZON15) :</Typography> */}
           {/* <Typography>Shipping Charge :</Typography> */}
         </Stack>
-        <Stack sx={{ px: 2}} gap={3}>
+        <Stack sx={{ px: 2 }} gap={3}>
           <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>kr {totalCalculatedValue.totalPrices}</Typography>
           <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}> {totalCalculatedValue.totalQuantity}</Typography>
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>- $ 53.99</Typography> */}
@@ -136,9 +153,14 @@ const OrderSummary = () => {
       {
         (pathname === '/dashboard/products/checkout') &&
         (user?.me.role === 'owner' || user?.me.role === 'manager') &&
-        (pathname === '/dashboard/complete' ?
-          <Button disableRipple sx={{ mx: 4 }} variant='outlined'>Company Allowance {allowanceValue}</Button> :
-          <Button sx={{ mx: isMySideCartPage ? 0 : 4, }} onClick={() => setAllowanceDialog(true)} endIcon={<Edit />} variant='outlined'>Company Allowance {allowanceValue}</Button>)
+        (pathname === '/dashboard/complete' ? '' :
+          <Button
+            sx={{ mx: isMySideCartPage ? 0 : 4, }}
+            onClick={() => setAllowanceDialog(true)}
+            endIcon={<Edit />}
+            variant='outlined'>
+            Company Allowance {allowanceValue}%
+          </Button>)
       }
       <Stack sx={{
         bgcolor: 'light.main',
@@ -147,12 +169,20 @@ const OrderSummary = () => {
         <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Tax 15%)</i>  :</Typography>
         <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.totalPricesWithTax}</Typography>
       </Stack>
-      {
+      <Stack sx={{
+        bgcolor: 'primary.main',
+        color:'#fff',
+        p: 2, borderRadius: '8px', mt: 2
+      }} direction='row' justifyContent='space-between'>
+        <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Company)</i>  :</Typography>
+        <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.allowancePriceWithTax}</Typography>
+      </Stack>
+      {/* {
         (isMySideCartPage || isProductCartPage) &&
         <Link to={isProductCartPage ? '/dashboard/products/checkout' : '/dashboard/myside/checkout'}>
           <Button variant='contained' sx={{ my: 3, width: '100%' }}>Checkout</Button>
         </Link>
-      }
+      } */}
     </Stack>
   )
 }

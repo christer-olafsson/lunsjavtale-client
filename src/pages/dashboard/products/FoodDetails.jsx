@@ -40,10 +40,9 @@ const FoodDetails = () => {
               <Typography variant='h5'>Food Details</Typography>
             </Stack>
             <Stack direction={{ xs: 'column', lg: 'row' }} gap={3}>
-              <Stack direction='row' gap={2}>
-                <Stack sx={{
+              <Stack direction={{xs:'column-reverse',md:'row'}} gap={2}>
+                <Stack direction={{xs:'row', md:'column'}} sx={{
                   maxHeight: '600px',
-                  mr: 4
                 }} flexWrap='wrap' gap={2}>
                   {
                     product?.attachments?.edges.map((item, id) => (
@@ -66,7 +65,7 @@ const FoodDetails = () => {
                     <Box key={id} sx={{
                       // flex:1,
                       width: { xs: '100%', lg: '457px' },
-                      height: '560px',
+                      height: {xs:'400px',md:'560px'},
                       display: selectedImg === id ? 'block' : 'none '
                     }}>
                       <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}

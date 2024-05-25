@@ -168,11 +168,20 @@ function Layout() {
         <Typography><b>Deal:</b> {user?.me.company.name}</Typography>
       </Stack>
       <Stack>
-        <ListBtn onClick={handleDrawerClose} notification={''} link='/dashboard/myside' icon={<SpaceDashboardOutlined />} text='My Side'
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
+          link='/dashboard/myside'
+          icon={<SpaceDashboardOutlined fontSize='small' />}
+          text='My Side'
           selected={pathname === '/dashboard/myside' || pathname === '/dashboard/myside/cart' || pathname === '/dashboard/myside/checkout' || pathname === '/dashboard/myside/complete'} />
         {
           (user?.me.role === 'owner' || user?.me.role === 'manager') &&
-          <ListBtn onClick={handleDrawerClose} link='/dashboard/manage-staff' icon={<PeopleAltOutlined />} text='Manage Staff'
+          <ListBtn
+            onClick={handleDrawerClose}
+            link='/dashboard/manage-staff'
+            icon={<PeopleAltOutlined fontSize='small' />}
+            text='Manage Staff'
             selected={pathname === '/dashboard/manage-staff'} />
         }
         {/* <Typography sx={{
@@ -182,18 +191,33 @@ function Layout() {
         }}>Company</Typography> */}
         {
           (user?.me.role === 'owner' || user?.me.role === 'manager') &&
-          <ListBtn onClick={handleDrawerClose}
+          <ListBtn
+            onClick={handleDrawerClose}
             link='/dashboard/meetings'
-            icon={<Diversity3 />}
+            icon={<Diversity3 fontSize='small' />}
             text='Meeting-Schedule'
             selected={pathname === '/dashboard/meetings'}
           />
         }
-        <ListBtn onClick={handleDrawerClose} notification={''} link={'dashboard/products'} icon={<CategoryOutlined />} text='Products'
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
+          link={'dashboard/products'}
+          icon={<CategoryOutlined fontSize='small' />}
+          text='Products'
           selected={pathname === '/dashboard/products' || pathname === '/dashboard/products/cart' || pathname === '/dashboard/products/checkout'} />
-        <ListBtn onClick={handleDrawerClose} notification={''} link={'dashboard/orders'} icon={<ViewStreamOutlined />} text='Orders'
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
+          link={'dashboard/orders'}
+          icon={<ViewStreamOutlined fontSize='small' />}
+          text='Orders'
           selected={pathname === '/dashboard/orders'} />
-        <ListBtn onClick={handleDrawerClose} link={'dashboard/setting'} icon={<SettingsOutlined />} text='Setting'
+        <ListBtn
+          onClick={handleDrawerClose}
+          link={'dashboard/setting'}
+          icon={<SettingsOutlined fontSize='small' />}
+          text='Setting'
           selected={pathname === '/dashboard/setting'} />
       </Stack>
     </Box>
@@ -315,7 +339,7 @@ function Layout() {
             {/* user menu */}
             <Box>
               <IconButton
-              disableRipple
+                disableRipple
                 onClick={handleUserMenuOpen}
                 size="small"
                 aria-controls={open ? 'account-menu' : undefined}
