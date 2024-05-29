@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react'
 import CButton from '../../../../common/CButton/CButton';
 import { useMutation, useQuery } from '@apollo/client';
 import { ME } from '../../../../graphql/query';
-import { ACCOUNT_PROFILE_UPDATE } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import { PASSWORD_RESET } from '../../../login/graphql/mutation';
+import { ACCOUNT_PROFILE_UPDATE } from '../graphql/mutation';
 
 const Account = () => {
   const [showPassword, setShowPassword] = useState(false);

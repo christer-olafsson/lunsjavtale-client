@@ -2,23 +2,21 @@
 import { useMutation } from '@apollo/client';
 import { useTheme } from '@emotion/react';
 import { Add, ArrowBack, CalendarMonthOutlined, Close, Remove } from '@mui/icons-material';
-import { Box, Button, IconButton, ListItem, ListItemIcon, ListItemText, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, DialogActions, Divider, IconButton, ListItem, ListItemIcon, ListItemText, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { REMOVE_CART } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
-import { ADDED_CARTS } from './graphql/query';
+import { ADDED_CARTS, ADDED_CARTS_LIST } from './graphql/query';
+import CDialog from '../../../common/dialog/CDialog';
 
 const CartCard = ({ data }) => {
-  const [removeProductId, setRemoveProductId] = useState('');
-
-
+  const [removeDialogOpen, setRemoveDialogOpen] = useState(false)
   const [removeCart, { loading: removeLoading }] = useMutation(REMOVE_CART, {
     onCompleted: (res) => {
-      setRemoveProductId(null)
       toast.success(res.removeCart.message)
     },
-    refetchQueries: [ADDED_CARTS],
+    refetchQueries: [ADDED_CARTS_LIST,ADDED_CARTS],
     onError: (err) => {
       toast.error(err.message)
     }
@@ -33,16 +31,18 @@ const CartCard = ({ data }) => {
   }
 
   return (
-    <Paper elevation={2} sx={{
+    <Box sx={{
       bgcolor: 'light.main',
+      border: '1px solid lightgray',
+      borderRadius: '8px'
     }}>
-      <Stack sx={{ p: { xs: 1, lg: 3 } }} direction='row' justifyContent='space-between'>
+      <Stack sx={{ p: { xs: 1, lg: 2 } }} direction={{xs:'column', md:'row'}} justifyContent='space-between'>
         <Stack direction='row' gap={2} alignItems='center'>
           <Box sx={{
-            width: { xs: '64px', lg: '128px' },
-            height: { xs: '64px', lg: '128px' },
+            width: { xs: '64px', lg: '100px' },
+            height: { xs: '64px', lg: '100px' },
             bgcolor: '#fff',
-            borderRadius: '8px',
+            borderRadius: '4px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -52,41 +52,45 @@ const CartCard = ({ data }) => {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              borderRadius: '8px',
-            }} src="/insImg3.png" alt="" />
+              borderRadius: '4px',
+            }} src={data.item.attachments.edges.find(item => item.node.isCover)?.node.fileUrl ?? '/noImage.png'} alt="" />
           </Box>
           <Box>
-            <Stack direction='row' gap={1} mb={1}>
-              <CalendarMonthOutlined />
-              <Typography sx={{ fontWeight: 600 }}>{data?.date}</Typography>
-            </Stack>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}>{data?.item?.name}</Typography>
             <Typography sx={{ fontSize: '14px' }} mb={1}>Category: {data?.item?.category.name}</Typography>
             <Typography sx={{
               fontSize: '14px',
               fontWeight: 600,
               border: '1px solid gray',
-              width: '140px',
-              p: 1, textAlign: 'center',
+              minWidth: '120px',
+              p: .5, textAlign: 'center',
               borderRadius: '50px'
-
             }}>Quantity: {data?.quantity}</Typography>
           </Box>
         </Stack>
-        <Box>
-          <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Item Price</Typography>
-          <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>NOK: {data?.item?.priceWithTax}</Typography>
-        </Box>
+        <Stack  direction={{xs:'row', md:'column'}} my={{xs:1,md:0}}>
+          <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Item Price: </Typography>
+          <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}><b>{data?.item?.priceWithTax} kr</b> </Typography>
+        </Stack>
       </Stack>
+      <Divider />
       <Stack sx={{
-        bgcolor: '#fff',
+        // bgcolor: '#fff',
         px: 3,
-        py: 1
+        py: .5
       }} direction='row' justifyContent='space-between' alignItems='center'>
-        <CButton onClick={handleProductRemove} isLoading={removeLoading} size='small' startIcon={<Close />}>Remove</CButton>
-        <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Total NOK:<b> {data?.totalPriceWithTax}</b></Typography>
+        <CButton onClick={()=> setRemoveDialogOpen(true)} size='small' startIcon={<Close />}>Remove</CButton>
+        <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Total: <b> {data?.totalPriceWithTax} kr</b></Typography>
       </Stack>
-    </Paper>
+      {/* remove dialog */}
+      <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
+        <Typography variant='h5'>Confirm Remove?</Typography>
+        <DialogActions>
+          <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Cancel</Button>
+          <CButton isLoading={removeLoading} onClick={handleProductRemove} variant='contained'>Confirm</CButton>
+        </DialogActions>
+      </CDialog>
+    </Box>
   )
 }
 

@@ -1,14 +1,15 @@
+/* eslint-disable react/prop-types */
 import { useMutation, useQuery } from '@apollo/client';
 import { Box, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
-import CButton from '../../../../../common/CButton/CButton';
 import { Close } from '@mui/icons-material';
-import { ADDRESS_MUTATION } from '../../graphql/mutation';
-import { ME } from '../../../../../graphql/query';
-import { ADDRESSES } from '../../graphql/query';
+import { ADDRESS_MUTATION } from '../graphql/mutation';
+import { ADDRESSES } from '../graphql/query';
+import { ME } from '../../../../graphql/query';
+import CButton from '../../../../common/CButton/CButton';
 
-const AddAddress = ({ closeDialog }) => {
+const EditAddress = ({ data, closeDialog }) => {
   const [errors, setErrors] = useState({})
   const [payload, setPayload] = useState({
     address: '',
@@ -20,7 +21,7 @@ const AddAddress = ({ closeDialog }) => {
     fullName: '',
     phone: '',
     instruction: '',
-    default: true
+    default: false
   })
 
   const { data: user } = useQuery(ME)
@@ -47,7 +48,7 @@ const AddAddress = ({ closeDialog }) => {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   }
 
-  const handleCreate = () => {
+  const handleUpdate = () => {
     if (!payload.address) {
       setErrors({ address: 'Address Required!' })
       return
@@ -63,6 +64,7 @@ const AddAddress = ({ closeDialog }) => {
     addressMutation({
       variables: {
         input: {
+          id: data.id,
           company: user?.me.company.id,
           ...payload,
           postCode: parseInt(payload.postCode)
@@ -70,14 +72,32 @@ const AddAddress = ({ closeDialog }) => {
       }
     })
   }
+
+  useEffect(() => {
+    setPayload({
+      address: data.address,
+      addressType: data.addressType,
+      postCode: data.postCode || '',
+      city: data.city || '',
+      state: data.state || '',
+      country: data.country || '',
+      fullName: data.fullName || '',
+      phone: data.phone || '',
+      instruction: data.instruction || '',
+      default: data.default ? data.default : false
+    })
+  }, [data])
+
+
   return (
     <FormGroup>
       <Stack gap={2}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={2}>
-          <Typography variant='h5'>Add Shipping Address</Typography>
+          <Typography variant='h5'>Update Shipping Address</Typography>
           <IconButton sx={{ alignSelf: 'flex-end' }} onClick={() => closeDialog(false)}><Close /></IconButton>
         </Stack>
         <TextField
+          value={payload.address}
           error={Boolean(errors.address)}
           helperText={errors.address}
           multiline
@@ -89,6 +109,7 @@ const AddAddress = ({ closeDialog }) => {
         <FormControl error={Boolean(errors.addressType)} fullWidth>
           <InputLabel>Address Type</InputLabel>
           <Select
+            value={payload.addressType}
             label="Address Type"
             onChange={(e) => setPayload({ ...payload, addressType: e.target.value })}
           >
@@ -99,27 +120,27 @@ const AddAddress = ({ closeDialog }) => {
         </FormControl>
         <Stack direction='row' gap={2}>
           <Stack flex={1} gap={2}>
-            <TextField onChange={handleInputChange} name='country' label='Country' />
-            <TextField onChange={handleInputChange} name='city' label='City' />
-            <TextField onChange={handleInputChange} name='fullName' label='Full Name' />
+            <TextField value={payload.country} onChange={handleInputChange} name='country' label='Country' />
+            <TextField value={payload.city} onChange={handleInputChange} name='city' label='City' />
+            <TextField value={payload.fullName} onChange={handleInputChange} name='fullName' label='Full Name' />
           </Stack>
           <Stack flex={1} gap={2}>
-            <TextField helperText={errors.postCode} error={Boolean(errors.postCode)} onChange={handleInputChange} name='postCode' type='number' label='Post Code' />
-            <TextField onChange={handleInputChange} name='state' label='State' />
-            <TextField onChange={handleInputChange} name='phone' type='number' label='Phone number' />
+            <TextField value={payload.postCode} helperText={errors.postCode} error={Boolean(errors.postCode)} onChange={handleInputChange} name='postCode' type='number' label='Post Code' />
+            <TextField value={payload.state} onChange={handleInputChange} name='state' label='State' />
+            <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Phone number' />
           </Stack>
         </Stack>
-        <TextField onChange={handleInputChange} name='instruction' label='Instruction' />
+        <TextField value={payload.instruction} onChange={handleInputChange} name='instruction' label='Instruction' />
         <FormGroup>
           <FormControlLabel
             control={<Switch checked={payload.default}
               onChange={e => setPayload({ ...payload, default: e.target.checked })}
             />} label="Default Address" />
         </FormGroup>
-        <CButton onClick={handleCreate} isLoading={loading} variant='contained'>Save Address</CButton>
+        <CButton onClick={handleUpdate} isLoading={loading} variant='contained'>Update Address</CButton>
       </Stack>
     </FormGroup>
   )
 }
 
-export default AddAddress
+export default EditAddress

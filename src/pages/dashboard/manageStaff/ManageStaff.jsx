@@ -140,7 +140,7 @@ const ManageStaff = () => {
     {
       field: 'action',
       headerName: 'Action',
-      flex: 1,
+      width: 150,
       renderCell: (params) => (
         <Stack sx={{ height: '100%', display: params.row.role === 'owner' ? 'none' : 'flex' }} direction='row' gap={2} alignItems='center'>
           <IconButton sx={{

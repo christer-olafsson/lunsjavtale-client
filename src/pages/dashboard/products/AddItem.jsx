@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useTheme } from '@emotion/react'
-import { Add, ArrowBackIos, ArrowForwardIos, CheckBox, CheckBoxOutlineBlank, Close, Remove } from '@mui/icons-material'
+import { Add, ArrowBackIos, ArrowDropDown, ArrowForwardIos, CheckBox, CheckBoxOutlineBlank, Close, ExpandMore, Remove } from '@mui/icons-material'
 import { Autocomplete, Avatar, Box, Button, Checkbox, Collapse, IconButton, Stack, TextField, Typography } from '@mui/material'
 import { addMonths, format } from 'date-fns';
 import React, { useEffect, useState } from 'react'
@@ -85,7 +85,7 @@ const AddItem = ({ closeDialog, data }) => {
     const total = selectedDates.reduce((acc, date) => {
       return acc + (cartItems[date]?.totalPrice || 0);
     }, 0);
-    setTotalPrice(total);
+    setTotalPrice(total.toFixed(2));
   }, [selectedDates, cartItems]);
 
 
@@ -313,7 +313,7 @@ const AddItem = ({ closeDialog, data }) => {
                               <IconButton onClick={() => toggleQuantity(date, 'increase')}><Add /></IconButton>
                             </Stack>
                           </td>
-                          <td style={{ width: '200px' }}> <i>NOK:</i> {cartItems[date]?.totalPrice || 0}</td>
+                          <td style={{ width: '200px' }}> <i>NOK:</i> {cartItems[date]?.totalPrice.toFixed(2) || 0}</td>
                           <td style={{ width: '50px' }}>
                             <IconButton onClick={() => dateDeselect(date)}>
                               <Close />
@@ -406,8 +406,7 @@ const AddItem = ({ closeDialog, data }) => {
                             }
                           }}>
                             <ArrowForwardIos sx={{
-                              transition: '.5s ease',
-                              transform: selectedListId === idx ? 'rotate(90deg)' : 'rotate(0)'
+                              transform: 'rotate(90deg)'
                             }} />
                           </IconButton>
                           <Typography>{date}</Typography>

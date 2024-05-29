@@ -2,6 +2,7 @@ import { Add, ArrowForwardIos, BorderColor, Check } from '@mui/icons-material'
 import { Box, Button, Collapse, FormGroup, IconButton, Paper, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import DataTable from '../../../../components/dashboard/DataTable'
+import AddBillingInfo from './billingInfo/AddBillingInfo'
 
 const rows = [
   { id: 1, amount: '1200', status: 'success', date: 'Dec 15, 2024', info: 'democontact2132@mail.com' },
@@ -55,6 +56,7 @@ const Payment = () => {
       <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Payment Settings</Typography>
       <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>View and update your payment  details</Typography>
 
+      {/* payment getway integration */}
       <Paper sx={{ p: 2, mt: 3 }}>
         <Stack direction='row' justifyContent='space-between' alignItems='center'>
           <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Payment Gateway Integration</Typography>
@@ -128,7 +130,8 @@ const Payment = () => {
           </Box>
         </Collapse>
       </Paper>
-
+      
+      {/* transection histyory */}
       <Paper sx={{ p: {xs:!openTransaction ? 2:0,lg:2}, mt: 3 }}>
         <Stack sx={{px:{xs: !openTransaction ? 0 : 2,lg:0}}} direction='row' justifyContent='space-between' alignItems='center'>
           <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Transaction History</Typography>
@@ -150,7 +153,8 @@ const Payment = () => {
           </Box>
         </Collapse>
       </Paper>
-
+      
+      {/* billing information */}
       <Paper sx={{ p: 2, mt: 3 }}>
         <Stack direction='row' justifyContent='space-between' alignItems='center'>
           <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Billing Information</Typography>
@@ -162,26 +166,11 @@ const Payment = () => {
           </IconButton>
         </Stack>
         <Collapse in={openBillingInfo} >
-          <FormGroup>
-            <Box mt={4}>
-              <Stack direction='row' gap={2} mb={2}>
-                <Stack flex={1} gap={2}>
-                  <TextField required size='small' label='Name' value={'Construccion e inmobiliari'} />
-                  <TextField required size='small' label='Business Address' value={'87234 Preston Rd. Inglewoo'} />
-                  <TextField required size='small' label='First name' value={'Floyd Miles'} />
-                </Stack>
-                <Stack flex={1} gap={2}>
-                  <TextField required size='small' label='Sector' value={'Closing Office'} />
-                  <TextField required size='small' label='Country' value={'Corbin City'} />
-                  <TextField required size='small' label='Last Name' value={'Marjorie'} />
-                </Stack>
-              </Stack>
-            </Box>
-            <Stack direction='row' justifyContent='space-between' alignItems='center' mt={2}>
-              <Box />
-              <Button variant='contained'>Save Change</Button>
-            </Stack>
-          </FormGroup>
+          {/* <Stack direction='row' justifyContent='space-between'>
+            <Box/>
+            <Button variant='contained'>Add Billing Address</Button>
+          </Stack> */}
+          <AddBillingInfo/>
         </Collapse>
       </Paper>
     </Box>

@@ -1,136 +1,157 @@
-import { BorderColor, Search } from '@mui/icons-material'
-import { Box, IconButton, Input, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
+import { ArrowRight, BorderColor, Search, TrendingFlat } from '@mui/icons-material'
+import { Box, Button, IconButton, Input, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import DataTable from '../../../components/dashboard/DataTable'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
-const rows = [
-  { orderDate: 'Feb 09,24', id: '987654', orderName: 'The lunch collective"s Caesar salad', price: '200.00', quantity: '05', paymentInfo: '**********3478', price: '$1000', status: 'Action', deliveryDate: 'Feb 09, 2022' },
-  { orderDate: 'Feb 09,24', id: '987654', orderName: 'The lunch collective"s Caesar salad', price: '200.00', quantity: '05', paymentInfo: '**********3478', price: '$1000', status: 'Action', deliveryDate: 'Feb 09, 2022' },
-  { orderDate: 'Feb 09,24', id: '987654', orderName: 'The lunch collective"s Caesar salad', price: '200.00', quantity: '05', paymentInfo: '**********3478', price: '$1000', status: 'Action', deliveryDate: 'Feb 09, 2022' },
-  { orderDate: 'Feb 09,24', id: '987654', orderName: 'The lunch collective"s Caesar salad', price: '200.00', quantity: '05', paymentInfo: '**********3478', price: '$1000', status: 'Action', deliveryDate: 'Feb 09, 2022' },
-  { orderDate: 'Feb 09,24', id: '987654', orderName: 'The lunch collective"s Caesar salad', price: '200.00', quantity: '05', paymentInfo: '**********3478', price: '$1000', status: 'Action', deliveryDate: 'Feb 09, 2022' },
-
-];
-
+import { useQuery } from '@apollo/client';
+import { ORDERS } from './graphql/query';
+import { format } from 'date-fns';
+import Loader from '../../../common/loader/Index';
+import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 
 const Orders = () => {
-  const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
+  const [orders, setOrders] = useState([])
 
   const navigate = useNavigate()
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('lg'));
+
+  const { loading, error: orderErr } = useQuery(ORDERS, {
+    fetchPolicy:'cache-and-network',
+    notifyOnNetworkStatusChange:'true',
+    onCompleted: (res) => {
+      setOrders(res.orders.edges.map(item => item.node))
+    },
+  });
+
 
   function handleEdit(row) {
     navigate(`/dashboard/orders/edit/${row.id}`)
   }
-  function OrderIdClick(row) {
-    navigate(`/dashboard/orders/details/${row.id}`)
-  }
+
   const columns = [
     {
-      field: 'orderDate', width: isMobile ? 90 : 110,
+      field: 'details', headerName: '', width: 150,
+      renderCell: (params) => (
+        <Link to={`/dashboard/orders/details/${params.row.id}`}>
+          <Button endIcon={<ArrowRight/>} size='small'>Details</Button>
+        </Link>
+      ),
+    },
+    {
+      field: 'orderDate', width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px',fontWeight:600, lg: '15px' } }}>{isMobile ? 'Date' : 'Order Date'}</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Date</Typography>
       ),
       renderCell: (params) => {
         return (
           <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}>{params.row.orderDate}</Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}>{format(params.row.orderDate, 'yyyy-MM-dd')}</Typography>
           </Stack>
         )
       }
     },
     {
-      field: 'id', width: isMobile ? 100 : 110,
+      field: 'deliveryDate', headerName: 'Prce', width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px',fontWeight:600, lg: '15px' } }}>Order ID</Typography>
-      ),
-      renderCell: (params) => {
-        return (
-          <Stack sx={{
-            cursor: 'pointer',
-            color: 'blue'
-          }} onClick={() => OrderIdClick(params.row)} direction='row' alignItems='center'>
-            <Box>#</Box>
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}>{params.id}</Typography>
-          </Stack>
-        )
-      }
-    },
-    {
-      field: 'orderDetails',width: isMobile ? 150 : 350, 
-      renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px',fontWeight:600, lg: '15px' } }}>Order Details</Typography>
-      ),
-      renderCell: (params) => {
-        const { row } = params;
-        return (
-          <Stack >
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}>{row.orderName}</Typography>
-            <Box sx={{ display: 'inline-flex' }}>
-              <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>{row.price}</Typography>
-              <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>x{row.quantity}</Typography>
-            </Box>
-          </Stack>
-        )
-      }
-    },
-    { field: 'paymentInfo', headerName: 'Payment Info', width: 150 },
-    {
-      field: 'price', headerName: 'Price', width: isMobile ? 110 : 120, 
-      renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px',fontWeight:600, lg: '15px' } ,ml:'20px'}}>Price</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Delivery Date</Typography>
       ),
       renderCell: (params) => (
-        <Stack sx={{ height: '100%' ,ml:'20px'}} direction='row' alignItems='center'>
-          <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}>{params.row.price}</Typography>
+        <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
+          <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600 }}>
+            {format(params.row.deliveryDate, 'yyyy-MM-dd')}
+          </Typography>
+        </Stack>
+      )
+    },
+
+    // {
+    //   field: 'orderDetails', width: 250,
+    //   renderHeader: () => (
+    //     <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Details</Typography>
+    //   ),
+    //   renderCell: (params) => {
+    //     const { row } = params;
+    //     return (
+    //       <Stack direction='row' gap={2}>
+    //         <img style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px', padding: '5px' }} src={row.fileUrl ?? ''} alt="" />
+    //         <Box>
+    //           <Typography sx={{ fontSize: { xs: '14px', md: '16px' }, fontWeight: 600 }}>{row.name}</Typography>
+    //           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>kr {row.priceWithTax} <b>x{row.quantity}</b> </Typography>
+    //         </Box>
+    //       </Stack>
+    //     )
+    //   }
+    // },
+    // { field: 'paymentInfo', headerName: 'Payment Info', width: 150 },
+    {
+      field: 'totalPrice', headerName: '', width: 200,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Total Price</Typography>
+      ),
+      renderCell: (params) => (
+        <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
+          <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600 }}>
+            <span style={{ fontWeight: 400 }}>kr </span>
+            {params.row.totalPrice}
+          </Typography>
         </Stack>
       )
     },
     {
-      field: 'status', headerName: 'Status', width: 120, renderCell: (params) => (
+      field: 'status', headerName: 'Status', width: 250,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Status</Typography>
+      ),
+      renderCell: (params) => (
         <Box sx={{
           display: 'inline-flex',
           padding: '4px 12px',
-          bgcolor: '#E9EDFF',
-          borderRadius: '4px'
+          bgcolor: params.row.status === 'Placed' ? '#40A578' : '#E9EDFF',
+          color: params.row.status === 'Placed' ? '#fff' : 'inherit',
+          borderRadius: '4px',
         }}>
-          <Typography>Action</Typography>
+          <Typography variant='body2'>{params.row.status}</Typography>
         </Box>
       ),
     },
-    { field: 'deliveryDate', headerName: 'Delivery Date', width:150 },
-    {
-      field: 'action', headerName: 'Action', width: isMobile ? 90 : 80, 
-      renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px',fontWeight:600, lg: '15px' } }}>Action</Typography>
-      ),
-      renderCell: (params) => {
-        return (
-          <IconButton sx={{
-            bgcolor: 'light.main',
-            borderRadius: '5px',
-            width: { xs: '30px', md: '40px' },
-            height: { xs: '30px', md: '40px' },
-          }} onClick={() => handleEdit(params.row)}>
-            <BorderColor fontSize='small' />
-          </IconButton>
-        )
-      },
-    },
+    // {
+    //   field: 'action', headerName: 'Action', width: 150,
+    //   renderHeader: () => (
+    //     <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Action</Typography>
+    //   ),
+    //   renderCell: (params) => {
+    //     return (
+    //       <IconButton sx={{
+    //         bgcolor: 'light.main',
+    //         borderRadius: '5px',
+    //         width: { xs: '30px', md: '40px' },
+    //         height: { xs: '30px', md: '40px' },
+    //       }} onClick={() => handleEdit(params.row)}>
+    //         <BorderColor fontSize='small' />
+    //       </IconButton>
+    //     )
+    //   },
+    // },
   ];
 
-  // useEffect(() => {
-  //   setColumnVisibilityModel({
-  //     paymentInfo: isMobile ? false : true,
-  //     status: isMobile ? false : true,
-  //     deliveryDate: isMobile ? false : true,
-  //   })
-  // }, [isMobile])
+  const rows = orders.map(item => {
+    const orderCart = item.orderCarts.edges[0].node
+    return {
+      id: item.id,
+      orderDate: item.createdOn,
+      // name: orderCart.item.name,
+      // quantity: orderCart.quantity,
+      // priceWithTax: orderCart.priceWithTax,
+      totalPrice: item.finalPrice,
+      status: item.status,
+      deliveryDate: item.deliveryDate,
+      // fileUrl: orderCart.item.attachments.edges.find(item => item.node.isCover)?.node.fileUrl,
+    }
+  })
+
 
   return (
     <Box maxWidth='xxl'>
-      <Stack direction={{xs:'column',md: 'row'}} gap={2} justifyContent='space-between'>
+      <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent='space-between'>
         <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Order History</Typography>
         <Box sx={{
           display: 'flex',
@@ -148,11 +169,13 @@ const Orders = () => {
         </Box>
       </Stack>
       <Box mt={3}>
-        <DataTable
-          columns={columns}
-          rows={rows}
-          columnVisibilityModel={columnVisibilityModel}
-        />
+        {
+          loading ? <Loader /> : orderErr ? <ErrorMsg /> :
+            <DataTable
+              columns={columns}
+              rows={rows}
+            />
+        }
       </Box>
     </Box>
   )

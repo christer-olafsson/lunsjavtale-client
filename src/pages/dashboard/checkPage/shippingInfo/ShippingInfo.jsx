@@ -1,17 +1,17 @@
 import { Box, Button, DialogActions, Divider, FormControlLabel, FormGroup, IconButton, Paper, Stack, Switch, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import CDialog from '../../../../../common/dialog/CDialog'
 import AddAddress from './AddAddress'
 import { useMutation, useQuery } from '@apollo/client'
-import { ADDRESSES } from '../../graphql/query'
 import { useTheme } from '@emotion/react'
 import { CheckCircle } from '@mui/icons-material'
-import Loader from '../../../../../common/loader/Index'
-import ErrorMsg from '../../../../../common/ErrorMsg/ErrorMsg'
 import EditAddress from './EditAddress'
-import CButton from '../../../../../common/CButton/CButton'
-import { ADDRESS_DELETE, ADDRESS_MUTATION } from '../../graphql/mutation'
 import toast from 'react-hot-toast'
+import CDialog from '../../../../common/dialog/CDialog'
+import Loader from '../../../../common/loader/Index'
+import ErrorMsg from '../../../../common/ErrorMsg/ErrorMsg'
+import CButton from '../../../../common/CButton/CButton'
+import { ADDRESSES } from '../graphql/query'
+import { ADDRESS_DELETE } from '../graphql/mutation'
 
 const ShippingInfo = ({shippingInfoErr}) => {
   const [openAddAddressDialog, setOpenAddAddressDialog] = useState(false);

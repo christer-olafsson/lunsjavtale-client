@@ -62,7 +62,7 @@ function App() {
             )
           }
           <Route path='/dashboard/products' element={<Products />} />
-          <Route path='/dashboard/products/:id' element={<FoodDetails />} />
+          <Route path='/dashboard/:path/products/:id' element={<FoodDetails />} />
           <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
           <Route path='/dashboard/products/checkout' element={<CheckPage />} />
           <Route path='/dashboard/orders' element={<Orders />} />

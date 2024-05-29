@@ -1,16 +1,17 @@
 import { useTheme } from '@emotion/react';
 import { ArrowBack, CheckCircle } from '@mui/icons-material';
 import { Box, Button, Divider, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Tab, Tabs, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import CDialog from '../../../common/dialog/CDialog';
-import AddAddress from './tab/shippingInfo/AddAddress';
-import ShippingInfo from './tab/shippingInfo/ShippingInfo';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import OrderSummary from '../products/OrderSummary';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { ADDRESSES } from './graphql/query';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
+import ShippingInfo from './shippingInfo/ShippingInfo';
+import { PLACE_ORDER } from './graphql/mutation';
+import { ME } from '../../../graphql/query';
+import { ORDERS } from '../orders/graphql/query';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,8 +48,12 @@ const CheckPage = () => {
     country: '',
     phone: '',
   })
-console.log(companyAllowance)
-  const { loading, error } = useQuery(ADDRESSES, {
+
+  const navigate = useNavigate()
+
+  const { data: user } = useQuery(ME)
+
+  useQuery(ADDRESSES, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
@@ -56,7 +61,24 @@ console.log(companyAllowance)
     }
   })
 
-  const navigate = useNavigate()
+  const [placeOrder, { loading }] = useMutation(PLACE_ORDER, {
+    onCompleted: () => {
+      toast.success('Order Placed!')
+      setErrors({})
+      navigate('/dashboard/orders')
+
+    },
+    refetchQueries: [ADDRESSES,ORDERS],
+    onError: (err) => {
+      if (err.graphQLErrors && err.graphQLErrors.length > 0) {
+        const graphqlError = err.graphQLErrors[0];
+        const { extensions } = graphqlError;
+        if (extensions && extensions.errors) {
+          setErrors(extensions.errors)
+        }
+      }
+    }
+  });
 
   const handleBillingInputChange = (e) => {
     setBillingAddressPayload({ ...billingAddressPayload, [e.target.name]: e.target.value })
@@ -66,10 +88,6 @@ console.log(companyAllowance)
     if (!billingAddressPayload.address) {
       setErrors({ address: 'Billing Address Required!' })
       toast.error('Billing Address Required!')
-      return
-    }
-    if (companyAllowance === null) {
-      toast.error('CompanyAllowance Required!')
       return
     }
     if (!shippingAddressId) {
@@ -82,7 +100,35 @@ console.log(companyAllowance)
       toast.error('Payment Type Required!')
       return
     }
+    if (companyAllowance === null) {
+      setErrors({ companyAllowance: 'CompanyAllowance Required!' })
+      toast.error('CompanyAllowance Required!')
+      return
+    }
+    placeOrder({
+      variables: {
+        billingAddress: {
+          ...billingAddressPayload
+        },
+        companyAllowance: parseInt(companyAllowance),
+        paymentType: paymentType,
+        shippingAddress: shippingAddressId
+      }
+    })
   }
+
+
+  useEffect(() => {
+    const data = user?.me?.company?.billingAddress ?? {}
+    setBillingAddressPayload({
+      firstName: data.firstName ?? '',
+      lastName: data.lastName ?? '',
+      address: data.address ?? '',
+      sector: data.sector ?? '',
+      country: data.country ?? '',
+      phone: data.phone ?? '',
+    })
+  }, [user])
 
   return (
     <Box sx={{ maxWidth: '1368px' }}>
@@ -186,7 +232,7 @@ console.log(companyAllowance)
               <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Payment Selection</Typography>
               <Typography>Please fill all information below</Typography>
 
-              <FormControl error={Boolean(errors.paymentType)} fullWidth sx={{ my: 2 }}>
+              <FormControl error={Boolean(errors.paymentType)} sx={{ my: 2 }}>
                 <InputLabel >Payment Type</InputLabel>
                 <Select
                   value={paymentType}
@@ -199,6 +245,17 @@ console.log(companyAllowance)
                 </Select>
               </FormControl>
 
+              {
+                errors.length > 0 &&
+                <ul style={{ color: 'red', fontSize: '13px' }}>
+                  {
+                    errors.map((err, id) => (
+                      <li key={id}>{err}</li>
+                    ))
+                  }
+                </ul>
+              }
+
               {/* <Stack mt={5} gap={2}>
                 <TextField size='small' label='Name on card' />
                 <TextField size='small' label='Card Number' />
@@ -208,15 +265,16 @@ console.log(companyAllowance)
               <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
                 <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Shipping Info</Button>
                 {/* <Link to='/dashboard/complete'> */}
-                <CButton onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>Continue to Payment</CButton>
+                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>Continue to Payment</CButton>
                 {/* </Link> */}
               </Stack>
             </Stack>
           </CustomTabPanel>
         </Box>
-        <OrderSummary 
-        companyAllowance={companyAllowance} 
-        setCompanyAllowance={setCompanyAllowance} />
+        <OrderSummary
+          errors={errors}
+          companyAllowance={companyAllowance}
+          setCompanyAllowance={setCompanyAllowance} />
       </Stack>
     </Box>
   )

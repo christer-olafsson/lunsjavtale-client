@@ -36,7 +36,7 @@ const theme = useTheme()
           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography>
         </Stack>
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
-          <Link to={`/dashboard/products/${data.id}`}>
+          <Link to={`/dashboard/from-myside/products/${data.id}`}>
             <Button>Details</Button>
           </Link>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>

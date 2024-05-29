@@ -15,3 +15,21 @@ export const ADDRESS_DELETE = gql`
   }
   }
 `
+
+export const PLACE_ORDER = gql`
+  mutation PlaceOrder (
+    $billingAddress: BillingAddressInput,
+    $companyAllowance: Int,
+    $paymentType: String,
+    $shippingAddress: ID
+    ) {
+        placeOrder(
+        billingAddress: $billingAddress,
+        companyAllowance: $companyAllowance,
+        paymentType: $paymentType,
+        shippingAddress: $shippingAddress
+        ) {
+          success
+        }
+      }
+    `

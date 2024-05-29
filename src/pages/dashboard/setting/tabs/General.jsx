@@ -3,12 +3,12 @@ import { Autocomplete, Avatar, Box, Checkbox, FormControl, FormGroup, InputLabel
 import { useEffect, useState } from 'react'
 import CButton from '../../../../common/CButton/CButton'
 import { useMutation, useQuery } from '@apollo/client'
-import { GENERAL_PROFILE_UPDATE } from './graphql/mutation'
 import { ME } from '../../../../graphql/query'
 import toast from 'react-hot-toast'
 import { GET_INGREDIENTS } from '../../manageStaff/graphql/query'
 import { uploadFile } from '../../../../utils/uploadFile'
 import { deleteFile } from '../../../../utils/deleteFile'
+import { GENERAL_PROFILE_UPDATE } from '../graphql/mutation'
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;

@@ -92,7 +92,8 @@ html {
   border: 1px solid #C4C4C4;
   padding: 15px 20px;
   outline: none;
-  /* width: 100%; */
+  width: 100%;
+  text-align: center;
   cursor: pointer;
   font-size: 16px;
 }

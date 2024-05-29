@@ -45,6 +45,46 @@ export const GET_SINGLE_PRODUCTS = gql`
   }
 `
 
+export const ADDED_CARTS_LIST = gql`
+  query{
+  addedCartsList{
+    date
+    totalPrice
+    carts {
+      edges {
+        node {
+          id
+          createdOn
+          date
+          quantity
+          priceWithTax
+          totalPriceWithTax
+          orderedQuantity
+          item{
+            id
+            priceWithTax
+            name
+            attachments{
+              edges{
+                node{
+                  id
+                  fileUrl
+                  isCover
+                }
+              }
+            }
+            category{
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
+
 export const ADDED_CARTS = gql`
   query{
     addedCarts{

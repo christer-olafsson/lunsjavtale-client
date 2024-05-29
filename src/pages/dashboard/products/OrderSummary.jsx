@@ -9,7 +9,7 @@ import { ME } from '../../../graphql/query';
 import { ADDED_CARTS } from './graphql/query';
 import { useTheme } from '@emotion/react';
 
-const OrderSummary = ({companyAllowance,setCompanyAllowance}) => {
+const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
   const [allowanceDialog, setAllowanceDialog] = useState(false);
   const [addedCarts, setAddedCarts] = useState([]);
   const [totalCalculatedValue, setTotalCalculatedValue] = useState({})
@@ -136,8 +136,8 @@ const OrderSummary = ({companyAllowance,setCompanyAllowance}) => {
 
       <Stack direction='row' justifyContent='space-between' p={isMySideCartPage ? 0 : 2}>
         <Stack sx={{ px: 2 }} gap={3}>
-          <Typography>SubTotal :</Typography>
-          <Typography>Total Quantity :</Typography>
+          <Typography sx={{ whiteSpace: 'nowrap' }}>SubTotal :</Typography>
+          <Typography sx={{ whiteSpace: 'nowrap' }}>Total Quantity :</Typography>
           {/* <Typography>Discount (VELZON15) :</Typography> */}
           {/* <Typography>Shipping Charge :</Typography> */}
         </Stack>
@@ -152,13 +152,22 @@ const OrderSummary = ({companyAllowance,setCompanyAllowance}) => {
         (pathname === '/dashboard/products/checkout') &&
         (user?.me.role === 'owner' || user?.me.role === 'manager') &&
         (pathname === '/dashboard/complete' ? '' :
-          <Button
-            sx={{ mx: isMySideCartPage ? 0 : 4, }}
-            onClick={() => setAllowanceDialog(true)}
-            endIcon={<Edit />}
-            variant='outlined'>
-            Company Allowance {companyAllowance}%
-          </Button>)
+          <>
+            <Button
+              sx={{
+                mx: isMySideCartPage ? 0 : 4,
+                whiteSpace: 'nowrap'
+              }}
+              onClick={() => setAllowanceDialog(true)}
+              color={errors.companyAllowance ? 'error' : 'primary'}
+              endIcon={<Edit />}
+              variant='outlined'>
+              Company Allowance {companyAllowance}%
+            </Button>
+            {errors.companyAllowance &&
+              <Typography variant='body2' sx={{ color: 'red', textAlign: 'center' }}>Company Allowance Required!</Typography>}
+          </>
+        )
       }
       <Stack sx={{
         bgcolor: 'light.main',

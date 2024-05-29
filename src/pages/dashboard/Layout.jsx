@@ -10,7 +10,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useMatch } from 'react-router-dom';
 import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Logout, MailOutline, NotificationsNone, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
 import { Avatar, Badge, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
@@ -97,6 +97,10 @@ function Layout() {
 
   const { pathname } = useLocation()
 
+  const productDetailsMatchFromMyside = useMatch('/dashboard/from-myside/products/:id')
+  const productDetailsMatchFromProducts = useMatch('/dashboard/from-products/products/:id')
+  const orderDetailsMatch = useMatch('/dashboard/orders/details/:id')
+
   const { data: user } = useQuery(ME)
 
   const [logout, { loading }] = useMutation(LOGOUT, {
@@ -174,7 +178,13 @@ function Layout() {
           link='/dashboard/myside'
           icon={<SpaceDashboardOutlined fontSize='small' />}
           text='My Side'
-          selected={pathname === '/dashboard/myside' || pathname === '/dashboard/myside/cart' || pathname === '/dashboard/myside/checkout' || pathname === '/dashboard/myside/complete'} />
+          selected={
+            pathname === '/dashboard/myside'
+            || pathname === '/dashboard/myside/cart'
+            || pathname === '/dashboard/myside/checkout'
+            || pathname === '/dashboard/myside/complete'
+            || pathname === productDetailsMatchFromMyside?.pathname
+          } />
         {
           (user?.me.role === 'owner' || user?.me.role === 'manager') &&
           <ListBtn
@@ -205,14 +215,19 @@ function Layout() {
           link={'dashboard/products'}
           icon={<CategoryOutlined fontSize='small' />}
           text='Products'
-          selected={pathname === '/dashboard/products' || pathname === '/dashboard/products/cart' || pathname === '/dashboard/products/checkout'} />
+          selected={
+            pathname === '/dashboard/products'
+            || pathname === '/dashboard/products/cart'
+            || pathname === '/dashboard/products/checkout'
+            || pathname === productDetailsMatchFromProducts?.pathname
+          } />
         <ListBtn
           onClick={handleDrawerClose}
           notification={''}
           link={'dashboard/orders'}
           icon={<ViewStreamOutlined fontSize='small' />}
           text='Orders'
-          selected={pathname === '/dashboard/orders'} />
+          selected={pathname === '/dashboard/orders' || pathname == orderDetailsMatch?.pathname} />
         <ListBtn
           onClick={handleDrawerClose}
           link={'dashboard/setting'}
