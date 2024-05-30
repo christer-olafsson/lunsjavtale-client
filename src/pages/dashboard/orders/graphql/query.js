@@ -13,7 +13,7 @@ export const ORDERS = gql`
           status
           deliveryDate
           finalPrice
-          orderCarts{
+          orderCarts(addedFor: "141"){
             edges{
               node{
                 id
@@ -42,8 +42,50 @@ export const ORDERS = gql`
     }
 }
 `
+// export const ORDERS = gql`
+//   query($addedFor: String){
+//     orders{
+//       edges{
+//         node{
+//           id
+//           createdOn
+//           isDeleted
+//           deletedOn
+//           finalPrice
+//           status
+//           deliveryDate
+//           finalPrice
+//           orderCarts(addedFor: "141"){
+//             edges{
+//               node{
+//                 id
+//                 quantity
+//                 priceWithTax
+//                 totalPriceWithTax
+//                 orderedQuantity
+//                 item{
+//                   id
+//                   priceWithTax
+//                   name
+//                   attachments{
+//                   edges{
+//                     node{
+//                       fileUrl
+//                       isCover
+//                     }
+//                   }
+//                 }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+// }
+// `
 export const ORDER = gql`
-  query ($id:ID!) {
+  query ($id:ID!,$addedFor: String) {
     order(id:$id){
     id
     createdOn
@@ -51,7 +93,7 @@ export const ORDER = gql`
     deliveryDate
     finalPrice
     status
-    orderCarts(addedFor:null){
+    orderCarts{
       edges{
         node{
           id
@@ -77,7 +119,7 @@ export const ORDER = gql`
               name
             }
           }
-          users(addedFor:null){
+          users(addedFor:$addedFor){
             edges{
               node{
                 id

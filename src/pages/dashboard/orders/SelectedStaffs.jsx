@@ -4,10 +4,14 @@ import { Avatar, Box, Button, IconButton, Stack, Typography } from '@mui/materia
 import React, { useEffect, useState } from 'react'
 import DataTable from '../../../components/dashboard/DataTable';
 import { format } from 'date-fns';
+import { useQuery } from '@apollo/client';
+import { ME } from '../../../graphql/query';
 
 const SelectedStaffs = ({ users, closeDialog }) => {
   // const [rows, setRows] = useState([])
 
+
+  const { data: user } = useQuery(ME)
 
   const columns = [
     {
@@ -42,12 +46,12 @@ const SelectedStaffs = ({ users, closeDialog }) => {
       ),
       renderCell: (params) => {
         return (
-          <Stack sx={{ height: '100%' }} gap={.2} >
-            <Typography sx={{ fontSize: { xs: '12px', md: '14px' },display:'inline-flex' }}>
-              <MailOutline sx={{mr:.5}} fontSize='small'/> {params.row.email}
+          <Stack sx={{ height: '100%' }} gap={.5} >
+            <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, display: 'inline-flex' }}>
+              <MailOutline sx={{ mr: .5 }} fontSize='small' /> {params.row.email}
             </Typography>
-            <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>
-              <PhoneOutlined sx={{mr:.5}} fontSize='small'/>{params.row.phone}
+            <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, display: 'inline-flex' }}>
+              <PhoneOutlined sx={{ mr: .5 }} fontSize='small' />{params.row.phone}
             </Typography>
           </Stack>
         )
@@ -128,10 +132,13 @@ const SelectedStaffs = ({ users, closeDialog }) => {
         </IconButton>
       </Stack>
 
-      <Stack direction='row' justifyContent='space-between' mb={3}>
-        <Box />
-        <Button variant='contained' startIcon={<Add />}>Add Staff</Button>
-      </Stack>
+      {
+        user.me.role !== 'employee' &&
+        <Stack direction='row' justifyContent='space-between' mb={3}>
+          <Box />
+          <Button variant='contained' startIcon={<Add />}>Add Staff</Button>
+        </Stack>
+      }
 
       <Box>
         <DataTable

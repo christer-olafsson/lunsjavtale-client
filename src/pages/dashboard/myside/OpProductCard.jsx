@@ -63,7 +63,7 @@ const OpProductCard = ({ item }) => {
             <Add fontSize='small' />
           </IconButton>
         </Box>
-        <Link to={`/dashboard/products/${item.id}`}>
+        <Link to={`/dashboard/from-myside/products/${item.id}`}>
           <button style={{
             backgroundColor: 'transparent',
             color:'#fff',

@@ -9,6 +9,7 @@ import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator, timelineItemClasses } from '@mui/lab'
 import CDialog from '../../../common/dialog/CDialog';
 import SelectedStaffs from './SelectedStaffs';
+import { ME } from '../../../graphql/query';
 
 
 const OrderDetails = () => {
@@ -20,9 +21,12 @@ const OrderDetails = () => {
 
   const { id } = useParams()
 
+  const { data: user } = useQuery(ME)
+
   const { loading, error: orderErr } = useQuery(ORDER, {
     variables: {
-      id
+      id,
+      addedFor: user?.me.role !== 'employee' ? null : user?.me.id
     },
     onCompleted: (res) => {
       setOrder(res.order)
@@ -30,8 +34,6 @@ const OrderDetails = () => {
   });
 
   const navigate = useNavigate()
-
-
 
   return (
     <Box>
@@ -53,8 +55,8 @@ const OrderDetails = () => {
             px: 2,
             width: 'fit-content',
             height: '40px',
-            bgcolor: order?.status === 'Placed' ? '#40A578' : '#E9EDFF',
-            color: order?.status === 'Placed' ? '#fff' : 'inherit',
+            bgcolor: order?.status === 'Placed' ? '#40A578' : 'red',
+            color: '#fff',
             borderRadius: '4px',
             textAlign: 'center'
           }}>

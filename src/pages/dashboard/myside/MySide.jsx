@@ -80,7 +80,7 @@ const MySide = (props) => {
   });
 
   return (
-    <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column', lg: 'row' }} gap={3}>
+    <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
       <Box sx={{
         width: { xs: '100%', lg: '70%' },
       }}>
@@ -166,24 +166,7 @@ const MySide = (props) => {
       <Box sx={{
         flex: 1
       }}>
-        {
-          addedProducts.length
-            ?
-            <Box >
-              <MiniCart refetch={refetch} path='/dashboard/myside/cart' />
-            </Box>
-            :
-            <Box sx={{
-              p: 2, borderRadius: '8px', mb: 2,
-              bgcolor: 'primary.main',
-              color: '#fff',
-              mt: 4,
-              cursor: 'pointer'
-            }}>
-              <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Shopping Cart</Typography>
-              <Typography sx={{ fontSize: '14px', fontWeight: '400' }}>Choose some of the delicious dishes from the list below 😋</Typography>
-            </Box>
-        }
+        <MiniCart />
       </Box>
     </Stack>
   )

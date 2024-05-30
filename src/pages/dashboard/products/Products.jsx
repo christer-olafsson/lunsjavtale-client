@@ -84,23 +84,15 @@ const Products = () => {
     },
   });
 
-  const { data: addedProductsData,refetch } = useQuery(ADDED_PRODUCTS, {
-    fetchPolicy: 'no-cache',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (res) => {
-      setAddedProducts(res.addedProducts.edges.map(item => item.node))
-    }
-  });
 
- 
   return (
     <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
       <Paper sx={{
         width: { xs: '100%', lg: '70%' },
-        position:'relative',
+        position: 'relative',
         boxShadow: {
-          xs: 'none', 
-          lg: 2,    
+          xs: 'none',
+          lg: 2,
         }
       }}>
         <Stack direction='row' sx={{
@@ -111,7 +103,7 @@ const Products = () => {
             bgcolor: 'light.main',
             width: '100%',
             p: 3
-          }} direction='row' gap={2} flexWrap='wrap' my={4}>
+          }} direction='row' gap={2} flexWrap='wrap'>
             <Box sx={{
               border: '1px solid lightgray',
               py: 1.5, px: 2,
@@ -156,24 +148,7 @@ const Products = () => {
       <Box sx={{
         flex: 1
       }}>
-        {/* <DateAndInfoSec /> */}
-        {
-          addedProducts.length
-            ?
-            <MiniCart refetch={refetch} />
-            :
-            <Box sx={{
-              position: 'sticky',
-              top:80,
-              p: 2, borderRadius: '8px',
-              mb: 2,
-              bgcolor: 'primary.main',
-              color: '#fff',
-            }}>
-              <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Shopping Cart</Typography>
-              <Typography sx={{ fontSize: '14px' }}>Choose some of the delicious dishes from the list.</Typography>
-            </Box>
-        }
+        <MiniCart />
       </Box>
     </Stack>
   )

@@ -1,25 +1,33 @@
-import { ArrowRight, BorderColor, Search, TrendingFlat } from '@mui/icons-material'
+import { AccessTime, ArrowRight, BorderColor, CalendarMonthOutlined, Search, TrendingFlat } from '@mui/icons-material'
 import { Box, Button, IconButton, Input, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import DataTable from '../../../components/dashboard/DataTable'
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { ORDERS } from './graphql/query';
 import { format } from 'date-fns';
 import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
+import { ME } from '../../../graphql/query';
+import { enUS } from 'date-fns/locale';
 
 const Orders = () => {
   const [orders, setOrders] = useState([])
 
   const navigate = useNavigate()
 
+  const { data: user } = useQuery(ME)
+
+
   const { loading, error: orderErr } = useQuery(ORDERS, {
-    fetchPolicy:'cache-and-network',
-    notifyOnNetworkStatusChange:'true',
+    // fetchPolicy:'network-only',
+    // notifyOnNetworkStatusChange: true,
+    // variables: {
+    //   addedFor: '141'
+    // },
     onCompleted: (res) => {
-      setOrders(res.orders.edges.map(item => item.node))
-    },
+      setOrders(res.orders.edges.map(item => item.node));
+    }
   });
 
 
@@ -32,7 +40,7 @@ const Orders = () => {
       field: 'details', headerName: '', width: 150,
       renderCell: (params) => (
         <Link to={`/dashboard/orders/details/${params.row.id}`}>
-          <Button endIcon={<ArrowRight/>} size='small'>Details</Button>
+          <Button variant='outlined' endIcon={<ArrowRight />} size='small'>Details</Button>
         </Link>
       ),
     },
@@ -43,8 +51,9 @@ const Orders = () => {
       ),
       renderCell: (params) => {
         return (
-          <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}>{format(params.row.orderDate, 'yyyy-MM-dd')}</Typography>
+          <Stack sx={{ height: '100%' }}>
+            <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{format(params.row.orderDate, 'yyyy-MMMM-dd')}</Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, fontWeight: 500, display: 'inline-flex' }}><AccessTime fontSize='small' />{format(params.row.orderDate, 'HH:mm a', { locale: enUS })}</Typography>
           </Stack>
         )
       }
@@ -56,8 +65,9 @@ const Orders = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-          <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600 }}>
-            {format(params.row.deliveryDate, 'yyyy-MM-dd')}
+          <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600, display: 'inline-flex', gap: '5px' }}>
+            <CalendarMonthOutlined fontSize='small' />
+            {format(params.row.deliveryDate, 'yyyy-MMMM-dd')}
           </Typography>
         </Stack>
       )
@@ -105,8 +115,8 @@ const Orders = () => {
         <Box sx={{
           display: 'inline-flex',
           padding: '4px 12px',
-          bgcolor: params.row.status === 'Placed' ? '#40A578' : '#E9EDFF',
-          color: params.row.status === 'Placed' ? '#fff' : 'inherit',
+          bgcolor: params.row.status === 'Placed' ? '#40A578' : 'red',
+          color: '#fff',
           borderRadius: '4px',
         }}>
           <Typography variant='body2'>{params.row.status}</Typography>
@@ -134,7 +144,7 @@ const Orders = () => {
   ];
 
   const rows = orders.map(item => {
-    const orderCart = item.orderCarts.edges[0].node
+    const orderCart = item.orderCarts.edges[0]?.node
     return {
       id: item.id,
       orderDate: item.createdOn,

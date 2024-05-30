@@ -2,12 +2,13 @@
 import { Box } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
-const DataTable = ({rows,columns,getRowHeight,columnVisibilityModel}) => {
+const DataTable = ({ rows, columns, getRowHeight, columnVisibilityModel }) => {
   return (
     <Box sx={{ height: '100%', width: '100%', }}>
       <DataGrid
         rows={rows}
         columns={columns}
+        autoHeight
         getRowHeight={getRowHeight}
         initialState={{
           pagination: {

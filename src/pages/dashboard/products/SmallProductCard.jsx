@@ -14,7 +14,7 @@ const SmallProductCard = ({ data }) => {
     setOpenProductAddDialog(false);
   };
   return (
-    <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{xs:'start',lg:'center'}} gap={{ xs: 0, md: 2 }} sx={{
+    <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'start', lg: 'center' }} gap={{ xs: 0, md: 2 }} sx={{
       width: '100%',
       maxWidth: '1000px',
       bgcolor: 'light.main',
@@ -25,7 +25,7 @@ const SmallProductCard = ({ data }) => {
         width: { xs: '100%', md: '230px' },
         height: '150px',
       }}>
-        <img style={{ width: '100%', height: '100%', borderRadius: '4px', objectFit: 'cover' }}
+        <img style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }}
           src={data?.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
       </Box>
       <Stack sx={{ flex: 1 }} justifyContent='space-between'>
@@ -40,7 +40,7 @@ const SmallProductCard = ({ data }) => {
           </Link>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
             <Box sx={{ padding: '6px 16px', mr: 2, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>
-              <Typography sx={{ fontSize: '14px' }}>kr: {data.priceWithTax}</Typography>
+              <Typography sx={{ fontSize: '14px' }}>kr:  <b>{data.priceWithTax}</b></Typography>
             </Box>
             <IconButton
               color='primary'

@@ -26,6 +26,12 @@ export const ME = gql`
         postCode
         logoUrl
         totalEmployee
+        description
+        workingEmail
+        contact
+        isBlocked
+        fileId
+        formationDate
           billingAddress{
           id
           firstName
