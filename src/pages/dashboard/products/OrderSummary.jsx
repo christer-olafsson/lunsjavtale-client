@@ -150,7 +150,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
       </Stack>
       {
         (pathname === '/dashboard/products/checkout') &&
-        (user?.me.role === 'owner' || user?.me.role === 'manager') &&
+        (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
         (pathname === '/dashboard/complete' ? '' :
           <>
             <Button

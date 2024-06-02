@@ -1,4 +1,4 @@
-import { Add, ArrowBack, ArrowDropDown, BorderColor, Search } from '@mui/icons-material';
+import { Add, ArrowBack, ArrowDropDown, BorderColor, DriveFileRenameOutlineOutlined, Edit, Search } from '@mui/icons-material';
 import { Box, Button, Divider, IconButton, Input, Rating, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,10 +17,9 @@ const OrderDetails = () => {
   const [ratingCount, setRatingCount] = useState(5);
   const [selectedStaffsDialogOpen, setSelectedStaffsDialogOpen] = useState(false)
 
+
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'))
-
   const { id } = useParams()
-
   const { data: user } = useQuery(ME)
 
   const { loading, error: orderErr } = useQuery(ORDER, {
@@ -76,7 +75,8 @@ const OrderDetails = () => {
                     <Stack sx={{
                       border: '1px solid lightgray',
                       maxWidth: '800px',
-                      borderRadius: '8px'
+                      borderRadius: '8px',
+                      p: 1
                     }} key={data.node.id} direction='row' gap={2} alignItems='center' justifyContent='space-between'>
                       <Stack direction={{ xs: 'column', md: 'row' }} gap={2} alignItems='center'>
                         <img style={{
@@ -84,20 +84,24 @@ const OrderDetails = () => {
                           height: '100px',
                           objectFit: 'cover',
                           borderRadius: '4px',
-                          margin: '10px'
                         }} src={data?.node.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
-                        <Box ml={2} mb={2}>
+                        <Box>
                           <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{data?.node.item.name}</Typography>
                           <Typography variant='body2'>Category: <b>{data?.node.item.category.name}</b></Typography>
                           <Typography>Price: <b>{data?.node.item.priceWithTax}</b> kr</Typography>
                         </Box>
                       </Stack>
                       <Stack gap={.5} mr={2}>
-                        <Typography>Quantity: <b>{data?.node.orderedQuantity}</b> </Typography>
-                        <Typography>Total Price: <b>{data?.node.totalPriceWithTax}</b> kr</Typography>
-                        <Button onClick={() => setSelectedStaffsDialogOpen(true)} variant='outlined' size='small' endIcon={<ArrowDropDown />}>
-                          Selected Staffs ({data?.node.users?.edges?.length})
+                        <Button
+                          onClick={() => setSelectedStaffsDialogOpen(true)}
+                          endIcon={<DriveFileRenameOutlineOutlined />}
+                          variant='contained'
+                          size='small'>
+                          Edit
                         </Button>
+                        <Typography>Quantity: <b>{data?.node.orderedQuantity}</b> </Typography>
+                        <Typography>Selected Staffs: <b>({data?.node.users?.edges?.length})</b></Typography>
+                        <Typography>Total Price: <b>{data?.node.totalPriceWithTax} </b> kr </Typography>
                       </Stack>
                       {/* selected staffs */}
                       <CDialog
@@ -108,7 +112,7 @@ const OrderDetails = () => {
                       >
                         <SelectedStaffs
                           closeDialog={() => setSelectedStaffsDialogOpen(false)}
-                          users={data?.node.users?.edges}
+                          data={data?.node}
                         />
                       </CDialog>
                     </Stack>
@@ -208,13 +212,18 @@ const OrderDetails = () => {
           }}>
             <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 2 }}>Customer Information</Typography>
             <Typography sx={{ fontSize: '16px' }}>Name</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>Brooklyn Simmons</Typography>
+            <Typography sx={{ fontSize: '16px', fontWeight: 600, }}>{user?.me.firstName}</Typography>
+            {user?.me.username &&
+              <Typography sx={{ fontSize: '14px', mb: 4 }}>@{user?.me.username}</Typography>
+            }
             <Typography sx={{ fontSize: '16px' }}>Email</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>jackson.graham@example.com</Typography>
+            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{user?.me.email}</Typography>
             <Typography sx={{ fontSize: '16px' }}>Shipping address</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>1901 Thornridge Cir. Shiloh, Hawaii, 81063</Typography>
+            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>
+              {order?.shippingAddress?.address}, {order?.shippingAddress?.city}, {order?.shippingAddress?.postCode}
+            </Typography>
             <Typography sx={{ fontSize: '16px' }}>Billing address</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>Same as shipping address</Typography>
+            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{order?.billingAddress?.address}</Typography>
             <Typography sx={{ fontSize: '16px', mb: 1 }}>Payment</Typography>
             <Stack direction='row' gap={2}>
               <Box sx={{

@@ -93,6 +93,20 @@ export const ORDER = gql`
     deliveryDate
     finalPrice
     status
+    shippingAddress{
+      address
+      city
+      state
+      postCode
+      fullName
+      phone
+    }
+    billingAddress{
+      firstName
+      lastName
+      address
+      phone
+    }
     orderCarts{
       edges{
         node{

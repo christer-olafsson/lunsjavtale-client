@@ -26,6 +26,7 @@ export const ME = gql`
         postCode
         logoUrl
         totalEmployee
+        noOfEmployees
         description
         workingEmail
         contact

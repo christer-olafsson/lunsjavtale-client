@@ -11,7 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation, useMatch } from 'react-router-dom';
-import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Logout, MailOutline, NotificationsNone, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
+import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Logout, MailOutline, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
 import { Avatar, Badge, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
@@ -40,8 +40,8 @@ const ListBtn = ({ style, text, icon, link, selected, onClick, notification }) =
           {icon}
           <Typography sx={{
             color: 'gray',
-            fontSize: '16px',
-            fontWeight: 400, ml: 1
+            fontSize: '15px',
+            ml: 1
           }}>{text}</Typography>
         </Box>
         {notification && <Typography sx={{
@@ -186,7 +186,7 @@ function Layout() {
             || pathname === productDetailsMatchFromMyside?.pathname
           } />
         {
-          (user?.me.role === 'owner' || user?.me.role === 'manager') &&
+          (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
           <ListBtn
             onClick={handleDrawerClose}
             link='/dashboard/manage-staff'
@@ -200,7 +200,7 @@ function Layout() {
           fontSize: '14px', my: 2
         }}>Company</Typography> */}
         {
-          (user?.me.role === 'owner' || user?.me.role === 'manager') &&
+          (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
           <ListBtn
             onClick={handleDrawerClose}
             link='/dashboard/meetings'
@@ -226,8 +226,15 @@ function Layout() {
           notification={''}
           link={'dashboard/orders'}
           icon={<ViewStreamOutlined fontSize='small' />}
-          text='Orders'
+          text='Orders-History'
           selected={pathname === '/dashboard/orders' || pathname == orderDetailsMatch?.pathname} />
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
+          link={'dashboard/payments'}
+          icon={<PaidOutlined fontSize='small' />}
+          text='Payments-History'
+          selected={pathname === '/dashboard/payments'} />
         <ListBtn
           onClick={handleDrawerClose}
           link={'dashboard/setting'}
@@ -366,10 +373,14 @@ function Layout() {
                   <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{user?.me.username}</Typography>
                   <Typography sx={{
                     fontSize: '12px',
-                    bgcolor: user?.me.role === 'manager' ? 'primary.main' : user?.me.role === 'owner' ? 'purple' : 'gray.main',
+                    bgcolor: user?.me.role === 'company-manager' ?
+                      'primary.main' : user?.me.role === 'company-owner' ?
+                        'purple' : 'gray.main',
                     px: 1, borderRadius: '50px',
-                    color: user?.me.role === 'manager' ? '#fff' : user?.me.role === 'owner' ? '#fff' : 'inherit',
-                  }}>{user?.me.role}</Typography>
+                    color: user?.me.role === 'company-manager' ?
+                      '#fff' : user?.me.role === 'company-owner' ?
+                        '#fff' : 'inherit',
+                  }}>{user?.me.role.replace('company-', '')}</Typography>
                 </Box>
               </IconButton>
               <Menu

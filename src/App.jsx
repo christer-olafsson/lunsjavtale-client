@@ -22,6 +22,7 @@ import { ME } from './graphql/query'
 import Meeting from './pages/dashboard/meeting/Index'
 import FoodDetails from './pages/dashboard/products/FoodDetails'
 import CheckPage from './pages/dashboard/checkPage/Index'
+import Payment from './pages/dashboard/payment/Payment'
 
 function App() {
 
@@ -38,7 +39,7 @@ function App() {
   useEffect(() => {
     setToken(localStorage.getItem('token'))
   }, [])
-
+console.log(user)
 
   return (
     <div>
@@ -54,7 +55,7 @@ function App() {
           <Route path='/dashboard/myside/checkout' element={<CheckPage />} /> */}
           <Route path='/dashboard/complete' element={<OrderComplete />} />
           {
-            (user?.me.role === 'owner' || user?.me.role === 'manager') && (
+            (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') && (
               <>
                 <Route path='/dashboard/manage-staff' element={<ManageStaff />} />
                 <Route path='/dashboard/meetings' element={<Meeting />} />
@@ -66,6 +67,7 @@ function App() {
           <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
           <Route path='/dashboard/products/checkout' element={<CheckPage />} />
           <Route path='/dashboard/orders' element={<Orders />} />
+          <Route path='/dashboard/payments' element={<Payment />} />
           <Route path='/dashboard/orders/details/:id' element={<OrderDetails />} />
           <Route path='/dashboard/orders/details/single/:id' element={<OrderSingleDetails />} />
           <Route path='/dashboard/orders/edit/:id' element={<EditOrder />} />

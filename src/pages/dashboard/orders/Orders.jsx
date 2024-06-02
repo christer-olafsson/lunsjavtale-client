@@ -37,17 +37,19 @@ const Orders = () => {
 
   const columns = [
     {
-      field: 'details', headerName: '', width: 150,
+      field: 'details', headerName: '', width: 70,
       renderCell: (params) => (
         <Link to={`/dashboard/orders/details/${params.row.id}`}>
-          <Button variant='outlined' endIcon={<ArrowRight />} size='small'>Details</Button>
+          <IconButton>
+            <ArrowRight />
+          </IconButton>
         </Link>
       ),
     },
     {
       field: 'orderDate', width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Date</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Ordered On</Typography>
       ),
       renderCell: (params) => {
         return (

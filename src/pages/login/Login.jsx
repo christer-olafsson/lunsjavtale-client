@@ -79,7 +79,6 @@ const Login = (props) => {
 
   const [loginUser, { loading, error: loginErr }] = useMutation(LOGIN_USER, {
     onCompleted: (res) => {
-      console.log('login res:', res)
       localStorage.setItem("token", res.loginUser.access);
       toast.success('Login Success!');
       window.location.href = "/dashboard/myside";

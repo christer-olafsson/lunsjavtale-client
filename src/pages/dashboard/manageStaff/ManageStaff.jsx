@@ -72,10 +72,10 @@ const ManageStaff = () => {
     join: format(new Date(item.node.dateJoined), 'MMMM dd, yyyy'),
     allergies: item.node.allergies
   })).sort((a, b) => {
-    if (a.role === 'owner') return -1;
-    if (b.role === 'owner') return 1;
-    if (a.role === 'manager') return -1;
-    if (b.role === 'manager') return 1;
+    if (a.role === 'company-owner') return -1;
+    if (b.role === 'company-owner') return 1;
+    if (a.role === 'company-manager') return -1;
+    if (b.role === 'company-manager') return 1;
     return 0;
   });
 
@@ -112,10 +112,10 @@ const ManageStaff = () => {
                 <Typography sx={{ fontSize: '12px' }}>@{row.username}</Typography>
                 <Typography sx={{
                   fontSize: '12px',
-                  bgcolor: row.role === 'manager' ? 'primary.main' : row.role === 'owner' ? 'purple' : 'gray.main',
+                  bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'gray.main',
                   px: 1, borderRadius: '50px',
-                  color: row.role === 'manager' ? '#fff' : row.role === 'owner' ? '#fff' : 'inherit',
-                }}>{params.row.role}</Typography>
+                  color: row.role === 'company-manager' ? '#fff' : row.role === 'company-owner' ? '#fff' : 'inherit',
+                }}>{params.row.role.replace('company-','')}</Typography>
               </Stack>
             </Box>
           </Stack>
@@ -142,7 +142,7 @@ const ManageStaff = () => {
       headerName: 'Action',
       width: 150,
       renderCell: (params) => (
-        <Stack sx={{ height: '100%', display: params.row.role === 'owner' ? 'none' : 'flex' }} direction='row' gap={2} alignItems='center'>
+        <Stack sx={{ height: '100%', display: params.row.role === 'company-owner' ? 'none' : 'flex' }} direction='row' gap={2} alignItems='center'>
           <IconButton sx={{
             bgcolor: 'light.main',
             borderRadius: '5px',

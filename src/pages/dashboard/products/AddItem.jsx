@@ -132,9 +132,9 @@ const AddItem = ({ closeDialog, data }) => {
           <Stack sx={{ height: '100%' }} direction='row' gap={1} alignItems='center'>
             <Typography sx={{
               fontSize: '12px',
-              bgcolor: row.role === 'manager' ? 'primary.main' : row.role === 'owner' ? 'purple' : 'gray.main',
+              bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'gray.main',
               px: 1, borderRadius: '4px',
-              color: row.role === 'manager' ? '#fff' : row.role === 'owner' ? '#fff' : 'inherit',
+              color: row.role === 'company-manager' ? '#fff' : row.role === 'company-owner' ? '#fff' : 'inherit',
             }}>{params.row.role}</Typography>
           </Stack>
         )
@@ -174,6 +174,7 @@ const AddItem = ({ closeDialog, data }) => {
     });
   };
 
+  // row selection
   const handleSelectionChange = (date, newSelection) => {
     setRowSelections((prev) => {
       const selectedRowsLength = newSelection.length;
@@ -222,10 +223,10 @@ const AddItem = ({ closeDialog, data }) => {
     join: format(new Date(item.node.dateJoined), 'MMMM dd, yyyy'),
     allergies: item.node.allergies
   })).sort((a, b) => {
-    if (a.role === 'owner') return -1;
-    if (b.role === 'owner') return 1;
-    if (a.role === 'manager') return -1;
-    if (b.role === 'manager') return 1;
+    if (a.role === 'company-owner') return -1;
+    if (b.role === 'company-owner') return 1;
+    if (a.role === 'company-manager') return -1;
+    if (b.role === 'company-manager') return 1;
     return 0;
   });
 

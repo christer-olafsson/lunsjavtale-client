@@ -136,7 +136,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
                   onChange={handleRoleChange}
                 >
                   {
-                    user?.me.role === 'owner' &&
+                    user?.me.role === 'company-owner' &&
                     <MenuItem value={'manager'}>Manager</MenuItem>
                   }
                   <MenuItem value={'employee'}>Employee</MenuItem>

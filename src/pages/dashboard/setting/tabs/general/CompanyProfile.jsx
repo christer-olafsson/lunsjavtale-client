@@ -26,16 +26,14 @@ const CompanyProfile = () => {
   })
 
   const { data: user } = useQuery(ME);
-
+  console.log(user?.me)
 
   const [CompanyProfileUpdate, { loading: updateLoading }] = useMutation(COMPANY_MUTATION, {
     refetchQueries: [
       { query: ME }
     ],
     onCompleted: (res) => {
-      console.log(res)
-      const data = res.generalProfileUpdate
-      toast.success(data.message);
+      toast.success(res.companyMutation.message);
       setPayloadEditOn(false)
       setErrors({})
     },
@@ -95,6 +93,7 @@ const CompanyProfile = () => {
           id: user?.me.company.id,
           postCode: parseInt(payload.postCode),
           workingEmail: payload.email,
+          noOfEmployees: parseInt(payload.noOfEmployees),
           logoUrl,
           fileId
         }
@@ -111,7 +110,7 @@ const CompanyProfile = () => {
       email: company.email ?? '',
       contact: company.contact ?? '',
       postCode: company.postCode ?? '',
-      noOfEmployees: company.totalEmployee ?? '',
+      noOfEmployees: company.noOfEmployees ?? '',
       formationDate: company.formationDate ?? null,
       address: '',
     });
