@@ -36,7 +36,7 @@ const SmallProductCard = ({ data }) => {
         </Stack>
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
           <Link to={`/dashboard/from-products/products/${data.id}`}>
-            <Button endIcon={<ArrowRightAltOutlined />}>Details</Button>
+           Details
           </Link>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
             <Box sx={{ padding: '6px 16px', mr: 2, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>

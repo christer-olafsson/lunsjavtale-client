@@ -1,11 +1,11 @@
-import { Close, ModeEdit, Search } from '@mui/icons-material'
+import { CalendarMonthOutlined, Close, MailOutline, ModeEdit, PhoneInTalkOutlined, Search } from '@mui/icons-material'
 import { Avatar, Box, Button, DialogActions, IconButton, Input, Stack, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import DataTable from '../../../components/dashboard/DataTable'
 import CDialog from '../../../common/dialog/CDialog';
 import AddStaff from './AddStaff';
 import EditStaff from './EditStaff';
-import { useLazyQuery, useMutation} from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { GET_COMPANY_STAFFS } from './graphql/query';
 import { format } from 'date-fns';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
@@ -23,7 +23,7 @@ const ManageStaff = () => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
   const [editStaffData, setEditStaffData] = useState({});
-  const [deleteStaffData, setDeleteStaffData] = useState({email:'',fileId:''});
+  const [deleteStaffData, setDeleteStaffData] = useState({ email: '', fileId: '' });
   const [loadingFiledelete, setLoadingFileDelete] = useState(false)
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -67,6 +67,7 @@ const ManageStaff = () => {
     email: item.node.email,
     jobTitle: item.node.jobTitle,
     phone: item.node.phone,
+    dueAmount: item.node.dueAmount,
     photoUrl: item.node.photoUrl,
     fileId: item.node.fileId,
     join: format(new Date(item.node.dateJoined), 'MMMM dd, yyyy'),
@@ -85,7 +86,7 @@ const ManageStaff = () => {
     setEditStaffData(row)
   }
   function handleStaffRemove(row) {
-    setDeleteStaffData({email: row.email, fileId: row.fileId})
+    setDeleteStaffData({ email: row.email, fileId: row.fileId })
     setRemoveDialogOpen(true)
   }
 
@@ -95,56 +96,91 @@ const ManageStaff = () => {
 
   const columns = [
     {
-      field: 'id', headerName: 'ID', width: 50
-    },
-    {
-      field: 'users',
-      headerName: 'Users',
+      field: 'info',
+      headerName: '',
       width: 300,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Info</Typography>
+      ),
       renderCell: (params) => {
         const { row } = params
         return (
-          <Stack direction='row' gap={1} alignItems='center'>
-            <Avatar src={params.row?.photoUrl ? row.photoUrl : ''} />
-            <Box>
-              <Typography sx={{ fontSize: '16px' }}>{row.firstName + row.lastName}</Typography>
-              <Stack direction='row' alignItems='center' gap={2}>
-                <Typography sx={{ fontSize: '12px' }}>@{row.username}</Typography>
-                <Typography sx={{
-                  fontSize: '12px',
-                  bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'gray.main',
-                  px: 1, borderRadius: '50px',
-                  color: row.role === 'company-manager' ? '#fff' : row.role === 'company-owner' ? '#fff' : 'inherit',
-                }}>{params.row.role.replace('company-','')}</Typography>
-              </Stack>
-            </Box>
+          <Stack sx={{ height: '100%' }} justifyContent='center'>
+            <Stack direction='row' gap={1} alignItems='center'>
+              <Avatar src={params.row?.photoUrl ? row.photoUrl : ''} />
+              <Box>
+                <Typography sx={{ fontSize: '14px',fontWeight:600 }}>{row.firstName + row.lastName}</Typography>
+                <Stack direction='row' alignItems='center' gap={2}>
+                  <Typography sx={{ fontSize: '14px' }}>@{row.username}</Typography>
+                  <Typography sx={{
+                    fontSize: '12px',
+                    bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'gray.main',
+                    px: 1, borderRadius: '50px',
+                    color: row.role === 'company-manager' ? '#fff' : row.role === 'company-owner' ? '#fff' : 'inherit',
+                  }}>{params.row.role.replace('company-', '')}</Typography>
+                </Stack>
+              </Box>
+            </Stack>
           </Stack>
         )
       }
     },
     {
-      field: 'email',
-      headerName: 'Email',
-      width: 250,
+      field: 'contact', headerName: '', width: 250,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Contact</Typography>
+      ),
+      renderCell: (params) => (
+        <Stack sx={{ height: '100%' }} justifyContent='center'>
+          <Typography sx={{ fontSize: '14px',fontWeight:600, display: 'inline-flex', alignItems: 'center', gap: .5 }}>
+            <MailOutline sx={{fontSize:'14px'}} />{params.row.email}
+          </Typography>
+          <Typography sx={{ fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: .5 }}>
+            <PhoneInTalkOutlined sx={{fontSize:'13px'}} />{params.row.phone}
+          </Typography>
+        </Stack>
+      )
     },
     {
-      field: 'phone',
-      headerName: 'Phone Number',
-      width: 200,
+      field: 'due',
+      headerName: '',
+      width: 150,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Due Amount</Typography>
+      ),
+      renderCell: (params) => {
+        const { row } = params
+        return (
+          <Stack sx={{ height: '100%' }} justifyContent='center'>
+            <Typography>{row.dueAmount ?? <b>00 </b>} kr</Typography>
+          </Stack>
+        )
+      }
     },
     {
-      field: 'join',
-      headerName: 'Joining Date',
+      field: 'joinDate',
+      headerName: '',
       width: 200,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Join Date</Typography>
+      ),
+      renderCell: (params) => {
+        const { row } = params
+        return (
+          <Stack sx={{ height: '100%' }} justifyContent='center'>
+            <Typography sx={{display:'inline-flex', alignItems:'center', gap:1}}> <CalendarMonthOutlined fontSize='small'/> {row.join}</Typography>
+          </Stack>
+        )
+      }
     },
     {
       field: 'action',
-      headerName: 'Action',
+      headerName: '',
       width: 150,
       renderCell: (params) => (
         <Stack sx={{ height: '100%', display: params.row.role === 'company-owner' ? 'none' : 'flex' }} direction='row' gap={2} alignItems='center'>
           <IconButton sx={{
-            bgcolor: 'light.main',
+            // bgcolor: 'light.main',
             borderRadius: '5px',
             width: '40px',
             height: '40px',
@@ -152,7 +188,7 @@ const ManageStaff = () => {
             <ModeEdit fontSize='small' />
           </IconButton>
           <IconButton sx={{
-            border: '1px solid lightgray',
+            // border: '1px solid lightgray',
             borderRadius: '5px',
             width: '40px',
             height: '40px',
@@ -168,16 +204,6 @@ const ManageStaff = () => {
   useEffect(() => {
     getCompanyStaffs()
   }, [])
-
-
-  useEffect(() => {
-    setColumnVisibilityModel({
-      email: isMobile ? false : true,
-      phone: isMobile ? false : true,
-      join: isMobile ? false : true,
-    })
-  }, [isMobile])
-
 
   return (
     <Box maxWidth='xxl'>
@@ -224,7 +250,7 @@ const ManageStaff = () => {
             <DataTable
               rows={rows}
               columns={columns}
-              columnVisibilityModel={columnVisibilityModel}
+              // columnVisibilityModel={columnVisibilityModel}
             />
         }
       </Box>

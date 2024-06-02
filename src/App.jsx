@@ -22,7 +22,8 @@ import { ME } from './graphql/query'
 import Meeting from './pages/dashboard/meeting/Index'
 import FoodDetails from './pages/dashboard/products/FoodDetails'
 import CheckPage from './pages/dashboard/checkPage/Index'
-import Payment from './pages/dashboard/payment/Payment'
+import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
+import OrderPayment from './pages/dashboard/payment/OrderPayment'
 
 function App() {
 
@@ -39,7 +40,7 @@ function App() {
   useEffect(() => {
     setToken(localStorage.getItem('token'))
   }, [])
-console.log(user)
+
 
   return (
     <div>
@@ -67,7 +68,8 @@ console.log(user)
           <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
           <Route path='/dashboard/products/checkout' element={<CheckPage />} />
           <Route path='/dashboard/orders' element={<Orders />} />
-          <Route path='/dashboard/payments' element={<Payment />} />
+          <Route path='/dashboard/payments-history' element={<PaymentHistory />} />
+          <Route path='/dashboard/order-payments' element={<OrderPayment />} />
           <Route path='/dashboard/orders/details/:id' element={<OrderDetails />} />
           <Route path='/dashboard/orders/details/single/:id' element={<OrderSingleDetails />} />
           <Route path='/dashboard/orders/edit/:id' element={<EditOrder />} />

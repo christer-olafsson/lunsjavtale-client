@@ -32,6 +32,7 @@ export const ME = gql`
         contact
         isBlocked
         fileId
+        balance
         formationDate
           billingAddress{
           id

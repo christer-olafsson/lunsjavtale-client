@@ -18,6 +18,7 @@ export const GET_COMPANY_STAFFS = gql`
       isStaff
       username
       role
+      # dueAmount
       allergies{
         edges{
           node{

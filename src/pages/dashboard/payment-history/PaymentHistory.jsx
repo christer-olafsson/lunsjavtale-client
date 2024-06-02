@@ -10,7 +10,7 @@ const rows = [
   { id: 3, amount: '1200', status: 'success', date: 'Dec 15, 2024', info: 'democontact2132@mail.com' },
 ]
 
-const Payment = () => {
+const PaymentHistory = () => {
 
   const columns = [
     {
@@ -65,4 +65,4 @@ const Payment = () => {
   )
 }
 
-export default Payment
+export default PaymentHistory

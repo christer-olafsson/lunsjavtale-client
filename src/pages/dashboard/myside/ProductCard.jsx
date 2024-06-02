@@ -35,7 +35,7 @@ const ProductCard = ({ data }) => {
           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>{data.description}</Typography>
           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography>
         </Stack>
-        <Stack direction='row' alignItems='center' justifyContent='space-between'>
+        <Stack direction='row' alignItems='center' gap={2} justifyContent='space-between'>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
             <Box sx={{ padding: '6px 16px', mr: 1, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>
               <Typography sx={{ fontSize: '14px', whiteSpace: 'nowrap' }}>kr: <b>{data.priceWithTax}</b> </Typography>
@@ -48,7 +48,7 @@ const ProductCard = ({ data }) => {
             </IconButton>
           </Box>
           <Link to={`/dashboard/from-myside/products/${data.id}`}>
-            <Button size='small'>Details</Button>
+            Details
           </Link>
         </Stack>
       </Stack>

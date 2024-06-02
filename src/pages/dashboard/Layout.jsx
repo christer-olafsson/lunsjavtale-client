@@ -12,12 +12,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation, useMatch } from 'react-router-dom';
 import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Logout, MailOutline, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
-import { Avatar, Badge, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
+import { Avatar, Badge, Button, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
 import toast from 'react-hot-toast';
 import { useMutation, useQuery } from '@apollo/client';
 import { ME } from '../../graphql/query';
+import SmallNotification from './notification/SmallNotification';
 
 const drawerWidth = 264;
 
@@ -157,19 +158,33 @@ function Layout() {
           </Box>
         </Link>
       </Toolbar>
-      <Stack justifyContent='center' sx={{
-        padding: '16px 12px',
-        maxWidth: '200px',
-        width: '100%',
-        color: 'primary.main',
-        bgcolor: 'light.main',
-        borderRadius: '8px',
-        fontSize: '15px',
-        fontWeight: 500,
-        textAlign: 'center',
-        m: 3
-      }}>
-        <Typography><b>Deal:</b> {user?.me.company.name}</Typography>
+      <Stack sx={{width:'100%',px:2,my:3}} gap={1}>
+        <Typography sx={{
+          padding: '10px 12px',
+          width: '100%',
+          color: 'primary.main',
+          bgcolor: 'light.main',
+          borderRadius: '4px',
+          fontSize: '15px',
+          textAlign: 'center',
+        }}>Deal: <b>{user?.me.company.name}</b> </Typography>
+        {
+          (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
+          <Stack gap={.5} justifyContent='center' sx={{
+            padding: '10px 12px',
+            color: 'red',
+            bgcolor: '#F7DCD9',
+            borderRadius: '4px',
+            fontSize: '15px',
+            textAlign: 'center',
+            display: user?.me.company.balance > 0 ? 'flex' : 'none'
+          }}>
+            <Typography>Due Amount: <b>{user?.me.company.balance}</b>  kr</Typography>
+            <Link to='/dashboard/order-payments'>
+              <Button variant='outlined' size='small'>Pay Now</Button>
+            </Link>
+          </Stack>
+        }
       </Stack>
       <Stack>
         <ListBtn
@@ -231,10 +246,10 @@ function Layout() {
         <ListBtn
           onClick={handleDrawerClose}
           notification={''}
-          link={'dashboard/payments'}
+          link={'dashboard/payments-history'}
           icon={<PaidOutlined fontSize='small' />}
           text='Payments-History'
-          selected={pathname === '/dashboard/payments'} />
+          selected={pathname === '/dashboard/payments-history'} />
         <ListBtn
           onClick={handleDrawerClose}
           link={'dashboard/setting'}
@@ -292,9 +307,10 @@ function Layout() {
           /> */}
           <Box sx={{
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            gap: 1
           }}>
-            <ClickAwayListener onClickAway={() => setOpenEmail(false)}>
+            {/* <ClickAwayListener onClickAway={() => setOpenEmail(false)}>
               <Box sx={{
                 position: 'relative'
               }}>
@@ -324,7 +340,7 @@ function Layout() {
                   </Box>
                 </Collapse>
               </Box>
-            </ClickAwayListener>
+            </ClickAwayListener> */}
 
             <ClickAwayListener onClickAway={() => setOpenNotification(false)}>
               <Box sx={{
@@ -335,7 +351,7 @@ function Layout() {
                   setOpenEmail(false)
                 )} sx={{ color: 'darkgray' }} color="inherit"
                 >
-                  <Badge badgeContent={0} color="error">
+                  <Badge badgeContent={2} color="error">
                     <NotificationsNone />
                   </Badge>
                 </IconButton>
@@ -350,10 +366,10 @@ function Layout() {
                     overflowY: 'auto',
                     zIndex: 99999,
                     bgcolor: '#fff',
-                    border: '1px solid gray',
+                    border: '1px solid lightgray',
                     borderRadius: '8px', p: '10px 20px',
                   }}>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum ipsam asperiores quasi dolor, recusandae sequi ducimus nam labore impedit quam?</p>
+                    <SmallNotification />
                   </Box>
                 </Collapse>
               </Box>
