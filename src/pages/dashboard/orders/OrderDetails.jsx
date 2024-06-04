@@ -27,6 +27,8 @@ const OrderDetails = () => {
   const navigate = useNavigate()
 
   const { loading, error: orderErr } = useQuery(ORDER, {
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
     variables: {
       id,
       addedFor: user?.me.role !== 'employee' ? null : user?.me.id

@@ -55,7 +55,7 @@ const MiniCart = ({ refetch }) => {
         maxHeight: '80vh',
         maxWidth: '500px',
         overflowY: 'auto',
-        // top: 100,
+        top: 100,
         flexDirection: 'column',
         border: `1px solid ${theme.palette.primary.main}`,
         p: '15px',

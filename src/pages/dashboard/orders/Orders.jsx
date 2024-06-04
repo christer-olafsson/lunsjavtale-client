@@ -20,8 +20,8 @@ const Orders = () => {
 
 
   const { loading, error: orderErr } = useQuery(ORDERS, {
-    // fetchPolicy:'network-only',
-    // notifyOnNetworkStatusChange: true,
+    fetchPolicy:'network-only',
+    notifyOnNetworkStatusChange: true,
     // variables: {
     //   addedFor: '141'
     // },

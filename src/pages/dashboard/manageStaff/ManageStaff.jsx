@@ -57,7 +57,7 @@ const ManageStaff = () => {
       }
     })
   }
-
+console.log(rowdata)
   const rows = rowdata?.map(item => ({
     id: item.node.id,
     firstName: item.node.firstName || '',
