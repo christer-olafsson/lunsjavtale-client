@@ -9,61 +9,41 @@ import { CREATE_VALID_COMPANY, SEND_VERIFICATION_MAIL } from './graphql/mutation
 import CButton from '../../common/CButton/CButton'
 import toast from 'react-hot-toast'
 
-const inputStyle = {
-  width: '100%',
-  padding: '8px 24px',
-  border: '1px solid gray',
-  borderRadius: '50px', mb: 1.5
-}
-
 const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
   const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState(false);
   const [regSuccess, setRegSuccess] = useState(null);
   const [disableResendBtn, setDisableResendBtn] = useState(true);
   const [userEmail, setUserEmail] = useState('')
-  const [payloadErr, setPayloadErr] = useState({
-    company: '',
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPass: ''
-  });
+  const [password, setPassword] = useState({ password: '', confirmPassword: '' })
   const [payload, setPayload] = useState({
-    company: '',
     name: '',
+    firstName: '',
     email: '',
-    phone: '',
-    password: '',
-    confirmPass: ''
+    contact: '',
   });
 
-  const [validCreateCompany, { data: createCompanyData, loading, error }] = useMutation(CREATE_VALID_COMPANY, {
+  const [validCreateCompany, { loading }] = useMutation(CREATE_VALID_COMPANY, {
     onCompleted: (res) => {
       setRegSuccess(res.validCreateCompany.success)
       toast.success('Registration Success! Please Check email')
       setUserEmail(payload.email)
       setDisableResendBtn(false)
       setPayload({
-        company: '',
         name: '',
+        firstName: '',
         email: '',
-        phone: '',
-        password: '',
-        confirmPass: ''
+        contact: '',
       })
-      setPayloadErr({})
       setErrors([])
     },
     onError: (err) => {
+      toast.error(err.message)
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {
         const graphqlError = err.graphQLErrors[0];
         const { extensions } = graphqlError;
         if (extensions && extensions.errors) {
-          setErrors(Object.values(extensions.errors));
-          // const { name, workingEmail, email, contact, password } = extensions.errors;
+          setErrors(extensions.errors);
         }
       }
     }
@@ -72,12 +52,11 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
 
   const [resendMail, { loading: resendMailLoading }] = useMutation(SEND_VERIFICATION_MAIL, {
     onCompleted: (res) => {
-      const { message, success } = res.sendVerificationMail;
+      const { message } = res.sendVerificationMail;
       toast.success(message)
-      console.log('sendverificationmail:', res)
     },
     onError: (res) => {
-      console.log('sendverificationmail:', res)
+      toast.error(res.message)
     }
   });
 
@@ -93,59 +72,60 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
     }, 50000);
   }
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPayload({ ...payload, [name]: value })
+  }
+
+  const handlePasswordInputChange = (e) => {
+    const { name, value } = e.target;
+    setPassword({ ...password, [name]: value })
+  }
+
   const passwordVisibilityHandler = () => setPasswordVisibility(!passwordVisibility);
-  const confirmPasswordVisibilityHandler = () => setConfirmPasswordVisibility(!confirmPasswordVisibility);
 
   const handleSubmit = () => {
-    if (!payload.company) {
-      setPayloadErr({ ...payloadErr, company: 'Company name required!' });
+    if (!payload.name) {
+      setErrors({ name: 'Company name required!' });
       return
     }
-    if (!payload.name) {
-      setPayloadErr({ ...payloadErr, name: 'Name required!' });
+    if (!payload.firstName) {
+      setErrors({ firstName: 'Name required!' });
       return
     }
     if (!payload.email) {
-      setPayloadErr({ ...payloadErr, email: 'Email required!' });
+      setErrors({ email: 'Email required!' });
       return
     }
-    if (!payload.phone) {
-      setPayloadErr({ ...payloadErr, phone: 'Phone number required!' });
+    if (!payload.contact) {
+      setErrors({ contact: 'Contact number required!' });
       return
     }
-    if (!payload.password) {
-      setPayloadErr({ ...payloadErr, password: 'Password required!' });
+    if (!password.password) {
+      setErrors({ password: 'Password required!' });
       return
     }
-    if (!payload.confirmPass) {
-      setPayloadErr({ ...payloadErr, confirmPass: 'Please confirm password!' });
+    if (!password.confirmPassword) {
+      setErrors({ confirmPassword: 'Confirm password required!' });
+      return
+    }
+    if (password.password !== password.confirmPassword) {
+      setErrors({ confirmPassword: 'Password Not Match!' });
       return
     }
     validCreateCompany({
       variables: {
         input: {
-          name: payload.company,
+          name: payload.name,
           email: payload.email,
           workingEmail: payload.email,
-          contact: payload.phone,
+          contact: payload.contact,
           postCode: parseInt(postCode),
-          firstName: payload.name,
-          password: payload.confirmPass === payload.password ? payload.password : ''
+          firstName: payload.firstName,
+          password: password.confirmPassword
         }
       }
     })
-  }
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPayload({ ...payload, [name]: value })
-    if (name === 'confirmPass') {
-      if (value !== payload.password) {
-        setPayloadErr({ ...error, confirmPass: 'Password not match!' })
-      } else {
-        setPayloadErr({ ...payloadErr, confirmPass: '' })
-      }
-    }
   }
 
 
@@ -163,7 +143,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
               color: 'primary.main'
             }}>Registration Success! please check your inbox or spam box and active your account.</Typography>
             <Box sx={{ mt: 1, ml: 3, display: 'inline-flex', alignItems: 'center' }}>
-              <Typography sx={{fontSize:'14px'}}>Don't get email?</Typography>
+              <Typography sx={{ fontSize: '14px' }}>Don't get email?</Typography>
               <Button onClick={handleResendMail} disabled={disableResendBtn}>Click to send again</Button>
             </Box>
           </Box>
@@ -183,18 +163,54 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
 
             <Stack gap={2}>
               <Stack direction='row' gap={2}>
-                <TextField value={payload.company} helperText={payloadErr.company} error={Boolean(payloadErr.company)} onChange={handleInputChange} name='company' fullWidth label="Name of the company" variant="outlined" />
-                <TextField value={payload.name} helperText={payloadErr.name} error={Boolean(payloadErr.name)} onChange={handleInputChange} name='name' fullWidth label="Your name" variant="outlined" />
+                <TextField
+                  value={payload.name}
+                  helperText={errors.name}
+                  error={Boolean(errors.name)}
+                  onChange={handleInputChange}
+                  name='name'
+                  fullWidth
+                  label="Name of the company"
+                  variant="outlined"
+                />
+                <TextField value={payload.firstName}
+                  helperText={errors.firstName}
+                  error={Boolean(errors.firstName)}
+                  onChange={handleInputChange}
+                  name='firstName'
+                  fullWidth
+                  label="Your name"
+                  variant="outlined"
+                />
               </Stack>
               <Stack direction='row' gap={2}>
-                <TextField value={payload.email} helperText={payloadErr.email} error={Boolean(payloadErr.email)} onChange={handleInputChange} name='email' fullWidth label="Email" variant="outlined" />
-                <TextField value={payload.phone} helperText={payloadErr.phone} type='number' error={Boolean(payloadErr.phone)} onChange={handleInputChange} name='phone' fullWidth label="Phone" variant="outlined" />
+                <TextField
+                  value={payload.email}
+                  helperText={errors.email}
+                  error={Boolean(errors.email)}
+                  onChange={handleInputChange}
+                  name='email'
+                  fullWidth
+                  label="Email"
+                  variant="outlined"
+                />
+                <TextField
+                  value={payload.contact}
+                  helperText={errors.contact}
+                  type='number'
+                  error={Boolean(errors.contact)}
+                  onChange={handleInputChange}
+                  name='contact'
+                  fullWidth
+                  label="Phone"
+                  variant="outlined"
+                />
               </Stack>
               <TextField
-                value={payload.password}
-                helperText={payloadErr.password}
-                error={Boolean(payloadErr.password)}
-                onChange={handleInputChange}
+                value={password.password}
+                helperText={errors.password}
+                error={Boolean(errors.password)}
+                onChange={handlePasswordInputChange}
                 name='password'
                 type={passwordVisibility ? "text" : "password"}
                 fullWidth
@@ -216,12 +232,12 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                 }}
               />
               <TextField
-                value={payload.confirmPass}
-                helperText={payloadErr.confirmPass}
-                error={Boolean(payloadErr.confirmPass)}
-                onChange={handleInputChange}
-                name='confirmPass'
-                type={confirmPasswordVisibility ? "text" : "password"}
+                value={password.confirmPassword}
+                helperText={errors.confirmPassword}
+                error={Boolean(errors.confirmPassword)}
+                onChange={handlePasswordInputChange}
+                name='confirmPassword'
+                type={passwordVisibility ? "text" : "password"}
                 fullWidth
                 label="Confirm Password"
                 variant="outlined"
@@ -230,27 +246,17 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={confirmPasswordVisibilityHandler}
-                        onMouseDown={confirmPasswordVisibilityHandler}
+                        onClick={passwordVisibilityHandler}
+                        onMouseDown={passwordVisibilityHandler}
                         edge="end"
                       >
-                        {confirmPasswordVisibility ? <VisibilityOff /> : <Visibility />}
+                        {passwordVisibility ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
                 }}
               />
               {/* <TextField value={payload.confirmPass} helperText={payloadErr.confirmPass} error={Boolean(payloadErr.confirmPass)} onChange={handleInputChange} name='confirmPass' type='password' fullWidth label="Confirm password" variant="outlined" /> */}
-              {
-                errors.length > 0 &&
-                <ul style={{ color: 'red', fontSize: '13px' }}>
-                  {
-                    errors.map((err, id) => (
-                      <li key={id}>{err}</li>
-                    ))
-                  }
-                </ul>
-              }
               <FormControlLabel control={<Checkbox />} label="Remember me" />
             </Stack>
 
@@ -264,7 +270,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
             </Box>
           </Box>
       }
-      <Stack direction='row' sx={{mt:2}}>
+      <Stack direction='row' sx={{ mt: 2 }}>
         <Typography>Already have a account? </Typography>
         <Link to='/login'>
           <Typography sx={{ fontWeight: 'bold', color: 'primary.main', ml: 1 }}>Sign in here </Typography>

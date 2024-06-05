@@ -14,10 +14,6 @@ export const CREATE_VALID_COMPANY = gql`
     validCreateCompany(input: $input){
       success
       message
-      errors{
-        messages
-        field
-      }
     }
   }
 `

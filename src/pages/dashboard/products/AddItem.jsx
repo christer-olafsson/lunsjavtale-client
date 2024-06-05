@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useTheme } from '@emotion/react'
 import { Add, ArrowBackIos, ArrowDropDown, ArrowForwardIos, CheckBox, CheckBoxOutlineBlank, Close, ExpandMore, Remove } from '@mui/icons-material'
-import { Autocomplete, Avatar, Box, Button, Checkbox, Collapse, IconButton, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Avatar, Box, Button, Checkbox, Collapse, IconButton, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import { addMonths, format } from 'date-fns';
 import React, { useEffect, useState } from 'react'
 import ReactDatePicker from 'react-datepicker';
@@ -28,6 +28,9 @@ const AddItem = ({ closeDialog, data }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [allAllergies, setAllAllergies] = useState([]);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
+
+
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   useQuery(GET_COMPANY_STAFFS, {
     onCompleted: (res) => {
@@ -302,22 +305,22 @@ const AddItem = ({ closeDialog, data }) => {
                     {
                       selectedDates.map(date => (
                         <tr key={date}>
-                          <td style={{ whiteSpace: 'nowrap' }}>{date}</td>
+                          <td style={{ whiteSpace: '' }}>{date}</td>
                           <td>
                             <Stack sx={{
-                              width: '150px',
+                              width: { xs: '90px', md: '150px' },
                               border: `1px solid ${theme.palette.primary.main}`,
                               borderRadius: '50px',
                             }} direction='row' alignItems='center' justifyContent='space-between' >
-                              <IconButton onClick={() => toggleQuantity(date, 'decrease')}><Remove /></IconButton>
+                              <IconButton onClick={() => toggleQuantity(date, 'decrease')}><Remove fontSize='small' /></IconButton>
                               <Typography>{cartItems[date]?.quantity || 0}</Typography>
-                              <IconButton onClick={() => toggleQuantity(date, 'increase')}><Add /></IconButton>
+                              <IconButton onClick={() => toggleQuantity(date, 'increase')}><Add fontSize='small' /></IconButton>
                             </Stack>
                           </td>
-                          <td style={{ width: '200px' }}> <i>NOK:</i> {cartItems[date]?.totalPrice.toFixed(2) || 0}</td>
+                          <td style={{ width: { xs: 'none', md: '200px' } }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</td>
                           <td style={{ width: '50px' }}>
-                            <IconButton onClick={() => dateDeselect(date)}>
-                              <Close />
+                            <IconButton sx={{ width: '30px', height: '30px' }} onClick={() => dateDeselect(date)}>
+                              <Close fontSize='small' />
                             </IconButton>
                           </td>
                         </tr>
@@ -327,7 +330,7 @@ const AddItem = ({ closeDialog, data }) => {
                       <td></td>
                       <td><b>Total:</b></td>
                       <td>
-                        <b><i>NOK:</i>{totalPrice}</b>
+                        <b><i></i>{totalPrice} kr</b>
                         {/* <b><i>NOK:</i>{calculateTotalPrice()}</b> */}
                       </td>
                       <td></td>
@@ -386,54 +389,53 @@ const AddItem = ({ closeDialog, data }) => {
                     <Box sx={{
                       borderRadius: '8px',
                       border: `2px solid ${selectedListId === idx ? theme.palette.primary.main : 'lightgray'}`,
-                      // border: '1px solid lightgray',
                       height: '100%',
-                      transition: 'height 2s'
                     }} key={date}>
                       <Stack
                         sx={{
-                          p: 2,
+                          p: { xs: 1, md: 2 },
                         }}
                         direction='row'
                         alignItems='center'
                         justifyContent='space-between'
+                        gap={1}
                       >
-                        <Stack direction='row' gap={2} alignItems='center'>
-                          <IconButton onClick={() => {
+                        <Stack direction={{ xs: 'column-reverse', md: 'row' }} gap={{ xs: 1, md: 2 }} alignItems='center'>
+                          <IconButton sx={{ width: '20px', height: '20px' }} onClick={() => {
                             if (selectedListId === idx) {
                               setSelectedListId(null)
                             } else {
                               setSelectedListId(idx)
                             }
                           }}>
-                            <ArrowForwardIos sx={{
+                            <ArrowForwardIos fontSize='small' sx={{
                               transform: 'rotate(90deg)'
                             }} />
                           </IconButton>
-                          <Typography>{date}</Typography>
+                          <Typography sx={{ fontSize: { xs: '13px', md: '16px', whiteSpace: 'nowrap' } }}>{date}</Typography>
                         </Stack>
                         <Stack
                           sx={{
-                            width: '150px',
+                            width: { xs: '100px', md: '150px' },
                             border: `1px solid ${theme.palette.primary.main}`,
                             borderRadius: '50px',
-                            mr: 10
+                            mr: { xs: 0, md: 10 }
                           }}
                           direction='row'
                           alignItems='center'
                           justifyContent='space-between'
                         >
                           <IconButton onClick={() => toggleQuantity(date, 'decrease')}>
-                            <Remove />
+                            <Remove fontSize='small' />
                           </IconButton>
                           <Typography>{cartItems[date]?.quantity || 0}</Typography>
                           <IconButton onClick={() => toggleQuantity(date, 'increase')}>
-                            <Add />
+                            <Add fontSize='small' />
                           </IconButton>
                         </Stack>
-                        <Typography sx={{ width: '100px' }}> <i>NOK:</i> {cartItems[date]?.totalPrice || 0}</Typography>
-                        <IconButton onClick={() => dateDeselect(date)}>
-                          <Close />
+                        <Typography sx={{ width: '100px',whiteSpace:'nowrap' }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</Typography>
+                        <IconButton sx={{ width: '30px', height: '30px' }} onClick={() => dateDeselect(date)}>
+                          <Close fontSize='small' />
                         </IconButton>
                       </Stack>
                       <Collapse in={selectedListId === idx}>

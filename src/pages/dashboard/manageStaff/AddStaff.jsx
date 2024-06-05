@@ -137,18 +137,37 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
                 >
                   {
                     user?.me.role === 'company-owner' &&
-                    <MenuItem value={'manager'}>Manager</MenuItem>
+                    <MenuItem value={'company-manager'}>Manager</MenuItem>
                   }
-                  <MenuItem value={'employee'}>Employee</MenuItem>
+                  <MenuItem value={'company-employee'}>Employee</MenuItem>
                 </Select>
                 {errors.role && <FormHelperText>{errors.role}</FormHelperText>}
               </FormControl>
               {/* <TextField name='userName' size='small' label='User Name' /> */}
             </Stack>
             <Stack flex={1} gap={2}>
-              <TextField onChange={handleInputChange} name='lastName' size='small' label='Last Name' />
-              <TextField helperText={errors.email} error={Boolean(errors.email)} onChange={handleInputChange} name='email' size='small' label='Email' />
-              <TextField helperText={errors.phone} error={Boolean(errors.phone)} onChange={handleInputChange} name='phone' size='small' label='Phone Number' />
+              <TextField
+                onChange={handleInputChange}
+                name='lastName'
+                size='small'
+                label='Last Name'
+              />
+              <TextField
+                helperText={errors.email}
+                error={Boolean(errors.email)}
+                onChange={handleInputChange}
+                name='email'
+                size='small'
+                label='Email' />
+              <TextField
+                helperText={errors.phone}
+                error={Boolean(errors.phone)}
+                onChange={handleInputChange}
+                type='number'
+                name='phone'
+                size='small'
+                label='Phone Number'
+              />
             </Stack>
           </Stack>
         </Stack>
