@@ -6,7 +6,7 @@ import { ME } from '../../../graphql/query'
 
 const Setting = () => {
   const { data: user } = useQuery(ME)
-
+  console.log(user)
   return (
     <Box maxWidth='lg'>
       <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>System Settings</Typography>
@@ -24,7 +24,7 @@ const Setting = () => {
             <Box sx={{
               width: { xs: '100%', md: '360px' }
             }}>
-              <img style={{ width: '100%' }} src="/img21232.png" alt="" />
+              <img style={{ width: '100%' }} src={user?.me.company.logoUrl ? user?.me.company.logoUrl : '/img21232.png'} alt="" />
             </Box>
             <Box sx={{
               mt: -6,

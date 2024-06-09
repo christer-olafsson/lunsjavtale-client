@@ -1,8 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_COMPANY_STAFFS = gql`
- query{
-  companyStaffs {
+ query(
+  $title: String,
+    ){
+  companyStaffs(
+    title: $title,
+     ) {
   edges {
     node {
       id

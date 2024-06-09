@@ -69,7 +69,6 @@ function App() {
           <Route path='/dashboard/products/checkout' element={<CheckPage />} />
           <Route path='/dashboard/orders' element={<Orders />} />
           <Route path='/dashboard/payments-history' element={<PaymentHistory />} />
-          <Route path='/dashboard/order-payments' element={<OrderPayment />} />
           <Route path='/dashboard/orders/details/:id' element={<OrderDetails />} />
           <Route path='/dashboard/orders/details/single/:id' element={<OrderSingleDetails />} />
           <Route path='/dashboard/orders/edit/:id' element={<EditOrder />} />

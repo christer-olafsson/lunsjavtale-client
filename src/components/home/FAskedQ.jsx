@@ -16,39 +16,40 @@ const FAskedQ = () => {
     }
   })
   return (
-    <Container maxWidth='lg' sx={{ display: 'flex', flexDirection: 'column', my: 10 }}>
-      <Box sx={{
-        alignSelf: 'center',
-        maxWidth: '288px',
-        bgcolor: 'light.main',
-        py: '12px', px: '24px',
-        borderRadius: '8px', mb: 2
-      }} >
-        Se om vi leverer til deg
-      </Box>
-      <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>Ofte stilte spørsmål</Typography>
-      <Typography alignSelf='center'>Lunsjavtalen er en digital kantine som gjør lunsjen enklere (og smartere)!</Typography>
-
-      <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 0, md: 5 }} mt={{ xs: 2, md: 10 }}>
-        <Box sx={{ flex: 1 }}>
-          {
-            loading ? <Loader /> : error ? <ErrorMsg /> :
-              FAQList.map((item,id) => (
-                <Accordion key={item.id} sx={{ mb: 4, boxShadow: 'none' }} defaultExpanded={id === 0 ? !match : null}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMore />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                    sx={{ fontWeight: 'bold', color: 'primary.main', p: 0 }}
-                  >
-                    {item.question}
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ p: 0 }}>{item.answer}</AccordionDetails>
-                </Accordion>
-              ))
-          }
+    <Box id='faq'>
+      <Container maxWidth='lg' sx={{ display: 'flex', flexDirection: 'column', my: 10 }}>
+        <Box sx={{
+          alignSelf: 'center',
+          maxWidth: '288px',
+          bgcolor: 'light.main',
+          py: '12px', px: '24px',
+          borderRadius: '8px', mb: 2
+        }} >
+          Se om vi leverer til deg
         </Box>
-        {/* <Box sx={{flex:1}}>
+        <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>Ofte stilte spørsmål</Typography>
+        <Typography alignSelf='center'>Lunsjavtalen er en digital kantine som gjør lunsjen enklere (og smartere)!</Typography>
+
+        <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 0, md: 5 }} mt={{ xs: 2, md: 10 }}>
+          <Box sx={{ flex: 1 }}>
+            {
+              loading ? <Loader /> : error ? <ErrorMsg /> :
+                FAQList.map((item, id) => (
+                  <Accordion key={item.id} sx={{ mb: 4, boxShadow: 'none' }} defaultExpanded={id === 0 ? !match : null}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMore />}
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                      sx={{ fontWeight: 'bold', color: 'primary.main', p: 0 }}
+                    >
+                      {item.question}
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ p: 0 }}>{item.answer}</AccordionDetails>
+                  </Accordion>
+                ))
+            }
+          </Box>
+          {/* <Box sx={{flex:1}}>
             <Accordion sx={{mb:4,boxShadow:'none'}} defaultExpanded={!match}>
               <AccordionSummary
                 expandIcon={<ExpandMore />}
@@ -69,7 +70,7 @@ const FAskedQ = () => {
                 aria-controls="panel1-content"
                 id="panel1-header"
                 sx={{fontWeight:'bold', color:'primary.main',p:0}}
-              >
+                >
                 Bedriftsavtale - Bedriftsbestilling
               </AccordionSummary>
               <AccordionDetails sx={{p:0}}>
@@ -77,9 +78,9 @@ const FAskedQ = () => {
               </AccordionDetails>
             </Accordion>
           </Box> */}
-      </Stack>
-
-    </Container>
+        </Stack>
+      </Container>
+    </Box>
   )
 }
 

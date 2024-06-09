@@ -26,7 +26,6 @@ const CompanyProfile = () => {
   })
 
   const { data: user } = useQuery(ME);
-  console.log(user?.me)
 
   const [CompanyProfileUpdate, { loading: updateLoading }] = useMutation(COMPANY_MUTATION, {
     refetchQueries: [
@@ -128,8 +127,8 @@ const CompanyProfile = () => {
             <>
               <Avatar src={
                 file ? URL.createObjectURL(file)
-                  : user?.me.photoUrl
-                    ? user?.me.photoUrl
+                  : user?.me.company.logoUrl
+                    ? user?.me.company.logoUrl
                     : ''}
                 sx={{ width: '80px', height: '80px' }} />
               <label style={{

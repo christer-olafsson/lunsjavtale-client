@@ -4,7 +4,9 @@ import NewMeeting from './NewMeeting';
 import EditMeeting from './EditMeeting';
 import CDialog from '../../../common/dialog/CDialog';
 import DataTable from '../../../components/dashboard/DataTable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { FOOD_MEETINGS } from './graphql/query';
+import { useLazyQuery } from '@apollo/client';
 
 const rows = [
   { id: '987', name: 'Phoenix Baker', username: 'phoenix11', email: 'phoenix@untitledui.com', type: 'Remote', meetingDate: '10 Feb, 2023', meetingTime: '3.00pm', startIn: '22hours', status: 'upcoming' },
@@ -14,11 +16,20 @@ const rows = [
 
 
 const Meeting = () => {
-  const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
   const [statusFilter, setStatusFilter] = useState('');
   const [createMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);
   const [deleteMeetingDialogOpen, setDeleteMeetingDialogOpen] = useState(false);
   const [editMeetingDialogOpen, setEditMeetingDialogOpen] = useState(false);
+  const [foodMeetings, setFoodMeetings] = useState([])
+
+
+  const [getFoodMeetings, { loading, error }] = useLazyQuery(FOOD_MEETINGS, {
+    fetchPolicy: "network-only",
+    onCompleted: (res) => {
+      console.log(res)
+      setFoodMeetings(res.foodMeetings.edges);
+    },
+  });
 
   const handleEdit = (row) => {
     setEditMeetingDialogOpen(true)
@@ -113,13 +124,11 @@ const Meeting = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   setColumnVisibilityModel({
-  //     paymentInfo: isMobile ? false : true,
-  //     status: isMobile ? false : true,
-  //     deliveryDate: isMobile ? false : true,
-  //   })
-  // }, [isMobile])
+
+  useEffect(() => {
+    getFoodMeetings()
+  }, [])
+  
 
   return (
     <Box maxWidth='xxl'>
@@ -175,7 +184,6 @@ const Meeting = () => {
         <DataTable
           columns={columns}
           rows={rows}
-          columnVisibilityModel={columnVisibilityModel}
         />
       </Box>
     </Box>

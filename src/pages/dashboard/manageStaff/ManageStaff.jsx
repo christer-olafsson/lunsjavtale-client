@@ -25,11 +25,13 @@ const ManageStaff = () => {
   const [editStaffData, setEditStaffData] = useState({});
   const [deleteStaffData, setDeleteStaffData] = useState({ email: '', fileId: '' });
   const [loadingFiledelete, setLoadingFileDelete] = useState(false)
-
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+  const [searchText, setSearchText] = useState('')
 
   const [getCompanyStaffs, { loading, error }] = useLazyQuery(GET_COMPANY_STAFFS, {
     fetchPolicy: "network-only",
+    variables: {
+      title: searchText,
+    },
     onCompleted: (res) => {
       const data = res.companyStaffs.edges.filter(({ node }) => !node.isDeleted);
       setRowData(data);
@@ -57,7 +59,8 @@ const ManageStaff = () => {
       }
     })
   }
-console.log(rowdata)
+
+
   const rows = rowdata?.map(item => ({
     id: item.node.id,
     firstName: item.node.firstName || '',
@@ -109,7 +112,7 @@ console.log(rowdata)
             <Stack direction='row' gap={1} alignItems='center'>
               <Avatar src={params.row?.photoUrl ? row.photoUrl : ''} />
               <Box>
-                <Typography sx={{ fontSize: '14px',fontWeight:600 }}>{row.firstName + row.lastName}</Typography>
+                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{row.firstName + row.lastName}</Typography>
                 <Stack direction='row' alignItems='center' gap={2}>
                   <Typography sx={{ fontSize: '14px' }}>@{row.username}</Typography>
                   <Typography sx={{
@@ -132,11 +135,11 @@ console.log(rowdata)
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} justifyContent='center'>
-          <Typography sx={{ fontSize: '14px',fontWeight:600, display: 'inline-flex', alignItems: 'center', gap: .5 }}>
-            <MailOutline sx={{fontSize:'14px'}} />{params.row.email}
+          <Typography sx={{ fontSize: '14px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: .5 }}>
+            <MailOutline sx={{ fontSize: '14px' }} />{params.row.email}
           </Typography>
           <Typography sx={{ fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: .5 }}>
-            <PhoneInTalkOutlined sx={{fontSize:'13px'}} />{params.row.phone}
+            <PhoneInTalkOutlined sx={{ fontSize: '13px' }} />{params.row.phone}
           </Typography>
         </Stack>
       )
@@ -168,7 +171,7 @@ console.log(rowdata)
         const { row } = params
         return (
           <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{display:'inline-flex', alignItems:'center', gap:1}}> <CalendarMonthOutlined fontSize='small'/> {row.join}</Typography>
+            <Typography sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}> <CalendarMonthOutlined fontSize='small' /> {row.join}</Typography>
           </Stack>
         )
       }
@@ -223,7 +226,7 @@ console.log(rowdata)
           borderRadius: '4px',
           pl: 2
         }}>
-          <Input fullWidth disableUnderline placeholder='Search Staff' />
+          <Input onChange={e => setSearchText(e.target.value)} fullWidth disableUnderline placeholder='Search Staff' />
           <IconButton><Search /></IconButton>
         </Box>
         <Button onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Add Staff</Button>
@@ -250,7 +253,7 @@ console.log(rowdata)
             <DataTable
               rows={rows}
               columns={columns}
-              // columnVisibilityModel={columnVisibilityModel}
+            // columnVisibilityModel={columnVisibilityModel}
             />
         }
       </Box>

@@ -67,16 +67,16 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
 
   return (
     <Stack sx={{
-      position: 'sticky',
+      position: { xs: 'static', md: 'sticky' },
       top: 80,
       height: 'fit-content',
       flex: 1,
-      mt: { xs: 6, lg: 0 },
       mb: 6,
-      // border: `1px solid ${theme.palette.primary.main}`,
+      p:2,
+      border: `1px solid ${theme.palette.primary.main}`,
       borderRadius: '8px'
     }}>
-      <Typography sx={{ fontSize: '24px', fontWeight: 600, px: 2, pt: 2 }}>Order Summary</Typography>
+      <Typography sx={{ fontSize: '24px', fontWeight: 600}}>Order Summary</Typography>
       {/* <Stack sx={{
         bgcolor: 'light.main',
         p: 2, mt: 2,
@@ -202,7 +202,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
       {
         (isMySideCartPage || isProductCartPage) &&
         <Link to={isProductCartPage ? '/dashboard/products/checkout' : '/dashboard/myside/checkout'}>
-          <Button variant='contained' sx={{ my: 3, width: '100%' }}>Checkout</Button>
+          <Button variant='contained' sx={{ mt: 3, width: '100%' }}>Checkout</Button>
         </Link>
       }
     </Stack>

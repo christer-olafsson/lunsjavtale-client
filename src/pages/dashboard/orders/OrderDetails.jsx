@@ -62,7 +62,7 @@ const OrderDetails = () => {
         <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Order Details</Typography>
       </Stack>
       <Box mt={3}>
-        <Stack direction='row' justifyContent='space-between'>
+        <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent='space-between'>
           <Box>
             <Typography>Delivery Date: <b>{order?.deliveryDate}</b> </Typography>
             <Typography>Total Price: <b>{order?.finalPrice}</b> kr </Typography>
@@ -84,7 +84,7 @@ const OrderDetails = () => {
         <Divider sx={{ mt: 2 }} />
 
         <Stack sx={{ maxWidth: '1200px' }} direction={{ xs: 'column', lg: 'row' }} mt={3} gap={6}>
-          <Box sx={{ width: '70%' }}>
+          <Box sx={{ width: { xs: '100%', md: '70%' } }}>
             <Stack gap={3}>
               {
                 loading ? <Loader /> : orderErr ? <ErrorMsg /> :
@@ -95,8 +95,8 @@ const OrderDetails = () => {
                       borderRadius: '8px',
                       p: 1
                     }} key={data.node.id}>
-                      <Stack direction='row' gap={2} alignItems='center' justifyContent='space-between'>
-                        <Stack direction={{ xs: 'column', md: 'row' }} gap={2} alignItems='center'>
+                      <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 0, md: 2 }} alignItems={{ xs: 'start', md: 'center' }} justifyContent='space-between'>
+                        <Stack direction={{ xs: 'row', md: 'row' }} gap={2} alignItems='center'>
                           <img style={{
                             width: '100px',
                             height: '100px',
@@ -104,7 +104,7 @@ const OrderDetails = () => {
                             borderRadius: '4px',
                           }} src={data?.node.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
                           <Box>
-                            <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{data?.node.item.name}</Typography>
+                            <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>rewrew fdfssdgv dfgrgfgdfgder gfvfgdgdgd{data?.node.item.name}</Typography>
                             <Typography variant='body2'>Category: <b>{data?.node.item.category.name}</b></Typography>
                             <Typography>Price: <b>{data?.node.item.priceWithTax}</b> kr</Typography>
                           </Box>
@@ -239,8 +239,8 @@ const OrderDetails = () => {
           </Box>
 
           <Box sx={{
-            width: '30%',
-            px: 3
+            width: { xs: '100%', md: '30%' },
+            px: { xs: 0, md: 3 }
           }}>
             <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 2 }}>Customer Information</Typography>
             <Typography sx={{ fontSize: '16px' }}>Name</Typography>

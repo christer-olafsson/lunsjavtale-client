@@ -34,8 +34,7 @@ const NewMeeting = ({ closeDialog }) => {
     description: ''
   })
 
-  console.log(user)
-
+console.log(payload)
   useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
       const res = data?.categories?.edges
@@ -46,6 +45,8 @@ const NewMeeting = ({ closeDialog }) => {
   const [meetingMutation, { loading: meetingLoading }] = useMutation(MEETING_MUTATION, {
     onCompleted: (res) => {
       toast.success(res.foodMeetingMutation.message)
+      setPayload(null)
+      setErrors(null)
       closeDialog()
     },
     onError: (err) => {
@@ -121,7 +122,8 @@ const NewMeeting = ({ closeDialog }) => {
                 >
                   <MenuItem value={'remote'}>Remote</MenuItem>
                   <MenuItem value={'interview'}>Interview</MenuItem>
-                  <MenuItem value={'lively'}>Lively</MenuItem>
+                  <MenuItem value={'in-person'}>In Person</MenuItem>
+                  <MenuItem value={'others'}>Others</MenuItem>
                 </Select>
                 {errors.meetingType && <FormHelperText>{errors.meetingType}</FormHelperText>}
               </FormControl>

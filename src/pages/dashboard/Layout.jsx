@@ -19,6 +19,8 @@ import toast from 'react-hot-toast';
 import { useMutation, useQuery } from '@apollo/client';
 import { ME } from '../../graphql/query';
 import SmallNotification from './notification/SmallNotification';
+import OrderPayment from './payment/OrderPayment';
+import CDialog from '../../common/dialog/CDialog';
 
 const drawerWidth = 264;
 
@@ -95,6 +97,7 @@ function Layout() {
   const [userMenuOpen, setUsermenuOpen] = useState(null);
   const [openEmail, setOpenEmail] = useState(false)
   const [openNotification, setOpenNotification] = useState(false);
+  const [openPaymentDialog, setOpenPaymentDialog] = useState(false)
 
   const { pathname } = useLocation()
 
@@ -158,7 +161,7 @@ function Layout() {
           </Box>
         </Link>
       </Toolbar>
-      <Stack sx={{width:'100%',px:2,my:3}} gap={1}>
+      <Stack sx={{ width: '100%', px: 2, my: 3 }} gap={1}>
         <Typography sx={{
           padding: '10px 12px',
           width: '100%',
@@ -180,12 +183,14 @@ function Layout() {
             display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
             <Typography>Due Amount: <b>{user?.me.company.balance}</b>  kr</Typography>
-            <Link to='/dashboard/order-payments'>
-              <Button variant='outlined' size='small'>Pay Now</Button>
-            </Link>
+            <Button onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
           </Stack>
         }
       </Stack>
+      {/* payment page */}
+      <CDialog openDialog={openPaymentDialog} >
+        <OrderPayment closeDialog={() => setOpenPaymentDialog(false)} />
+      </CDialog>
       <Stack>
         <ListBtn
           onClick={handleDrawerClose}

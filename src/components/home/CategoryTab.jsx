@@ -115,79 +115,81 @@ const CategoryTab = (props) => {
   });
 
   return (
-    <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 }, p: 0 }}>
-      <Stack direction='row' sx={{
-        mb: 3,
-        justifyContent: 'center',
-      }}>
-        <Tabs
-          variant="scrollable"
-          scrollButtons
-          allowScrollButtonsMobile
-          value={tabIndex}
-          onChange={(e, index) => setTabIndex(index)}
-          sx={{
-            width: "fit-content",
-            [`& .${tabsClasses.indicator}`]: {
-              display: "none",
-            },
-          }}
-        >
-          {
-            loading ? <Loader /> : error ? <h4>Something went wrong!</h4> :
-              allCategorys.map((item) => (
-                <TabItem key={item.node.id} disableRipple label={item.node.name} />
-              ))
-          }
-        </Tabs>
-      </Stack>
-      {
-        loading ? <Loader /> : error ? <ErrorMsg/> :
-          allCategorys.map((item, id) => (
-            <CustomTabPanel key={id} value={tabIndex} index={id}>
-              <Stack>
-                <Typography sx={{ fontSize: '32px', mb: 2, fontWeight: 600, textAlign: 'center' }}>{item.node.name}</Typography>
-                <Typography sx={{ mb: 6, px: '16px', maxWidth: '727px', alignSelf: 'center', textAlign: 'center', fontSize: { xs: '14px', md: '16px' } }}>{item.node.description}</Typography>
-                <Stack direction='row' justifyContent='space-between' sx={{ mb: 4 }}>
-                  <Typography sx={{ px: '16px' }}>*All prices are ex. VAT. Shipping price NOK 120 ex. VAT per delivery.</Typography>
-                  {/* <ButtonGroup /> */}
+    <Box id='products'>
+      <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 }, p: 0 }}>
+        <Stack direction='row' sx={{
+          mb: 3,
+          justifyContent: 'center',
+        }}>
+          <Tabs
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
+            value={tabIndex}
+            onChange={(e, index) => setTabIndex(index)}
+            sx={{
+              width: "fit-content",
+              [`& .${tabsClasses.indicator}`]: {
+                display: "none",
+              },
+            }}
+          >
+            {
+              loading ? <Loader /> : error ? <h4>Something went wrong!</h4> :
+                allCategorys.map((item) => (
+                  <TabItem key={item.node.id} disableRipple label={item.node.name} />
+                ))
+            }
+          </Tabs>
+        </Stack>
+        {
+          loading ? <Loader /> : error ? <ErrorMsg /> :
+            allCategorys.map((item, id) => (
+              <CustomTabPanel key={id} value={tabIndex} index={id}>
+                <Stack>
+                  <Typography sx={{ fontSize: '32px', mb: 2, fontWeight: 600, textAlign: 'center' }}>{item.node.name}</Typography>
+                  <Typography sx={{ mb: 6, px: '16px', maxWidth: '727px', alignSelf: 'center', textAlign: 'center', fontSize: { xs: '14px', md: '16px' } }}>{item.node.description}</Typography>
+                  <Stack direction='row' justifyContent='space-between' sx={{ mb: 4 }}>
+                    <Typography sx={{ px: '16px' }}>*All prices are ex. VAT. Shipping price NOK 120 ex. VAT per delivery.</Typography>
+                    {/* <ButtonGroup /> */}
+                  </Stack>
                 </Stack>
-              </Stack>
-              <Box px={1}>
-                <Carousel
-                  swipeable={true}
-                  // draggable={true}
-                  showDots={false}
-                  arrows={false}
-                  rewindWithAnimation={true}
-                  rewind={true}
-                  responsive={responsive}
-                  // infinite={true}
-                  renderButtonGroupOutside={true}
-                  autoPlay={true}
-                  customButtonGroup={<ButtonGroup />}
-                  // autoPlay={props.deviceType !== "mobile" ? true : false}
-                  autoPlaySpeed={2000}
-                  keyBoardControl={true}
-                  customTransition="all 1s"
-                  transitionDuration={1000}
-                  containerClass="carousel-container"
-                  removeArrowOnDeviceType={["tablet", "mobile"]}
-                  deviceType={props.deviceType}
-                >
-                  {
-                    item?.node?.products?.edges?.map((data, id) => (
-                      <Box key={id} px={1}>
-                        <ProductCard data={data} />
-                      </Box>
-                    ))
-                  }
-                </Carousel>
-              </Box>
-            </CustomTabPanel>
-          ))
-      }
-    </Container>
+                <Box px={1}>
+                  <Carousel
+                    swipeable={true}
+                    // draggable={true}
+                    showDots={false}
+                    arrows={false}
+                    rewindWithAnimation={true}
+                    rewind={true}
+                    responsive={responsive}
+                    // infinite={true}
+                    renderButtonGroupOutside={true}
+                    autoPlay={true}
+                    customButtonGroup={<ButtonGroup />}
+                    // autoPlay={props.deviceType !== "mobile" ? true : false}
+                    autoPlaySpeed={2000}
+                    keyBoardControl={true}
+                    customTransition="all 1s"
+                    transitionDuration={1000}
+                    containerClass="carousel-container"
+                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                    deviceType={props.deviceType}
+                  >
+                    {
+                      item?.node?.products?.edges?.map((data, id) => (
+                        <Box key={id} px={1}>
+                          <ProductCard data={data} />
+                        </Box>
+                      ))
+                    }
+                  </Carousel>
+                </Box>
+              </CustomTabPanel>
+            ))
+        }
+      </Container>
+    </Box>
   )
 }
 

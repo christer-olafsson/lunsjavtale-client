@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Add, ArrowDropDownOutlined, Remove } from '@mui/icons-material';
+import { Add, ArrowDropDownOutlined, Close, Remove } from '@mui/icons-material';
 import { Avatar, Box, Button, Collapse, IconButton, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
 
 const EditOrder = ({ data, closeDialog }) => {
-  const [tableOpen, setTableOpen] = useState(true);
+  const [tableOpen, setTableOpen] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [orderedQuantity, setOrderedQuantity] = useState('');
@@ -168,6 +168,12 @@ const EditOrder = ({ data, closeDialog }) => {
 
   return (
     <Box>
+      <Stack direction='row' justifyContent='space-between'>
+        <Box />
+        <IconButton onClick={closeDialog}>
+          <Close />
+        </IconButton>
+      </Stack>
       <Typography variant='body2' mb={.5}>Ordered Quantity</Typography>
       <Stack direction='row' gap={2} alignItems='center'>
         <Box>
@@ -208,7 +214,7 @@ const EditOrder = ({ data, closeDialog }) => {
 
       <Stack direction='row' justifyContent='space-between' >
         <Box />
-        <Stack direction='row' gap={2}>
+        <Stack direction='row' gap={2} mt={2}>
           <Button onClick={closeDialog} variant='outlined'>Cancel</Button>
           <CButton onClick={handleCartUpdate} isLoading={loading} variant='contained'>Update</CButton>
         </Stack>

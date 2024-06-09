@@ -23,38 +23,39 @@ const Contact = () => {
     setOpenDialog(false)
   }
   return (
-    <Container maxWidth='lg' sx={{
-      dispaly: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '100%',
-      bgcolor: 'light.main',
-      borderRadius: { xs: 0, md: '16px' },
-      my: 5
-    }}>
-      <Stack justifyContent='center' alignItems='center' py={5}>
-        <Box sx={{
-          width: '120px',
-          height: '56px',
-          mb: 3
-        }}>
-          <img style={{ width: '100%' }} src="/Avatar group.png" alt="" />
-        </Box>
-        <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du fortsatt spørsmål?</Typography>
-        <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelige på chat, eller så kan du ringe tråden når som helst</Typography>
-        <a href="https://wa.me/+4748306377" target='blank'>
-          <CButton variant='contained' style={{ height: { xs: '37px', md: '56px' }, mt: 3, width: '150px' }}>
-            Kontakt Oss
-          </CButton>
-        </a>
-        {/* <Dialog
+    <Box id='contact'>
+      <Container maxWidth='lg' sx={{
+        dispaly: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        bgcolor: 'light.main',
+        borderRadius: { xs: 0, md: '16px' },
+        my: 5
+      }}>
+        <Stack justifyContent='center' alignItems='center' py={5}>
+          <Box sx={{
+            width: '120px',
+            height: '56px',
+            mb: 3
+          }}>
+            <img style={{ width: '100%' }} src="/Avatar group.png" alt="" />
+          </Box>
+          <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du fortsatt spørsmål?</Typography>
+          <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelige på chat, eller så kan du ringe tråden når som helst</Typography>
+          <a href="https://wa.me/+4748306377" target='blank'>
+            <CButton variant='contained' style={{ height: { xs: '37px', md: '56px' }, mt: 3, width: '150px' }}>
+              Kontakt Oss
+            </CButton>
+          </a>
+          {/* <Dialog
           // onClose={handleCloseDialog}
           aria-labelledby="customized-dialog-title"
           open={openDialog}
           maxWidth='sm'
           fullWidth
-        >
+          >
           <DialogContent>
             <FormGroup>
               <Stack >
@@ -64,7 +65,7 @@ const Contact = () => {
                 <Typography sx={{ fontSize: '18px', fontWeight: 400, mb: 1, textAlign: 'center' }}>Vi vil gjerne høre fra deg. Vennligst fyll ut dette skjemaet.</Typography>
                 <Stack direction='row' gap={2} mb={2}>
                   <Stack flex={1} gap={2}>
-                    <TextField label='Bedriftens navn' />
+                  <TextField label='Bedriftens navn' />
                     <TextField label='Telefonnummer' />
                   </Stack>
                   <Stack flex={1} gap={2}>
@@ -84,8 +85,9 @@ const Contact = () => {
             </FormGroup>
           </DialogContent>
         </Dialog> */}
-      </Stack>
-    </Container>
+        </Stack>
+      </Container>
+    </Box>
   )
 }
 

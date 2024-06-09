@@ -308,16 +308,16 @@ const AddItem = ({ closeDialog, data }) => {
                           <td style={{ whiteSpace: '' }}>{date}</td>
                           <td>
                             <Stack sx={{
-                              width: { xs: '90px', md: '150px' },
+                              width: { xs: '110px', md: '150px' },
                               border: `1px solid ${theme.palette.primary.main}`,
                               borderRadius: '50px',
                             }} direction='row' alignItems='center' justifyContent='space-between' >
                               <IconButton onClick={() => toggleQuantity(date, 'decrease')}><Remove fontSize='small' /></IconButton>
-                              <Typography>{cartItems[date]?.quantity || 0}</Typography>
+                              <Typography >{cartItems[date]?.quantity || 0}</Typography>
                               <IconButton onClick={() => toggleQuantity(date, 'increase')}><Add fontSize='small' /></IconButton>
                             </Stack>
                           </td>
-                          <td style={{ width: { xs: 'none', md: '200px' } }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</td>
+                          <td style={{ width: isMobile ? '130px' : '200px',whiteSpace:'nowrap' }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</td>
                           <td style={{ width: '50px' }}>
                             <IconButton sx={{ width: '30px', height: '30px' }} onClick={() => dateDeselect(date)}>
                               <Close fontSize='small' />
@@ -433,7 +433,7 @@ const AddItem = ({ closeDialog, data }) => {
                             <Add fontSize='small' />
                           </IconButton>
                         </Stack>
-                        <Typography sx={{ width: '100px',whiteSpace:'nowrap' }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</Typography>
+                        <Typography sx={{ width: '100px', whiteSpace: 'nowrap' }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</Typography>
                         <IconButton sx={{ width: '30px', height: '30px' }} onClick={() => dateDeselect(date)}>
                           <Close fontSize='small' />
                         </IconButton>

@@ -14,6 +14,7 @@ import { persistor, store } from './redux/store.js'
 import { Toaster } from 'react-hot-toast'
 
 import { PersistGate } from 'redux-persist/integration/react'
+import ScrollToTop from './components/home/ScrollToTop.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <BrowserRouter>
             <CssBaseline />
             <Toaster position="bottom-center"/>
+            <ScrollToTop/>
             <App />
           </BrowserRouter>
           </PersistGate>

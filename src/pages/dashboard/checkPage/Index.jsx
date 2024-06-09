@@ -68,7 +68,7 @@ const CheckPage = () => {
       navigate('/dashboard/orders')
 
     },
-    refetchQueries: [ADDRESSES,ORDERS],
+    refetchQueries: [ADDRESSES, ORDERS],
     onError: (err) => {
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {
         const graphqlError = err.graphQLErrors[0];
@@ -138,7 +138,7 @@ const CheckPage = () => {
         </IconButton>
         <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Checkout</Typography>
       </Stack>
-      <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 2, lg: 3 }} mt={3}>
+      <Stack direction={{ xs: 'column-reverse', md: 'row' }} gap={{ xs: 2, lg: 3 }} mt={3}>
 
         <Box sx={{
           width: { xs: '100%', lg: '70%' },
