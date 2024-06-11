@@ -13,7 +13,6 @@ import OrderComplete from './pages/dashboard/products/OrderComplete'
 import ProductCartPage from './pages/dashboard/products/ProductCartPage'
 import EditOrder from './pages/dashboard/orders/EditOrder'
 import OrderDetails from './pages/dashboard/orders/OrderDetails'
-import OrderSingleDetails from './pages/dashboard/orders/OrderSingleDetails'
 import { useEffect, useState } from 'react'
 import EmailVerification from './pages/emailVerification/EmailVerification'
 import PassReset from './pages/passReset/PassReset'
@@ -23,7 +22,6 @@ import Meeting from './pages/dashboard/meeting/Index'
 import FoodDetails from './pages/dashboard/products/FoodDetails'
 import CheckPage from './pages/dashboard/checkPage/Index'
 import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
-import OrderPayment from './pages/dashboard/payment/OrderPayment'
 
 function App() {
 
@@ -33,9 +31,11 @@ function App() {
   });
 
   const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
 
   useEffect(() => {
     setToken(localStorage.getItem('token'))
@@ -65,12 +65,16 @@ function App() {
           }
           <Route path='/dashboard/products' element={<Products />} />
           <Route path='/dashboard/:path/products/:id' element={<FoodDetails />} />
-          <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
-          <Route path='/dashboard/products/checkout' element={<CheckPage />} />
+          {
+            !user?.me.company.isBlocked &&
+            <>
+              <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
+              <Route path='/dashboard/products/checkout' element={<CheckPage />} />
+            </>
+          }
           <Route path='/dashboard/orders' element={<Orders />} />
           <Route path='/dashboard/payments-history' element={<PaymentHistory />} />
           <Route path='/dashboard/orders/details/:id' element={<OrderDetails />} />
-          <Route path='/dashboard/orders/details/single/:id' element={<OrderSingleDetails />} />
           <Route path='/dashboard/orders/edit/:id' element={<EditOrder />} />
           <Route path='/dashboard/setting' element={<Setting />} />
         </Route>

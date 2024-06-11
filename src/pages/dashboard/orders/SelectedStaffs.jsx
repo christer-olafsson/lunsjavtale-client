@@ -84,7 +84,7 @@ const SelectedStaffs = ({ data }) => {
         username: user?.username,
         phone: user?.phone,
         email: user?.email,
-        dueAmount: user?.dueAmount,
+        dueAmount: item.node?.dueAmount,
         photoUrl: user?.photoUrl,
         role: user?.role,
       })

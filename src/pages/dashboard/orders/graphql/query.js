@@ -137,6 +137,7 @@ export const ORDER = gql`
             edges{
               node{
                 id
+                dueAmount
                 addedFor{
                   id
                   username

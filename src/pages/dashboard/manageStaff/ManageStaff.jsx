@@ -5,7 +5,7 @@ import DataTable from '../../../components/dashboard/DataTable'
 import CDialog from '../../../common/dialog/CDialog';
 import AddStaff from './AddStaff';
 import EditStaff from './EditStaff';
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { GET_COMPANY_STAFFS } from './graphql/query';
 import { format } from 'date-fns';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
@@ -14,6 +14,7 @@ import { USER_DELETE } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
 import { deleteFile } from '../../../utils/deleteFile';
+import { ME } from '../../../graphql/query';
 
 
 const ManageStaff = () => {
@@ -21,11 +22,12 @@ const ManageStaff = () => {
   const [addStaffDialogOpen, setAddStaffDilogOpen] = useState(false);
   const [editStaffDialogOpen, setEditStaffDilogOpen] = useState(false);
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
-  const [columnVisibilityModel, setColumnVisibilityModel] = useState({});
   const [editStaffData, setEditStaffData] = useState({});
   const [deleteStaffData, setDeleteStaffData] = useState({ email: '', fileId: '' });
   const [loadingFiledelete, setLoadingFileDelete] = useState(false)
   const [searchText, setSearchText] = useState('')
+
+  const { data: user } = useQuery(ME)
 
   const [getCompanyStaffs, { loading, error }] = useLazyQuery(GET_COMPANY_STAFFS, {
     fetchPolicy: "network-only",
@@ -117,9 +119,9 @@ const ManageStaff = () => {
                   <Typography sx={{ fontSize: '14px' }}>@{row.username}</Typography>
                   <Typography sx={{
                     fontSize: '12px',
-                    bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'gray.main',
+                    bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'darkgray',
                     px: 1, borderRadius: '50px',
-                    color: row.role === 'company-manager' ? '#fff' : row.role === 'company-owner' ? '#fff' : 'inherit',
+                    color: '#fff'
                   }}>{params.row.role.replace('company-', '')}</Typography>
                 </Stack>
               </Box>
@@ -147,7 +149,7 @@ const ManageStaff = () => {
     {
       field: 'due',
       headerName: '',
-      width: 150,
+      width: 200,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Due Amount</Typography>
       ),
@@ -155,7 +157,15 @@ const ManageStaff = () => {
         const { row } = params
         return (
           <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography>{row.dueAmount ?? <b>00 </b>} kr</Typography>
+            <Typography sx={{
+              fontSize: '14px',
+              fontWeight: 600,
+              bgcolor: params.row.dueAmount === '0' ? 'gray.main' : '#F7DCD9',
+              color: params.row.dueAmount === '0' ? 'inherit' : 'red',
+              borderRadius: '4px',
+              textAlign: 'center',
+              p: .5
+            }}>{row.dueAmount ?? <b>00 </b>} kr</Typography>
           </Stack>
         )
       }
@@ -182,7 +192,7 @@ const ManageStaff = () => {
       width: 150,
       renderCell: (params) => (
         <Stack sx={{ height: '100%', display: params.row.role === 'company-owner' ? 'none' : 'flex' }} direction='row' gap={2} alignItems='center'>
-          <IconButton sx={{
+          <IconButton disabled={user?.me.company.isBlocked} sx={{
             // bgcolor: 'light.main',
             borderRadius: '5px',
             width: '40px',
@@ -190,7 +200,7 @@ const ManageStaff = () => {
           }} onClick={() => handleStaffEdit(params.row)}>
             <ModeEdit fontSize='small' />
           </IconButton>
-          <IconButton sx={{
+          <IconButton disabled={user?.me.company.isBlocked} sx={{
             // border: '1px solid lightgray',
             borderRadius: '5px',
             width: '40px',
@@ -229,7 +239,7 @@ const ManageStaff = () => {
           <Input onChange={e => setSearchText(e.target.value)} fullWidth disableUnderline placeholder='Search Staff' />
           <IconButton><Search /></IconButton>
         </Box>
-        <Button onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Add Staff</Button>
+        <Button disabled={user?.me.company.isBlocked} onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Add Staff</Button>
       </Stack>
       {/* Add Staff */}
       <CDialog openDialog={addStaffDialogOpen} >

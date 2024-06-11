@@ -11,7 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation, useMatch } from 'react-router-dom';
-import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Logout, MailOutline, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
+import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Lock, LockOutlined, Logout, MailOutline, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
 import { Avatar, Badge, Button, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
@@ -165,12 +165,23 @@ function Layout() {
         <Typography sx={{
           padding: '10px 12px',
           width: '100%',
-          color: 'primary.main',
-          bgcolor: 'light.main',
+          color: user?.me.company.isBlocked ? 'gray' : 'primary.main',
+          bgcolor: user?.me.company.isBlocked ? 'red' : 'light.main',
           borderRadius: '4px',
           fontSize: '15px',
           textAlign: 'center',
-        }}>Deal: <b>{user?.me.company.name}</b> </Typography>
+          position: 'relative'
+        }}>
+          <Lock sx={{
+            position: 'absolute',
+            display: user?.me.company.isBlocked ? 'block' : 'none',
+            color: '#fff',
+            top: '50%',
+            left: '50%',
+            transform: 'translateX(-50%) translateY(-50%)'
+          }} />
+          Deal: <b>{user?.me.company.name}</b>
+        </Typography>
         {
           (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
           <Stack gap={.5} justifyContent='center' sx={{
@@ -183,7 +194,7 @@ function Layout() {
             display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
             <Typography>Due Amount: <b>{user?.me.company.balance}</b>  kr</Typography>
-            <Button onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
+            <Button disabled={user?.me.company.isBlocked} onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
           </Stack>
         }
       </Stack>
@@ -362,12 +373,13 @@ function Layout() {
                 </IconButton>
                 <Collapse sx={{
                   position: 'absolute',
-                  right: { xs: -35, md: 0 },
+                  left: {xs:'50%',md: '0'},
+                  transform: 'translateX(-50%)',
                   top: 55,
                 }} in={openNotification}>
                   <Box sx={{
-                    width: { xs: '90vw', sm: '300px', md: '350px' },
-                    maxHeight: '500px',
+                    width: { xs: '300px', sm: '300px', md: '350px' },
+                    maxHeight: '800px',
                     overflowY: 'auto',
                     zIndex: 99999,
                     bgcolor: '#fff',

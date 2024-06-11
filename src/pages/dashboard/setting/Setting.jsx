@@ -6,7 +6,7 @@ import { ME } from '../../../graphql/query'
 
 const Setting = () => {
   const { data: user } = useQuery(ME)
-  console.log(user)
+
   return (
     <Box maxWidth='lg'>
       <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>System Settings</Typography>

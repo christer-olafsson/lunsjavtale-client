@@ -5,10 +5,14 @@ import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog'
 import AddItem from './AddItem'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@apollo/client'
+import { ME } from '../../../graphql/query'
 
 const SmallProductCard = ({ data }) => {
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+  const { data: user } = useQuery(ME)
 
   const handleProductDialogClose = () => {
     setOpenProductAddDialog(false);
@@ -36,13 +40,14 @@ const SmallProductCard = ({ data }) => {
         </Stack>
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
           <Link to={`/dashboard/from-products/products/${data.id}`}>
-           Details
+            Details
           </Link>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
             <Box sx={{ padding: '6px 16px', mr: 2, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>
               <Typography sx={{ fontSize: '14px' }}>kr:  <b>{data.priceWithTax}</b></Typography>
             </Box>
             <IconButton
+              disabled={user?.me.company.isBlocked}
               color='primary'
               onClick={() => setOpenProductAddDialog(true)}
               sx={{

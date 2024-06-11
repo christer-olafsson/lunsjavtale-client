@@ -1,17 +1,21 @@
 import { Box, Button, IconButton, Paper, Stack, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTheme } from '@emotion/react'
 import { Link } from 'react-router-dom'
-import { ADDED_CARTS, ADDED_PRODUCTS } from './graphql/query'
+import { ADDED_PRODUCTS } from './graphql/query'
 import { useMutation, useQuery } from '@apollo/client'
 import { Close } from '@mui/icons-material'
 import { REMOVE_PRODUCT_CART } from './graphql/mutation'
 import toast from 'react-hot-toast'
 import CButton from '../../../common/CButton/CButton'
+import { ME } from '../../../graphql/query'
 
-const MiniCart = ({ refetch }) => {
+const MiniCart = () => {
   const [addedProducts, setAddedProducts] = useState([]);
   const [removeProductId, setRemoveProductId] = useState('');
+
+
+  const { data: user } = useQuery(ME)
 
   useQuery(ADDED_PRODUCTS, {
     fetchPolicy: 'no-cache',
@@ -68,7 +72,7 @@ const MiniCart = ({ refetch }) => {
               <Stack direction='row' justifyContent='space-between' alignItems='center' mb={1}>
                 <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Shopping Cart</Typography>
                 <Link to='/dashboard/products/cart'>
-                  <Button variant='contained'>
+                  <Button disabled={user?.me.company.isBlocked} variant='contained'>
                     Place Order
                   </Button>
                 </Link>
@@ -89,7 +93,7 @@ const MiniCart = ({ refetch }) => {
                           height: '70px',
                           objectFit: 'cover',
                           borderRadius: '8px',
-                        }} src={data.attachments.edges.find(item => item.node.isCover).node.fileUrl || '/noImage.png'} alt="" />
+                        }} src={data.attachments.edges.find(item => item.node?.isCover)?.node?.fileUrl || '/noImage.png'} alt="" />
                         <Box>
                           <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{data.name}</Typography>
                           <Typography sx={{ fontSize: '12px' }}> <b> Category: </b> {data.category.name}</Typography>

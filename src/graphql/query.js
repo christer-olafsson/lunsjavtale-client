@@ -19,6 +19,7 @@ export const ME = gql`
       about
       photoUrl
       fileId
+      isActive
       company{
         id
         name

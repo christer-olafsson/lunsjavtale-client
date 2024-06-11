@@ -104,7 +104,7 @@ const OrderDetails = () => {
                             borderRadius: '4px',
                           }} src={data?.node.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
                           <Box>
-                            <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>rewrew fdfssdgv dfgrgfgdfgder gfvfgdgdgd{data?.node.item.name}</Typography>
+                            <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{data?.node.item.name}</Typography>
                             <Typography variant='body2'>Category: <b>{data?.node.item.category.name}</b></Typography>
                             <Typography>Price: <b>{data?.node.item.priceWithTax}</b> kr</Typography>
                           </Box>
@@ -122,6 +122,7 @@ const OrderDetails = () => {
                               Details
                             </Button>
                             <Button
+                              disabled={user?.me.company.isBlocked}
                               onClick={() => handleEditDialog(data.node.id)}
                               endIcon={<DriveFileRenameOutlineOutlined />}
                               variant='contained'
@@ -282,7 +283,7 @@ const OrderDetails = () => {
               />
               <TextField variant='standard' label='Title' />
               <TextField variant='standard' label='Review (Optional)' />
-              <Button variant='contained' sx={{ alignSelf: 'flex-end' }}>Send</Button>
+              <Button disabled={user?.me.company.isBlocked} variant='contained' sx={{ alignSelf: 'flex-end' }}>Send</Button>
             </Stack>
           </Box>
 

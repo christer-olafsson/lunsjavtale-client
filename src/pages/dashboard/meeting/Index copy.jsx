@@ -1,32 +1,35 @@
-import { AccessTime, Add, DeleteOutline, EditOutlined } from '@mui/icons-material'
-import { Avatar, Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
-import DataTable from '../../../components/dashboard/DataTable';
+import { Add, BorderColor, DateRangeOutlined, Delete, DeleteForeverOutlined, DeleteOutline, EditOutlined, LockOpenOutlined, LockOutlined, ModeEditOutlineOutlined, MoreHoriz, MoreVert, Remove, ScheduleOutlined, Search } from '@mui/icons-material'
+import { Avatar, Box, Button, FormControl, IconButton, Input, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import NewMeeting from './NewMeeting';
-import CDialog from '../../../common/dialog/CDialog';
 import EditMeeting from './EditMeeting';
+import CDialog from '../../../common/dialog/CDialog';
+import DataTable from '../../../components/dashboard/DataTable';
 import { useEffect, useState } from 'react';
 import { FOOD_MEETINGS } from './graphql/query';
-import { useLazyQuery, useMutation } from '@apollo/client';
-import { format } from 'date-fns';
-import toast from 'react-hot-toast';
-import CButton from '../../../common/CButton/CButton';
-import Loader from '../../../common/loader/Index';
-import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
-import moment from 'moment-timezone';
+import { useLazyQuery } from '@apollo/client';
+
+const rows = [
+  { id: '987', name: 'Phoenix Baker', username: 'phoenix11', email: 'phoenix@untitledui.com', type: 'Remote', meetingDate: '10 Feb, 2023', meetingTime: '3.00pm', startIn: '22hours', status: 'upcoming' },
+  { id: '988', name: 'Lana Steiner', username: 'lana432', email: 'lana@untitledui.com', type: 'Interview', meetingDate: '13 Feb, 2023', meetingTime: '2.00pm', startIn: '16hours', status: 'upcoming' },
+  { id: '999', name: 'Demi Wilkinson', username: 'demi435', email: 'demi232@untitledui.com', type: 'Lively', meetingDate: '10 Jan, 2023', meetingTime: '10.00am', startIn: '00hours', status: 'complete' },
+];
+
 
 const Meeting = () => {
   const [statusFilter, setStatusFilter] = useState('');
   const [createMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);
+  const [deleteMeetingDialogOpen, setDeleteMeetingDialogOpen] = useState(false);
   const [editMeetingDialogOpen, setEditMeetingDialogOpen] = useState(false);
-  const [meetings, setMeetings] = useState([])
+  const [foodMeetings, setFoodMeetings] = useState([])
 
-  const [fetchMeeting, { loading: meetingsLoading, error: meetingsErr }] = useLazyQuery(FOOD_MEETINGS, {
-    fetchPolicy: 'network-only',
+
+  const [getFoodMeetings, { loading, error }] = useLazyQuery(FOOD_MEETINGS, {
+    fetchPolicy: "network-only",
     onCompleted: (res) => {
-      setMeetings(res.foodMeetings.edges.map(item => item.node))
-    }
-  });
-
+      setFoodMeetings(res.foodMeetings.edges.map(item => item.node));
+      },
+      });
+    console.log(foodMeetings)
 
   const handleEdit = (row) => {
     setEditMeetingDialogOpen(true)
@@ -37,37 +40,29 @@ const Meeting = () => {
   };
 
 
-  function timeUntilNorway(futureDate) {
-    const now = moment();
-    const future = moment.tz(futureDate, "UTC").tz("Europe/Oslo");
-
-    const diffInMilliseconds = future.diff(now);
-    if (diffInMilliseconds < 0) {
-      return 'Date passed!';
-    }
-
-    const diffInMinutes = Math.floor(diffInMilliseconds / 60000);
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    const diffInDays = Math.floor(diffInHours / 24);
-
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes} minutes`;
-    } else if (diffInHours < 24) {
-      return `${diffInHours} hours`;
-    } else {
-      return `${diffInDays} days`;
-    }
+  function handleDelete(row) {
+    setDeleteMeetingDialogOpen(true)
   }
-
-  const formatedNorwayTime = (meetingTime) => {
-    const timeZone = 'Europe/Oslo';
-    const zonedDate = moment.tz(meetingTime, timeZone);
-    const formattedTime = zonedDate.format('HH:mm');
-    return formattedTime
-  }
-
 
   const columns = [
+    {
+      field: 'info', width: 250,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Info</Typography>
+      ),
+      renderCell: (params) => {
+        const { row } = params;
+        return (
+          <Stack sx={{ height: '100%' }} direction='row' gap={1} alignItems='center'>
+            <Avatar src='' />
+            <Box>
+              <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{row.companyName}</Typography>
+              <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>{row.email}</Typography>
+            </Box>
+          </Stack>
+        )
+      }
+    },
     {
       field: 'title', width: 250,
       renderHeader: () => (
@@ -147,20 +142,23 @@ const Meeting = () => {
         )
       },
     },
+    {
+      field: 'delete', headerName: '', width: 150,
+      renderCell: (params) => {
+        return (
+          <IconButton>
+            <DeleteOutline />
+          </IconButton>
+        )
+      },
+    },
   ];
 
-  // useEffect(() => {
-  //   setColumnVisibilityModel({
-  //     paymentInfo: isMobile ? false : true,
-  //     status: isMobile ? false : true,
-  //     deliveryDate: isMobile ? false : true,
-  //   })
-  // }, [isMobile])
 
   useEffect(() => {
-    fetchMeeting()
+    getFoodMeetings()
   }, [])
-
+  
 
   return (
     <Box maxWidth='xxl'>
@@ -173,9 +171,9 @@ const Meeting = () => {
           borderRadius: '4px',
           color: 'primary.main',
           px: 1
-        }}>{meetings?.length ?? 0} meetings</Typography>
+        }}>10 meetings</Typography>
       </Stack>
-      <Stack direction='row' justifyContent='space-between' mt={3} sx={{ height: '40px' }}>
+      <Stack direction={{xs:'column',md: 'row'}} gap={2} justifyContent='space-between' mt={3} sx={{ height: '40px' }}>
         <Box sx={{ minWidth: 200 }}>
           <FormControl size='small' fullWidth>
             <InputLabel>Filter</InputLabel>
@@ -200,14 +198,23 @@ const Meeting = () => {
       <CDialog openDialog={createMeetingDialogOpen}>
         <NewMeeting closeDialog={() => setCreateMeetingDialogOpen(false)} />
       </CDialog>
-      <Box mt={3}>
-        {
-          meetingsLoading ? <Loader /> : meetingsErr ? <ErrorMsg /> :
-            <DataTable
-              columns={columns}
-              rows={meetings}
-            />
-        }
+      {/* delete meeting */}
+      <CDialog closeDialog={() => setDeleteMeetingDialogOpen(false)} maxWidth='sm' openDialog={deleteMeetingDialogOpen}>
+        <Box>
+          <img src="/Featured icon.png" alt="" />
+          <Typography sx={{ fontSize: { xs: '18px', lg: '22px' }, fontWeight: 600 }}>Delete Meeting?</Typography>
+          <Typography sx={{ fontSize: '14px', mt: 1 }}>Are you sure you want to delete this Meeting? This action cannot be undone.</Typography>
+          <Stack direction='row' gap={2} mt={3}>
+            <Button onClick={() => setDeleteMeetingDialogOpen(false)} fullWidth variant='outlined'>Cancel</Button>
+            <Button fullWidth variant='contained' color='error'>Delete</Button>
+          </Stack>
+        </Box>
+      </CDialog>
+      <Box mt={{xs:10,md:3}}>
+        <DataTable
+          columns={columns}
+          rows={rows}
+        />
       </Box>
     </Box>
   )

@@ -4,11 +4,14 @@ import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog';
 import AddItem from '../products/AddItem';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { ME } from '../../../graphql/query';
 
 const OpProductCard = ({ item }) => {
   const [openOptionProductAddDialog, setOpenOptionProductAddDialog] = useState(false);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
+  const { data: user } = useQuery(ME)
 
   return (
     <Box sx={{
@@ -54,7 +57,7 @@ const OpProductCard = ({ item }) => {
           }}>
             <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, whiteSpace: 'nowrap' }}>kr {item.priceWithTax}</Typography>
           </Box>
-          <IconButton onClick={() => setOpenOptionProductAddDialog(true)} sx={{
+          <IconButton disabled={user?.me.company.isBlocked} onClick={() => setOpenOptionProductAddDialog(true)} sx={{
             bgcolor: 'light.main',
             ":hover": {
               bgcolor: 'light.main'

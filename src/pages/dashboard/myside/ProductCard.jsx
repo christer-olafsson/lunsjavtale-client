@@ -6,10 +6,14 @@ import CDialog from '../../../common/dialog/CDialog';
 import AddItem from '../products/AddItem';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
+import { useQuery } from '@apollo/client';
+import { ME } from '../../../graphql/query';
 
 const ProductCard = ({ data }) => {
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+  const { data: user } = useQuery(ME)
 
   const theme = useTheme()
   return (
@@ -40,7 +44,7 @@ const ProductCard = ({ data }) => {
             <Box sx={{ padding: '6px 16px', mr: 1, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>
               <Typography sx={{ fontSize: '14px', whiteSpace: 'nowrap' }}>kr: <b>{data.priceWithTax}</b> </Typography>
             </Box>
-            <IconButton onClick={() => setOpenProductAddDialog(true)} sx={{
+            <IconButton disabled={user?.me.company.isBlocked} onClick={() => setOpenProductAddDialog(true)} sx={{
               bgcolor: 'light.main',
               border: '1px solid gray'
             }}>
@@ -57,36 +61,6 @@ const ProductCard = ({ data }) => {
         <AddItem closeDialog={() => setOpenProductAddDialog(false)} maxWidth={'xl'} data={data} />
       </CDialog>
     </Stack>
-
-    // <Box sx={{
-    //   width:'100%',
-    //   display: 'flex',
-    //   alignItems: 'center',
-    //   gap: { xs: 1, md: 2 },
-    //   border: '1px solid #63883B',
-    //   p: { xs: 1, lg: 2.5 },
-    //   borderRadius: '8px'
-    // }}>
-    //   <img style={{ width: '94px', height: '94px', objectFit: 'cover', borderRadius: '12px' }} 
-    //   src={item.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
-    //   <Stack gap={1}>
-    //     <Typography sx={{ fontSize: '18px', fontWeight: '600' }}>{item.name}</Typography>
-    //     <Typography sx={{ fontSize: '14px' }}>{item.description}</Typography>
-    //     <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end' }}>
-    //       <Box sx={{ padding: '6px 16px', mr: 2, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>
-    //         <Typography sx={{ fontSize: '14px' }}>kr {item.priceWithTax}</Typography>
-    //       </Box>
-    //       <IconButton onClick={() => setOpenProductAddDialog(true)} sx={{
-    //         bgcolor: 'light.main'
-    //       }}>
-    //         <Add fontSize='small' />
-    //       </IconButton>
-    //     </Box>
-    //     <CDialog maxWidth='md' openDialog={openProductAddDialog}>
-    //       <AddItem  closeDialog={()=> setOpenProductAddDialog(false)} maxWidth={'xl'} data={item} />
-    //     </CDialog>
-    //   </Stack>
-    // </Box>
   )
 }
 
