@@ -1,5 +1,5 @@
-import { AccessTime, Add, DeleteOutline, EditOutlined } from '@mui/icons-material'
-import { Avatar, Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
+import { AccessTime, Add, Close, DeleteOutline, EditOutlined } from '@mui/icons-material'
+import { Box, Button, DialogActions, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
 import DataTable from '../../../components/dashboard/DataTable';
 import NewMeeting from './NewMeeting';
 import CDialog from '../../../common/dialog/CDialog';
@@ -8,16 +8,20 @@ import { useEffect, useState } from 'react';
 import { FOOD_MEETINGS } from './graphql/query';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { format } from 'date-fns';
-import toast from 'react-hot-toast';
-import CButton from '../../../common/CButton/CButton';
 import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import moment from 'moment-timezone';
+import CButton from '../../../common/CButton/CButton';
+import { MEETING_DELETE } from './graphql/mutation';
+import toast from 'react-hot-toast';
 
 const Meeting = () => {
   const [statusFilter, setStatusFilter] = useState('');
   const [createMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);
   const [editMeetingDialogOpen, setEditMeetingDialogOpen] = useState(false);
+  const [editMeetingData, setEditMeetingData] = useState({})
+  const [deleteMeetingId, setDeleteMeetingId] = useState('')
+  const [openDeleteMeetingDialog, setOpenDeleteMeetingDialog] = useState(false)
   const [meetings, setMeetings] = useState([])
 
   const [fetchMeeting, { loading: meetingsLoading, error: meetingsErr }] = useLazyQuery(FOOD_MEETINGS, {
@@ -27,10 +31,35 @@ const Meeting = () => {
     }
   });
 
+  // const [meetingDelete, { loading: meetingDeleteLoading }] = useMutation(MEETING_DELETE, {
+  //   onCompleted: (res) => {
+  //     toast.success(res.foodMeetingDelete.message)
+  //     fetchMeeting()
+  //     setOpenDeleteMeetingDialog(false)
+  //   },
+  //   onError: (err) => {
+  //     toast.error(err.message)
+  //   }
+  // });
+
 
   const handleEdit = (row) => {
     setEditMeetingDialogOpen(true)
+    setEditMeetingData(row)
   }
+
+  // const handleDeleteDialog = (row) => {
+  //   setDeleteMeetingId(row.id)
+  //   setOpenDeleteMeetingDialog(true)
+  // }
+
+  // const handleMeetingRemove = () => {
+  //   meetingDelete({
+  //     variables: {
+  //       id: deleteMeetingId
+  //     }
+  //   })
+  // }
 
   const handleFilterChange = (event) => {
     setStatusFilter(event.target.value);
@@ -113,7 +142,8 @@ const Meeting = () => {
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' }, ml: '20px' }}>Start In</Typography>
       ),
       renderCell: (params) => (
-        <Stack sx={{ height: '100%', ml: '20px' }} direction='row' alignItems='center'>
+        <Stack sx={{ height: '100%', ml: '20px' }} direction='row' alignItems='center' gap={.5}>
+          <AccessTime fontSize='small' />
           <Typography variant='body2'>{timeUntilNorway(params.row.meetingTime)}</Typography>
         </Stack>
       )
@@ -129,10 +159,10 @@ const Meeting = () => {
           <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
             <Typography sx={{
               fontSize: { xs: '12px', md: '16px' },
-              color: row.status === 'upcoming' ? 'primary.main' : 'gray',
-              bgcolor: 'light.main',
+              color: '#fff',
+              bgcolor: row.status === 'attended' ? 'primary.main' : row.status === 'postponed' ? 'red' : 'darkgray',
               px: 1, borderRadius: '8px',
-            }}>&#x2022; {'Pending'}</Typography>
+            }}>&#x2022; {row.status}</Typography>
           </Stack>
         )
       }
@@ -141,21 +171,24 @@ const Meeting = () => {
       field: 'edit', headerName: '', width: 50,
       renderCell: (params) => {
         return (
-          <IconButton onClick={() => handleEdit(params.row)}>
+          <IconButton disabled={params.row.status !== 'pending'} onClick={() =>handleEdit(params.row)}>
             <EditOutlined />
           </IconButton>
         )
       },
     },
+    // {
+    //   field: 'delete', headerName: '', width: 50,
+    //   renderCell: (params) => {
+    //     return (
+    //       <IconButton onClick={() => handleDeleteDialog(params.row)}>
+    //         <Close />
+    //       </IconButton>
+    //     )
+    //   },
+    // },
   ];
 
-  // useEffect(() => {
-  //   setColumnVisibilityModel({
-  //     paymentInfo: isMobile ? false : true,
-  //     status: isMobile ? false : true,
-  //     deliveryDate: isMobile ? false : true,
-  //   })
-  // }, [isMobile])
 
   useEffect(() => {
     fetchMeeting()
@@ -194,12 +227,20 @@ const Meeting = () => {
       </Stack>
       {/* edit meeting */}
       <CDialog openDialog={editMeetingDialogOpen}>
-        <EditMeeting closeDialog={() => setEditMeetingDialogOpen(false)} />
+        <EditMeeting data={editMeetingData} fetchMeeting={fetchMeeting} closeDialog={() => setEditMeetingDialogOpen(false)} />
       </CDialog>
       {/* new meeting */}
       <CDialog openDialog={createMeetingDialogOpen}>
-        <NewMeeting closeDialog={() => setCreateMeetingDialogOpen(false)} />
+        <NewMeeting fetchMeeting={fetchMeeting} closeDialog={() => setCreateMeetingDialogOpen(false)} />
       </CDialog>
+       {/* remove meeting */}
+       {/* <CDialog openDialog={openDeleteMeetingDialog} closeDialog={() => setOpenDeleteMeetingDialog(false)} >
+        <Typography variant='h5'>Confirm Remove?</Typography>
+        <DialogActions>
+          <Button variant='outlined' onClick={() => setOpenDeleteMeetingDialog(false)}>Cancel</Button>
+          <CButton isLoading={meetingDeleteLoading} onClick={handleMeetingRemove} variant='contained'>Confirm</CButton>
+        </DialogActions>
+      </CDialog> */}
       <Box mt={3}>
         {
           meetingsLoading ? <Loader /> : meetingsErr ? <ErrorMsg /> :

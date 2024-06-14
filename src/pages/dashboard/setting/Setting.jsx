@@ -1,10 +1,23 @@
-import { BorderColor } from '@mui/icons-material'
-import { Avatar, Box, IconButton, Stack, Typography } from '@mui/material'
+import { CheckCircleOutlined } from '@mui/icons-material'
+import { Avatar, Box, Stack, Typography } from '@mui/material'
 import SettingTab from './SettingTab'
 import { useQuery } from '@apollo/client'
 import { ME } from '../../../graphql/query'
+import { useState } from 'react'
+import { PAYMENT_METHODS } from './graphql/query'
+import Loader from '../../../common/loader/Index'
+import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg'
+import { format } from 'date-fns'
 
 const Setting = () => {
+  const [paymentMethods, setPaymentMethods] = useState([])
+
+  const { loading, error: paymentMethodErr } = useQuery(PAYMENT_METHODS, {
+    onCompleted: (res) => {
+      setPaymentMethods(res.paymentMethods.edges.map(item => item.node));
+    }
+  });
+
   const { data: user } = useQuery(ME)
 
   return (
@@ -14,7 +27,7 @@ const Setting = () => {
         <Box sx={{
           position: { xs: 'none', lg: 'sticky' },
           top: 100,
-          flex: 1,
+          flex: .5,
           height: 'fit-content',
           p: 3,
           bgcolor: 'light.main',
@@ -22,7 +35,7 @@ const Setting = () => {
         }}>
           <Stack alignItems='center'>
             <Box sx={{
-              width: { xs: '100%', md: '360px' }
+              width: { xs: '100%', md: '300px' }
             }}>
               <img style={{ width: '100%' }} src={user?.me.company.logoUrl ? user?.me.company.logoUrl : '/img21232.png'} alt="" />
             </Box>
@@ -37,31 +50,45 @@ const Setting = () => {
             </Box>
             <Typography sx={{ fontSize: '18px', fontWeight: 500 }}>{user?.me.company.name}</Typography>
             <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>IT Tecnhology</Typography>
-            <Box sx={{
-              bgcolor: '#fff',
-              p: 2, borderRadius: '8px', mt: 3,
-              width: '100%'
-            }}>
-              <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Payment Method</Typography>
-              <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>On 04 March, 2024</Typography>
-              <Stack mt={2} direction='row' justifyContent='space-between'>
-                <Stack>
-                  <Box sx={{
-                    bgcolor: 'light.main',
-                    width: '72px', height: '58px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '8px'
+            {
+              loading ? <Loader /> : paymentMethodErr ? <ErrorMsg /> :
+                paymentMethods.map(data => (
+                  <Box key={data.id} sx={{
+                    border: '1px solid lightgray',
+                    borderRadius: '8px', p: 1.5, mt: 3,
+                    display: data.isDefault ? 'block' : 'none'
                   }}>
-                    <img src="/visaicon.png" alt="" />
+                    <Stack direction='row' justifyContent='space-between'>
+                      <Stack direction='row' alignItems='center' spacing={1}>
+                        <Box sx={{
+                          bgcolor: 'light.main',
+                          width: '72px', height: '58px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '8px'
+                        }}>
+                          <img src="/visaicon.png" alt="" />
+                        </Box>
+                        <Box>
+                          <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>
+                            Card Holder Name:
+                            <span style={{ fontWeight: 300, marginLeft: '10px' }}>{data.cardHolderName} </span>
+                          </Typography>
+                          <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>
+                            Card Number:
+                            <span style={{ fontWeight: 300, marginLeft: '10px' }}>{data.cardNumber.replace(/.(?=.{4})/g, '*')} </span>
+                          </Typography>
+                          <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>
+                            Expiry Date:
+                            <span style={{ fontWeight: 300, marginLeft: '10px' }}>{format(data.expiry, 'yyyy-MM-dd')} </span>
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </Stack>
                   </Box>
-                </Stack>
-                <IconButton>
-                  <BorderColor />
-                </IconButton>
-              </Stack>
-            </Box>
+                ))
+            }
           </Stack>
         </Box>
 

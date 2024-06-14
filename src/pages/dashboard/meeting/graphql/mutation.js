@@ -8,3 +8,11 @@ export const MEETING_MUTATION = gql`
     }
   }
 `
+
+export const MEETING_DELETE = gql`
+  mutation FoodMeetingDelete ($id: ID){
+    foodMeetingDelete(id: $id){
+      message
+    }
+  }
+`

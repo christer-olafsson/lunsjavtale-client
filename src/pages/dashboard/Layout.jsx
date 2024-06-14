@@ -12,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation, useMatch } from 'react-router-dom';
 import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Lock, LockOutlined, Logout, MailOutline, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
-import { Avatar, Badge, Button, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
+import { Avatar, Badge, Button, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Paper, Stack, TextField, Tooltip } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
 import toast from 'react-hot-toast';
@@ -120,14 +120,6 @@ function Layout() {
     localStorage.clear()
     window.location.href = '/'
   }
-  const open = Boolean(userMenuOpen);
-  const handleUserMenuOpen = (event) => {
-    setUsermenuOpen(event.currentTarget);
-  };
-  const handleUserMenuClose = () => {
-    setUsermenuOpen(null);
-  };
-
 
   const handleDrawerClose = () => {
     setDrawerOpen(true);
@@ -223,7 +215,8 @@ function Layout() {
             link='/dashboard/manage-staff'
             icon={<PeopleAltOutlined fontSize='small' />}
             text='Manage Staff'
-            selected={pathname === '/dashboard/manage-staff'} />
+            selected={pathname === '/dashboard/manage-staff'}
+          />
         }
         {/* <Typography sx={{
           color: '#C2C2C2',
@@ -255,27 +248,37 @@ function Layout() {
         <ListBtn
           onClick={handleDrawerClose}
           notification={''}
+          link={'dashboard/staffs-order'}
+          icon={<PeopleAltOutlined fontSize='small' />}
+          text='Staffs-Order-Req'
+          selected={pathname === '/dashboard/staffs-order'}
+        />
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
           link={'dashboard/orders'}
           icon={<ViewStreamOutlined fontSize='small' />}
           text='Orders-History'
-          selected={pathname === '/dashboard/orders' || pathname == orderDetailsMatch?.pathname} />
+          selected={pathname === '/dashboard/orders' || pathname == orderDetailsMatch?.pathname}
+        />
         <ListBtn
           onClick={handleDrawerClose}
           notification={''}
           link={'dashboard/payments-history'}
           icon={<PaidOutlined fontSize='small' />}
           text='Payments-History'
-          selected={pathname === '/dashboard/payments-history'} />
+          selected={pathname === '/dashboard/payments-history'}
+        />
         <ListBtn
           onClick={handleDrawerClose}
           link={'dashboard/setting'}
           icon={<SettingsOutlined fontSize='small' />}
           text='Setting'
-          selected={pathname === '/dashboard/setting'} />
+          selected={pathname === '/dashboard/setting'}
+        />
       </Stack>
     </Box>
   );
-
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -373,7 +376,7 @@ function Layout() {
                 </IconButton>
                 <Collapse sx={{
                   position: 'absolute',
-                  left: {xs:'50%',md: '0'},
+                  left: { xs: '50%', md: '0' },
                   transform: 'translateX(-50%)',
                   top: 55,
                 }} in={openNotification}>
@@ -392,31 +395,68 @@ function Layout() {
               </Box>
             </ClickAwayListener>
             {/* user menu */}
-            <Box>
-              <IconButton
-                disableRipple
-                onClick={handleUserMenuOpen}
-                size="small"
-                aria-controls={open ? 'account-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-              >
-                <Avatar src={user?.me.photoUrl ? user?.me.photoUrl : ''} sx={{ width: 32, height: 32 }} />
-                <Box ml={1}>
-                  <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{user?.me.username}</Typography>
-                  <Typography sx={{
-                    fontSize: '12px',
-                    bgcolor: user?.me.role === 'company-manager' ?
-                      'primary.main' : user?.me.role === 'company-owner' ?
-                        'purple' : 'gray.main',
-                    px: 1, borderRadius: '50px',
-                    color: user?.me.role === 'company-manager' ?
-                      '#fff' : user?.me.role === 'company-owner' ?
-                        '#fff' : 'inherit',
-                  }}>{user?.me.role.replace('company-', '')}</Typography>
-                </Box>
-              </IconButton>
-              <Menu
+            <ClickAwayListener onClickAway={() => setUsermenuOpen(false)}>
+              <Box sx={{ position: 'relative' }}>
+                <IconButton
+                  disableRipple
+                  onClick={() => setUsermenuOpen(!userMenuOpen)}
+                  size="small"
+                  aria-controls={open ? 'account-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                >
+                  <Avatar src={user?.me.photoUrl ? user?.me.photoUrl : ''} sx={{ width: 32, height: 32 }} />
+                  <Box ml={1}>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{user?.me.username}</Typography>
+                    <Typography sx={{
+                      fontSize: '12px',
+                      bgcolor: user?.me.role === 'company-manager' ?
+                        'primary.main' : user?.me.role === 'company-owner' ?
+                          'purple' : 'gray.main',
+                      px: 1, borderRadius: '50px',
+                      color: user?.me.role === 'company-manager' ?
+                        '#fff' : user?.me.role === 'company-owner' ?
+                          '#fff' : 'inherit',
+                    }}>{user?.me.role.replace('company-', '')}</Typography>
+                  </Box>
+                </IconButton>
+
+                <Collapse sx={{
+                  position: 'absolute',
+                  top: 65,
+                  right: 0,
+                  minWidth: '250px',
+                  pt: 2,
+                  bgcolor: '#fff',
+                  boxShadow: 3,
+                  borderRadius: '8px'
+                }} in={userMenuOpen}>
+                  <Stack sx={{ width: '100%' }} alignItems='center'>
+                    <Avatar src={user?.me.photoUrl ?? ''} sx={{ width: '100px', height: '100px', mb: 2 }} />
+                    <Typography sx={{ fontSize: '20px', textAlign: 'center' }}>{user?.me.username}</Typography>
+                    <Typography sx={{ textAlign: 'center', fontSize: '14px' }}>{user?.me.email}</Typography>
+                    <Typography sx={{ textAlign: 'center', fontSize: '14px', mb: 2 }}>{user?.me.phone}</Typography>
+                    {/* <MenuItem onClick={() => setUsermenuOpen(false)}>
+                      <ListItemIcon>
+                        <Settings fontSize="small" />
+                      </ListItemIcon>
+                      Settings
+                    </MenuItem> */}
+                    <Divider sx={{ width: '100%' }} />
+                    <MenuItem onClick={() => (
+                      setUsermenuOpen(false),
+                      handleLogout()
+                    )}>
+                      <ListItemIcon>
+                        <Logout fontSize="small" />
+                      </ListItemIcon>
+                      Logout
+                    </MenuItem>
+                  </Stack>
+                </Collapse>
+
+                {/* <Menu
+                sx={{ p: 3 }}
                 anchorEl={userMenuOpen}
                 id="account-menu"
                 open={open}
@@ -428,32 +468,32 @@ function Layout() {
               >
                 <Link className='link' to='/dashboard/setting'>
                   <MenuItem sx={{ width: '200px' }} onClick={handleUserMenuClose}>
-                    <ListItemIcon>
-                      <AccountCircle />
-                    </ListItemIcon>
-                    <ListItemText>
-                      Profile
-                    </ListItemText>
+                    <Stack sx={{ width: '100%' }} alignItems='center'>
+                      <Avatar />
+                      <Typography>{user?.me.username}</Typography>
+                      <Typography>{user?.me.email}</Typography>
+                    </Stack>
                   </MenuItem>
                 </Link>
                 <Divider />
-                {/* <MenuItem onClick={handleUserMenuClose}>
+                <MenuItem onClick={handleUserMenuClose}>
                   <ListItemIcon>
                     <Settings fontSize="small" />
                   </ListItemIcon>
                   Settings
-                </MenuItem> */}
+                </MenuItem>
                 <MenuItem onClick={() => (
                   handleUserMenuClose(),
                   handleLogout()
                 )}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Logout
-                </MenuItem>
-              </Menu>
-            </Box>
+                    </ListItemIcon>
+                    Logout
+                    </MenuItem>
+                    </Menu> */}
+              </Box>
+            </ClickAwayListener>
             {/* user menu end */}
           </Box>
         </Toolbar>

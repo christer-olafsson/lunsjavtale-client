@@ -14,7 +14,7 @@ export const FOOD_MEETINGS = gql`
         meetingTime
         companyName
         meetingType
-        # status
+        status
         topics{
           edges{
             node{

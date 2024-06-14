@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material'
-import { Autocomplete, Avatar, Box, Checkbox, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Avatar, Box, Button, Checkbox, DialogActions, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CButton from '../../../common/CButton/CButton';
 import { useMutation, useQuery } from '@apollo/client';
@@ -9,6 +9,8 @@ import { GET_INGREDIENTS } from './graphql/query';
 import toast from 'react-hot-toast';
 import { uploadFile } from '../../../utils/uploadFile';
 import { deleteFile } from '../../../utils/deleteFile';
+import CDialog from '../../../common/dialog/CDialog';
+import UserPassReset from './UserPassReset';
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
@@ -18,22 +20,17 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
   const [file, setFile] = useState(null);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
   const [allAllergies, setAllAllergies] = useState([]);
-  const [role, setRole] = useState('');
   const [errors, setErrors] = useState({});
   const [fileUploadLoading, setFileUploadLoading] = useState(false)
+  const [resetPassDialogOpen, setResetPassDialogOpen] = useState(false)
   const [payload, setPayload] = useState({
     firstName: '',
     lastName: '',
     username: '',
     email: '',
-    phone: ''
+    phone: '',
+    role: ''
   });
-
-
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
-
 
   const [editStaff, { loading: editStaffLoading }] = useMutation(CREATE_COMPANY_STAFF, {
     onCompleted: () => {
@@ -77,7 +74,6 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
       variables: {
         input: {
           ...payload,
-          role,
           photoUrl,
           fileId,
           allergies: selectedAllergies.map(item => item.id),
@@ -99,9 +95,9 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
       lastName: data.lastName,
       username: data.username,
       email: data.email,
-      phone: data.phone
+      phone: data.phone,
+      role: data.role
     });
-    setRole(data.role)
   }, [data])
 
 
@@ -135,12 +131,12 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
               <FormControl error={Boolean(errors.role)} size='small' fullWidth>
                 <InputLabel>Staff Role</InputLabel>
                 <Select
-                  value={role}
+                  value={payload.role}
                   label="Staff Role"
-                  onChange={handleRoleChange}
+                  onChange={(e) => setPayload({ ...payload, role: e.target.value })}
                 >
-                  <MenuItem value={'manager'}>Manager</MenuItem>
-                  <MenuItem value={'employee'}>Employee</MenuItem>
+                  <MenuItem value={'company-manager'}>Manager</MenuItem>
+                  <MenuItem value={'company-employee'}>Employee</MenuItem>
                 </Select>
                 {errors.role && <FormHelperText>{errors.role}</FormHelperText>}
               </FormControl>
@@ -178,9 +174,21 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
         )}
       />
 
-      <CButton isLoading={editStaffLoading || fileUploadLoading} onClick={handleEditStaff} variant='contained' style={{ width: '100%', mt: 2, height: { xs: '45px', md: '45px' } }}>
+      <CButton
+        isLoading={editStaffLoading || fileUploadLoading}
+        onClick={handleEditStaff}
+        variant='contained'
+        style={{ width: '100%', my: 2, height: { xs: '45px', md: '45px' } }}
+      >
         Update
       </CButton>
+
+      <Button onClick={() => setResetPassDialogOpen(true)}>Reset Password</Button>
+
+        {/* reset password */}
+      <CDialog openDialog={resetPassDialogOpen} closeDialog={() => setResetPassDialogOpen(false)} >
+        <UserPassReset data={data} closeDialog={() => setResetPassDialogOpen(false)} />
+      </CDialog>
 
     </Box >
   )

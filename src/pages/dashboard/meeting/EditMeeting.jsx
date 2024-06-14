@@ -1,33 +1,114 @@
 /* eslint-disable react/prop-types */
 import { CheckBox, CheckBoxOutlineBlank, Close, CloudUpload } from '@mui/icons-material'
-import { Autocomplete, Avatar, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, IconButton, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from '@mui/material'
-import { useState } from 'react';
-import DatePicker from 'react-datepicker';
+import { Autocomplete, Avatar, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from '@mui/material'
+import { useEffect, useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
-import { useQuery } from '@apollo/client';
-import { GET_ALL_CATEGORY } from '../../../graphql/query';
+import { GET_ALL_CATEGORY, ME } from '../../../graphql/query';
+import { useMutation, useQuery } from '@apollo/client';
+import { MEETING_MUTATION } from './graphql/mutation';
+import toast from 'react-hot-toast';
+import CButton from '../../../common/CButton/CButton';
+import { format } from 'date-fns';
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
 
-const userList = [
-  { name: 'Olivia Taylor', username: 'olivia43' },
-  { name: 'Phoenix Baker', username: 'phoenix34' },
-  { name: 'Lana Steiner', username: 'lana43' },
-];
 
 
+const EditMeeting = ({ data, fetchMeeting, closeDialog }) => {
+  const { data: user } = useQuery(ME)
+  const [allCategories, setAllCategories] = useState([]);
+  const [errors, setErrors] = useState({})
+  const [payload, setPayload] = useState({
+    title: '',
+    firstName: user.me.firstName,
+    lastName: user.me.lastName,
+    companyName: user.me.company?.name,
+    email: user.me.email,
+    phone: user.me.phone,
+    meetingTime: '',
+    topics: [],
+    meetingType: '',
+    description: ''
+  })
 
-const EditMeeting = ({ closeDialog }) => {
-  const [allCategories, setAllCategories] = useState([])
 
-  const { loading, error } = useQuery(GET_ALL_CATEGORY, {
+  useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
-      const res = data?.categories?.edges
-      setAllCategories(res)
+      setAllCategories(data?.categories?.edges.map(item => ({
+        id: item.node.id,
+        name: item.node.name
+      })))
     },
   });
+
+  const [meetingMutation, { loading: meetingLoading }] = useMutation(MEETING_MUTATION, {
+    onCompleted: (res) => {
+      toast.success(res.foodMeetingMutation.message)
+      fetchMeeting()
+      closeDialog()
+    },
+    onError: (err) => {
+      if (err.graphQLErrors && err.graphQLErrors.length > 0) {
+        const graphqlError = err.graphQLErrors[0];
+        const { extensions } = graphqlError;
+        if (extensions && extensions.errors) {
+          setErrors(extensions.errors)
+        }
+      }
+    }
+  });
+
+  const handleInputChange = (e) => {
+    setPayload({ ...payload, [e.target.name]: e.target.value })
+  }
+
+  const handleCreate = () => {
+    if (!payload.title) {
+      setErrors({ title: 'Meeting Title Required!' })
+      return
+    }
+    if (!payload.meetingType) {
+      setErrors({ meetingType: 'Meeting Type Required!' })
+      return
+    }
+    if (!payload.meetingTime) {
+      setErrors({ meetingTime: 'Meeting Time Required!' })
+      return
+    }
+    if (!payload.description) {
+      setErrors({ description: 'Meeting Description Required!' })
+      return
+    }
+    if (data.id) {
+
+      meetingMutation({
+        variables: {
+          input: {
+            id: data.id,
+            ...payload,
+            topics: payload.topics.map(item => item.id)
+          }
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (data) {
+      setPayload({
+        title: data.title,
+        meetingTime: data.meetingTime,
+        topics: data.topics?.edges.map(item => ({
+          id: item.node.id,
+          name: item.node.name
+        })),
+        meetingType: data.meetingType,
+        description: data.description
+      })
+    }
+  }, [data])
 
   return (
     <Box sx={{
@@ -42,75 +123,66 @@ const EditMeeting = ({ closeDialog }) => {
       </Stack>
 
       <FormGroup>
-        {/* customer name */}
-        <Autocomplete
-          sx={{ mb: 2 }}
-          disablePortal
-          options={userList}
-          getOptionLabel={(option) => option.name}
-          renderInput={(params) => <TextField {...params} label="Customer Name" />}
-          renderOption={(props, option) => (
-            <Stack direction='row' gap={2} alignItems='center' my={1.5} {...props}>
-              <Avatar />
-              <Box>
-                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{option.name}</Typography>
-                <Typography sx={{ fontSize: '14px' }}>{option.username}</Typography>
-              </Box>
+        <Stack >
+          <TextField value={payload.title} error={errors.title} helperText={errors.title} onChange={handleInputChange} name='title' label='Title' />
+          <Stack direction='row' gap={2} my={2}>
+            {/* <Stack flex={1} gap={2}>
+              <TextField value={payload.firstName} onChange={handleInputChange} name='firstName' label='First Name' />
+              <TextField value={payload.companyName} onChange={handleInputChange} name='companyName' label='Company Name' />
+              <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Phone number' />
+            </Stack> */}
+            <Stack flex={1} gap={2}>
+              {/* <TextField value={payload.lastName} onChange={handleInputChange} name='lastName' label='Last name' />
+              <TextField value={payload.email} onChange={handleInputChange} name='email' label='Email' /> */}
+              <FormControl error={Boolean(errors.meetingType)} fullWidth>
+                <InputLabel>Meeting Type</InputLabel>
+                <Select
+                  value={payload.meetingType}
+                  label="Meeting Type"
+                  onChange={(e) => setPayload({ ...payload, meetingType: e.target.value })}
+                >
+                  <MenuItem value={'remote'}>Remote</MenuItem>
+                  <MenuItem value={'interview'}>Interview</MenuItem>
+                  <MenuItem value={'in-person'}>In Person</MenuItem>
+                  <MenuItem value={'others'}>Others</MenuItem>
+                </Select>
+                {errors.meetingType && <FormHelperText>{errors.meetingType}</FormHelperText>}
+              </FormControl>
             </Stack>
-          )}
-        />
-        {/* meeting topic */}
-        <Autocomplete
-          multiple
-          options={allCategories ? allCategories : []}
-          disableCloseOnSelect
-          getOptionLabel={(option) => option.node.name}
-          renderOption={(props, option, { selected }) => (
-            <li {...props}>
-              <Checkbox
-                icon={icon}
-                checkedIcon={checkedIcon}
-                style={{ marginRight: 8 }}
-                checked={selected}
-              />
-              {option.node.name}
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField {...params} label="Meeting Topic" />
-          )}
-        />
-        <Stack direction='row' gap={2} mb={2} mt={2}>
-          <TextField fullWidth type='date' helperText='Metting Date' />
-          <TextField fullWidth type='time' helperText='Metting Time' />
-        </Stack>
-        <Stack direction='row' gap={2}>
-          <FormControl fullWidth>
-            <InputLabel>Meeting Type</InputLabel>
-            <Select
-              label="Meeting Type"
-            >
-              <MenuItem value={20}>Remote</MenuItem>
-              <MenuItem value={30}>Interview</MenuItem>
-              <MenuItem value={40}>Lively</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl fullWidth>
-            <InputLabel>Attendees</InputLabel>
-            <Select
-              label="Attendees"
-            >
-              <MenuItem value={20}>Owner</MenuItem>
-              <MenuItem value={30}>Manager</MenuItem>
-            </Select>
-          </FormControl>
-        </Stack>
-        <TextField sx={{ mt: 2 }} label='Description' multiline rows={3} placeholder='Meeting Description' />
-      </FormGroup>
+          </Stack>
+          <Box mb={2}>
+            <Typography variant='body2'>Meeting Time <b>({format(data.meetingTime, 'yyyy-MM-dd HH:mm')})</b> </Typography>
+            <TextField value={payload.meetingTime} onChange={(e) => setPayload({ ...payload, meetingTime: e.target.value })} error={Boolean(errors.meetingTime)} helperText={errors.meetingTime} fullWidth type='datetime-local' />
+          </Box>
+          <Stack gap={2}>
+            <Autocomplete
+              multiple
+              value={payload.topics}
+              options={allCategories ? allCategories : []}
+              disableCloseOnSelect
+              onChange={(event, value) => setPayload({ ...payload, topics: value.map(item => item) })}
+              getOptionLabel={(option) => option.name}
+              renderOption={(props, option, { selected }) => (
+                <li {...props}>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {option.name}
+                </li>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label="Meeting Topic" />
+              )}
+            />
 
-      <Button variant='contained' sx={{ width: '100%', mt: 2 }}>
-        Save and Add
-      </Button>
+          </Stack>
+          <TextField value={payload.description} error={Boolean(errors.description)} helperText={errors.description} onChange={handleInputChange} name='description' sx={{ my: 2 }} label='Description' rows={4} multiline />
+          <CButton onClick={handleCreate} isLoading={meetingLoading} variant='contained'>Create Meeting</CButton>
+        </Stack>
+      </FormGroup>
 
     </Box>
   )

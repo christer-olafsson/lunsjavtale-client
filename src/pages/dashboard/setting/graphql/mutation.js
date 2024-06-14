@@ -32,3 +32,18 @@ export const COMPANY_MUTATION = gql`
     }
   }
 `
+
+export const PAYMENT_METHOD_MUTATION = gql`
+  mutation PaymentMethodMutation ($input: PaymentMethodMutationInput!){
+    paymentMethodMutation(input: $input){
+      message
+    }
+  }
+`
+export const DELETE_PAYMENT_METHOD = gql`
+  mutation DeletePaymentMethod ($id: ID){
+    deletePaymentMethod(id: $id){
+      message
+    }
+  }
+`

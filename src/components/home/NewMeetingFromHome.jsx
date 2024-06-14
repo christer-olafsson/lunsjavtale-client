@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Autocomplete, Box, Checkbox, FormControl, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import { GET_ALL_CATEGORY } from '../../graphql/query';
-import { MEETING_MUTATION } from '../../graphql/mutation';
 import toast from 'react-hot-toast';
 import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material';
 import CButton from '../../common/CButton/CButton';
 import { useState } from 'react';
+import { MEETING_MUTATION } from '../../pages/dashboard/meeting/graphql/mutation';
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
@@ -25,7 +25,7 @@ const NewMeetingFromHome = ({closeDialog}) => {
     meetingType: '',
     description: ''
   })
-console.log(payload)
+
   useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
       const res = data?.categories?.edges

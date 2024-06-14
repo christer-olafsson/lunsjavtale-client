@@ -22,6 +22,7 @@ import Meeting from './pages/dashboard/meeting/Index'
 import FoodDetails from './pages/dashboard/products/FoodDetails'
 import CheckPage from './pages/dashboard/checkPage/Index'
 import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
+import StaffsOrder from './pages/dashboard/staffsOrder/Index'
 
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
               </>
             )
           }
+          <Route path='/dashboard/staffs-order' element={<StaffsOrder />} />
           <Route path='/dashboard/products' element={<Products />} />
           <Route path='/dashboard/:path/products/:id' element={<FoodDetails />} />
           {

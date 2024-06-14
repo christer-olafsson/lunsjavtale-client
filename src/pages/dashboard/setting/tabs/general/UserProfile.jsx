@@ -99,7 +99,7 @@ const UserProfile = () => {
       }
     })
   }
-
+console.log(selectedAllergies)
   useEffect(() => {
     setPayload({
       firstName: user?.me.firstName ? user.me.firstName : '',

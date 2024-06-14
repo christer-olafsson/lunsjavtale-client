@@ -2,14 +2,12 @@
 import { CheckBox, CheckBoxOutlineBlank, Close, CloudUpload } from '@mui/icons-material'
 import { Autocomplete, Avatar, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, IconButton, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from '@mui/material'
 import { useState } from 'react';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { GET_ALL_CATEGORY, ME } from '../../../graphql/query';
 import { useMutation, useQuery } from '@apollo/client';
-import { MEETING_MUTATION } from '../../../graphql/mutation';
+import { MEETING_MUTATION } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
-import { useSelector } from 'react-redux';
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
@@ -17,7 +15,7 @@ const checkedIcon = <CheckBox fontSize="small" />;
 
 
 
-const NewMeeting = ({ closeDialog }) => {
+const NewMeeting = ({fetchMeeting, closeDialog }) => {
   const { data: user } = useQuery(ME)
   const [allCategories, setAllCategories] = useState([]);
   const [errors, setErrors] = useState({})
@@ -34,19 +32,17 @@ const NewMeeting = ({ closeDialog }) => {
     description: ''
   })
 
-console.log(payload)
+
   useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
-      const res = data?.categories?.edges
-      setAllCategories(res)
+      setAllCategories(data?.categories?.edges.map(item => item.node))
     },
   });
 
   const [meetingMutation, { loading: meetingLoading }] = useMutation(MEETING_MUTATION, {
     onCompleted: (res) => {
       toast.success(res.foodMeetingMutation.message)
-      setPayload(null)
-      setErrors(null)
+      fetchMeeting()
       closeDialog()
     },
     onError: (err) => {
@@ -104,7 +100,7 @@ console.log(payload)
 
       <FormGroup>
         <Stack >
-          <TextField error={Boolean(errors.title)} helperText={errors.title} onChange={handleInputChange} name='title' label='Title' />
+          <TextField error={errors.title} helperText={errors.title} onChange={handleInputChange} name='title' label='Title' />
           <Stack direction='row' gap={2} my={2}>
             {/* <Stack flex={1} gap={2}>
               <TextField value={payload.firstName} onChange={handleInputChange} name='firstName' label='First Name' />
@@ -138,8 +134,8 @@ console.log(payload)
               multiple
               options={allCategories ? allCategories : []}
               disableCloseOnSelect
-              onChange={(event, value) => setPayload({ ...payload, topics: value.map(item => item.node.id) })}
-              getOptionLabel={(option) => option.node.name}
+              onChange={(event, value) => setPayload({ ...payload, topics: value.map(item => item.id) })}
+              getOptionLabel={(option) => option.name}
               renderOption={(props, option, { selected }) => (
                 <li {...props}>
                   <Checkbox
@@ -148,7 +144,7 @@ console.log(payload)
                     style={{ marginRight: 8 }}
                     checked={selected}
                   />
-                  {option.node.name}
+                  {option.name}
                 </li>
               )}
               renderInput={(params) => (

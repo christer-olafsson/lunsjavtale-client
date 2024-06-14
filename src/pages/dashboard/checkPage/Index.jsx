@@ -70,6 +70,7 @@ const CheckPage = () => {
     },
     refetchQueries: [ADDRESSES, ORDERS],
     onError: (err) => {
+      toast.error(err.message)
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {
         const graphqlError = err.graphQLErrors[0];
         const { extensions } = graphqlError;
