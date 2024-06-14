@@ -68,7 +68,7 @@ function App() {
           <Route path='/dashboard/products' element={<Products />} />
           <Route path='/dashboard/:path/products/:id' element={<FoodDetails />} />
           {
-            !user?.me.company.isBlocked &&
+            !user?.me.company?.isBlocked &&
             <>
               <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
               <Route path='/dashboard/products/checkout' element={<CheckPage />} />
