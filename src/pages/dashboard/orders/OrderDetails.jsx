@@ -122,7 +122,7 @@ const OrderDetails = () => {
                               Details
                             </Button>
                             <Button
-                              disabled={user?.me.company.isBlocked}
+                              disabled={user?.me.company.isBlocked ||  user?.me.role === 'company-employee'}
                               onClick={() => handleEditDialog(data.node.id)}
                               endIcon={<DriveFileRenameOutlineOutlined />}
                               variant='contained'

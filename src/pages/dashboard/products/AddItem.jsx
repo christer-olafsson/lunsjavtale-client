@@ -303,7 +303,7 @@ const AddItem = ({ closeDialog, data }) => {
                   </thead>
                   <tbody>
                     {
-                      selectedDates.map(date => (
+                      selectedDates.sort((a, b) => new Date(a) - new Date(b)).map(date => (
                         <tr key={date}>
                           <td style={{ whiteSpace: '' }}>{date}</td>
                           <td>
@@ -385,7 +385,7 @@ const AddItem = ({ closeDialog, data }) => {
                 </Stack>
 
                 <Stack gap={2}>
-                  {selectedDates.map((date, idx) => (
+                  {selectedDates.sort((a, b) => new Date(a) - new Date(b)).map((date, idx) => (
                     <Box sx={{
                       borderRadius: '8px',
                       border: `2px solid ${selectedListId === idx ? theme.palette.primary.main : 'lightgray'}`,

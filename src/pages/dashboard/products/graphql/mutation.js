@@ -22,3 +22,12 @@ export const REMOVE_CART = gql`
     }
   }
 `
+
+export const SEND_CART_REQUEST = gql`
+  mutation SendCartRequest {
+    sendCartRequest{
+      success
+      message
+    }
+  }
+`

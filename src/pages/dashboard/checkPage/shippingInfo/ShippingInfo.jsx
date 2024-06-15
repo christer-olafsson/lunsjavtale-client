@@ -12,16 +12,18 @@ import ErrorMsg from '../../../../common/ErrorMsg/ErrorMsg'
 import CButton from '../../../../common/CButton/CButton'
 import { ADDRESSES } from '../graphql/query'
 import { ADDRESS_DELETE } from '../graphql/mutation'
+import { useLocation } from 'react-router-dom'
 
-const ShippingInfo = ({shippingInfoErr}) => {
+const ShippingInfo = ({ shippingInfoErr }) => {
   const [openAddAddressDialog, setOpenAddAddressDialog] = useState(false);
   const [openEditAddressDialog, setOpenEditAddressDialog] = useState(false);
   const [addresses, setAddresses] = useState([])
   const [editedAddressData, setEditedAddressData] = useState({})
   const [addressDeleteDialog, setAddressDeleteDialog] = useState(false)
   const [deletedAddressId, setDeletedAddressId] = useState('')
-console.log(shippingInfoErr)
+
   const theme = useTheme()
+  const { pathname } = useLocation()
 
   const { loading, error } = useQuery(ADDRESSES, {
     fetchPolicy: 'network-only',
@@ -41,7 +43,7 @@ console.log(shippingInfoErr)
       toast.error(err.message)
     }
   });
- 
+
 
   const handleEdit = (data) => {
     setEditedAddressData(data)
@@ -58,7 +60,10 @@ console.log(shippingInfoErr)
 
   return (
     <Stack>
-      <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Shipping Information</Typography>
+      {
+        pathname !== '/dashboard/setting' &&
+        <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Shipping Information</Typography>
+      }
       <Stack direction='row' justifyContent='space-between' my={2}>
         <Box />
         <Button onClick={() => setOpenAddAddressDialog(true)} variant='outlined'>Add Address</Button>
@@ -67,13 +72,13 @@ console.log(shippingInfoErr)
       <CDialog openDialog={openAddAddressDialog}>
         <AddAddress closeDialog={() => setOpenAddAddressDialog(false)} />
       </CDialog>
-        {
-          shippingInfoErr && <Typography sx={{
-            color:'red',
-            bgcolor:'#F7DADA',
-            p:1.5,borderRadius:'8px'
-          }}>Select or add new shipping address</Typography>
-        }
+      {
+        shippingInfoErr && <Typography sx={{
+          color: 'red',
+          bgcolor: '#F7DADA',
+          p: 1.5, borderRadius: '8px'
+        }}>Select or add new shipping address</Typography>
+      }
       {
         loading ? <Loader /> : error ? <ErrorMsg /> :
           addresses.map(item => (

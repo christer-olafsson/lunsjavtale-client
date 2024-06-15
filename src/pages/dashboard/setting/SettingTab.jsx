@@ -59,7 +59,11 @@ CustomTabPanel.propTypes = {
 };
 
 const tabName = [
-  'General ', 'Account', 'Notification', 'Security', 'Payment'
+  'General ',
+  'Account',
+  // 'Notification',
+  // 'Security',
+  'Payment'
 ]
 
 const SettingTab = () => {
@@ -95,13 +99,13 @@ const SettingTab = () => {
         </Tabs>
       </Stack>
 
-      <Box sx={{ p: {xs:1,lg:3} }}>
+      <Box sx={{ p: { xs: 1, lg: 3 } }}>
         {/* <CustomTabPanel value={tabIndex} index={0}><CheckboxesTags /></CustomTabPanel> */}
         <CustomTabPanel value={tabIndex} index={0}><General /></CustomTabPanel>
-        <CustomTabPanel value={tabIndex} index={1}><Account/></CustomTabPanel>
-        <CustomTabPanel value={tabIndex} index={2}><Notification/></CustomTabPanel>
-        <CustomTabPanel value={tabIndex} index={3}><Security/></CustomTabPanel>
-        <CustomTabPanel value={tabIndex} index={4}><Payment/></CustomTabPanel>
+        <CustomTabPanel value={tabIndex} index={1}><Account /></CustomTabPanel>
+        {/* <CustomTabPanel value={tabIndex} index={2}><Notification/></CustomTabPanel>
+        <CustomTabPanel value={tabIndex} index={3}><Security/></CustomTabPanel> */}
+        <CustomTabPanel value={tabIndex} index={2}><Payment /></CustomTabPanel>
       </Box>
 
     </Paper>

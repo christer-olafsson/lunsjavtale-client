@@ -112,7 +112,7 @@ const FoodDetails = () => {
                 }
               </Stack>
             </Stack>
-            <Box sx={{ width: '100%', mt: 10 }}>
+            {/* <Box sx={{ width: '100%', mt: 10 }}>
               <Typography variant='h5' mb={3}>Reviews</Typography>
               <Stack gap={5}>
                 {
@@ -131,7 +131,7 @@ const FoodDetails = () => {
                   ))
                 }
               </Stack>
-            </Box>
+            </Box> */}
           </>
       }
     </Box>

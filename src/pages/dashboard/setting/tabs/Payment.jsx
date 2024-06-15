@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import AddBillingInfo from './billingInfo/AddBillingInfo'
 import CDialog from '../../../../common/dialog/CDialog'
 import AddPaymentMethod from './payment/AddPaymentMethod'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { PAYMENT_METHODS } from '../graphql/query'
 import Loader from '../../../../common/loader/Index'
 import ErrorMsg from '../../../../common/ErrorMsg/ErrorMsg'
@@ -12,16 +12,21 @@ import { format } from 'date-fns'
 import EditPaymentMethod from './payment/EditPaymentMethod'
 import { DELETE_PAYMENT_METHOD } from '../graphql/mutation'
 import toast from 'react-hot-toast'
+import ShippingInfo from '../../checkPage/shippingInfo/ShippingInfo'
+import { ME } from '../../../../graphql/query'
 
 
 
 const Payment = () => {
   const [openPaymentGateway, setOpenPaymentGateway] = useState(false)
   const [openBillingInfo, setOpenBillingInfo] = useState(false)
+  const [openShippingInfo, setOpenShippingInfo] = useState(false)
   const [openPaymentMethodDialog, setOpenPaymentMethodDialog] = useState(false)
   const [editPaymentMethodId, setEditPaymentMethodId] = useState('')
   const [paymentMethods, setPaymentMethods] = useState([])
   const [deleteId, setDeleteId] = useState('')
+
+  const { data: user } = useQuery(ME);
 
   const [fetchPaymentMethods, { loading, error: paymentMethodErr }] = useLazyQuery(PAYMENT_METHODS, {
     fetchPolicy: 'network-only',
@@ -160,7 +165,7 @@ const Payment = () => {
       <Paper sx={{ p: 2, mt: 3 }}>
         <Stack direction='row' justifyContent='space-between' alignItems='center'>
           <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Billing Information</Typography>
-          <IconButton onClick={() => setOpenBillingInfo(!openBillingInfo)}>
+          <IconButton disabled={user?.me.role === 'company-employee'} onClick={() => setOpenBillingInfo(!openBillingInfo)}>
             <ArrowForwardIos sx={{
               transition: 'transform .3s ease',
               transform: openBillingInfo ? 'rotate(90deg)' : 'none'
@@ -169,6 +174,23 @@ const Payment = () => {
         </Stack>
         <Collapse in={openBillingInfo} >
           <AddBillingInfo />
+        </Collapse>
+      </Paper>
+
+
+      {/* shipping information */}
+      <Paper sx={{ p: 2, mt: 3 }}>
+        <Stack direction='row' justifyContent='space-between' alignItems='center'>
+          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Shipping Information</Typography>
+          <IconButton disabled={user?.me.role === 'company-employee'} onClick={() => setOpenShippingInfo(!openShippingInfo)}>
+            <ArrowForwardIos sx={{
+              transition: 'transform .3s ease',
+              transform: openShippingInfo ? 'rotate(90deg)' : 'none'
+            }} />
+          </IconButton>
+        </Stack>
+        <Collapse in={openShippingInfo} >
+          <ShippingInfo />
         </Collapse>
       </Paper>
     </Box>

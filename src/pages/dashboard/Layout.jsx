@@ -11,7 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation, useMatch } from 'react-router-dom';
-import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Lock, LockOutlined, Logout, MailOutline, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
+import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Lock, LockOutlined, Logout, MailOutline, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, ShoppingCartCheckout, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
 import { Avatar, Badge, Button, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Paper, Stack, TextField, Tooltip } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
@@ -62,33 +62,6 @@ const ListBtn = ({ style, text, icon, link, selected, onClick, notification }) =
     </Link>
   )
 };
-
-const paperProps = {
-  elevation: 0,
-  sx: {
-    overflow: 'visible',
-    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-    mt: 1.5,
-    '& .MuiAvatar-root': {
-      width: 32,
-      height: 32,
-      ml: -0.5,
-      mr: 1,
-    },
-    '&::before': {
-      content: '""',
-      display: 'block',
-      position: 'absolute',
-      top: 0,
-      right: 14,
-      width: 10,
-      height: 10,
-      bgcolor: 'background.paper',
-      transform: 'translateY(-50%) rotate(45deg)',
-      zIndex: 0,
-    },
-  },
-}
 
 
 function Layout() {
@@ -157,8 +130,8 @@ function Layout() {
         <Typography sx={{
           padding: '10px 12px',
           width: '100%',
-          color: user?.me.company.isBlocked ? 'gray' : 'primary.main',
-          bgcolor: user?.me.company.isBlocked ? 'red' : 'light.main',
+          color: user?.me.company?.isBlocked ? 'gray' : 'primary.main',
+          bgcolor: user?.me.company?.isBlocked ? 'red' : 'light.main',
           borderRadius: '4px',
           fontSize: '15px',
           textAlign: 'center',
@@ -166,13 +139,13 @@ function Layout() {
         }}>
           <Lock sx={{
             position: 'absolute',
-            display: user?.me.company.isBlocked ? 'block' : 'none',
+            display: user?.me.company?.isBlocked ? 'block' : 'none',
             color: '#fff',
             top: '50%',
             left: '50%',
             transform: 'translateX(-50%) translateY(-50%)'
           }} />
-          Deal: <b>{user?.me.company.name}</b>
+          Deal: <b>{user?.me.company?.name}</b>
         </Typography>
         {
           (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
@@ -186,7 +159,7 @@ function Layout() {
             display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
             <Typography>Due Amount: <b>{user?.me.company.balance}</b>  kr</Typography>
-            <Button disabled={user?.me.company.isBlocked} onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
+            <Button disabled={user?.me.company?.isBlocked} onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
           </Stack>
         }
       </Stack>
@@ -245,14 +218,16 @@ function Layout() {
             || pathname === '/dashboard/products/checkout'
             || pathname === productDetailsMatchFromProducts?.pathname
           } />
-        <ListBtn
-          onClick={handleDrawerClose}
-          notification={''}
-          link={'dashboard/staffs-order'}
-          icon={<PeopleAltOutlined fontSize='small' />}
-          text='Staffs-Order-Req'
-          selected={pathname === '/dashboard/staffs-order'}
-        />
+        
+          <ListBtn
+            onClick={handleDrawerClose}
+            notification={''}
+            link={'dashboard/staffs-order'}
+            icon={<ShoppingCartCheckout fontSize='small' />}
+            text='Order-Request'
+            selected={pathname === '/dashboard/staffs-order'}
+          />
+        
         <ListBtn
           onClick={handleDrawerClose}
           notification={''}

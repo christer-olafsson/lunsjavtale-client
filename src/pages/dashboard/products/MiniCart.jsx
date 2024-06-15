@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { ADDED_PRODUCTS } from './graphql/query'
 import { useMutation, useQuery } from '@apollo/client'
 import { Close } from '@mui/icons-material'
-import { REMOVE_PRODUCT_CART } from './graphql/mutation'
+import { REMOVE_PRODUCT_CART, SEND_CART_REQUEST } from './graphql/mutation'
 import toast from 'react-hot-toast'
 import CButton from '../../../common/CButton/CButton'
 import { ME } from '../../../graphql/query'
@@ -36,6 +36,17 @@ const MiniCart = () => {
     }
   });
 
+  // for employee request order
+  const [sendCartReqest, { loading: sendCartReqLoading }] = useMutation(SEND_CART_REQUEST, {
+    onCompleted: (res) => {
+      toast.success(res.sendCartRequest.message)
+    },
+    refetchQueries: [ADDED_PRODUCTS],
+    onError: (err) => {
+      toast.error(err.message)
+    }
+  });
+
   const handleProductRemoveDialog = (id) => {
     setRemoveProductId(id)
   }
@@ -47,6 +58,12 @@ const MiniCart = () => {
       }
     })
   }
+
+  const handleRequestOrder = () => {
+    sendCartReqest()
+  }
+
+
   const theme = useTheme()
   return (
     <>
@@ -71,11 +88,15 @@ const MiniCart = () => {
             <>
               <Stack direction='row' justifyContent='space-between' alignItems='center' mb={1}>
                 <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Shopping Cart</Typography>
-                <Link to='/dashboard/products/cart'>
-                  <Button disabled={user?.me.company.isBlocked} variant='contained'>
-                    Place Order
-                  </Button>
-                </Link>
+                {
+                  user?.me.role === 'company-employee' ?
+                    <CButton isLoading={sendCartReqLoading} onClick={handleRequestOrder} variant='contained'>Create Order</CButton> :
+                    <Link to='/dashboard/products/cart'>
+                      <Button disabled={user?.me.company.isBlocked} variant='contained'>
+                        Place Order
+                      </Button>
+                    </Link>
+                }
               </Stack>
 
               <Stack gap={1}>

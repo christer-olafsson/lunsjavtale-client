@@ -8,7 +8,7 @@ import { PAYMENT_METHOD_MUTATION } from '../../graphql/mutation';
 import CButton from '../../../../../common/CButton/CButton';
 
 
-const AddPaymentMethod = ({fetchPaymentMethods, closeDialog }) => {
+const AddPaymentMethod = ({ fetchPaymentMethods, closeDialog }) => {
   const [errors, setErrors] = useState({});
   const [payload, setPayload] = useState({
     cardHolderName: '',
@@ -89,16 +89,29 @@ const AddPaymentMethod = ({fetchPaymentMethods, closeDialog }) => {
         <TextField
           error={Boolean(errors.cardNumber)}
           helperText={errors.cardNumber}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            const value = event.target.value;
+            // Allow only digits and restrict to 13 digits
+            if (/^\d{0,13}$/.test(value)) {
+              handleInputChange(event);
+            }
+          }}
           value={payload.cardNumber}
           name='cardNumber'
           label='Card Number'
-          type='number'
+          inputProps={{ maxLength: 13 }}
+          type='text'
         />
         <TextField
           error={Boolean(errors.CVV)}
           helperText={errors.CVV}
-          onChange={handleInputChange}
+          onChange={(event) => {
+            const value = event.target.value;
+            // Allow only digits and restrict to 13 digits
+            if (/^\d{0,3}$/.test(value)) {
+              handleInputChange(event);
+            }
+          }}
           value={payload.CVV}
           name='CVV'
           label='CVV'
