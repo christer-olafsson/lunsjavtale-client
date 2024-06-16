@@ -21,11 +21,6 @@ const NewMeeting = ({fetchMeeting, closeDialog }) => {
   const [errors, setErrors] = useState({})
   const [payload, setPayload] = useState({
     title: '',
-    firstName: user.me.firstName,
-    lastName: user.me.lastName,
-    companyName: user.me.company?.name,
-    email: user.me.email,
-    phone: user.me.phone,
     meetingTime: '',
     topics: [],
     meetingType: '',
@@ -80,7 +75,8 @@ const NewMeeting = ({fetchMeeting, closeDialog }) => {
     meetingMutation({
       variables: {
         input: {
-          ...payload
+          ...payload,
+          company: user?.me.company.id
         }
       }
     })

@@ -15,6 +15,7 @@ export const FOOD_MEETINGS = gql`
         companyName
         meetingType
         status
+        note
         topics{
           edges{
             node{

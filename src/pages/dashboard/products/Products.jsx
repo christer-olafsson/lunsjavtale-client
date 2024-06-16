@@ -48,17 +48,21 @@ const Products = () => {
             bgcolor: 'light.main',
             width: '100%',
             p: 3
-          }} direction='row' gap={2} flexWrap='wrap'>
+          }} direction='row' gap={{ xs: 1, md: 2 }} flexWrap='wrap'>
             <Box sx={{
               border: '1px solid lightgray',
-              py: 1.5, px: 2,
               borderRadius: '4px',
               bgcolor: categoryId === null ? 'primary.main' : '#fff',
               color: categoryId === null ? '#fff' : 'inherit',
               cursor: 'pointer',
               userSelect: 'none'
             }} onClick={() => setCategoryId(null)}>
-              <Typography>All {categoryId === null && <i style={{ fontSize: '14px' }}>({products.length})</i>}</Typography>
+              <Typography sx={{
+                fontSize: { xs: '13px', md: '16px' },
+                py: { xs: 1, md: 1.5 },
+                px: { xs: 1, md: 2 },
+                textAlign: 'center'
+              }}>All {categoryId === null && <i style={{ fontSize: '14px' }}>({products.length})</i>}</Typography>
             </Box>
             {
               // loadingCategory ? <LoadingBar/> : 
@@ -66,7 +70,6 @@ const Products = () => {
                 allCategorys?.map((item) => (
                   <Box sx={{
                     border: '1px solid lightgray',
-                    py: 1.5, px: 2,
                     borderRadius: '4px',
                     bgcolor: categoryId === item.node.id ? 'primary.main' : '#fff',
                     color: categoryId === item.node.id ? '#fff' : 'inherit',
@@ -74,7 +77,17 @@ const Products = () => {
                     userSelect: 'none',
                     opacity: !item.node.isActive ? '.4' : '1'
                   }} onClick={() => setCategoryId(item.node.id)} key={item?.node.id}>
-                    <Typography>{item?.node.name} {categoryId === item.node.id && <i style={{ fontSize: '14px' }}>({products.length})</i>}</Typography>
+                    <Typography sx={{
+                      fontSize: { xs: '13px', md: '16px' },
+                      py: { xs: 1, md: 1.5 },
+                      px: { xs: 1, md: 2 },
+                      textAlign: 'center'
+                    }}>
+                      {item?.node.name}
+                      {categoryId === item.node.id &&
+                        <i style={{ fontSize: '14px' }}>({products.length})</i>
+                      }
+                    </Typography>
                   </Box>
                 ))
             }
@@ -88,14 +101,14 @@ const Products = () => {
               ))
           }
         </Stack>
-      </Paper>
+      </Paper >
 
       <Box sx={{
         flex: 1
       }}>
         <MiniCart />
       </Box>
-    </Stack>
+    </Stack >
   )
 }
 

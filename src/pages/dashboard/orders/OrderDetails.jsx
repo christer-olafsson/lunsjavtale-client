@@ -152,7 +152,7 @@ const OrderDetails = () => {
                   ))
               }
             </Stack>
-            <Box mt={6} maxWidth='700px'>
+            {/* <Box mt={6} maxWidth='700px'>
               <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 3 }}>Timeline</Typography>
               <Timeline sx={{
                 [`& .${timelineItemClasses.root}:before`]: {
@@ -236,7 +236,7 @@ const OrderDetails = () => {
                   </TimelineContent>
                 </TimelineItem>
               </Timeline>
-            </Box>
+            </Box> */}
           </Box>
 
           <Box sx={{
@@ -257,8 +257,8 @@ const OrderDetails = () => {
             </Typography>
             <Typography sx={{ fontSize: '16px' }}>Billing address</Typography>
             <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{order?.billingAddress?.address}</Typography>
-            <Typography sx={{ fontSize: '16px', mb: 1 }}>Payment</Typography>
-            <Stack direction='row' gap={2}>
+            {/* <Typography sx={{ fontSize: '16px', mb: 1 }}>Payment</Typography> */}
+            {/* <Stack direction='row' gap={2}>
               <Box sx={{
                 bgcolor: 'light.main',
                 width: '72px', height: '58px',
@@ -273,9 +273,9 @@ const OrderDetails = () => {
                 <Typography>Visa</Typography>
                 <Typography>******42342</Typography>
               </Box>
-            </Stack>
+            </Stack> */}
 
-            <Stack sx={{ mt: 6 }} gap={2}>
+            {/* <Stack sx={{ mt: 6 }} gap={2}>
               <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Write a Review</Typography>
               <Rating sx={{ color: 'primary.main' }} value={ratingCount} onChange={(event, newValue) => {
                 setRatingCount(newValue);
@@ -284,7 +284,7 @@ const OrderDetails = () => {
               <TextField variant='standard' label='Title' />
               <TextField variant='standard' label='Review (Optional)' />
               <Button disabled={user?.me.company.isBlocked} variant='contained' sx={{ alignSelf: 'flex-end' }}>Send</Button>
-            </Stack>
+            </Stack> */}
           </Box>
 
         </Stack>

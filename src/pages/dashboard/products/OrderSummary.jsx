@@ -117,7 +117,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
           <Button onClick={handleAllowanceDialogClose} variant='contained'>Continue</Button>
         </Stack>
       </CDialog>
-      {
+      {/* {
         (pathname === '/dashboard/products/checkout') &&
         <Box sx={{
           bgcolor: 'light.main',
@@ -131,7 +131,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
             <Button variant='contained' sx={{ flex: 1 }}>Apply</Button>
           </Stack>
         </Box>
-      }
+      } */}
 
 
       <Stack direction='row' justifyContent='space-between' p={isMySideCartPage ? 0 : 2}>

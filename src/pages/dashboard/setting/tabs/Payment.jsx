@@ -182,7 +182,9 @@ const Payment = () => {
       <Paper sx={{ p: 2, mt: 3 }}>
         <Stack direction='row' justifyContent='space-between' alignItems='center'>
           <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Shipping Information</Typography>
-          <IconButton disabled={user?.me.role === 'company-employee'} onClick={() => setOpenShippingInfo(!openShippingInfo)}>
+          <IconButton disabled={user?.me.role === 'company-employee'}
+            onClick={() => setOpenShippingInfo(!openShippingInfo)}
+          >
             <ArrowForwardIos sx={{
               transition: 'transform .3s ease',
               transform: openShippingInfo ? 'rotate(90deg)' : 'none'

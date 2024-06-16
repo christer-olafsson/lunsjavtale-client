@@ -17,7 +17,6 @@ const PaymentHistory = () => {
     }
   });
 
-  console.log(orderPayents)
   const columns = [
     {
       field: 'createdDate', width: 200,
