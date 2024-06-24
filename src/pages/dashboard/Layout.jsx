@@ -127,24 +127,31 @@ function Layout() {
         </Link>
       </Toolbar>
       <Stack sx={{ width: '100%', px: 2, my: 3 }} gap={1}>
+        {
+          user?.me.company?.isBlocked &&
+          <Stack alignItems='center' sx={{
+            bgcolor: '#F7DCD9',
+            p: '5px 30px',
+            color: 'red',
+            borderRadius: '4px',
+            mb: 1
+          }}>
+            <Typography sx={{ fontWeight: 600 }}>
+              Account Restricted.
+            </Typography>
+            <a style={{ fontSize: '13px' }} href="https://wa.me/+4748306377" target='blank'>Contact</a>
+          </Stack>
+        }
         <Typography sx={{
           padding: '10px 12px',
           width: '100%',
-          color: user?.me.company?.isBlocked ? 'gray' : 'primary.main',
-          bgcolor: user?.me.company?.isBlocked ? 'red' : 'light.main',
+          color: 'primary.main',
+          bgcolor: 'light.main',
           borderRadius: '4px',
           fontSize: '15px',
           textAlign: 'center',
           position: 'relative'
         }}>
-          <Lock sx={{
-            position: 'absolute',
-            display: user?.me.company?.isBlocked ? 'block' : 'none',
-            color: '#fff',
-            top: '50%',
-            left: '50%',
-            transform: 'translateX(-50%) translateY(-50%)'
-          }} />
           Deal: <b>{user?.me.company?.name}</b>
         </Typography>
         {
@@ -218,16 +225,16 @@ function Layout() {
             || pathname === '/dashboard/products/checkout'
             || pathname === productDetailsMatchFromProducts?.pathname
           } />
-        
-          <ListBtn
-            onClick={handleDrawerClose}
-            notification={''}
-            link={'dashboard/staffs-order'}
-            icon={<ShoppingCartCheckout fontSize='small' />}
-            text='Order-Request'
-            selected={pathname === '/dashboard/staffs-order'}
-          />
-        
+
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
+          link={'dashboard/staffs-order'}
+          icon={<ShoppingCartCheckout fontSize='small' />}
+          text='Order-Request'
+          selected={pathname === '/dashboard/staffs-order'}
+        />
+
         <ListBtn
           onClick={handleDrawerClose}
           notification={''}
@@ -282,6 +289,19 @@ function Layout() {
             <MenuIcon />
           </IconButton>
           <Box />
+          {/* {
+            user?.me.company?.isBlocked &&
+            <Typography sx={{
+              bgcolor: '#F7DCD9',
+              p: '5px 30px',
+              color: 'red',
+              borderRadius: '4px',
+              display: {xs: 'none', md: 'block'}
+            }}>
+              Account Restricted.
+              <a style={{ fontSize: '13px' }} href="https://wa.me/+4748306377" target='blank'>Contact</a>
+            </Typography>
+          } */}
           {/* <TextField sx={{
             mr: { xs: 0, sm: 2, md: 20 },
             maxWidth: '700px',

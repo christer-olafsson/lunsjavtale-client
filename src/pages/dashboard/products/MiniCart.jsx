@@ -90,7 +90,7 @@ const MiniCart = () => {
                 <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Shopping Cart</Typography>
                 {
                   user?.me.role === 'company-employee' ?
-                    <CButton isLoading={sendCartReqLoading} onClick={handleRequestOrder} variant='contained'>Create Order</CButton> :
+                    <CButton isLoading={sendCartReqLoading} disable={user?.me.company.isBlocked} onClick={handleRequestOrder} variant='contained'>Create Order</CButton> :
                     <Link to='/dashboard/products/cart'>
                       <Button disabled={user?.me.company.isBlocked} variant='contained'>
                         Place Order

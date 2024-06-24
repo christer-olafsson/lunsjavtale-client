@@ -25,6 +25,7 @@
     "graphql": "^16.8.1",
     "moment-timezone": "^0.5.45",
     "react": "^18.2.0",
+    "react-awesome-reveal": "^4.2.12",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.6.4",

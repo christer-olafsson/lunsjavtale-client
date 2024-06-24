@@ -12,6 +12,7 @@ import Loader from '../../common/loader/Index';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
+import { FadeAnimation, SlideAnimation } from '../animation/Animation';
 
 const TabItem = styled(Tab)(({ theme }) => ({
   position: "relative",
@@ -147,8 +148,14 @@ const CategoryTab = (props) => {
             allCategorys.map((item, id) => (
               <CustomTabPanel key={id} value={tabIndex} index={id}>
                 <Stack>
-                  <Typography sx={{ fontSize: '32px', mb: 2, fontWeight: 600, textAlign: 'center' }}>{item.node.name}</Typography>
-                  <Typography sx={{ mb: 6, px: '16px', maxWidth: '727px', alignSelf: 'center', textAlign: 'center', fontSize: { xs: '14px', md: '16px' } }}>{item.node.description}</Typography>
+                  <SlideAnimation direction='up'>
+                    <Typography sx={{ fontSize: '32px', mb: 2, fontWeight: 600, textAlign: 'center' }}>{item.node.name}</Typography>
+                  </SlideAnimation>
+                  <Typography sx={{ mb: 6, px: '16px', maxWidth: '727px', alignSelf: 'center', textAlign: 'center', fontSize: { xs: '14px', md: '16px' } }}>
+                    <FadeAnimation>
+                      {item.node.description}
+                    </FadeAnimation>
+                  </Typography>
                   <Stack direction='row' justifyContent='space-between' sx={{ mb: 4 }}>
                     <Typography sx={{ px: '16px' }}>*All prices are ex. VAT. Shipping price NOK 120 ex. VAT per delivery.</Typography>
                     {/* <ButtonGroup /> */}
@@ -178,9 +185,12 @@ const CategoryTab = (props) => {
                   >
                     {
                       item?.node?.products?.edges?.map((data, id) => (
-                        <Box key={id} px={1}>
+                        <SlideAnimation key={id} direction='up' delay={100 * id} >
+
+                        <Box px={1}>
                           <ProductCard data={data} />
                         </Box>
+                        </SlideAnimation>
                       ))
                     }
                   </Carousel>

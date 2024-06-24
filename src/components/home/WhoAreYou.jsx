@@ -6,6 +6,7 @@ import Tab, { tabClasses } from "@mui/material/Tab";
 import PropTypes from 'prop-types';
 import CButton from "../../common/CButton/CButton";
 import { Link } from "react-router-dom";
+import { FadeAnimation, SlideAnimation } from "../animation/Animation";
 
 const TabItem = styled(Tab)(({ theme }) => ({
   position: "relative",
@@ -58,11 +59,19 @@ function CustomTabPanel(props) {
 
 function WhoAreYou() {
   const [tabIndex, setTabIndex] = useState(0);
-  const theme = useTheme()
+
   return (
     <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 } }}>
-      <Typography sx={{ fontSize: { xs: '22px', md: '32px' }, fontWeight: 600, textAlign: 'center', mb: 2 }}>Hvem er du?</Typography>
-      <Typography sx={{ fontSize: { xs: '16px', md: '24px' }, fontWeight: 500, textAlign: 'center', mb: 6 }}>lunsjavtale gir deg kantinen rett i lomma</Typography>
+      <Typography sx={{ fontSize: { xs: '22px', md: '32px' }, fontWeight: 600, textAlign: 'center', mb: 2 }}>
+        <FadeAnimation damping={.1} cascade={'cascade'}>
+          Hvem er du?
+        </FadeAnimation>
+      </Typography>
+      <Typography sx={{ fontSize: { xs: '16px', md: '24px' }, fontWeight: 500, textAlign: 'center', mb: 6 }}>
+        <FadeAnimation damping={.05} cascade={'cascade'}>
+          lunsjavtale gir deg kantinen rett i lomma
+        </FadeAnimation>
+      </Typography>
       <Stack direction='row' sx={{
         mb: { xs: 3, md: 10 },
         justifyContent: 'center',
@@ -91,9 +100,15 @@ function WhoAreYou() {
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
-            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Sjefen</Typography>
-            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader og få mer for <br /> dine Penger.</Typography>
-            <Typography mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
+            <SlideAnimation direction='up'>
+              <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Sjefen</Typography>
+            </SlideAnimation>
+            <SlideAnimation direction='up' delay={200}>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader og få mer for <br /> dine Penger.</Typography>
+            </SlideAnimation>
+            <SlideAnimation direction='up' delay={400}>
+              <Typography mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
+            </SlideAnimation>
             <List>
               {
                 [
@@ -103,51 +118,63 @@ function WhoAreYou() {
                   'Få tilgang til et bredt utvalg av sunne oppskrifter for deilige og sunne måltider.',
                   'Lær effektive teknikker for å forberede måltider for å spare tid og holde deg på rett spor med kostholdet ditt.',
                 ].map((text, id) => (
-                  <ListItem sx={{ mb: 1 }} disablePadding key={id}>
-                    <ListItemIcon>
-                      <img src="/ok.png" alt="" />
-                    </ListItemIcon>
-                    <ListItemText sx={{ ml: -3 }}>
-                      <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
-                    </ListItemText>
-                  </ListItem>
+                  <FadeAnimation key={id} damping={.1} cascade={'cascade'} delay={300 * id}>
+                    <ListItem sx={{ mb: 1 }} disablePadding >
+                      <ListItemIcon>
+                        <img src="/ok.png" alt="" />
+                      </ListItemIcon>
+                      <ListItemText sx={{ ml: -3 }}>
+                        <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
+                      </ListItemText>
+                    </ListItem>
+                  </FadeAnimation>
                 ))
               }
             </List>
-            <Link to='/search'>
-              <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Bli kunde</CButton>
-            </Link>
+            <SlideAnimation direction='up' delay={1000}>
+              <Link to='/search'>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Bli kunde</CButton>
+              </Link>
+            </SlideAnimation>
           </Stack>
           <Stack sx={{
             flex: 1,
             gap: 2,
             alignItems: { xs: '', md: 'center' }
           }}>
-            <Box sx={{
-              width: { xs: '100%', md: '713px' },
-              height: { xs: '404px', md: '416px' },
-            }}>
-              <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/Text input.png" alt="" />
-            </Box>
+            <SlideAnimation direction='right'>
+              <Box sx={{
+                width: { xs: '100%', md: '713px' },
+                height: { xs: '404px', md: '416px' },
+              }}>
+                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/Text input.png" alt="" />
+              </Box>
+            </SlideAnimation>
             <Stack direction='row' gap={2} justifyContent={{ xs: 'center', sm: 'start', lg: 'space-between' }}>
-              <Box sx={{
-                width: { xs: '106px', md: '221px' },
-                height: '180px'
-              }}>
-                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (1).png" alt="" />
-              </Box>
-              <Box sx={{
-                width: { xs: '106px', md: '221px' },
-                height: '180px'
-              }}>
-                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (2).png" alt="" />
-              </Box>
-              <Box sx={{
-                width: { xs: '106px', md: '221px' },
-                height: '180px'
-              }}>
-                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (3).png" alt="" />
-              </Box>
+              <SlideAnimation direction='left'>
+                <Box sx={{
+                  width: { xs: '106px', md: '221px' },
+                  height: '180px'
+                }}>
+                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (1).png" alt="" />
+                </Box>
+              </SlideAnimation>
+              <SlideAnimation direction='left' delay={100}>
+                <Box sx={{
+                  width: { xs: '106px', md: '221px' },
+                  height: '180px'
+                }}>
+                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (2).png" alt="" />
+                </Box>
+              </SlideAnimation>
+              <SlideAnimation direction='left' delay={200}>
+                <Box sx={{
+                  width: { xs: '106px', md: '221px' },
+                  height: '180px'
+                }}>
+                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (3).png" alt="" />
+                </Box>
+              </SlideAnimation>
             </Stack>
           </Stack>
         </Stack>
@@ -170,9 +197,15 @@ function WhoAreYou() {
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
-            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Ansatt</Typography>
-            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Velg mellom 12 ulike lunsjretter hver dag</Typography>
-            <Typography mb={1}>Her er det garantert noe alle liker – og nye retter på menyen hver eneste dag! Vi kan ikke fikse alt, men vi kan arrangere en stressfri pause og sørge for at du får mat som ikke bare er bra, men også bra for kroppen.</Typography>
+            <SlideAnimation direction='up'>
+              <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Ansatt</Typography>
+            </SlideAnimation>
+            <SlideAnimation direction='up' delay={100}>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Velg mellom 12 ulike lunsjretter hver dag</Typography>
+            </SlideAnimation>
+            <SlideAnimation direction='up' delay={200}>
+              <Typography mb={1}>Her er det garantert noe alle liker – og nye retter på menyen hver eneste dag! Vi kan ikke fikse alt, men vi kan arrangere en stressfri pause og sørge for at du får mat som ikke bare er bra, men også bra for kroppen.</Typography>
+            </SlideAnimation>
             <List>
               {
                 [
@@ -182,14 +215,16 @@ function WhoAreYou() {
                   'Få tilgang til et bredt utvalg av sunne oppskrifter for deilige og sunne måltider.',
                   'Lær effektive teknikker for å forberede måltider for å spare tid og holde deg på rett spor med kostholdet ditt.',
                 ].map((text, id) => (
-                  <ListItem sx={{ mb: 1 }} disablePadding key={id}>
-                    <ListItemIcon>
-                      <img src="/ok.png" alt="" />
-                    </ListItemIcon>
-                    <ListItemText sx={{ ml: -3 }}>
-                      <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
-                    </ListItemText>
-                  </ListItem>
+                  <FadeAnimation key={id} damping={.1} cascade={'cascade'} delay={300 * id}>
+                    <ListItem sx={{ mb: 1 }} disablePadding >
+                      <ListItemIcon>
+                        <img src="/ok.png" alt="" />
+                      </ListItemIcon>
+                      <ListItemText sx={{ ml: -3 }}>
+                        <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
+                      </ListItemText>
+                    </ListItem>
+                  </FadeAnimation>
                 ))
               }
             </List>
@@ -208,35 +243,43 @@ function WhoAreYou() {
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
-            <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Lunsjsjef</Typography>
-            <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Bruker du unødvendig tid på å organisere lunsj for alle?</Typography>
-            <Typography mb={1}>Fleksibel arbeidshverdag krever fleksible løsninger. La ansatte selv holde orden på hva de skal spise og når de har hjemmekontor.</Typography>
-            <List>
-              <ListItem sx={{ mb: 1 }} disablePadding>
-                <ListItemIcon>
-                  <img src="/ok.png" alt="" />
-                </ListItemIcon>
-                <ListItemText sx={{ ml: -3 }}>
-                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Stressfri teknologi lar deg administrere ansatte, ha full kostnadskontroll og bestemme hvor mye selskapet skal betale.</Typography>
-                </ListItemText>
-              </ListItem>
-              <ListItem sx={{ mb: 2 }} disablePadding>
-                <ListItemIcon>
-                  <img src="/ok.png" alt="" />
-                </ListItemIcon>
-                <ListItemText sx={{ ml: -3 }}>
-                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Vi fikser til og med lønnstrekk og har full kontroll på skattereglene😇</Typography>
-                </ListItemText>
-              </ListItem>
-              <ListItem sx={{ mb: 2 }} disablePadding>
-                <ListItemIcon>
-                  <img src="/ok.png" alt="" />
-                </ListItemIcon>
-                <ListItemText sx={{ ml: -3 }}>
-                  <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>La oss fikse lunsj. Da kan du fokusere på alt annet!</Typography>
-                </ListItemText>
-              </ListItem>
-            </List>
+            <SlideAnimation direction='up'>
+              <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Lunsjsjef</Typography>
+            </SlideAnimation>
+            <SlideAnimation direction='up' delay={100}>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Bruker du unødvendig tid på å organisere lunsj for alle?</Typography>
+            </SlideAnimation>
+            <SlideAnimation direction='up' delay={200}>
+              <Typography mb={1}>Fleksibel arbeidshverdag krever fleksible løsninger. La ansatte selv holde orden på hva de skal spise og når de har hjemmekontor.</Typography>
+            </SlideAnimation>
+            <FadeAnimation delay={300}>
+              <List>
+                <ListItem sx={{ mb: 1 }} disablePadding>
+                  <ListItemIcon>
+                    <img src="/ok.png" alt="" />
+                  </ListItemIcon>
+                  <ListItemText sx={{ ml: -3 }}>
+                    <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Stressfri teknologi lar deg administrere ansatte, ha full kostnadskontroll og bestemme hvor mye selskapet skal betale.</Typography>
+                  </ListItemText>
+                </ListItem>
+                <ListItem sx={{ mb: 2 }} disablePadding>
+                  <ListItemIcon>
+                    <img src="/ok.png" alt="" />
+                  </ListItemIcon>
+                  <ListItemText sx={{ ml: -3 }}>
+                    <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Vi fikser til og med lønnstrekk og har full kontroll på skattereglene😇</Typography>
+                  </ListItemText>
+                </ListItem>
+                <ListItem sx={{ mb: 2 }} disablePadding>
+                  <ListItemIcon>
+                    <img src="/ok.png" alt="" />
+                  </ListItemIcon>
+                  <ListItemText sx={{ ml: -3 }}>
+                    <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>La oss fikse lunsj. Da kan du fokusere på alt annet!</Typography>
+                  </ListItemText>
+                </ListItem>
+              </List>
+            </FadeAnimation>
             <Stack direction='row ' gap={2}>
               <Link to='/search'>
                 <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '219px', color: 'secondary.main' }}>Bli kunde</CButton>
