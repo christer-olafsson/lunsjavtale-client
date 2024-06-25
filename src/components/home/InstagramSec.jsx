@@ -1,5 +1,6 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { SlideAnimation } from '../animation/Animation'
 
 const imgContainer = {
   // width: { xs: '100%', md: '320px' },
@@ -38,10 +39,20 @@ const InstagramSec = () => {
         py: '12px', px: '24px',
         borderRadius: '8px', mb: 2
       }} >
-        Følg oss på Instagram
+        <SlideAnimation direction='up'>
+          Følg oss på Instagram
+        </SlideAnimation>
       </Box>
-      <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>Se hva som skjer på noen</Typography>
-      <Typography alignSelf='center' mb={6}>lunsjavtale er en digital kantine som gjør lunsjen enklere (og smartere)!</Typography>
+      <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>
+        <SlideAnimation direction='up' delay={100}>
+          Se hva som skjer på noen
+        </SlideAnimation>
+      </Typography>
+      <Typography alignSelf='center' mb={6}>
+        <SlideAnimation direction='up' delay={200}>
+          lunsjavtale er en digital kantine som gjør lunsjen enklere (og smartere)!
+        </SlideAnimation>
+      </Typography>
       <Stack direction={{ xs: 'column', md: 'row' }} gap={3} justifyContent='center'>
         <Box sx={imgContainer}>
           <img style={imgContainerImg} src="/insImg1.png" alt="" />

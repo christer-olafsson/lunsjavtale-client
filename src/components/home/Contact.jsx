@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import CButton from '../../common/CButton/CButton'
 import styled from '@emotion/styled';
 import { Close } from '@mui/icons-material';
+import { SlideAnimation } from '../animation/Animation';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -40,14 +41,22 @@ const Contact = () => {
             height: '56px',
             mb: 3
           }}>
-            <img style={{ width: '100%' }} src="/Avatar group.png" alt="" />
+            <SlideAnimation direction='up'>
+              <img style={{ width: '100%' }} src="/Avatar group.png" alt="" />
+            </SlideAnimation>
           </Box>
-          <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du fortsatt spørsmål?</Typography>
-          <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelige på chat, eller så kan du ringe tråden når som helst</Typography>
+          <SlideAnimation direction='up' delay={100}>
+            <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du fortsatt spørsmål?</Typography>
+          </SlideAnimation>
+          <SlideAnimation direction='up' delay={200}>
+            <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelige på chat, eller så kan du ringe tråden når som helst</Typography>
+          </SlideAnimation>
           <a href="https://wa.me/+4748306377" target='blank'>
-            <CButton variant='contained' style={{ height: { xs: '37px', md: '56px' }, mt: 3, width: '150px' }}>
-              Kontakt Oss
-            </CButton>
+            <SlideAnimation direction='up' delay={300}>
+              <CButton variant='contained' style={{ height: { xs: '37px', md: '56px' }, mt: 3, width: '150px' }}>
+                Kontakt Oss
+              </CButton>
+            </SlideAnimation>
           </a>
           {/* <Dialog
           // onClose={handleCloseDialog}

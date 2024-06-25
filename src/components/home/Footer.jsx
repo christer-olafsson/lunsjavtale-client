@@ -2,6 +2,7 @@ import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
 import CButton from '../../common/CButton/CButton'
 import { Link } from 'react-router-dom'
+import { SlideAnimation } from '../animation/Animation'
 
 const Footer = () => {
   return (
@@ -45,17 +46,23 @@ const Footer = () => {
         justifyContent: { xs: 'end', md: 'center' },
         height: '100%',
       }} maxWidth='lg'>
-        <Typography sx={{
-          mt: { xs: 0, md: 10 },
-          fontSize: { xs: '32px', md: '48px' },
-          fontWeight: { xs: 600, md: 800 },
-          color: '#fff', textAlign: 'center', mb: 2
-        }}>Sunn, smakfull og enkel lunsj <br /> kl
-        kontoret?</Typography>
+        <SlideAnimation direction='up'>
+          <Typography sx={{
+            mt: { xs: 0, md: 10 },
+            fontSize: { xs: '32px', md: '48px' },
+            fontWeight: { xs: 600, md: 800 },
+            color: '#fff', textAlign: 'center', mb: 2
+          }}>
+            Sunn, smakfull og enkel lunsj <br /> kl
+            kontoret?
+          </Typography>
+        </SlideAnimation>
         <Link to='/search'>
-          <CButton variant='contained' style={{ height: { xs: '45px', md: '56px' }, mt: 3, width: '128px' }}>
-          Kom i gang
-          </CButton>
+          <SlideAnimation direction='up' delay={100}>
+            <CButton variant='contained' style={{ height: { xs: '45px', md: '56px' }, mt: 3, width: '128px' }}>
+              Kom i gang
+            </CButton>
+          </SlideAnimation>
         </Link>
         <Box sx={{
           alignSelf: { xs: 'center', md: 'flex-start' },

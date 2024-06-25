@@ -124,45 +124,45 @@ const Hero = () => {
                   på arbeidsplassen ..
                 </FadeAnimation>
               </Typography>
-              <FadeAnimation damping={.1} delay={100}>
+              <SlideAnimation direction='left' delay={500}>
 
                 <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 1 }}>
                   La ansatte styre sin egen lunsj med bare noen få tastetrykk. Kutt administrasjon, kostnader og matsvinn, samtidig som ansatte får levert akkurat den lunsjen de ønsker.
                 </Typography>
-              </FadeAnimation>
+              </SlideAnimation>
 
               <Stack direction='row' alignItems='center' gap={2} justifyContent={{ xs: 'center', sm: 'space-around', lg: 'space-between' }}>
-                <FadeAnimation damping={.1} delay={100}>
+                <SlideAnimation delay={100}>
                   <Stack sx={{
                     width: { xs: '111px', md: '174px' }
                   }} direction='row' alignItems='center' gap={1}>
                     <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>12</Typography>
                     <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>retter å velge mellom hver dag</Typography>
                   </Stack>
-                </FadeAnimation>
-                <FadeAnimation damping={.1} delay={300}>
+                </SlideAnimation>
+                <SlideAnimation delay={300}>
                   <img src="/Line.png" alt="" />
-                </FadeAnimation>
-                <FadeAnimation damping={.1} delay={500}>
+                </SlideAnimation>
+                <SlideAnimation delay={500}>
                   <Stack sx={{
                     width: { xs: '64px', md: '93px' }
                   }} direction='row' alignItems='center' gap={1}>
                     <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>59</Typography>
                     <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Fra <br /> NOK</Typography>
                   </Stack>
-                </FadeAnimation>
-                <FadeAnimation damping={.1} delay={700}>
+                </SlideAnimation>
+                <SlideAnimation delay={700}>
                   <img src="/Line.png" alt="" />
-                </FadeAnimation>
-                <FadeAnimation damping={.1} delay={900}>
+                </SlideAnimation>
+                <SlideAnimation delay={900}>
                   <Typography sx={{
                     width: { xs: '111px', md: '165px  ' },
                     fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' }
                   }}>Enkel administrasjon for bedriften</Typography>
-                </FadeAnimation>
+                </SlideAnimation>
               </Stack>
 
-              <SlideAnimation direction='up'>
+              <SlideAnimation direction='left' delay={500}>
                 <Stack direction='row' sx={{
                   alignSelf: { xs: 'start', md: 'start' },
                   // bgcolor: '#fff',

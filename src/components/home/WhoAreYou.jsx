@@ -131,7 +131,7 @@ function WhoAreYou() {
                 ))
               }
             </List>
-            <SlideAnimation direction='up' delay={1000}>
+            <SlideAnimation direction='down' delay={1000}>
               <Link to='/search'>
                 <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
@@ -187,12 +187,14 @@ function WhoAreYou() {
             gap: 2,
             alignItems: { xs: '', md: 'center' }
           }}>
-            <Box sx={{
-              width: { xs: '100%', md: '713px' },
-              height: { xs: '404px', md: '580px' },
-            }}>
-              <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/image 7.png" alt="" />
-            </Box>
+            <SlideAnimation direction='left'>
+              <Box sx={{
+                width: { xs: '100%', md: '713px' },
+                height: { xs: '404px', md: '580px' },
+              }}>
+                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/image 7.png" alt="" />
+              </Box>
+            </SlideAnimation>
           </Stack>
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
@@ -297,13 +299,17 @@ function WhoAreYou() {
               position: 'relative',
               mt: { xs: 5, md: 0 }
             }}>
-              <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/lunch.png" alt="" />
+              <SlideAnimation direction='right'>
+                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/lunch.png" alt="" />
+              </SlideAnimation>
               <Box sx={{
                 position: 'absolute',
                 top: '-50px', left: '-50px',
                 width: { xs: '120px', md: '160px' }
               }}>
-                <img style={{ width: '100%', height: '100%' }} src="/image 26.png" alt="" />
+                <SlideAnimation direction='left'>
+                  <img style={{ width: '100%', height: '100%' }} src="/image 26.png" alt="" />
+                </SlideAnimation>
               </Box>
             </Box>
           </Stack>

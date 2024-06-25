@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { FAQ_LIST } from '../../graphql/query'
 import Loader from '../../common/loader/Index'
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg'
+import { SlideAnimation } from '../animation/Animation'
 
 const FAskedQ = () => {
   const [FAQList, setFAQList] = useState([])
@@ -25,27 +26,40 @@ const FAskedQ = () => {
           py: '12px', px: '24px',
           borderRadius: '8px', mb: 2
         }} >
-          Se om vi leverer til deg
+          <SlideAnimation direction='up'>
+            Se om vi leverer til deg
+          </SlideAnimation>
         </Box>
-        <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>Ofte stilte spørsmål</Typography>
-        <Typography alignSelf='center'>Lunsjavtalen er en digital kantine som gjør lunsjen enklere (og smartere)!</Typography>
+        <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>
+          <SlideAnimation direction='up' delay={100}>
+            Ofte stilte spørsmål
+          </SlideAnimation>
+        </Typography>
+        <Typography alignSelf='center'>
+          <SlideAnimation direction='up' delay={200}>
+            Lunsjavtalen er en digital kantine som gjør lunsjen enklere (og smartere)!
+          </SlideAnimation>
+        </Typography>
 
         <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 0, md: 5 }} mt={{ xs: 2, md: 10 }}>
           <Box sx={{ flex: 1 }}>
             {
               loading ? <Loader /> : error ? <ErrorMsg /> :
                 FAQList.map((item, id) => (
-                  <Accordion key={item.id} sx={{ mb: 4, boxShadow: 'none' }} defaultExpanded={id === 0 ? !match : null}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMore />}
-                      aria-controls="panel1-content"
-                      id="panel1-header"
-                      sx={{ fontWeight: 'bold', color: 'primary.main', p: 0 }}
-                    >
-                      {item.question}
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ p: 0 }}>{item.answer}</AccordionDetails>
-                  </Accordion>
+                  <SlideAnimation key={item.id} direction='up' delay={200 * id}>
+
+                    <Accordion  sx={{ mb: 4, boxShadow: 'none' }} defaultExpanded={id === 0 ? !match : null}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMore />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{ fontWeight: 'bold', color: 'primary.main', p: 0 }}
+                      >
+                        {item.question}
+                      </AccordionSummary>
+                      <AccordionDetails sx={{ p: 0 }}>{item.answer}</AccordionDetails>
+                    </Accordion>
+                  </SlideAnimation>
                 ))
             }
           </Box>
