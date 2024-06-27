@@ -146,7 +146,7 @@ const AddItem = ({ closeDialog, data }) => {
     {
       field: 'email',
       headerName: 'Email',
-      flex: 1,
+      width: 200,
     },
   ];
 

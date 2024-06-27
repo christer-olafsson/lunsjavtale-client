@@ -64,7 +64,23 @@ const OrderDetails = () => {
       <Box mt={3}>
         <Typography>Delivery Date: <b>{order?.deliveryDate}</b> </Typography>
         <Typography sx={{ mb: 2 }}>Total Price: <b>{order?.finalPrice}</b> kr </Typography>
-        <Chip label={`Status: ${order?.status}`} />
+        <Typography sx={{
+          display: 'inline-flex',
+          padding: '5px 12px',
+          bgcolor: order?.status === 'Cancelled'
+            ? 'red'
+            : order?.status === 'Confirmed'
+              ? 'lightgreen'
+              : order?.status === 'Delivered'
+                ? 'green'
+                : 'yellow',
+          color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' :  '#fff',
+          borderRadius: '50px',
+        }}>
+          Status:
+          <b style={{ marginLeft: '5px' }}> {order?.status}</b>
+        </Typography>
+        {/* <Chip label={`Status: ${order?.status}`} /> */}
         <Divider sx={{ mt: 2 }} />
 
         <Stack sx={{ maxWidth: '1200px' }} direction={{ xs: 'column', lg: 'row' }} mt={3} gap={6}>
@@ -106,7 +122,11 @@ const OrderDetails = () => {
                               Details
                             </Button>
                             <Button
-                              disabled={user?.me.company.isBlocked || user?.me.role === 'company-employee'}
+                              disabled={
+                                user?.me.company.isBlocked
+                                || user?.me.role === 'company-employee'
+                                || order?.status !== 'Placed'
+                              }
                               onClick={() => handleEditDialog(data.node.id)}
                               endIcon={<DriveFileRenameOutlineOutlined />}
                               variant='contained'
@@ -228,18 +248,18 @@ const OrderDetails = () => {
             px: { xs: 0, md: 3 }
           }}>
             <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 2 }}>Customer Information</Typography>
-            <Typography sx={{ fontSize: '16px' }}>Name</Typography>
+            <Typography sx={{ fontSize: '16px' }}>Info:</Typography>
             <Typography sx={{ fontSize: '16px', fontWeight: 600, }}>{user?.me.firstName}</Typography>
             {user?.me.username &&
               <Typography sx={{ fontSize: '14px', mb: 4 }}>@{user?.me.username}</Typography>
             }
-            <Typography sx={{ fontSize: '16px' }}>Email</Typography>
+            <Typography sx={{ fontSize: '16px' }}>Email:</Typography>
             <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{user?.me.email}</Typography>
-            <Typography sx={{ fontSize: '16px' }}>Shipping address</Typography>
+            <Typography sx={{ fontSize: '16px' }}>Shipping address:</Typography>
             <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>
               {order?.shippingAddress?.address}, {order?.shippingAddress?.city}, {order?.shippingAddress?.postCode}
             </Typography>
-            <Typography sx={{ fontSize: '16px' }}>Billing address</Typography>
+            <Typography sx={{ fontSize: '16px' }}>Billing address:</Typography>
             <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{order?.billingAddress?.address}</Typography>
             {/* <Typography sx={{ fontSize: '16px', mb: 1 }}>Payment</Typography> */}
             {/* <Stack direction='row' gap={2}>

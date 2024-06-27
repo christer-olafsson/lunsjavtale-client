@@ -139,7 +139,9 @@ const Orders = () => {
                 : row.status === 'Delivered'
                   ? 'green'
                   : 'yellow',
-            color: row.status === 'Placed' ? 'dark' : '#fff',
+            color: row.status === 'Placed' ? 'dark'
+              : row.status === 'Payment-pending' ?
+                'dark' : '#fff',
             borderRadius: '4px',
           }}>
             <Typography sx={{ fontWeight: 500 }} variant='body2'>{row.status}</Typography>

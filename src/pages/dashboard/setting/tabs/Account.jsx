@@ -41,7 +41,6 @@ const Account = () => {
         const graphqlError = err.graphQLErrors[0];
         const { extensions } = graphqlError;
         if (extensions && extensions.errors) {
-          console.log(extensions.errors)
           setErrors(Object.values(extensions.errors));
         }
       }

@@ -6,7 +6,7 @@ const OrderPayment = ({closeDialog}) => {
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' mb={4}>
-        <Typography variant='h4'>Payment</Typography>
+        <Typography variant='h5'>Payment</Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>

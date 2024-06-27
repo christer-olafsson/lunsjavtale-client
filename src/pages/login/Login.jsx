@@ -129,7 +129,7 @@ const Login = (props) => {
       toast.success(message)
     },
     onError: (res) => {
-      console.log('sendverificationmail:', res)
+      toast.error(res.message)
     }
   });
 
@@ -153,7 +153,6 @@ const Login = (props) => {
       setForgotEmail({ email: '' })
     },
     onError: (err) => {
-      console.log(err)
       toast.error(err.message)
     }
   });

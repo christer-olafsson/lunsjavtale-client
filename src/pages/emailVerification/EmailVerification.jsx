@@ -19,7 +19,6 @@ const EmailVerification = () => {
 
   const [emailVerify, { loading, data, error }] = useMutation(EMAIL_VERIFY, {
     onCompleted: (res) => {
-      console.log(res)
       toast.success(res.emailVerify.message)
       navigate('/login')
     },
