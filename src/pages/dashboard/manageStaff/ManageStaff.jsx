@@ -175,7 +175,7 @@ const ManageStaff = () => {
       headerName: '',
       width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Join Date</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Added On</Typography>
       ),
       renderCell: (params) => {
         const { row } = params

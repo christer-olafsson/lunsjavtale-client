@@ -30,13 +30,18 @@ const SmallProductCard = ({ data }) => {
         height: '150px',
       }}>
         <img style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }}
-          src={data?.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
+          src={data?.attachments?.edges?.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
       </Box>
       <Stack sx={{ flex: 1 }} justifyContent='space-between'>
         <Stack gap={1} mb={1}>
           <Typography sx={{ fontSize: { xs: '14px', lg: '18px' }, fontWeight: '600' }}>{data?.name}</Typography>
           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>{data.description}</Typography>
-          <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography>
+          {
+            data?.contains &&
+            <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b>
+              <i>{JSON.parse(data.contains)}</i>
+            </Typography>
+          }
         </Stack>
         <Stack sx={{ width: '100%' }} direction='row' alignItems='center' justifyContent='space-between' gap={2}>
           <Link to={`/dashboard/from-products/products/${data.id}`}>

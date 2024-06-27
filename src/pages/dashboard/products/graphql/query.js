@@ -15,6 +15,12 @@ export const GET_SINGLE_PRODUCTS = gql`
           isDeleted
           title
           contains
+          vendor{
+            id
+            name
+            email
+            isDeleted
+          }
           ingredients{
             edges{
               node{

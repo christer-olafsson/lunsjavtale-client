@@ -25,10 +25,10 @@ const Products = () => {
       category: categoryId
     },
     onCompleted: (res) => {
-      setProducts(res.products.edges.map(item => item.node))
+      const data = res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node)
+      setProducts(data)
     },
   });
-
 
   return (
     <Stack maxWidth='xxl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
@@ -96,9 +96,11 @@ const Products = () => {
         <Stack direction='row' flexWrap='wrap' gap={2} px={{ xs: 0, lg: 3 }}>
           {
             loadinProducts ? <Loader /> : errProducts ? <ErrorMsg /> :
-              products.map(item => (
-                <SmallProductCard data={item} key={item.id} />
-              ))
+              products.length === 0 ?
+                <Typography sx={{ p: 5 }}>No Product Found!</Typography> :
+                products?.map(item => (
+                  <SmallProductCard data={item} key={item.id} />
+                ))
           }
         </Stack>
       </Paper >

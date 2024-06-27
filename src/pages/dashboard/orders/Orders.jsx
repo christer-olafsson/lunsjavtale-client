@@ -20,7 +20,7 @@ const Orders = () => {
 
 
   const { loading, error: orderErr } = useQuery(ORDERS, {
-    fetchPolicy:'network-only',
+    fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     // variables: {
     //   addedFor: '141'
@@ -36,14 +36,27 @@ const Orders = () => {
   }
 
   const columns = [
+    // {
+    //   field: 'details', headerName: '', width: 70,
+    //   renderCell: (params) => (
+    //     <Link to={`/dashboard/orders/details/${params.row.id}`}>
+    //       <IconButton>
+    //         <ArrowRight />
+    //       </IconButton>
+    //     </Link>
+    //   ),
+    // },
     {
-      field: 'details', headerName: '', width: 70,
+      field: 'id', headerName: '', width: 70,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>ID</Typography>
+      ),
       renderCell: (params) => (
-        <Link to={`/dashboard/orders/details/${params.row.id}`}>
-          <IconButton>
-            <ArrowRight />
-          </IconButton>
-        </Link>
+        <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
+          <Link to={`/dashboard/orders/details/${params.row.id}`}>
+            <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{params.row.id}</Typography>
+          </Link>
+        </Stack>
       ),
     },
     {
@@ -109,22 +122,32 @@ const Orders = () => {
       )
     },
     {
-      field: 'status', headerName: 'Status', width: 250,
+      field: 'status', headerName: 'Status', width: 150,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Status</Typography>
       ),
-      renderCell: (params) => (
-        <Box sx={{
-          display: 'inline-flex',
-          padding: '4px 12px',
-          bgcolor: params.row.status === 'Placed' ? '#40A578' : 'red',
-          color: '#fff',
-          borderRadius: '4px',
-        }}>
-          <Typography variant='body2'>{params.row.status}</Typography>
-        </Box>
-      ),
+      renderCell: (params) => {
+        const { row } = params
+        return (
+          <Box sx={{
+            display: 'inline-flex',
+            padding: '1px 12px',
+            bgcolor: row.status === 'Cancelled'
+              ? 'red'
+              : row.status === 'Confirmed'
+                ? 'lightgreen'
+                : row.status === 'Delivered'
+                  ? 'green'
+                  : 'yellow',
+            color: row.status === 'Placed' ? 'dark' : '#fff',
+            borderRadius: '4px',
+          }}>
+            <Typography sx={{ fontWeight: 500 }} variant='body2'>{row.status}</Typography>
+          </Box>
+        )
+      }
     },
+
     // {
     //   field: 'action', headerName: 'Action', width: 150,
     //   renderHeader: () => (

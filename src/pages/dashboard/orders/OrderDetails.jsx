@@ -1,5 +1,5 @@
 import { Add, ArrowBack, ArrowDropDown, ArrowDropDownOutlined, BorderColor, DriveFileRenameOutlineOutlined, Edit, Search } from '@mui/icons-material';
-import { Box, Button, Collapse, Divider, IconButton, Input, Rating, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
+import { Box, Button, Chip, Collapse, Divider, IconButton, Input, Rating, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { ORDER } from './graphql/query';
@@ -56,31 +56,15 @@ const OrderDetails = () => {
   return (
     <Box>
       <Stack direction='row' gap={2}>
-        <IconButton onClick={() => navigate('/dashboard/orders')}>
+        <IconButton onClick={() => navigate(-1)}>
           <ArrowBack />
         </IconButton>
         <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Order Details</Typography>
       </Stack>
       <Box mt={3}>
-        <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent='space-between'>
-          <Box>
-            <Typography>Delivery Date: <b>{order?.deliveryDate}</b> </Typography>
-            <Typography>Total Price: <b>{order?.finalPrice}</b> kr </Typography>
-          </Box>
-          <Box sx={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            px: 2,
-            width: 'fit-content',
-            height: '40px',
-            bgcolor: order?.status === 'Placed' ? '#40A578' : 'red',
-            color: '#fff',
-            borderRadius: '4px',
-            textAlign: 'center'
-          }}>
-            <Typography variant='body2'><b>Status: </b>{order?.status}</Typography>
-          </Box>
-        </Stack>
+        <Typography>Delivery Date: <b>{order?.deliveryDate}</b> </Typography>
+        <Typography sx={{ mb: 2 }}>Total Price: <b>{order?.finalPrice}</b> kr </Typography>
+        <Chip label={`Status: ${order?.status}`} />
         <Divider sx={{ mt: 2 }} />
 
         <Stack sx={{ maxWidth: '1200px' }} direction={{ xs: 'column', lg: 'row' }} mt={3} gap={6}>
@@ -122,7 +106,7 @@ const OrderDetails = () => {
                               Details
                             </Button>
                             <Button
-                              disabled={user?.me.company.isBlocked ||  user?.me.role === 'company-employee'}
+                              disabled={user?.me.company.isBlocked || user?.me.role === 'company-employee'}
                               onClick={() => handleEditDialog(data.node.id)}
                               endIcon={<DriveFileRenameOutlineOutlined />}
                               variant='contained'

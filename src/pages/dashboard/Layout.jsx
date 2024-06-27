@@ -11,8 +11,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation, useMatch } from 'react-router-dom';
-import { AccountCircle, CategoryOutlined, Diversity3, DoubleArrow, Lock, LockOutlined, Logout, MailOutline, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, ShoppingCartCheckout, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
-import { Avatar, Badge, Button, ClickAwayListener, Collapse, InputAdornment, ListItemText, Menu, MenuItem, Paper, Stack, TextField, Tooltip } from '@mui/material';
+import { AccountCircle, CategoryOutlined, Diversity3, Logout, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, ShoppingCartCheckout, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
+import { Avatar, Badge, Button, ClickAwayListener, Collapse, MenuItem, Stack } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
 import toast from 'react-hot-toast';
@@ -21,6 +21,7 @@ import { ME } from '../../graphql/query';
 import SmallNotification from './notification/SmallNotification';
 import OrderPayment from './payment/OrderPayment';
 import CDialog from '../../common/dialog/CDialog';
+import { UNREAD_NOTIFICATION_COUNT, USER_NOTIFICATIONS } from './notification/query';
 
 const drawerWidth = 264;
 
@@ -71,6 +72,8 @@ function Layout() {
   const [openEmail, setOpenEmail] = useState(false)
   const [openNotification, setOpenNotification] = useState(false);
   const [openPaymentDialog, setOpenPaymentDialog] = useState(false)
+  const [unreadNotificationCount, setUnreadNotificationCount] = useState([])
+
 
   const { pathname } = useLocation()
 
@@ -86,6 +89,12 @@ function Layout() {
       toast.success(res.message)
       window.location.href = '/'
     },
+  });
+
+  useQuery(UNREAD_NOTIFICATION_COUNT, {
+    onCompleted: (res) => {
+      setUnreadNotificationCount(res.unreadNotificationCount)
+    }
   });
 
   const handleLogout = () => {
@@ -188,6 +197,13 @@ function Layout() {
             || pathname === '/dashboard/myside/complete'
             || pathname === productDetailsMatchFromMyside?.pathname
           } />
+        <ListBtn
+          onClick={handleDrawerClose}
+          link='/dashboard/notifications'
+          icon={<NotificationsNone fontSize='small' />}
+          text='Notifications'
+          selected={pathname === '/dashboard/notifications'}
+        />
         {
           (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
           <ListBtn
@@ -231,7 +247,7 @@ function Layout() {
           notification={''}
           link={'dashboard/staffs-order'}
           icon={<ShoppingCartCheckout fontSize='small' />}
-          text='Order-Request'
+          text='Staff-Orders'
           selected={pathname === '/dashboard/staffs-order'}
         />
 
@@ -289,6 +305,7 @@ function Layout() {
             <MenuIcon />
           </IconButton>
           <Box />
+
           {/* {
             user?.me.company?.isBlocked &&
             <Typography sx={{
@@ -319,6 +336,7 @@ function Layout() {
               )
             }}
           /> */}
+
           <Box sx={{
             display: 'flex',
             alignItems: 'center',
@@ -355,7 +373,7 @@ function Layout() {
                 </Collapse>
               </Box>
             </ClickAwayListener> */}
-
+            {/* small notification */}
             <ClickAwayListener onClickAway={() => setOpenNotification(false)}>
               <Box sx={{
                 position: 'relative'
@@ -365,8 +383,8 @@ function Layout() {
                   setOpenEmail(false)
                 )} sx={{ color: 'darkgray' }} color="inherit"
                 >
-                  <Badge badgeContent={2} color="error">
-                    <NotificationsNone />
+                  <Badge badgeContent={unreadNotificationCount} color="error">
+                    <NotificationsNone sx={{ fontSize: '30px' }} />
                   </Badge>
                 </IconButton>
                 <Collapse sx={{
@@ -375,17 +393,7 @@ function Layout() {
                   transform: 'translateX(-50%)',
                   top: 55,
                 }} in={openNotification}>
-                  <Box sx={{
-                    width: { xs: '300px', sm: '300px', md: '350px' },
-                    maxHeight: '800px',
-                    overflowY: 'auto',
-                    zIndex: 99999,
-                    bgcolor: '#fff',
-                    border: '1px solid lightgray',
-                    borderRadius: '8px', p: '10px 20px',
-                  }}>
-                    <SmallNotification />
-                  </Box>
+                  <SmallNotification onClose={() => setOpenNotification(false)} />
                 </Collapse>
               </Box>
             </ClickAwayListener>
@@ -450,43 +458,6 @@ function Layout() {
                   </Stack>
                 </Collapse>
 
-                {/* <Menu
-                sx={{ p: 3 }}
-                anchorEl={userMenuOpen}
-                id="account-menu"
-                open={open}
-                onClose={handleUserMenuClose}
-                onClick={handleUserMenuClose}
-                PaperProps={paperProps}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-              >
-                <Link className='link' to='/dashboard/setting'>
-                  <MenuItem sx={{ width: '200px' }} onClick={handleUserMenuClose}>
-                    <Stack sx={{ width: '100%' }} alignItems='center'>
-                      <Avatar />
-                      <Typography>{user?.me.username}</Typography>
-                      <Typography>{user?.me.email}</Typography>
-                    </Stack>
-                  </MenuItem>
-                </Link>
-                <Divider />
-                <MenuItem onClick={handleUserMenuClose}>
-                  <ListItemIcon>
-                    <Settings fontSize="small" />
-                  </ListItemIcon>
-                  Settings
-                </MenuItem>
-                <MenuItem onClick={() => (
-                  handleUserMenuClose(),
-                  handleLogout()
-                )}>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                    </MenuItem>
-                    </Menu> */}
               </Box>
             </ClickAwayListener>
             {/* user menu end */}
