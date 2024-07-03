@@ -22,6 +22,7 @@ import SmallNotification from './notification/SmallNotification';
 import OrderPayment from './payment/OrderPayment';
 import CDialog from '../../common/dialog/CDialog';
 import { UNREAD_NOTIFICATION_COUNT, USER_NOTIFICATIONS } from './notification/query';
+import { googleLogout } from '@react-oauth/google';
 
 const drawerWidth = 264;
 
@@ -99,6 +100,7 @@ function Layout() {
 
   const handleLogout = () => {
     logout()
+    googleLogout()
     localStorage.clear()
     window.location.href = '/'
   }

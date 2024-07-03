@@ -72,11 +72,11 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
       height: 'fit-content',
       flex: 1,
       mb: 6,
-      p:2,
+      p: 2,
       border: `1px solid ${theme.palette.primary.main}`,
       borderRadius: '8px'
     }}>
-      <Typography sx={{ fontSize: '24px', fontWeight: 600}}>Order Summary</Typography>
+      <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Order Summary</Typography>
       {/* <Stack sx={{
         bgcolor: 'light.main',
         p: 2, mt: 2,
@@ -104,14 +104,16 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
             </Stack>
             <Typography sx={{ fontWeight: 600, mb: 1 }}>How much you want to pay for this order</Typography>
             <Autocomplete
-              onInputChange={(event, newInputValue) => {
-                setCompanyAllowance(newInputValue);
+              onInputChange={(event, newValue) => {
+                if (newValue === '' || (/^(100|[1-9]?[0-9])$/).test(newValue)) {
+                  setCompanyAllowance(newValue);
+                }
               }}
-              freeSolo
               disablePortal
+              freeSolo
               options={['0', '25', '30', '35', '40', '45', '50', '75', '100']}
               sx={{ width: '100%' }}
-              renderInput={(params) => <TextField {...params} label="Select your percent" />}
+              renderInput={(params) => <TextField  {...params} label="Select your percent" />}
             />
           </Box>
           <Button onClick={handleAllowanceDialogClose} variant='contained'>Continue</Button>

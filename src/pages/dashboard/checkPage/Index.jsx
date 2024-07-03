@@ -118,6 +118,13 @@ const CheckPage = () => {
     })
   }
 
+  useEffect(() => {
+    if(companyAllowance !== null){
+      setErrors({ companyAllowance: '' })
+    }
+  }, [companyAllowance])
+  
+
 
   useEffect(() => {
     const data = user?.me?.company?.billingAddress ?? {}
@@ -266,7 +273,7 @@ const CheckPage = () => {
               <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
                 <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Shipping Info</Button>
                 {/* <Link to='/dashboard/complete'> */}
-                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>Continue to Payment</CButton>
+                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>Place Order</CButton>
                 {/* </Link> */}
               </Stack>
             </Stack>

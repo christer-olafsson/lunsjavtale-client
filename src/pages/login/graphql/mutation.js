@@ -9,6 +9,21 @@ export const LOGIN_USER = gql`
   }
 `
 
+export const SOCIAL_LOGIN = gql`
+  mutation SocialLogin ($email: String,$socialId: String! ){
+    socialLogin(
+    activate:true,
+    email:$email,
+    needVerification: false,
+    socialId: $socialId,
+    socialType: "google"
+  ){
+    success
+    access
+  }
+  }
+`
+
 export const LOGOUT = gql`
   mutation{
   logout{

@@ -6,12 +6,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Google, KeyboardArrowLeft, Visibility, VisibilityOff } from '@mui/icons-material';
 import Carousel from 'react-multi-carousel';
 import { useMutation, useQuery } from '@apollo/client';
-import { LOGIN_USER, PASSWORD_RESET } from './graphql/mutation';
+import { LOGIN_USER, PASSWORD_RESET, SOCIAL_LOGIN } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import { SEND_VERIFICATION_MAIL } from '../search/graphql/mutation';
 import { PROMOTIONS } from '../../graphql/query';
 import Loader from '../../common/loader/Index';
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 
 const responsive = {
@@ -96,6 +98,33 @@ const Login = (props) => {
   });
 
 
+  //google login
+  const [googleLogin, { GoogleLoginloading, }] = useMutation(SOCIAL_LOGIN, {
+    onCompleted: (res) => {
+        localStorage.setItem("token", res.socialLogin.access);
+        toast.success('Login Success!');
+        window.location.href = "/dashboard/myside";
+    },
+    onError: (err) => {
+      toast.error(err.message)
+    },
+  });
+
+
+  const googleLoginHandler = (res) => {
+    try {
+      const decodedToken = jwtDecode(res.credential);
+      googleLogin({
+        variables: {
+          email: decodedToken.email,
+          socialId: decodedToken.sub
+        }
+      });
+    } catch (error) {
+      console.error('Error decoding token or during login:', error);
+      toast.error('Failed to login with Google');
+    }
+  };
 
   const handleInputChange = (e) => {
     setPayloadError({ ...payloadError, [e.target.name]: '' });
@@ -168,9 +197,6 @@ const Login = (props) => {
       }
     })
   }
-
-
-
 
   const passwordVisibilityHandler = () => setPasswordVisibility(!passwordVisibility);
 
@@ -355,8 +381,17 @@ const Login = (props) => {
 
                 </Box>
               }
-              <CButton onClick={handleLogin} isLoading={loading} variant='contained'> Sign In</CButton>
-              <CButton startIcon={<Google />} variant='outlined' style={{ mt: 2 }}>Sign in with Google</CButton>
+              <CButton style={{ mb: 2 }} onClick={handleLogin} isLoading={loading} variant='contained'> Sign In</CButton>
+              <Box sx={{ width: '100%' }}>
+                <GoogleLogin
+                  onSuccess={res => googleLoginHandler(res)}
+                  onError={() => {
+                    toast.error('Login Failed');
+                  }}
+                />
+              </Box>
+
+              {/* <CButton startIcon={<Google />} variant='outlined' style={{ mt: 2 }}>Sign in with Google</CButton> */}
               <Box sx={{ display: 'inline-flex', alignSelf: 'center', mt: 2 }}>
                 <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' } }}>Don't have an account?</Typography>
                 <Link to='/search'>
