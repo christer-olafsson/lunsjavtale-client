@@ -74,7 +74,7 @@ const OrderDetails = () => {
               : order?.status === 'Delivered'
                 ? 'green'
                 : 'yellow',
-          color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' :  '#fff',
+          color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' : '#fff',
           borderRadius: '50px',
         }}>
           Status:
@@ -243,53 +243,25 @@ const OrderDetails = () => {
             </Box> */}
           </Box>
 
-          <Box sx={{
+          {/* <Box sx={{
             width: { xs: '100%', md: '30%' },
             px: { xs: 0, md: 3 }
           }}>
             <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 2 }}>Customer Information</Typography>
             <Typography sx={{ fontSize: '16px' }}>Info:</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, }}>{user?.me.firstName}</Typography>
+            <Typography sx={{ fontSize: '16px', fontWeight: 600, }}>{user?.me.company?.name}</Typography>
             {user?.me.username &&
               <Typography sx={{ fontSize: '14px', mb: 4 }}>@{user?.me.username}</Typography>
             }
             <Typography sx={{ fontSize: '16px' }}>Email:</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{user?.me.email}</Typography>
+            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{user?.me.company?.email}</Typography>
             <Typography sx={{ fontSize: '16px' }}>Shipping address:</Typography>
             <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>
               {order?.shippingAddress?.address}, {order?.shippingAddress?.city}, {order?.shippingAddress?.postCode}
             </Typography>
             <Typography sx={{ fontSize: '16px' }}>Billing address:</Typography>
             <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{order?.billingAddress?.address}</Typography>
-            {/* <Typography sx={{ fontSize: '16px', mb: 1 }}>Payment</Typography> */}
-            {/* <Stack direction='row' gap={2}>
-              <Box sx={{
-                bgcolor: 'light.main',
-                width: '72px', height: '58px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '8px'
-              }}>
-                <img src="/visaicon.png" alt="" />
-              </Box>
-              <Box>
-                <Typography>Visa</Typography>
-                <Typography>******42342</Typography>
-              </Box>
-            </Stack> */}
-
-            {/* <Stack sx={{ mt: 6 }} gap={2}>
-              <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Write a Review</Typography>
-              <Rating sx={{ color: 'primary.main' }} value={ratingCount} onChange={(event, newValue) => {
-                setRatingCount(newValue);
-              }}
-              />
-              <TextField variant='standard' label='Title' />
-              <TextField variant='standard' label='Review (Optional)' />
-              <Button disabled={user?.me.company.isBlocked} variant='contained' sx={{ alignSelf: 'flex-end' }}>Send</Button>
-            </Stack> */}
-          </Box>
+          </Box> */}
 
         </Stack>
 

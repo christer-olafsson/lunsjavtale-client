@@ -24,6 +24,7 @@ import CheckPage from './pages/dashboard/checkPage/Index'
 import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
 import StaffsOrder from './pages/dashboard/staffsOrder/Index'
 import Notifications from './pages/dashboard/notification/Notifications'
+import StaffDetails from './pages/dashboard/manageStaff/StaffDetails'
 
 function App() {
 
@@ -65,6 +66,7 @@ function App() {
               </>
             )
           }
+          {/* <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} /> */}
           <Route path='/dashboard/notifications' element={<Notifications />} />
           <Route path='/dashboard/staffs-order' element={<StaffsOrder />} />
           <Route path='/dashboard/products' element={<Products />} />

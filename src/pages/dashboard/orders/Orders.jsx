@@ -66,7 +66,7 @@ const Orders = () => {
       ),
       renderCell: (params) => {
         return (
-          <Stack sx={{ height: '100%' }}>
+          <Stack sx={{ height: '100%' }} justifyContent='center'>
             <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{format(params.row.orderDate, 'yyyy-MMMM-dd')}</Typography>
             <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, fontWeight: 500, display: 'inline-flex' }}><AccessTime fontSize='small' />{format(params.row.orderDate, 'HH:mm a', { locale: enUS })}</Typography>
           </Stack>
@@ -131,7 +131,7 @@ const Orders = () => {
         return (
           <Box sx={{
             display: 'inline-flex',
-            padding: '1px 12px',
+            padding: '3px 12px',
             bgcolor: row.status === 'Cancelled'
               ? 'red'
               : row.status === 'Confirmed'
@@ -139,9 +139,9 @@ const Orders = () => {
                 : row.status === 'Delivered'
                   ? 'green'
                   : 'yellow',
-            color: row.status === 'Placed' ? 'dark'
-              : row.status === 'Payment-pending' ?
-                'dark' : '#fff',
+            color: row.status === 'Placed'
+              ? 'dark' : row.status === 'Payment-pending'
+                ? 'dark' : row.status === 'Confirmed' ? 'dark' : '#fff',
             borderRadius: '4px',
           }}>
             <Typography sx={{ fontWeight: 500 }} variant='body2'>{row.status}</Typography>
@@ -209,6 +209,7 @@ const Orders = () => {
         {
           loading ? <Loader /> : orderErr ? <ErrorMsg /> :
             <DataTable
+              rowHeight={60}
               columns={columns}
               rows={rows}
             />

@@ -12,6 +12,7 @@ import { ADD_TO_CART } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
 import { ADDED_PRODUCTS } from './graphql/query';
+import { ME } from '../../../graphql/query';
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
@@ -31,6 +32,8 @@ const AddItem = ({ closeDialog, data }) => {
 
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+  const { data: user } = useQuery(ME)
 
   useQuery(GET_COMPANY_STAFFS, {
     onCompleted: (res) => {
@@ -317,7 +320,7 @@ const AddItem = ({ closeDialog, data }) => {
                               <IconButton onClick={() => toggleQuantity(date, 'increase')}><Add fontSize='small' /></IconButton>
                             </Stack>
                           </td>
-                          <td style={{ width: isMobile ? '130px' : '200px',whiteSpace:'nowrap' }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</td>
+                          <td style={{ width: isMobile ? '130px' : '200px', whiteSpace: 'nowrap' }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</td>
                           <td style={{ width: '50px' }}>
                             <IconButton sx={{ width: '30px', height: '30px' }} onClick={() => dateDeselect(date)}>
                               <Close fontSize='small' />
@@ -359,8 +362,16 @@ const AddItem = ({ closeDialog, data }) => {
                   <TextField {...params} label="Select Allergies" />
                 )}
               />
-              <Button onClick={handleClickNext} variant='contained'
-                sx={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>Next</Button>
+              {
+                user?.me.role === 'company-employee' ?
+                  <CButton onClick={handleAddToCart} isLoading={loading} variant='contained' style={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>Add To Cart</CButton>
+                  :
+
+                  <Button onClick={handleClickNext} variant='contained'
+                    sx={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>
+                    Next
+                  </Button>
+              }
             </Box>
           )
           :

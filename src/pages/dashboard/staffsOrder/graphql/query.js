@@ -13,6 +13,14 @@ export const ADDED_EMPLOYEE_CARTS = gql`
         orderedQuantity
         dueAmount
         requestStatus
+        addedBy{
+          id
+          username
+          email
+          firstName
+          lastName
+          photoUrl
+        }
         item{
           id
           priceWithTax

@@ -2,13 +2,17 @@
 import { Box } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
-const DataTable = ({ rows, columns, getRowHeight, columnVisibilityModel }) => {
+const DataTable = ({ rows, columns, rowHeight, getRowHeight, checkboxSelection, onRowSelectionModelChange, columnVisibilityModel }) => {
   return (
-    <Box sx={{ height: '100%', width: '100%', }}>
+    <Box sx={{
+      minHeight: '650px',
+      width: '100%',
+    }}>
       <DataGrid
         rows={rows}
         columns={columns}
         autoHeight
+        rowHeight={rowHeight}
         getRowHeight={getRowHeight}
         initialState={{
           pagination: {
@@ -17,6 +21,8 @@ const DataTable = ({ rows, columns, getRowHeight, columnVisibilityModel }) => {
             },
           },
         }}
+        checkboxSelection={checkboxSelection}
+        onRowSelectionModelChange={onRowSelectionModelChange}
         columnVisibilityModel={columnVisibilityModel}
         pageSizeOptions={[10]}
         disableRowSelectionOnClick

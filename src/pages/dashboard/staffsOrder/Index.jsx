@@ -14,6 +14,7 @@ import { ME } from '../../../graphql/query';
 import { ADDED_EMPLOYEE_CARTS } from './graphql/query';
 import { DataGrid } from '@mui/x-data-grid';
 import { APPROVE_CART_REQUEST } from './graphql/mutation';
+import { Link } from 'react-router-dom';
 
 
 const StaffsOrder = () => {
@@ -35,7 +36,7 @@ const StaffsOrder = () => {
       setAddedEmployeeCarts(res.addedEmployeeCarts.edges.map(item => item.node))
     },
   });
-
+  console.log(addedEmployeeCarts)
 
   const [cartRequest, { loading: cartReqLoading }] = useMutation(APPROVE_CART_REQUEST, {
     onCompleted: (res) => {
@@ -63,6 +64,24 @@ const StaffsOrder = () => {
 
   const columns = [
     {
+      field: 'staffs', width: 250,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Staffs</Typography>
+      ),
+      renderCell: (params) => {
+        const { row } = params
+        return (
+          <Stack sx={{ height: '100%' }} direction='row' alignItems='center' gap={2}>
+            <Avatar src={row.addedBy.photoUrl} />
+            <Stack>
+              <Typography>{row.addedBy.firstName + ' ' + row.addedBy.lastName}</Typography>
+              <Link to={`/dashboard/staff-details/${row.addedBy.id}`} sx={{ fontSize: '12px' }}>@ {row.addedBy.username}</Link>
+            </Stack>
+          </Stack>
+        )
+      }
+    },
+    {
       field: 'products', width: 250,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Products</Typography>
@@ -75,6 +94,40 @@ const StaffsOrder = () => {
               <Typography>{params.row.item.name}</Typography>
               <Typography sx={{ fontSize: '12px' }}><b>{params.row.priceWithTax} kr</b>  {params.row.item.category.name}</Typography>
             </Stack>
+          </Stack>
+        )
+      }
+    },
+    {
+      field: 'createdOn',
+      headerName: '',
+      width: 200,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Date</Typography>
+      ),
+      renderCell: (params) => {
+        const { row } = params
+        return (
+          <Stack sx={{ height: '100%' }} justifyContent='center'>
+            <Typography sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
+              <CalendarMonthOutlined fontSize='small' /> {format(row.createdOn, 'yyyy-MM-dd')}</Typography>
+          </Stack>
+        )
+      }
+    },
+    {
+      field: 'deliveriedOn',
+      headerName: '',
+      width: 200,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Delivery Date</Typography>
+      ),
+      renderCell: (params) => {
+        const { row } = params
+        return (
+          <Stack sx={{ height: '100%' }} justifyContent='center'>
+            <Typography sx={{ display: 'inline-flex', alignItems: 'center', fontWeight: 600, gap: 1 }}>
+              <CalendarMonthOutlined fontSize='small' /> {row.date}</Typography>
           </Stack>
         )
       }
@@ -130,40 +183,7 @@ const StaffsOrder = () => {
         )
       }
     },
-    {
-      field: 'createdOn',
-      headerName: '',
-      width: 200,
-      renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Date</Typography>
-      ),
-      renderCell: (params) => {
-        const { row } = params
-        return (
-          <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
-              <CalendarMonthOutlined fontSize='small' /> {format(row.createdOn, 'yyyy-MM-dd')}</Typography>
-          </Stack>
-        )
-      }
-    },
-    {
-      field: 'deliveriedOn',
-      headerName: '',
-      width: 200,
-      renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Delivery Date</Typography>
-      ),
-      renderCell: (params) => {
-        const { row } = params
-        return (
-          <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{ display: 'inline-flex', alignItems: 'center', fontWeight: 600, gap: 1 }}>
-              <CalendarMonthOutlined fontSize='small' /> {row.date}</Typography>
-          </Stack>
-        )
-      }
-    },
+
     {
       field: 'orderStatus', width: 150,
       renderHeader: () => (
@@ -214,7 +234,7 @@ const StaffsOrder = () => {
         {
           (selectedRowIds.length > 0 && user?.me.role !== 'company-employee') &&
           <Stack direction='row' gap={2}>
-            <Box width={{width:'200px'}}>
+            <Box width={{ width: '200px' }}>
               <FormControl size='small' fullWidth>
                 <InputLabel>Status</InputLabel>
                 <Select
@@ -256,21 +276,9 @@ const StaffsOrder = () => {
       <Box>
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
-            <DataGrid
+            <DataTable
               rows={addedEmployeeCarts}
               columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 10,
-                  },
-                },
-              }}
-              pageSizeOptions={[10]}
-              autoHeight
-              disableColumnFilter
-              disableColumnMenu
-              disableColumnSorting
               checkboxSelection={user?.me.role !== 'company-employee'}
               onRowSelectionModelChange={(newSelection) => setSelectedRowIds(newSelection)}
             />

@@ -87,10 +87,10 @@ const MiniCart = () => {
           addedProducts.length ?
             <>
               <Stack direction='row' justifyContent='space-between' alignItems='center' mb={1}>
-                <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Shopping Cart</Typography>
+                <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Order Cart</Typography>
                 {
                   user?.me.role === 'company-employee' ?
-                    <CButton isLoading={sendCartReqLoading} disable={user?.me.company.isBlocked} onClick={handleRequestOrder} variant='contained'>Create Order</CButton> :
+                    <CButton isLoading={sendCartReqLoading} disable={user?.me.company.isBlocked} onClick={handleRequestOrder} variant='contained'>Request Order</CButton> :
                     <Link to='/dashboard/products/cart'>
                       <Button disabled={user?.me.company.isBlocked} variant='contained'>
                         Place Order
