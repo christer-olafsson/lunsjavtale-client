@@ -35,7 +35,7 @@ export default function ScrollToTop() {
       position: 'fixed',
       bottom: '100px',
       zIndex: 99999,
-      right: 70,bottom: 70, display: {xs: 'none', lg: 'block'}
+      right: 70, display: {xs: 'none', lg: 'block'}
     }}>
       {isVisible && (
         <div onClick={scrollToTop}>

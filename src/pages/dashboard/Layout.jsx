@@ -94,6 +94,7 @@ function Layout() {
 
   useQuery(UNREAD_NOTIFICATION_COUNT, {
     onCompleted: (res) => {
+      console.log(res)
       setUnreadNotificationCount(res.unreadNotificationCount)
     }
   });

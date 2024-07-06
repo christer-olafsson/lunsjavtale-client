@@ -36,7 +36,6 @@ const StaffsOrder = () => {
       setAddedEmployeeCarts(res.addedEmployeeCarts.edges.map(item => item.node))
     },
   });
-  console.log(addedEmployeeCarts)
 
   const [cartRequest, { loading: cartReqLoading }] = useMutation(APPROVE_CART_REQUEST, {
     onCompleted: (res) => {
@@ -64,7 +63,7 @@ const StaffsOrder = () => {
 
   const columns = [
     {
-      field: 'staffs', width: 250,
+      field: 'staffs', width: 300,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Staffs</Typography>
       ),
@@ -73,10 +72,14 @@ const StaffsOrder = () => {
         return (
           <Stack sx={{ height: '100%' }} direction='row' alignItems='center' gap={2}>
             <Avatar src={row.addedBy.photoUrl} />
-            <Stack>
-              <Typography>{row.addedBy.firstName + ' ' + row.addedBy.lastName}</Typography>
-              <Link to={`/dashboard/staff-details/${row.addedBy.id}`} sx={{ fontSize: '12px' }}>@ {row.addedBy.username}</Link>
-            </Stack>
+            <Box>
+              <Typography>{row.addedBy.email}</Typography>
+              <Link to={`/dashboard/staff-details/${row.addedBy.id}`} sx={{ fontSize: '12px' }}>
+                <Typography>
+                  @ {row.addedBy.username}
+                </Typography>
+              </Link>
+            </Box>
           </Stack>
         )
       }
@@ -277,6 +280,7 @@ const StaffsOrder = () => {
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
             <DataTable
+              rowHeight={70}
               rows={addedEmployeeCarts}
               columns={columns}
               checkboxSelection={user?.me.role !== 'company-employee'}

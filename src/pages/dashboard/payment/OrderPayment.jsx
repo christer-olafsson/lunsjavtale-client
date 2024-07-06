@@ -2,7 +2,7 @@ import { Close } from '@mui/icons-material'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import React from 'react'
 
-const OrderPayment = ({closeDialog}) => {
+const OrderPayment = ({ closeDialog }) => {
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' mb={4}>
@@ -11,6 +11,7 @@ const OrderPayment = ({closeDialog}) => {
           <Close />
         </IconButton>
       </Stack>
+      <Typography>Upcomming..</Typography>
     </Box>
   )
 }

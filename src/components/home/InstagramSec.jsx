@@ -1,6 +1,7 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { SlideAnimation } from '../animation/Animation'
+import { InstagramEmbed } from 'react-social-media-embed'
 
 const imgContainer = {
   // width: { xs: '100%', md: '320px' },
@@ -29,6 +30,12 @@ const imgContainerBtn = {
   borderRadius: '8px'
 }
 
+const instagramData = [
+  'https://www.instagram.com/p/C9FG0npNotp',
+  'https://www.instagram.com/p/C9EqAWjoyHY/?img_index=1',
+  'https://www.instagram.com/p/C8mCSsDIbJ9/'
+]
+
 const InstagramSec = () => {
   return (
     <Container maxWidth='lg' sx={{ display: 'flex', flexDirection: 'column', my: 10 }}>
@@ -53,7 +60,7 @@ const InstagramSec = () => {
           lunsjavtale er en digital kantine som gjør lunsjen enklere (og smartere)!
         </SlideAnimation>
       </Typography>
-      <Stack direction={{ xs: 'column', md: 'row' }} gap={3} justifyContent='center'>
+      {/* <Stack direction={{ xs: 'column', md: 'row' }} gap={3} justifyContent='center'>
         <Box sx={imgContainer}>
           <img style={imgContainerImg} src="/insImg1.png" alt="" />
           <Typography sx={imgContainerTitle}>lunsjavtale</Typography>
@@ -80,9 +87,9 @@ const InstagramSec = () => {
             Instagram
           </Box>
         </Box>
-      </Stack>
+      </Stack> */}
 
-      <Stack direction={{ xs: 'column', md: 'row' }} mt={3} gap={3} justifyContent='center'>
+      {/* <Stack direction={{ xs: 'column', md: 'row' }} mt={3} gap={3} justifyContent='center'>
         <Box sx={{
           // width: { xs: '100%', md: '320px' },
           flex: { xs: 'none', md: 2 },
@@ -109,6 +116,13 @@ const InstagramSec = () => {
             Instagram
           </Box>
         </Box>
+      </Stack> */}
+      <Stack direction='row' gap={6} flexWrap='wrap' justifyContent='center'>
+        {
+          instagramData.map((url, id) => (
+            <InstagramEmbed key={id} url={url} width={400} />
+          ))
+        }
       </Stack>
 
     </Container>

@@ -37,6 +37,43 @@ export const GET_COMPANY_STAFFS = gql`
 }
 `
 
+export const USER = gql`
+  query User($id: ID){
+    user(id: $id){
+      id
+      createdOn
+      isDeleted
+      username
+      email
+      phone
+      photoUrl
+      firstName
+      lastName
+      dateJoined
+      dateOfBirth
+      gender
+      postCode
+      jobTitle
+      address
+      about
+      dueAmount
+      allergies{
+        edges{
+          node{
+            id
+            name
+          }
+        }
+      }
+      company{
+        id
+        name
+        email
+      }
+    }
+  }
+`
+
 export const GET_INGREDIENTS = gql`
   query{
     ingredients{

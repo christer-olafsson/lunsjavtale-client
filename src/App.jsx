@@ -66,7 +66,7 @@ function App() {
               </>
             )
           }
-          {/* <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} /> */}
+          <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} />
           <Route path='/dashboard/notifications' element={<Notifications />} />
           <Route path='/dashboard/staffs-order' element={<StaffsOrder />} />
           <Route path='/dashboard/products' element={<Products />} />

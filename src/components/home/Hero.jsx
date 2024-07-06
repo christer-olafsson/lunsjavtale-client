@@ -18,13 +18,25 @@ const Hero = () => {
 
   return (
     <Box id='hero'>
-      <Container maxWidth='xxl' sx={{
-        backgroundImage: 'url(/BG.png)',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundAttachment: 'fixed',
+      <Container maxWidth='xxl'
+      sx={{
+        position: 'relative',
         p: 0,
-        height: { xs: '1044px', md: '900px' }
+        height: { xs: '1044px', md: '900px' },
+        '::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3)), url(/heroImg2.jpg)',          
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+          // filter: 'brightness(0.6)',
+          zIndex: -1
+        }
       }}>
         <Container maxWidth='lg'>
           <ClickAwayListener onClickAway={() => setSideBarOpen(false)}>

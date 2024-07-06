@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
 import { deleteFile } from '../../../utils/deleteFile';
 import { ME } from '../../../graphql/query';
+import { Link } from 'react-router-dom';
 
 
 const ManageStaff = () => {
@@ -116,7 +117,9 @@ const ManageStaff = () => {
               <Box>
                 <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{row.firstName + row.lastName}</Typography>
                 <Stack direction='row' alignItems='center' gap={2}>
-                  <Typography sx={{ fontSize: '14px' }}>@{row.username}</Typography>
+                  <Link to={`/dashboard/staff-details/${row.id}`} sx={{ fontSize: '12px' }}>
+                    <Typography sx={{ fontSize: '14px' }}>@{row.username}</Typography>
+                  </Link>
                   <Typography sx={{
                     fontSize: '12px',
                     bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'darkgray',
