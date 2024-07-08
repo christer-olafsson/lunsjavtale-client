@@ -83,7 +83,7 @@ const Login = (props) => {
     onCompleted: (res) => {
       localStorage.setItem("token", res.loginUser.access);
       toast.success('Login Success!');
-      window.location.href = "/dashboard/myside";
+      window.location.href = "/dashboard";
     },
     onError: (err) => {
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {
@@ -103,7 +103,7 @@ const Login = (props) => {
     onCompleted: (res) => {
         localStorage.setItem("token", res.socialLogin.access);
         toast.success('Login Success!');
-        window.location.href = "/dashboard/myside";
+        window.location.href = "/dashboard";
     },
     onError: (err) => {
       toast.error(err.message)

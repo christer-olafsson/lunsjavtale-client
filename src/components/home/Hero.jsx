@@ -4,13 +4,22 @@ import { useEffect, useRef, useState } from 'react'
 import CButton from '../../common/CButton/CButton'
 import { Link } from 'react-router-dom'
 import { FadeAnimation, SlideAnimation } from '../animation/Animation'
+import { CLIENT_DETAILS } from '../../graphql/query'
+import { useQuery } from '@apollo/client'
 
 
 const Hero = () => {
   const [sideBarOpen, setSideBarOpen] = useState(false)
+  const [clientDetails, setClientDetails] = useState({})
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'))
+
+  useQuery(CLIENT_DETAILS, {
+    onCompleted: (res) => {
+      setClientDetails(res.clientDetails)
+    },
+  });
 
   useEffect(() => {
     setToken(localStorage.getItem('token'))
@@ -19,25 +28,25 @@ const Hero = () => {
   return (
     <Box id='hero'>
       <Container maxWidth='xxl'
-      sx={{
-        position: 'relative',
-        p: 0,
-        height: { xs: '1044px', md: '900px' },
-        '::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3)), url(/heroImg2.jpg)',          
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundAttachment: 'fixed',
-          // filter: 'brightness(0.6)',
-          zIndex: -1
-        }
-      }}>
+        sx={{
+          position: 'relative',
+          p: 0,
+          height: { xs: '1044px', md: '900px' },
+          '::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(${clientDetails?.coverPhotoUrl})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundAttachment: 'fixed',
+            // filter: 'brightness(0.6)',
+            zIndex: -1
+          }
+        }}>
         <Container maxWidth='lg'>
           <ClickAwayListener onClickAway={() => setSideBarOpen(false)}>
             <Stack direction='row' alignItems='center' justifyContent='space-between' py={2}>
@@ -45,7 +54,7 @@ const Hero = () => {
               <Box sx={{
                 width: { xs: '150px', md: '300px' }
               }}>
-                <img style={{ width: '100%' }} src="/logo.gif" alt="" />
+                <img style={{ width: '100%' }} src={clientDetails?.logoUrl ?? ''} alt="" />
               </Box>
               <>
                 <IconButton onClick={() => setSideBarOpen(!sideBarOpen)} sx={{
@@ -92,7 +101,7 @@ const Hero = () => {
                   </a>
                   {
                     token ?
-                      <Link style={{ width: '100%' }} to='/dashboard/myside'>
+                      <Link style={{ width: '100%' }} to='/dashboard'>
                         <CButton style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
                           Dashboard
                         </CButton>
@@ -123,8 +132,8 @@ const Hero = () => {
               gap: { xs: 3, md: 3 },
               justifyContent: 'center'
             }}>
+              <Typography sx={{ mt: { xs: 5, md: 0 }, }}>{clientDetails?.slogan}</Typography>
               <Typography sx={{
-                mt: { xs: 5, md: 0 },
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,
                 lineHeight: { xs: '40px', md: '80px' },

@@ -1,10 +1,42 @@
-import { Box, Container, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Container, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import CButton from '../../common/CButton/CButton'
 import { Link } from 'react-router-dom'
 import { SlideAnimation } from '../animation/Animation'
+import { CLIENT_DETAILS } from '../../graphql/query'
+import { useQuery } from '@apollo/client'
+import { CallMade } from '@mui/icons-material'
 
 const Footer = () => {
+  const [clientDetails, setClientDetails] = useState({})
+  const [socialLinkJson, setSocialLinkJson] = useState({})
+  const [socialLink, setSocialLink] = useState({
+    facebook: '',
+    instagram: '',
+    linkedIn: ''
+  })
+
+
+  useQuery(CLIENT_DETAILS, {
+    onCompleted: (res) => {
+      setClientDetails(res.clientDetails)
+    },
+  });
+
+  useEffect(() => {
+    setSocialLinkJson(JSON.parse(clientDetails.socialMediaLinks ?? null))
+  }, [clientDetails])
+
+
+  useEffect(() => {
+    setSocialLink({
+      facebook: socialLinkJson?.facebook ?? '',
+      instagram: socialLinkJson?.instagram ?? '',
+      linkedIn: socialLinkJson?.linkedIn ?? ''
+    })
+  }, [socialLinkJson])
+
+
   return (
     <Container sx={{
       // backgroundImage: 'url(/footer.png)',
@@ -71,11 +103,28 @@ const Footer = () => {
           textAlign: { xs: 'center', md: 'none' },
           pb: { xs: 10, md: 0 }
         }}>
-          <Typography>Facebook</Typography>
-          <Typography>Instagram</Typography>
-          <Typography>LinkedIn</Typography>
-          <Typography mt={3}>hei@lunsjavtale.no</Typography>
-          <Typography>+47 483 06 377</Typography>
+          <a style={{ textDecoration: 'none' }} href={socialLink?.facebook ?? ''} target='blank'>
+            <ListItem>
+              <ListItemText sx={{ color: '#fff' }}>Facebook</ListItemText>
+              <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
+            </ListItem>
+          </a>
+          <a style={{ textDecoration: 'none' }} href={socialLink?.instagram ?? ''} target='blank'>
+            <ListItem>
+              <ListItemText sx={{ color: '#fff' }}>Instagram</ListItemText>
+              <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
+            </ListItem>
+          </a>
+          <a style={{ textDecoration: 'none' }} href={socialLink?.linkedIn ?? ''} target='blank'>
+            <ListItem>
+              <ListItemText sx={{ color: '#fff' }}>LinkedIn</ListItemText>
+              <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
+            </ListItem>
+          </a>
+          {/* <Typography mt={3}>hei@lunsjavtale.no</Typography> */}
+          <Typography mt={3}>{clientDetails?.email}</Typography>
+          <Typography>{clientDetails?.contact}</Typography>
+          <Typography>{clientDetails?.address}</Typography>
         </Box>
       </Container>
     </Container>

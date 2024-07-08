@@ -54,7 +54,7 @@ function App() {
         <Route path='/email-verification/:token?' element={<EmailVerification />} />
         <Route path='/password-reset/:token?' element={<PassReset />} />
         <Route element={token ? <Layout /> : <Navigate to='/login' />}>
-          <Route path='/dashboard/myside' element={<MySide />} />
+          <Route path='/dashboard' element={<MySide />} />
           {/* <Route path='/dashboard/myside/cart' element={<CartPage />} />
           <Route path='/dashboard/myside/checkout' element={<CheckPage />} /> */}
           <Route path='/dashboard/complete' element={<OrderComplete />} />

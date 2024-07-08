@@ -190,11 +190,11 @@ function Layout() {
         <ListBtn
           onClick={handleDrawerClose}
           notification={''}
-          link='/dashboard/myside'
+          link='/dashboard'
           icon={<SpaceDashboardOutlined fontSize='small' />}
           text='My Side'
           selected={
-            pathname === '/dashboard/myside'
+            pathname === '/dashboard'
             || pathname === '/dashboard/myside/cart'
             || pathname === '/dashboard/myside/checkout'
             || pathname === '/dashboard/myside/complete'

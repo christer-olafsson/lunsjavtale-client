@@ -57,6 +57,25 @@ export const ME = gql`
   }
 `
 
+export const CLIENT_DETAILS = gql`
+  query{
+  clientDetails{
+    id
+    name
+    email
+    slogan
+    socialMediaLinks
+    logoUrl
+    coverPhotoUrl
+    logoFileId
+    coverPhotoFileId
+    address
+    formationDate
+    contact
+  }
+}
+`
+
 export const GET_ALL_CATEGORY = gql`
 query{
   categories{
@@ -238,5 +257,22 @@ export const FAQ_LIST = gql`
         }
       }
     }
+}
+`
+
+export const FOLLOW_US_LIST = gql`
+  query{
+  followUsList{
+    edges{
+      node{
+        id
+        # title
+        linkType
+        link
+        # photoUrl
+        # fileId
+      }
+    }
+  }
 }
 `

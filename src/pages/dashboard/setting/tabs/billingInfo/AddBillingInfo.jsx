@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client';
 import toast from 'react-hot-toast';
-import { Stack, TextField } from '@mui/material';
+import { Button, Stack, TextField } from '@mui/material';
 import CButton from '../../../../../common/CButton/CButton';
 import { ME } from '../../../../../graphql/query';
 import { BILLING_ADDRESS_MUTATION } from '../../graphql/mutation';
 
 const AddBillingInfo = () => {
+  const [editOn, setEditOn] = useState(false)
   const [errors, setErrors] = useState({})
   const [payload, setPayload] = useState({
     firstName: '',
@@ -17,7 +18,7 @@ const AddBillingInfo = () => {
     phone: '',
   })
 
-  const {data: user} = useQuery(ME)
+  const { data: user } = useQuery(ME)
 
   const [billingAddressMutation, { loading }] = useMutation(BILLING_ADDRESS_MUTATION, {
     onCompleted: (res) => {
@@ -64,7 +65,7 @@ const AddBillingInfo = () => {
       phone: data.phone ?? '',
     })
   }, [user])
-  
+
 
   return (
     <Stack flex={1} gap={2} mt={3}>
@@ -76,6 +77,7 @@ const AddBillingInfo = () => {
         name='address'
         label="Business Address"
         variant="standard"
+        disabled={!editOn}
       />
       <Stack direction='row' flex={1} gap={2} >
         <TextField
@@ -85,6 +87,7 @@ const AddBillingInfo = () => {
           name='firstName'
           label="First Name"
           variant="standard"
+          disabled={!editOn}
         />
         <TextField
           fullWidth
@@ -93,6 +96,7 @@ const AddBillingInfo = () => {
           name='lastName'
           label="Last Name"
           variant="standard"
+          disabled={!editOn}
         />
       </Stack>
       <Stack direction='row' flex={1} gap={2} >
@@ -103,6 +107,7 @@ const AddBillingInfo = () => {
           name='country'
           label="Country"
           variant="standard"
+          disabled={!editOn}
         />
         <TextField
           fullWidth
@@ -112,6 +117,7 @@ const AddBillingInfo = () => {
           type='number'
           label="Phone"
           variant="standard"
+          disabled={!editOn}
         />
       </Stack>
       <TextField
@@ -120,8 +126,16 @@ const AddBillingInfo = () => {
         name='sector'
         label="Sector"
         variant="standard"
+        disabled={!editOn}
       />
-      <CButton onClick={handleAdd} isLoading={loading} variant='contained'>Save Changes</CButton>
+      {
+        editOn ?
+          <Stack direction='row' gap={2} alignItems='center' alignSelf='flex-end'>
+            <Button onClick={() => setEditOn(false)} variant='outlined'>Cancel</Button>
+            <CButton onClick={handleAdd} isLoading={loading} variant='contained'>Save Changes</CButton>
+          </Stack>
+          : <Button onClick={() => setEditOn(true)} sx={{ width: 'fit-content', alignSelf: 'flex-end' }} variant='contained'>Edit</Button>
+      }
     </Stack>
   )
 }

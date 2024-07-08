@@ -1,7 +1,11 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { SlideAnimation } from '../animation/Animation'
 import { InstagramEmbed } from 'react-social-media-embed'
+import { FOLLOW_US_LIST } from '../../graphql/query'
+import { useQuery } from '@apollo/client'
+import Loader from '../../common/loader/Index'
+import ErrorMsg from '../../common/ErrorMsg/ErrorMsg'
 
 const imgContainer = {
   // width: { xs: '100%', md: '320px' },
@@ -37,6 +41,13 @@ const instagramData = [
 ]
 
 const InstagramSec = () => {
+  const [links, setLinks] = useState([])
+
+  const { loading, error } = useQuery(FOLLOW_US_LIST, {
+    onCompleted: (res) => {
+      setLinks(res.followUsList.edges.map(item => item.node))
+    }
+  });
   return (
     <Container maxWidth='lg' sx={{ display: 'flex', flexDirection: 'column', my: 10 }}>
       <Box sx={{
@@ -117,11 +128,14 @@ const InstagramSec = () => {
           </Box>
         </Box>
       </Stack> */}
-      <Stack direction='row' gap={6} flexWrap='wrap' justifyContent='center'>
+      <Stack direction='row' gap={{ xs: 0, md: 6 }} flexWrap='wrap' justifyContent='center'>
         {
-          instagramData.map((url, id) => (
-            <InstagramEmbed key={id} url={url} width={400} />
-          ))
+          loading ? <Loader /> : error ? <ErrorMsg /> :
+            links.map((item, id) => (
+              <Box key={id}>
+                <InstagramEmbed url={item.link} width={350} height={700} />
+              </Box>
+            ))
         }
       </Stack>
 
