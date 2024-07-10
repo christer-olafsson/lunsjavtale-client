@@ -37,7 +37,7 @@ const OrderDetails = () => {
       setOrder(res.order)
     },
   });
-
+  console.log(order)
   const handleEditDialog = (id) => {
     setEditOrderId(id)
     setEditOrderDialogOpen(true)
@@ -64,22 +64,25 @@ const OrderDetails = () => {
       <Box mt={3}>
         <Typography>Delivery Date: <b>{order?.deliveryDate}</b> </Typography>
         <Typography sx={{ mb: 2 }}>Total Price: <b>{order?.finalPrice}</b> kr </Typography>
-        <Typography sx={{
-          display: 'inline-flex',
-          padding: '5px 12px',
-          bgcolor: order?.status === 'Cancelled'
-            ? 'red'
-            : order?.status === 'Confirmed'
-              ? 'lightgreen'
-              : order?.status === 'Delivered'
-                ? 'green'
-                : 'yellow',
-          color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' : '#fff',
-          borderRadius: '50px',
-        }}>
-          Status:
-          <b style={{ marginLeft: '5px' }}> {order?.status}</b>
-        </Typography>
+        {
+          order?.status &&
+          <Typography sx={{
+            display: 'inline-flex',
+            padding: '5px 12px',
+            bgcolor: order?.status === 'Cancelled'
+              ? 'red'
+              : order?.status === 'Confirmed'
+                ? 'lightgreen'
+                : order?.status === 'Delivered'
+                  ? 'green'
+                  : 'yellow',
+            color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' : '#fff',
+            borderRadius: '50px',
+          }}>
+            Status:
+            <b style={{ marginLeft: '5px' }}> {order?.status}</b>
+          </Typography>
+        }
         {/* <Chip label={`Status: ${order?.status}`} /> */}
         <Divider sx={{ mt: 2 }} />
 
@@ -87,7 +90,8 @@ const OrderDetails = () => {
           <Box sx={{ width: { xs: '100%', md: '70%' } }}>
             <Stack gap={3}>
               {
-                loading ? <Loader /> : orderErr ? <ErrorMsg /> :
+                loading ? <Loader /> : orderErr ? <ErrorMsg /> : order === null ?
+                  <Typography>Order not Found!</Typography> :
                   order?.orderCarts?.edges.map(data => (
                     <Box sx={{
                       border: '1px solid lightgray',

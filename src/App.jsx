@@ -49,7 +49,7 @@ function App() {
     <div>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/login' element={token ? <Navigate to='/dashboard/myside' /> : <Login />} />
+        <Route path='/login' element={token ? <Navigate to='/dashboard' /> : <Login />} />
         <Route path='/search' element={<Search />} />
         <Route path='/email-verification/:token?' element={<EmailVerification />} />
         <Route path='/password-reset/:token?' element={<PassReset />} />

@@ -81,6 +81,11 @@ const Login = (props) => {
 
   const [loginUser, { loading, error: loginErr }] = useMutation(LOGIN_USER, {
     onCompleted: (res) => {
+      const userRole = res.loginUser.user.role;
+      if (userRole !== "company-owner" && userRole !== "company-employee") {
+        toast.error('Access Denied');
+        return;
+      }
       localStorage.setItem("token", res.loginUser.access);
       toast.success('Login Success!');
       window.location.href = "/dashboard";
@@ -101,9 +106,9 @@ const Login = (props) => {
   //google login
   const [googleLogin, { GoogleLoginloading, }] = useMutation(SOCIAL_LOGIN, {
     onCompleted: (res) => {
-        localStorage.setItem("token", res.socialLogin.access);
-        toast.success('Login Success!');
-        window.location.href = "/dashboard";
+      localStorage.setItem("token", res.socialLogin.access);
+      toast.success('Login Success!');
+      window.location.href = "/dashboard";
     },
     onError: (err) => {
       toast.error(err.message)
@@ -334,7 +339,7 @@ const Login = (props) => {
                 onKeyDown={handleKeyPress}
               />
               <TextField
-                sx={{ mb: 2 }}
+                sx={{ mb: 1 }}
                 variant="outlined"
                 type={passwordVisibility ? "text" : "password"}
                 name="password"
@@ -361,8 +366,8 @@ const Login = (props) => {
                 }}
               />
               <Stack direction='row' justifyContent='space-between'>
-                <FormControlLabel control={<Checkbox />} label="Remember me" />
-                <Typography onClick={() => setForgotePassSecOpen(true)} sx={{ fontSize: '15px', alignSelf: 'center', color: 'primary.main ', cursor: 'pointer' }}>Forgot password?</Typography>
+                {/* <FormControlLabel control={<Checkbox />} label="Remember me" /> */}
+                <Typography onClick={() => setForgotePassSecOpen(true)} sx={{ fontSize: '15px', mb: 1, alignSelf: 'center', color: 'primary.main ', cursor: 'pointer' }}>Forgot password?</Typography>
               </Stack>
               {emailNotReceivedSecOpen &&
                 <Box sx={{
@@ -397,6 +402,12 @@ const Login = (props) => {
                 <Link to='/search'>
                   <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' }, color: 'primary.main', ml: 2 }}>Create free account</Typography>
                 </Link>
+              </Box>
+              <Box sx={{ display: 'inline-flex', alignSelf: 'center', mt: 1 }}>
+                <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' } }}>Are you a Supplier?</Typography>
+                <a href='https://supplier.lunsjavtale.no'>
+                  <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' }, color: 'primary.main', ml: 2 }}>Login Here</Typography>
+                </a>
               </Box>
             </Stack>
           )

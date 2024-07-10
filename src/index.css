@@ -18,7 +18,7 @@ html {
   overflow: hidden;
 }
 
-.btn-43:after {
+.btn-43___:after {
   position: absolute;
   content: "";
   width: 100%;
@@ -26,13 +26,13 @@ html {
   top: 0;
   left: 0;
   z-index: -1;
-  background: rgb(235, 235, 235);
-  /* background: #82a062		; */
+  /* background: rgb(235, 235, 235); */
+  background: rgb(8, 100, 20)	;
   transition: all 0.3s ease;
 }
 
 .btn-43:hover {
-  color: rgb(0, 0, 0);
+  /* color: rgb(0, 0, 0); */
 }
 
 .btn-43:hover:after {

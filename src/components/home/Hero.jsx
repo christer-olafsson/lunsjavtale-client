@@ -96,9 +96,6 @@ const Hero = () => {
                   <Button onClick={() => setSideBarOpen(false)} href='#products'>Products</Button>
                   <Button onClick={() => setSideBarOpen(false)} href='#faq'>FAQ</Button>
                   <Button onClick={() => setSideBarOpen(false)} href='#contact'>Contact</Button>
-                  <a href="https://supplier.lunsjavtale.no" target='blank' style={{ width: '100%' }}>
-                    <Button onClick={() => setSideBarOpen(false)} variant='outlined' sx={{ width: '100%', whiteSpace: 'nowrap' }}>Supplier</Button>
-                  </a>
                   {
                     token ?
                       <Link style={{ width: '100%' }} to='/dashboard'>
@@ -116,6 +113,7 @@ const Hero = () => {
                     position: 'absolute',
                     top: 0,
                     right: 0,
+                    display: isMobile ? 'block' : 'none'
                   }}>
                     <Close />
                   </IconButton>
