@@ -46,6 +46,7 @@ const UserProfile = () => {
       toast.success(data.message);
       setPayloadEditOn(false)
       setErrors({})
+      setFile('')
     },
     onError: (err) => {
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {

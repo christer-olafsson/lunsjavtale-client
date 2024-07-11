@@ -35,6 +35,7 @@ const CompanyProfile = () => {
       toast.success(res.companyMutation.message);
       setPayloadEditOn(false)
       setErrors({})
+      setFile('')
     },
     onError: (err) => {
       toast.error(err.message)
