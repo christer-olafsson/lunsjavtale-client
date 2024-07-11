@@ -54,7 +54,7 @@ const OrderDetails = () => {
 
 
   return (
-    <Box>
+    <Box maxWidth='xl'>
       <Stack direction='row' gap={2}>
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBack />

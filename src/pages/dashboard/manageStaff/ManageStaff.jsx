@@ -222,7 +222,7 @@ const ManageStaff = () => {
   }, [])
 
   return (
-    <Box maxWidth='xxl'>
+    <Box maxWidth='xl'>
       <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Manage Staff</Typography>
       <Stack direction='row' justifyContent='space-between' gap={2} sx={{
         p: { xs: .5, lg: 3 },
