@@ -50,6 +50,10 @@ const Account = () => {
   }
 
   const handleUpdate = () => {
+    if(!payload.username){
+      toast.error('User name required!')
+      return
+    }
     if (payload.newPass !== payload.repeatPass) {
       setPasswordErr('Password not match!')
       return;
@@ -141,11 +145,7 @@ const Account = () => {
           </Stack> :
           <Stack>
             <InputLabel sx={{ mt: 3, fontWeight: 600 }}>Username</InputLabel>
-            <Input disabled={!editOn} name='username' value={payload.username} onChange={handleInputChange} startAdornment={
-              <InputAdornment position="start">
-                <Typography>Lunsjavtale.no/</Typography>
-              </InputAdornment>
-            }
+            <Input disabled={!editOn} name='username' value={payload.username} onChange={handleInputChange}
             />
             <InputLabel sx={{ mt: 3 }}>Current password</InputLabel>
             <Input disabled={!editOn} name='currentPass' value={payload.currentPass} onChange={handleInputChange} variant='standard' />

@@ -126,7 +126,7 @@ query{
 
 export const PRODUCTS = gql`
   query Products ($id: ID, $category: String) {
-      products(id:$id, category: $category){
+      products(id:$id, category: $category, isDeleted: false,availability: true){
         edges{
           node{
           id

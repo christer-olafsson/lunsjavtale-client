@@ -35,9 +35,10 @@ const Setting = () => {
         }}>
           <Stack alignItems='center'>
             <Box sx={{
-              width: { xs: '100%', md: '300px' }
+              width: { xs: '100%', md: '400px' },
+              maxHeight: '400px'
             }}>
-              <img style={{ width: '100%' }} src={user?.me.company.logoUrl ? user?.me.company.logoUrl : '/img21232.png'} alt="" />
+              <img style={{ width: '100%', height: '300px', objectFit: 'cover' }} src={user?.me.company.logoUrl ? user?.me.company.logoUrl : '/img21232.png'} alt="" />
             </Box>
             <Box sx={{
               mt: -6,

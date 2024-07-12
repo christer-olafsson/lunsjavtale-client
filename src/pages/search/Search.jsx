@@ -67,7 +67,7 @@ const Search = () => {
     }}>
       <Link to='/'>
         <Button startIcon={<KeyboardArrowLeft />} sx={{ color: 'primary.main', alignSelf: 'flex-start', mb: 2 }}>
-          Back To Home
+          Hjem
         </Button>
       </Link>
       {loading && <LoadingBar />}
@@ -83,16 +83,16 @@ const Search = () => {
             fontSize: { xs: '24px', md: '48px' },
             fontWeight: { xs: 500, md: 800 },
             mb: { xs: 2, md: 4 }
-          }}>Better food, less food waste, more time</Typography>
+          }}>Bedre mat, mindre matsvinn, mer tid</Typography>
           {
-            error? <ErrorMsg/> : postcodeAvailable ?
+            error ? <ErrorMsg /> : postcodeAvailable ?
               <PostCodeAvailable handleAvailabe={handleAvailabe} postCode={postcode} />
               : postcodeNotAvailabe ? <PostCodeNotAvailable postCode={postcode} handleNotAvailabe={handleNotAvailabe} /> :
                 <Box>
                   <Typography sx={{
                     fontSize: { xs: '14px', md: '18px' },
                     mb: { xs: 2, md: 4 }
-                  }}>Eliminate the need for a physical canteen, or running to the store. This canteen is controlled digitally and delivers the food where you want it. And not least - the food is tasty, good for the body and varies every day.</Typography>
+                  }}>Eliminer behovet for en fysisk kantine, eller løp til butikken. Denne kantinen styres digitalt og leverer maten dit du vil ha den. Og ikke minst – maten er smakfull, god for kroppen og varierer hver dag.</Typography>
                   <Stack direction='row' sx={{
                     alignSelf: { xs: 'start', md: 'start' },
                     bgcolor: '#fff',
@@ -106,19 +106,18 @@ const Search = () => {
                     <Input disableUnderline sx={{
                       border: 'none', outline: 'none',
                       flex: 1, fontSize: { xs: '11px', sm: '13px', md: '15px' }, borderRadius: '38px'
-                    }} type="number" placeholder="Your company's postcode" value={postcode}
+                    }} type="number" placeholder="Din bedrifts postnummer" value={postcode}
                       onChange={e => {
                         const newValue = e.target.value.slice(0, 4);
                         setPostcode(newValue);
                       }}
                     />
-                    <Button onClick={handleSearchClick} variant='contained' size='small' sx={{
+                    <Button onClick={handleSearchClick} variant='contained' color={postcodeTrue ? 'primary' : 'gray'} size='small' sx={{
                       textWrap: 'nowrap',
                       fontSize: { xs: '11px', sm: '13px', md: '15px' },
                       borderRadius: '38px',
-                      color: '#fff',
                       px: { xs: 1.5, md: 2 }
-                    }} startIcon={<Chat size='small' />}>See if we deliver to you</Button>
+                    }} startIcon={<Chat size='small' />}>Se om vi leverer til deg</Button>
                   </Stack>
                   <Typography sx={{ ml: 2, color: 'red', visibility: inputErr ? 'visible' : 'hidden' }}>Post Code Incorrect!</Typography>
                 </Box>

@@ -289,6 +289,7 @@ const AddItem = ({ closeDialog, data }) => {
                   selectedDates={selectedDates}
                   selectsMultiple
                   onChange={onChangeDate}
+                  dateFormat='yyyy-MM-dd'
                   shouldCloseOnSelect={false}
                   disabledKeyboardNavigation
                 />

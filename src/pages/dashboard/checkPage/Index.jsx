@@ -36,7 +36,7 @@ function CustomTabPanel(props) {
 
 const CheckPage = () => {
   const [tabValue, setTabValue] = useState(0);
-  const [companyAllowance, setCompanyAllowance] = useState(null);
+  const [companyAllowance, setCompanyAllowance] = useState('100');
   const [shippingAddressId, setShippingAddressId] = useState(null)
   const [paymentType, setPaymentType] = useState('')
   const [errors, setErrors] = useState({})

@@ -28,7 +28,7 @@ import StaffDetails from './pages/dashboard/manageStaff/StaffDetails'
 
 function App() {
 
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem('lunsjavtale'));
   const { data: user } = useQuery(ME, {
     skip: !token
   });
@@ -41,7 +41,7 @@ function App() {
 
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'))
+    setToken(localStorage.getItem('lunsjavtale'))
   }, [])
 
 

@@ -26,7 +26,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
   const [validCreateCompany, { loading }] = useMutation(CREATE_VALID_COMPANY, {
     onCompleted: (res) => {
       setRegSuccess(res.validCreateCompany.success)
-      toast.success('Registration Success! Please Check email')
+      toast.success('Registrering vellykket! Vennligst sjekk e-posten din')
       setUserEmail(payload.email)
       setDisableResendBtn(false)
       setPayload({
@@ -86,31 +86,31 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
 
   const handleSubmit = () => {
     if (!payload.name) {
-      setErrors({ name: 'Company name required!' });
+      setErrors({ name: 'Firmanavn er påkrevd!' });
       return
     }
     if (!payload.firstName) {
-      setErrors({ firstName: 'Name required!' });
+      setErrors({ firstName: 'Navn er påkrevd!' });
       return
     }
     if (!payload.email) {
-      setErrors({ email: 'Email required!' });
+      setErrors({ email: 'E-post er påkrevd!' });
       return
     }
     if (!payload.contact) {
-      setErrors({ contact: 'Contact number required!' });
+      setErrors({ contact: 'Kontakttelefon er påkrevd!' });
       return
     }
     if (!password.password) {
-      setErrors({ password: 'Password required!' });
+      setErrors({ password: 'Passord er påkrevd!' });
       return
     }
     if (!password.confirmPassword) {
-      setErrors({ confirmPassword: 'Confirm password required!' });
+      setErrors({ confirmPassword: 'Bekreft passord er påkrevd!' });
       return
     }
     if (password.password !== password.confirmPassword) {
-      setErrors({ confirmPassword: 'Password Not Match!' });
+      setErrors({ confirmPassword: 'Passordet stemmer ikke overens!' });
       return
     }
     validCreateCompany({
@@ -141,10 +141,10 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
               borderRadius: '8px',
               fontSize: '18px',
               color: 'primary.main'
-            }}>Registration Success! please check your inbox or spam box and active your account.</Typography>
+            }}>Registrerings suksess! vennligst sjekk innboksen eller søppelpostboksen og aktiver kontoen din.</Typography>
             <Box sx={{ mt: 1, ml: 3, display: 'inline-flex', alignItems: 'center' }}>
-              <Typography sx={{ fontSize: '14px' }}>Don't get email?</Typography>
-              <Button onClick={handleResendMail} disabled={disableResendBtn}>Click to send again</Button>
+              <Typography sx={{ fontSize: '14px' }}>Fikk du ikke e-post?</Typography>
+              <Button onClick={handleResendMail} disabled={disableResendBtn}>Klikk for å sende igjen</Button>
             </Box>
           </Box>
           :
@@ -157,9 +157,9 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
               fontSize: '18px',
               color: '#fff'
             }}>
-              We  deliver to this postcode yet. But fill in the fields below and we'll see what we can do. 🧑‍🍳
+              Vi leverer til dette postnummeret enda. Men fyll ut feltene nedenfor, så skal vi se hva vi kan gjøre. 🧑‍🍳
             </Typography>
-            <Typography sx={{ fontSize: '24px', fontWeight: '600', my: 3 }}>Create your company account</Typography>
+            <Typography sx={{ fontSize: '24px', fontWeight: '600', my: 3 }}>Opprett bedriftskontoen din</Typography>
 
             <Stack gap={2}>
               <Stack direction='row' gap={2}>
@@ -170,7 +170,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                   onChange={handleInputChange}
                   name='name'
                   fullWidth
-                  label="Name of the company"
+                  label="Navn på bedriften"
                   variant="outlined"
                 />
                 <TextField value={payload.firstName}
@@ -179,7 +179,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                   onChange={handleInputChange}
                   name='firstName'
                   fullWidth
-                  label="Your name"
+                  label="Ditt navn"
                   variant="outlined"
                 />
               </Stack>
@@ -191,7 +191,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                   onChange={handleInputChange}
                   name='email'
                   fullWidth
-                  label="Email"
+                  label="E-post"
                   variant="outlined"
                 />
                 <TextField
@@ -202,7 +202,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                   onChange={handleInputChange}
                   name='contact'
                   fullWidth
-                  label="Phone"
+                  label="Telefon"
                   variant="outlined"
                 />
               </Stack>
@@ -214,7 +214,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                 name='password'
                 type={passwordVisibility ? "text" : "password"}
                 fullWidth
-                label="Password"
+                label="Passord"
                 variant="outlined"
                 InputProps={{
                   endAdornment: (
@@ -239,7 +239,7 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                 name='confirmPassword'
                 type={passwordVisibility ? "text" : "password"}
                 fullWidth
-                label="Confirm Password"
+                label="Bekreft passord"
                 variant="outlined"
                 InputProps={{
                   endAdornment: (
@@ -256,13 +256,12 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
                   ),
                 }}
               />
-              {/* <TextField value={payload.confirmPass} helperText={payloadErr.confirmPass} error={Boolean(payloadErr.confirmPass)} onChange={handleInputChange} name='confirmPass' type='password' fullWidth label="Confirm password" variant="outlined" /> */}
-              <FormControlLabel control={<Checkbox />} label="Remember me" />
+              <FormControlLabel control={<Checkbox />} label="Husk meg" />
             </Stack>
 
             <Stack direction='row' gap={2} mt={2}>
-              <Button onClick={handleAvailabe}>Back</Button>
-              <CButton isLoading={loading} disabled={loading} onClick={handleSubmit} variant='contained' color='primary'>Sign up</CButton>
+              <Button onClick={handleAvailabe}>Tilbake</Button>
+              <CButton isLoading={loading} disabled={loading} onClick={handleSubmit} variant='contained' color='primary'>Registrer deg</CButton>
             </Stack>
             <Box sx={{
               display: 'inline-flex', mt: 2
@@ -271,13 +270,13 @@ const PostCodeAvailable = ({ handleAvailabe, postCode }) => {
           </Box>
       }
       <Stack direction='row' sx={{ mt: 2 }}>
-        <Typography>Already have a account? </Typography>
+        <Typography>Har du allerede en konto? </Typography>
         <Link to='/login'>
-          <Typography sx={{ fontWeight: 'bold', color: 'primary.main', ml: 1 }}>Sign in here </Typography>
+          <Typography sx={{ fontWeight: 'bold', color: 'primary.main', ml: 1 }}>Logg inn her</Typography>
         </Link>
       </Stack>
     </Box >
   )
 }
 
-export default PostCodeAvailable
+export default PostCodeAvailable;

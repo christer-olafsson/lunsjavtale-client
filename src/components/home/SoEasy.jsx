@@ -43,12 +43,12 @@ const SoEasy = () => {
           <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 2, md: 3 }}>
             <SlideAnimation direction='up' delay={200}>
               <Link to='/search'>
-                <CButton variant='contained' color='secondary' style={{ width: { xs: '100%', md: '119px' }, textWrap: 'noWrap' }}>Kom i gang</CButton>
+                <CButton variant='contained' color='secondary' style={{ width: { xs: '100%', md: '119px' }, textWrap: 'noWrap' }}>Bli kunde</CButton>
               </Link>
             </SlideAnimation>
-            <SlideAnimation direction='up' delay={400}>
+            {/* <SlideAnimation direction='up' delay={400}>
               <CButton onClick={() => setMeetingDialogOpen(true)} variant='outlined' style={{ width: '100%' }}>Trenger du møtemat?</CButton>
-            </SlideAnimation>
+            </SlideAnimation> */}
           </Stack>
         </Box>
         <Stack direction='row' alignItems='center' gap={2}>

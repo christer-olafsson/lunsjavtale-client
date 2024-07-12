@@ -16,8 +16,6 @@ const EditAddress = ({ data, closeDialog }) => {
     addressType: '',
     postCode: '',
     city: '',
-    state: '',
-    country: '',
     fullName: '',
     phone: '',
     instruction: '',
@@ -120,13 +118,11 @@ const EditAddress = ({ data, closeDialog }) => {
         </FormControl>
         <Stack direction='row' gap={2}>
           <Stack flex={1} gap={2}>
-            <TextField value={payload.country} onChange={handleInputChange} name='country' label='Country' />
             <TextField value={payload.city} onChange={handleInputChange} name='city' label='City' />
             <TextField value={payload.fullName} onChange={handleInputChange} name='fullName' label='Full Name' />
           </Stack>
           <Stack flex={1} gap={2}>
             <TextField value={payload.postCode} helperText={errors.postCode} error={Boolean(errors.postCode)} onChange={handleInputChange} name='postCode' type='number' label='Post Code' />
-            <TextField value={payload.state} onChange={handleInputChange} name='state' label='State' />
             <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Phone number' />
           </Stack>
         </Stack>

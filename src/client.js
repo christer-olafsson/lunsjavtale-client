@@ -1,13 +1,12 @@
 import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
-import { relayStylePagination } from "@apollo/client/utilities";
 import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token")
-    ? `JWT ${localStorage.getItem("token")}`
+  const token = localStorage.getItem("lunsjavtale")
+    ? `JWT ${localStorage.getItem("lunsjavtale")}`
     : "";
 
   // return the headers to the context so httpLink can read them
@@ -29,7 +28,7 @@ const errorLink = onError(
           message === "Signature has expired" ||
           message === "You are not authorized user."
         ) {
-          localStorage.removeItem("token");
+          localStorage.removeItem("lunsjavtale");
           // localStorage.removeItem("refresh");
           window.location.href = "/login";
         }

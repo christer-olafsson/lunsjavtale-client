@@ -60,15 +60,15 @@ const PostCodeNotAvailable = ({ handleNotAvailabe, postCode }) => {
 
   const handleSubmit = () => {
     if (!payload.company) {
-      setPayloadErr({ ...payloadErr, company: 'Company name needed!' })
+      setPayloadErr({ ...payloadErr, company: 'Firmanavn er påkrevd!' })
       return
     }
     if (!payload.email) {
-      setPayloadErr({ ...payloadErr, email: 'Email needed!' })
+      setPayloadErr({ ...payloadErr, email: 'E-post er påkrevd!' })
       return
     }
     if (!payload.phone) {
-      setPayloadErr({ ...payloadErr, phone: 'Contact number needed!' })
+      setPayloadErr({ ...payloadErr, phone: 'Kontakttelefon er påkrevd!' })
       return
     }
     createCompany({
@@ -98,7 +98,7 @@ const PostCodeNotAvailable = ({ handleNotAvailabe, postCode }) => {
             borderRadius: '8px',
             fontSize: '18px',
             color: 'primary.main'
-          }}>Thanks for Submition! We received your info.</Typography> :
+          }}>Takk for innsending! Vi har mottatt informasjonen din.</Typography> :
           <Stack gap={2}>
             <Typography sx={{
               width: '100%',
@@ -108,12 +108,12 @@ const PostCodeNotAvailable = ({ handleNotAvailabe, postCode }) => {
               fontSize: '18px',
               borderRadius: '8px'
             }}>
-              We do not deliver to this postcode yet. But fill in the fields below and we'll see what we can do. 🧑‍🍳
+              Vi leverer ikke til dette postnummeret ennå. Men fyll ut feltene nedenfor, så skal vi se hva vi kan gjøre. 🧑‍🍳
             </Typography>
-            <Typography sx={{ fontSize: '24px', fontWeight: '600', my: 2 }}>Information about your company</Typography>
-            <TextField value={payload.company} helperText={payloadErr.company} error={Boolean(payloadErr.company)} onChange={handleInputChange} name='company' placeholder='Company name' />
-            <TextField value={payload.email} helperText={payloadErr.email} error={Boolean(payloadErr.email)} onChange={handleInputChange} name='email' placeholder='Your work email' />
-            <TextField value={payload.phone} helperText={payloadErr.phone} error={Boolean(payloadErr.phone)} onChange={handleInputChange} type='number' name='phone' placeholder='Your mobile number' />
+            <Typography sx={{ fontSize: '24px', fontWeight: '600', my: 2 }}>Informasjon om bedriften din</Typography>
+            <TextField value={payload.company} helperText={payloadErr.company} error={Boolean(payloadErr.company)} onChange={handleInputChange} name='company' placeholder='Firmanavn' />
+            <TextField value={payload.email} helperText={payloadErr.email} error={Boolean(payloadErr.email)} onChange={handleInputChange} name='email' placeholder='Din arbeids-e-post' />
+            <TextField value={payload.phone} helperText={payloadErr.phone} error={Boolean(payloadErr.phone)} onChange={handleInputChange} type='number' name='phone' placeholder='Ditt mobilnummer' />
             {
               errors.length > 0 &&
               <ul style={{ color: 'red', fontSize: '13px' }}>
@@ -125,8 +125,8 @@ const PostCodeNotAvailable = ({ handleNotAvailabe, postCode }) => {
               </ul>
             }
             <Stack direction='row' gap={2} mt={2}>
-              <Button onClick={handleNotAvailabe}>Back</Button>
-              <CButton isLoading={loading} onClick={handleSubmit} variant='contained'>Submit</CButton>
+              <Button onClick={handleNotAvailabe}>Tilbake</Button>
+              <CButton isLoading={loading} onClick={handleSubmit} variant='contained'>Send inn</CButton>
             </Stack>
           </Stack>
       }
@@ -134,4 +134,4 @@ const PostCodeNotAvailable = ({ handleNotAvailabe, postCode }) => {
   )
 }
 
-export default PostCodeNotAvailable
+export default PostCodeNotAvailable;

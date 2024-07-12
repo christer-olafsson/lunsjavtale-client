@@ -86,7 +86,7 @@ const Login = (props) => {
         toast.error('Access Denied');
         return;
       }
-      localStorage.setItem("token", res.loginUser.access);
+      localStorage.setItem("lunsjavtale", res.loginUser.access);
       toast.success('Login Success!');
       window.location.href = "/dashboard";
     },
@@ -106,7 +106,7 @@ const Login = (props) => {
   //google login
   const [googleLogin, { GoogleLoginloading, }] = useMutation(SOCIAL_LOGIN, {
     onCompleted: (res) => {
-      localStorage.setItem("token", res.socialLogin.access);
+      localStorage.setItem("lunsjavtale", res.socialLogin.access);
       toast.success('Login Success!');
       window.location.href = "/dashboard";
     },
@@ -288,7 +288,7 @@ const Login = (props) => {
                   color: 'gray',
                   fontSize: '22px',
                   mb: 2,
-                }} startIcon={<KeyboardArrowLeft />}> Back </Button>
+                }} startIcon={<KeyboardArrowLeft />}> Tilbake </Button>
               </Stack>
               {
                 passResetData ?
@@ -298,10 +298,10 @@ const Login = (props) => {
                     px: 2, py: 1, color: 'primary.main'
                   }}>{passResetData.passwordResetMail.message}</Typography> :
                   <Stack>
-                    <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Forgote Password?</Typography>
-                    <Input value={forgotEmail.email} sx={{ mb: 2 }} placeholder='Enter Your Email' onChange={(e) => setForgotEmail({ email: e.target.value })} type="text" />
+                    <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Glemt passord?</Typography>
+                    <Input value={forgotEmail.email} sx={{ mb: 2 }} placeholder='Skriv inn din e-post' onChange={(e) => setForgotEmail({ email: e.target.value })} type="text" />
                     {/* <TextField onChange={(e)=> setForgotEmail(e.target.value)} sx={{ mb: 2 }} fullWidth placeholder='email address' variant="outlined" /> */}
-                    <CButton isLoading={passResetLoading} disable={passResetLoading} onClick={handleForgotePassword} variant='contained'>Submit</CButton>
+                    <CButton isLoading={passResetLoading} disable={passResetLoading} onClick={handleForgotePassword} variant='contained'>Send</CButton>
                   </Stack>
               }
             </Stack>
@@ -316,7 +316,7 @@ const Login = (props) => {
                   <Button sx={{
                     color: 'primary.main',
                     mb: 2,
-                  }} startIcon={<KeyboardArrowLeft />}> Back To Home </Button>
+                  }} startIcon={<KeyboardArrowLeft />}> Tilbake til hjem </Button>
                 </Link>
                 <Box sx={{
                   width: { xs: '70%', md: '200px' },
@@ -325,7 +325,7 @@ const Login = (props) => {
                   <img width='100%' src="Logo.svg" alt="" />
                 </Box>
               </Stack>
-              <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Sign into your account</Typography>
+              <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Logg inn på kontoen din</Typography>
               <TextField
                 onChange={handleInputChange}
                 name='email'
@@ -334,7 +334,7 @@ const Login = (props) => {
                 helperText={payloadError && payloadError.email}
                 sx={{ mb: 2 }}
                 fullWidth
-                label="Email"
+                label="E-post"
                 variant="outlined"
                 onKeyDown={handleKeyPress}
               />
@@ -343,7 +343,7 @@ const Login = (props) => {
                 variant="outlined"
                 type={passwordVisibility ? "text" : "password"}
                 name="password"
-                label="Password"
+                label="Passord"
                 fullWidth
                 value={payload.password}
                 error={payloadError.password !== ""}
@@ -367,7 +367,7 @@ const Login = (props) => {
               />
               <Stack direction='row' justifyContent='space-between'>
                 {/* <FormControlLabel control={<Checkbox />} label="Remember me" /> */}
-                <Typography onClick={() => setForgotePassSecOpen(true)} sx={{ fontSize: '15px', mb: 1, alignSelf: 'center', color: 'primary.main ', cursor: 'pointer' }}>Forgot password?</Typography>
+                <Typography onClick={() => setForgotePassSecOpen(true)} sx={{ fontSize: '15px', mb: 1, alignSelf: 'center', color: 'primary.main ', cursor: 'pointer' }}>Glemt passord?</Typography>
               </Stack>
               {emailNotReceivedSecOpen &&
                 <Box sx={{
@@ -381,32 +381,32 @@ const Login = (props) => {
                   color: 'primary.main',
                   my: 3
                 }}>
-                  <Typography >Don't received an email?</Typography>
-                  <Button onClick={handleResendMail} disabled={disableResendBtn}>Click to send again</Button>
+                  <Typography >Ikke mottatt en e-post?</Typography>
+                  <Button onClick={handleResendMail} disabled={disableResendBtn}>Klikk for å sende igjen</Button>
 
                 </Box>
               }
-              <CButton style={{ mb: 2 }} onClick={handleLogin} isLoading={loading} variant='contained'> Sign In</CButton>
+              <CButton style={{ mb: 2 }} onClick={handleLogin} isLoading={loading} variant='contained'> Logg inn</CButton>
               <Box sx={{ width: '100%' }}>
                 <GoogleLogin
                   onSuccess={res => googleLoginHandler(res)}
                   onError={() => {
-                    toast.error('Login Failed');
+                    toast.error('Innlogging mislyktes');
                   }}
                 />
               </Box>
 
-              {/* <CButton startIcon={<Google />} variant='outlined' style={{ mt: 2 }}>Sign in with Google</CButton> */}
+              {/* <CButton startIcon={<Google />} variant='outlined' style={{ mt: 2 }}>Logg inn med Google</CButton> */}
               <Box sx={{ display: 'inline-flex', alignSelf: 'center', mt: 2 }}>
-                <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' } }}>Don't have an account?</Typography>
+                <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' } }}>Har du ikke en konto?</Typography>
                 <Link to='/search'>
-                  <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' }, color: 'primary.main', ml: 2 }}>Create free account</Typography>
+                  <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' }, color: 'primary.main', ml: 2 }}>Opprett gratis konto</Typography>
                 </Link>
               </Box>
               <Box sx={{ display: 'inline-flex', alignSelf: 'center', mt: 1 }}>
-                <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' } }}>Are you a Supplier?</Typography>
+                <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' } }}>Er du en leverandør?</Typography>
                 <a href='https://supplier.lunsjavtale.no'>
-                  <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' }, color: 'primary.main', ml: 2 }}>Login Here</Typography>
+                  <Typography sx={{ whiteSpace: 'nowrap', fontSize: { xs: '14px', md: '16px' }, color: 'primary.main', ml: 2 }}>Logg inn her</Typography>
                 </a>
               </Box>
             </Stack>
@@ -414,6 +414,7 @@ const Login = (props) => {
         }
       </Stack>
     </Container>
+
   )
 }
 

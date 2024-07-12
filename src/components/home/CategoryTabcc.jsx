@@ -107,9 +107,10 @@ const CategoryTab = (props) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [allCategorys, setAllCategorys] = useState([])
   const [categoryId, setCategoryId] = useState('')
-  const [products, setProducts] = useState({})
+  const [products, setProducts] = useState([])
 
-  const { loading, error } = useQuery(GET_ALL_CATEGORY, {
+
+  const { error: categoryErr } = useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
       const res = data?.categories?.edges.filter((item) => item.node.isActive)
       setAllCategorys(res)
@@ -133,27 +134,68 @@ const CategoryTab = (props) => {
           mb: 3,
           justifyContent: 'center',
         }}>
-          <Tabs
-            variant="scrollable"
-            scrollButtons
-            allowScrollButtonsMobile
-            value={tabIndex}
-            onChange={(e, index) => setTabIndex(index)}
-            sx={{
-              width: "fit-content",
-              [`& .${tabsClasses.indicator}`]: {
-                display: "none",
-              },
-            }}
-          >
+          <Stack sx={{
+            bgcolor: 'light.main',
+            width: '100%',
+            p: 3
+          }} direction='row' gap={{ xs: 1, md: 2 }} flexWrap='wrap'>
+            <Box sx={{
+              border: '1px solid lightgray',
+              borderRadius: '4px',
+              bgcolor: categoryId === null ? 'primary.main' : '#fff',
+              color: categoryId === null ? '#fff' : 'inherit',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }} onClick={() => setCategoryId(null)}>
+              <Typography sx={{
+                fontSize: { xs: '13px', md: '16px' },
+                py: { xs: 1, md: 1.5 },
+                px: { xs: 1, md: 2 },
+                textAlign: 'center'
+              }}>All {categoryId === null && <i style={{ fontSize: '14px' }}>({products.length})</i>}</Typography>
+            </Box>
             {
-              loading ? <Loader /> : error ? <h4>Something went wrong!</h4> :
-                allCategorys.map((item) => (
-                  <TabItem key={item.node.id} disableRipple label={item.node.name} />
+              // loadingCategory ? <LoadingBar/> : 
+              categoryErr ? <ErrorMsg /> :
+                allCategorys?.map((item) => (
+                  <Box sx={{
+                    border: '1px solid lightgray',
+                    borderRadius: '4px',
+                    bgcolor: categoryId === item.node.id ? 'primary.main' : '#fff',
+                    color: categoryId === item.node.id ? '#fff' : 'inherit',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    opacity: !item.node.isActive ? '.4' : '1'
+                  }} onClick={() => setCategoryId(item.node.id)} key={item?.node.id}>
+                    <Typography sx={{
+                      fontSize: { xs: '13px', md: '16px' },
+                      py: { xs: 1, md: 1.5 },
+                      px: { xs: 1, md: 2 },
+                      textAlign: 'center'
+                    }}>
+                      {item?.node.name}
+                      {categoryId === item.node.id &&
+                        <i style={{ fontSize: '14px' }}>({products.length})</i>
+                      }
+                    </Typography>
+                  </Box>
                 ))
             }
-          </Tabs>
+          </Stack>
         </Stack>
+        {
+          loadinProducts ? <Loader /> : errProducts ? <ErrorMsg /> :
+            products.length === 0 ?
+              <Typography sx={{ p: 5 }}>No Product Found!</Typography> :
+              products?.map(item => (
+                <SlideAnimation key={item.id} direction='up' delay={100 * id} >
+
+                  <Box px={1}>
+                    <ProductCard data={item} />
+                  </Box>
+                </SlideAnimation>
+              ))
+        }
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
             allCategorys.map((item, id) => (
@@ -198,9 +240,9 @@ const CategoryTab = (props) => {
                       item?.node?.products?.edges?.filter(item => !item.node.vendor?.isDeleted).map((data, id) => (
                         <SlideAnimation key={id} direction='up' delay={100 * id} >
 
-                        <Box px={1}>
-                          <ProductCard data={data} />
-                        </Box>
+                          <Box px={1}>
+                            <ProductCard data={data} />
+                          </Box>
                         </SlideAnimation>
                       ))
                     }

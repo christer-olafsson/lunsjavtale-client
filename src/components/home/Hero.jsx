@@ -11,7 +11,7 @@ import { useQuery } from '@apollo/client'
 const Hero = () => {
   const [sideBarOpen, setSideBarOpen] = useState(false)
   const [clientDetails, setClientDetails] = useState({})
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem('lunsjavtale'));
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'))
 
@@ -22,7 +22,7 @@ const Hero = () => {
   });
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'))
+    setToken(localStorage.getItem('lunsjavtale'))
   }, [])
 
   return (

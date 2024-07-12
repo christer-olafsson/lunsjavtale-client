@@ -15,8 +15,6 @@ const AddAddress = ({ closeDialog }) => {
     addressType: '',
     postCode: '',
     city: '',
-    state: '',
-    country: '',
     fullName: '',
     phone: '',
     instruction: '',
@@ -99,13 +97,11 @@ const AddAddress = ({ closeDialog }) => {
         </FormControl>
         <Stack direction='row' gap={2}>
           <Stack flex={1} gap={2}>
-            <TextField onChange={handleInputChange} name='country' label='Country' />
             <TextField onChange={handleInputChange} name='city' label='City' />
             <TextField onChange={handleInputChange} name='fullName' label='Full Name' />
           </Stack>
           <Stack flex={1} gap={2}>
             <TextField helperText={errors.postCode} error={Boolean(errors.postCode)} onChange={handleInputChange} name='postCode' type='number' label='Post Code' />
-            <TextField onChange={handleInputChange} name='state' label='State' />
             <TextField onChange={handleInputChange} name='phone' type='number' label='Phone number' />
           </Stack>
         </Stack>

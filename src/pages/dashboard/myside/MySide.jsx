@@ -49,8 +49,8 @@ const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
 };
 
 const MySide = (props) => {
-  const [products, setProducts] = useState({});
-  const [optionProducts, setOptionProducts] = useState({})
+  const [products, setProducts] = useState([]);
+  const [optionProducts, setOptionProducts] = useState([])
   const [addedProducts, setAddedProducts] = useState([]);
 
   const { loading, error, refetch } = useQuery(PRODUCTS, {
@@ -58,7 +58,7 @@ const MySide = (props) => {
       category: "2"
     },
     onCompleted: (res) => {
-      setProducts(res.products.edges.map(item => item.node))
+      setProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node))
     },
   });
 
@@ -67,7 +67,7 @@ const MySide = (props) => {
       category: "4"
     },
     onCompleted: (res) => {
-      setOptionProducts(res.products.edges.map(item => item.node))
+      setOptionProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node))
     },
   });
 
