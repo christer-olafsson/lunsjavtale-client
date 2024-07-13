@@ -82,7 +82,7 @@ const Setting = () => {
                           </Typography>
                           <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>
                             Expiry Date:
-                            <span style={{ fontWeight: 300, marginLeft: '10px' }}>{format(data.expiry, 'yyyy-MM-dd')} </span>
+                            <span style={{ fontWeight: 300, marginLeft: '10px' }}>{format(data.expiry, 'dd-MM-yyyy')} </span>
                           </Typography>
                         </Box>
                       </Stack>

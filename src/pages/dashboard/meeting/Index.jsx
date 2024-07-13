@@ -14,6 +14,7 @@ import moment from 'moment-timezone';
 import CButton from '../../../common/CButton/CButton';
 import { MEETING_DELETE } from './graphql/mutation';
 import toast from 'react-hot-toast';
+import { nb } from 'date-fns/locale';
 
 const Meeting = () => {
   const [statusFilter, setStatusFilter] = useState('');
@@ -129,7 +130,7 @@ const Meeting = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', }} justifyContent='center'>
-          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.createdOn, 'yyyy-MM-dd')}</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.createdOn, 'dd-MM-yyyy',{locale: nb})}</Typography>
           <Typography sx={{ fontSize: '12px', fontWeight: 500, display: 'inline-flex', alignItems: 'center' }}>
             <AccessTime sx={{ fontSize: '14px' }} /> {formatedNorwayTime(params.row.meetingTime)}</Typography>
           {/* <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'HH:mm')}</Typography> */}
@@ -143,9 +144,10 @@ const Meeting = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', }} justifyContent='center'>
-          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.meetingTime, 'yyyy-MM-dd')}</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.meetingTime, 'dd-MM-yyyy',{locale: nb})}</Typography>
           <Typography sx={{ fontSize: '12px', fontWeight: 500, display: 'inline-flex', alignItems: 'center' }}>
-            <AccessTime sx={{ fontSize: '14px' }} /> {formatedNorwayTime(params.row.meetingTime)}</Typography>
+            <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'p',{locale: nb})}</Typography>
+            {/* <AccessTime sx={{ fontSize: '14px' }} /> {formatedNorwayTime(params.row.meetingTime)}</Typography> */}
           {/* <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'HH:mm')}</Typography> */}
         </Stack>
       )

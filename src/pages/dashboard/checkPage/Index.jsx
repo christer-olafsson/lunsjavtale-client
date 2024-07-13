@@ -45,7 +45,6 @@ const CheckPage = () => {
     lastName: '',
     address: '',
     sector: '',
-    country: '',
     phone: '',
   })
 
@@ -133,7 +132,6 @@ const CheckPage = () => {
       lastName: data.lastName ?? '',
       address: data.address ?? '',
       sector: data.sector ?? '',
-      country: data.country ?? '',
       phone: data.phone ?? '',
     })
   }, [user])
@@ -186,7 +184,7 @@ const CheckPage = () => {
                   value={billingAddressPayload.address}
                   onChange={handleBillingInputChange}
                   name='address'
-                  label="Business Address"
+                  label="Address"
                   variant="standard"
                 />
                 <TextField
@@ -194,13 +192,6 @@ const CheckPage = () => {
                   onChange={handleBillingInputChange}
                   name='sector'
                   label="Sector"
-                  variant="standard"
-                />
-                <TextField
-                  value={billingAddressPayload.country}
-                  onChange={handleBillingInputChange}
-                  name='country'
-                  label="Country"
                   variant="standard"
                 />
                 <TextField

@@ -289,7 +289,7 @@ const AddItem = ({ closeDialog, data }) => {
                   selectedDates={selectedDates}
                   selectsMultiple
                   onChange={onChangeDate}
-                  dateFormat='yyyy-MM-dd'
+                  dateFormat='dd-MM-yyyy'
                   shouldCloseOnSelect={false}
                   disabledKeyboardNavigation
                 />
@@ -309,7 +309,7 @@ const AddItem = ({ closeDialog, data }) => {
                     {
                       selectedDates.sort((a, b) => new Date(a) - new Date(b)).map(date => (
                         <tr key={date}>
-                          <td style={{ whiteSpace: '' }}>{date}</td>
+                          <td style={{ whiteSpace: '' }}>{format(date, 'dd-MM-yyyy')}</td>
                           <td>
                             <Stack sx={{
                               width: { xs: '110px', md: '150px' },
@@ -424,7 +424,7 @@ const AddItem = ({ closeDialog, data }) => {
                               transform: 'rotate(90deg)'
                             }} />
                           </IconButton>
-                          <Typography sx={{ fontSize: { xs: '13px', md: '16px', whiteSpace: 'nowrap' } }}>{date}</Typography>
+                          <Typography sx={{ fontSize: { xs: '13px', md: '16px', whiteSpace: 'nowrap' } }}>{format(date, 'dd-MM-yyyy')}</Typography>
                         </Stack>
                         <Stack
                           sx={{

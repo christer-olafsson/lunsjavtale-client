@@ -92,10 +92,10 @@ const Hero = () => {
                   transition: '.5s ease',
                   boxShadow: { xs: 2, md: 'none' }
                 }}>
-                  <Button onClick={() => setSideBarOpen(false)} href='#hero'>Home</Button>
-                  <Button onClick={() => setSideBarOpen(false)} href='#products'>Products</Button>
+                  <Button onClick={() => setSideBarOpen(false)} href='#hero'>Hjem</Button>
+                  <Button onClick={() => setSideBarOpen(false)} href='#products'>Produkter</Button>
                   <Button onClick={() => setSideBarOpen(false)} href='#faq'>FAQ</Button>
-                  <Button onClick={() => setSideBarOpen(false)} href='#contact'>Contact</Button>
+                  <Button onClick={() => setSideBarOpen(false)} href='#contact'>Kontakt</Button>
                   {
                     token ?
                       <Link style={{ width: '100%' }} to='/dashboard'>
@@ -130,7 +130,7 @@ const Hero = () => {
               gap: { xs: 3, md: 3 },
               justifyContent: 'center'
             }}>
-              <Typography sx={{ mt: { xs: 5, md: 0 }, }}>{clientDetails?.slogan}</Typography>
+              <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 }, }}>{clientDetails?.slogan}</Typography>
               <Typography sx={{
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,

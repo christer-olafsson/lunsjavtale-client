@@ -10,6 +10,7 @@ import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import { REMOVE_CART } from './graphql/mutation';
 import toast from 'react-hot-toast';
+import { format } from 'date-fns';
 
 const ProductCartPage = () => {
   const [addedCartsList, setAddedCartsList] = useState([]);
@@ -54,7 +55,7 @@ const ProductCartPage = () => {
                   <Stack direction={{ xs: 'column', md: 'row' }} justifyContent='space-between' alignItems='center'>
                     <Stack sx={{ width: {xs:'100%',md:'none'} }} alignSelf={{ xs: 'flex-start', md: 'center' }} direction='row' gap={2}>
                       <CalendarMonthOutlined />
-                      <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{data?.date}</Typography>
+                      <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{format(data?.date ,'dd-MM-yyyy')}</Typography>
                     </Stack>
                     <Stack sx={{ width: {xs:'100%',md:'none'} }} direction='row' justifyContent='space-between' alignItems='center'>
                       <Typography sx={{ fontWeight: 600 }}> <span style={{ fontWeight: 400 }}>Total NOK: </span>{data.totalPrice}</Typography>

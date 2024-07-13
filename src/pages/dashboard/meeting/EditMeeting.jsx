@@ -9,6 +9,7 @@ import { MEETING_MUTATION } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
 import { format } from 'date-fns';
+import { nb } from 'date-fns/locale';
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
@@ -151,7 +152,7 @@ const EditMeeting = ({ data, fetchMeeting, closeDialog }) => {
             </Stack>
           </Stack>
           <Box mb={2}>
-            <Typography variant='body2'>Meeting Time <b>({format(data.meetingTime, 'yyyy-MM-dd HH:mm')})</b> </Typography>
+            <Typography variant='body2'>Meeting Time <b>({format(data.meetingTime, 'dd-MM-yyyy p',{ locale: nb })})</b> </Typography>
             <TextField value={payload.meetingTime} onChange={(e) => setPayload({ ...payload, meetingTime: e.target.value })} error={Boolean(errors.meetingTime)} helperText={errors.meetingTime} fullWidth type='datetime-local' />
           </Box>
           <Stack gap={2}>

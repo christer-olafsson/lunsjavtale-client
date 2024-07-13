@@ -40,7 +40,7 @@ const TabItem = styled(Tab)(({ theme }) => ({
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-
+console.log(other)
   return (
     <div
       role="tabpanel"

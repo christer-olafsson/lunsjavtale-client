@@ -99,7 +99,7 @@ const Payment = () => {
                       Primary Payment Method
                     </Typography>
                   }
-                  <Typography sx={{ fontSize: '14px', fontWeight: 300 }}>Added On: {format(data.createdOn, 'yyyy-MM-dd')}</Typography>
+                  <Typography sx={{ fontSize: '14px', fontWeight: 300 }}>Added On: {format(data.createdOn, 'dd-MM-yyyy')}</Typography>
                   <Stack mt={2} direction={{ xs: 'column', md: 'row' }} justifyContent='space-between'>
                     <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'center' }} spacing={2}>
                       <Box sx={{
@@ -123,7 +123,7 @@ const Payment = () => {
                         </Typography>
                         <Typography sx={{ fontSize: '15px', fontWeight: 700 }}>
                           Expiry:
-                          <span style={{ fontWeight: 300, marginLeft: '10px' }}>{format(data.expiry, 'yyyy-MM-dd')} </span>
+                          <span style={{ fontWeight: 300, marginLeft: '10px' }}>{format(data.expiry, 'dd-MM-yyyy')} </span>
                         </Typography>
                       </Box>
                     </Stack>

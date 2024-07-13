@@ -1,4 +1,4 @@
-import { AccessTime, ArrowRight, BorderColor, CalendarMonthOutlined, Search, TrendingFlat } from '@mui/icons-material'
+import { AccessTime, AccessTimeOutlined, ArrowRight, BorderColor, CalendarMonthOutlined, Search, TrendingFlat } from '@mui/icons-material'
 import { Box, Button, IconButton, Input, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import DataTable from '../../../components/dashboard/DataTable'
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,7 +9,8 @@ import { format } from 'date-fns';
 import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import { ME } from '../../../graphql/query';
-import { enUS } from 'date-fns/locale';
+import { enUS, nb } from 'date-fns/locale';
+import moment from 'moment-timezone';
 
 const Orders = () => {
   const [orders, setOrders] = useState([])
@@ -34,6 +35,36 @@ const Orders = () => {
   function handleEdit(row) {
     navigate(`/dashboard/orders/edit/${row.id}`)
   }
+
+
+  function timeUntilNorway(futureDate, mode = "") {
+    if (mode === "Delivered") {
+      return "Delivered";
+    }
+    if (mode === "Cancelled") {
+      return "Cancelled";
+    }
+
+    const now = moment().tz("Europe/Oslo").startOf('day');
+    const future = moment.tz(futureDate, "UTC").tz("Europe/Oslo").startOf('day');
+
+    const diffInMilliseconds = future.diff(now);
+    if (diffInMilliseconds < 0) {
+      return 'Date passed!';
+    }
+
+    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+
+    if (diffInDays === 0) {
+      return 'Delivered Today';
+    } else {
+      return `Delivered in ${diffInDays} days`;
+    }
+  }
+
+
+
+
 
   const columns = [
     // {
@@ -60,15 +91,18 @@ const Orders = () => {
       ),
     },
     {
-      field: 'orderDate', width: 200,
+      field: 'orderDate', width: 170,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Ordered On</Typography>
       ),
       renderCell: (params) => {
         return (
           <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{format(params.row.orderDate, 'yyyy-MMMM-dd')}</Typography>
-            <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, fontWeight: 500, display: 'inline-flex' }}><AccessTime fontSize='small' />{format(params.row.orderDate, 'HH:mm a', { locale: enUS })}</Typography>
+            <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{format(params.row.orderDate, 'dd-MMMM-yyyy')}</Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, fontWeight: 500, display: 'inline-flex' }}>
+              <AccessTime fontSize='small' />
+              {format(params.row.orderDate, 'HH:mm', { locale: nb })}
+            </Typography>
           </Stack>
         )
       }
@@ -79,36 +113,16 @@ const Orders = () => {
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Delivery Date</Typography>
       ),
       renderCell: (params) => (
-        <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
+        <Stack sx={{ height: '100%' }} alignItems='center' direction='row'>
           <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600, display: 'inline-flex', gap: '5px' }}>
             <CalendarMonthOutlined fontSize='small' />
-            {format(params.row.deliveryDate, 'yyyy-MMMM-dd')}
+            {format(params.row.deliveryDate, 'dd-MMMM-yyyy')}
           </Typography>
         </Stack>
       )
     },
-
-    // {
-    //   field: 'orderDetails', width: 250,
-    //   renderHeader: () => (
-    //     <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Details</Typography>
-    //   ),
-    //   renderCell: (params) => {
-    //     const { row } = params;
-    //     return (
-    //       <Stack direction='row' gap={2}>
-    //         <img style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px', padding: '5px' }} src={row.fileUrl ?? ''} alt="" />
-    //         <Box>
-    //           <Typography sx={{ fontSize: { xs: '14px', md: '16px' }, fontWeight: 600 }}>{row.name}</Typography>
-    //           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>kr {row.priceWithTax} <b>x{row.quantity}</b> </Typography>
-    //         </Box>
-    //       </Stack>
-    //     )
-    //   }
-    // },
-    // { field: 'paymentInfo', headerName: 'Payment Info', width: 150 },
     {
-      field: 'totalPrice', headerName: '', width: 200,
+      field: 'totalPrice', headerName: '', width: 150,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Total Price</Typography>
       ),
@@ -149,29 +163,20 @@ const Orders = () => {
         )
       }
     },
-
-    // {
-    //   field: 'action', headerName: 'Action', width: 150,
-    //   renderHeader: () => (
-    //     <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Action</Typography>
-    //   ),
-    //   renderCell: (params) => {
-    //     return (
-    //       <IconButton sx={{
-    //         bgcolor: 'light.main',
-    //         borderRadius: '5px',
-    //         width: { xs: '30px', md: '40px' },
-    //         height: { xs: '30px', md: '40px' },
-    //       }} onClick={() => handleEdit(params.row)}>
-    //         <BorderColor fontSize='small' />
-    //       </IconButton>
-    //     )
-    //   },
-    // },
+    {
+      field: 'timeUntil', headerName: '', width: 200,
+      renderCell: (params) => (
+        <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
+          <Typography variant='body2' sx={{ fontWeight: 500, display: 'inline-flex' }}>
+            <AccessTimeOutlined sx={{ mr: .5 }} fontSize='small' />
+            {timeUntilNorway(params.row.deliveryDate, params.row.status)}
+          </Typography>
+        </Stack>
+      )
+    },
   ];
 
   const rows = orders.map(item => {
-    const orderCart = item.orderCarts.edges[0]?.node
     return {
       id: item.id,
       orderDate: item.createdOn,
@@ -185,7 +190,7 @@ const Orders = () => {
     }
   })
 
-
+  console.log(rows)
   return (
     <Box maxWidth='xl'>
       <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent='space-between'>

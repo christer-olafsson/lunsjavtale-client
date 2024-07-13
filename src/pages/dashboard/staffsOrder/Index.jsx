@@ -113,7 +113,7 @@ const StaffsOrder = () => {
         return (
           <Stack sx={{ height: '100%' }} justifyContent='center'>
             <Typography sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
-              <CalendarMonthOutlined fontSize='small' /> {format(row.createdOn, 'yyyy-MM-dd')}</Typography>
+              <CalendarMonthOutlined fontSize='small' /> {format(row.createdOn, 'dd-MM-yyyy')}</Typography>
           </Stack>
         )
       }

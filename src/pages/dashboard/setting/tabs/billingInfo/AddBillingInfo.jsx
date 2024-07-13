@@ -14,7 +14,6 @@ const AddBillingInfo = () => {
     lastName: '',
     address: '',
     sector: '',
-    country: '',
     phone: '',
   })
 
@@ -61,7 +60,6 @@ const AddBillingInfo = () => {
       lastName: data.lastName ?? '',
       address: data.address ?? '',
       sector: data.sector ?? '',
-      country: data.country ?? '',
       phone: data.phone ?? '',
     })
   }, [user])
@@ -100,15 +98,6 @@ const AddBillingInfo = () => {
         />
       </Stack>
       <Stack direction='row' flex={1} gap={2} >
-        <TextField
-          fullWidth
-          value={payload.country}
-          onChange={handleBillingInputChange}
-          name='country'
-          label="Country"
-          variant="standard"
-          disabled={!editOn}
-        />
         <TextField
           fullWidth
           value={payload.phone}
