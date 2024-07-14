@@ -40,7 +40,7 @@ const TabItem = styled(Tab)(({ theme }) => ({
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-console.log(other)
+  console.log(other)
   return (
     <div
       role="tabpanel"
@@ -125,7 +125,7 @@ const CategoryTab = (props) => {
       setProducts(data)
     },
   });
-
+  console.log(allCategorys)
   return (
     <Box id='products'>
       <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 }, p: 0 }}>
@@ -195,14 +195,15 @@ const CategoryTab = (props) => {
                     deviceType={props.deviceType}
                   >
                     {
-                      item?.node?.products?.edges?.filter(item => !item.node.vendor?.isDeleted).map((data, id) => (
-                        <SlideAnimation key={id} direction='up' delay={100 * id} >
+                      item?.node?.products?.edges.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>No Products Found!</Typography> :
+                        item?.node?.products?.edges?.filter(item => !item.node.vendor?.isDeleted).map((data, id) => (
+                          <SlideAnimation key={id} direction='up' delay={100 * id} >
 
-                        <Box px={1}>
-                          <ProductCard data={data} />
-                        </Box>
-                        </SlideAnimation>
-                      ))
+                            <Box px={1}>
+                              <ProductCard data={data} />
+                            </Box>
+                          </SlideAnimation>
+                        ))
                     }
                   </Carousel>
                 </Box>

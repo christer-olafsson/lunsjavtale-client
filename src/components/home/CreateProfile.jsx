@@ -37,7 +37,7 @@ const CreateProfile = () => {
             <SlideAnimation direction='left' delay={300}>
               <Link to='/search'>
                 <CButton variant='outlined' style={{ height: { xs: '37px', md: '56px' }, width: '150px' }}>
-                  La oss prøve
+                  Bli kunde
                 </CButton>
               </Link>
             </SlideAnimation>
@@ -76,7 +76,7 @@ const CreateProfile = () => {
             <SlideAnimation direction='right' delay={300}>
               <Link to='/search'>
                 <CButton variant='outlined' style={{ height: { xs: '37px', md: '56px' }, width: '150px' }}>
-                  Kom i gang
+                  Bli kunde
                 </CButton>
               </Link>
             </SlideAnimation>
@@ -102,7 +102,7 @@ const CreateProfile = () => {
             <SlideAnimation direction='left' delay={400}>
               <Link to='/search'>
                 <CButton variant='outlined' style={{ height: { xs: '37px', md: '56px' }, width: '150px' }}>
-                  Bestill nå
+                  Bli kunde
                 </CButton>
               </Link>
             </SlideAnimation>

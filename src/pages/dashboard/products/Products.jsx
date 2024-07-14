@@ -1,4 +1,4 @@
-import { Box, Paper, Stack, Typography } from '@mui/material'
+import { Box, Pagination, Paper, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import MiniCart from './MiniCart';
 import { useQuery } from '@apollo/client';
@@ -11,6 +11,16 @@ const Products = () => {
   const [allCategorys, setAllCategorys] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
   const [products, setProducts] = useState([])
+  const [page, setPage] = useState(1);
+  const [productsLength, setProductsLength] = useState([])
+
+  useQuery(PRODUCTS, {
+    onCompleted: (res) => {
+      const data = res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node)
+      setProductsLength(data.length)
+    },
+  });
+
 
 
   const { error: categoryErr } = useQuery(GET_ALL_CATEGORY, {
@@ -22,7 +32,9 @@ const Products = () => {
 
   const { loading: loadinProducts, error: errProducts } = useQuery(PRODUCTS, {
     variables: {
-      category: categoryId
+      category: categoryId,
+      offset: (page - 1) * 10,
+      first: 12
     },
     onCompleted: (res) => {
       const data = res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node)
@@ -62,7 +74,7 @@ const Products = () => {
                 py: { xs: 1, md: 1.5 },
                 px: { xs: 1, md: 2 },
                 textAlign: 'center'
-              }}>All {categoryId === null && <i style={{ fontSize: '14px' }}>({products.length})</i>}</Typography>
+              }}>All {categoryId === null && <i style={{ fontSize: '14px' }}>({productsLength})</i>}</Typography>
             </Box>
             {
               // loadingCategory ? <LoadingBar/> : 
@@ -93,6 +105,7 @@ const Products = () => {
             }
           </Stack>
         </Stack>
+       
         <Stack direction='row' flexWrap='wrap' gap={2} px={{ xs: 0, lg: 3 }}>
           {
             loadinProducts ? <Loader /> : errProducts ? <ErrorMsg /> :
@@ -102,6 +115,10 @@ const Products = () => {
                   <SmallProductCard data={item} key={item.id} />
                 ))
           }
+        </Stack>
+        <Stack width='100%' direction='row' justifyContent='space-between' my={2}>
+          <Box />
+          <Pagination count={Math.ceil(productsLength / 10)} page={page} onChange={(e, value) => setPage(value)} />
         </Stack>
       </Paper >
 

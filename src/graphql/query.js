@@ -98,6 +98,10 @@ query{
             availability
             discountAvailability
             isDeleted
+            vendor{
+                id
+                isDeleted
+              }
             attachments{
               edges{
                 node{
@@ -125,8 +129,8 @@ query{
 `
 
 export const PRODUCTS = gql`
-  query Products ($id: ID, $category: String) {
-      products(id:$id, category: $category, isDeleted: false,availability: true){
+  query Products ($id: ID, $category: String,$offset:Int,$first: Int) {
+      products(id:$id, category: $category, isDeleted: false,availability: true,offset: $offset,first: $first ){
         edges{
           node{
           id
