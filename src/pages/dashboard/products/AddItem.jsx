@@ -342,27 +342,30 @@ const AddItem = ({ closeDialog, data }) => {
                   </tbody>
                 </table>
               </Box>
-              <Autocomplete
-                multiple
-                options={allAllergies}
-                disableCloseOnSelect
-                onChange={(event, value) => setSelectedAllergies(value.map(i => i.id))}
-                getOptionLabel={(option) => option.name}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                    />
-                    {option.name}
-                  </li>
-                )}
-                renderInput={(params) => (
-                  <TextField {...params} label="Select Allergies" />
-                )}
-              />
+              {
+                data?.category.id !== '4' &&
+                <Autocomplete
+                  multiple
+                  options={allAllergies}
+                  disableCloseOnSelect
+                  onChange={(event, value) => setSelectedAllergies(value.map(i => i.id))}
+                  getOptionLabel={(option) => option.name}
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                      />
+                      {option.name}
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Select Allergies" />
+                  )}
+                />
+              }
               {
                 user?.me.role === 'company-employee' ?
                   <CButton onClick={handleAddToCart} isLoading={loading} variant='contained' style={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>Add To Cart</CButton>

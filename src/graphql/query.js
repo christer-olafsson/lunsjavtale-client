@@ -77,7 +77,7 @@ export const CLIENT_DETAILS = gql`
 `
 
 export const GET_ALL_CATEGORY = gql`
-query{
+query($vendor: String){
   categories{
   edges{
     node{
@@ -85,7 +85,7 @@ query{
       name
       description
       isActive
-      products(isDeleted: false, availability : true){
+      products(isDeleted: false, availability : true,vendor: $vendor){
         edges{
           node{
             id
@@ -129,8 +129,8 @@ query{
 `
 
 export const PRODUCTS = gql`
-  query Products ($id: ID, $category: String,$offset:Int,$first: Int) {
-      products(id:$id, category: $category, isDeleted: false,availability: true,offset: $offset,first: $first ){
+  query Products ($id: ID, $category: String,$offset:Int,$first: Int,$vendor: String) {
+      products(id:$id, category: $category, isDeleted: false,availability: true,offset: $offset,first: $first,vendor: $vendor ){
         edges{
           node{
           id
@@ -143,6 +143,7 @@ export const PRODUCTS = gql`
           isDeleted
           title
           contains
+          isFeatured
           vendor{
             id
             name

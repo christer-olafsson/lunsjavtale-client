@@ -53,12 +53,9 @@ const MySide = (props) => {
   const [optionProducts, setOptionProducts] = useState([])
   const [addedProducts, setAddedProducts] = useState([]);
 
-  const { loading, error, refetch } = useQuery(PRODUCTS, {
-    variables: {
-      category: "2"
-    },
+  const { loading, error } = useQuery(PRODUCTS, {
     onCompleted: (res) => {
-      setProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node))
+      setProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted && item.node.isFeatured).map(item => item.node))
     },
   });
 
@@ -93,7 +90,7 @@ const MySide = (props) => {
                 color: '#fff',
                 textAlign: 'center',
                 borderRadius: '5px',
-              }}>{products[0]?.category?.name}</Typography>
+              }}>Featured</Typography>
               <Box className='custom-scrollbar' sx={{
                 height: '470px',
                 overflowY: 'auto',

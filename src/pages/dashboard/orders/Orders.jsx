@@ -190,7 +190,7 @@ const Orders = () => {
     }
   })
 
-  console.log(rows)
+
   return (
     <Box maxWidth='xl'>
       <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent='space-between'>

@@ -22,7 +22,7 @@ const StaffDetails = () => {
       setUser(res.user)
     },
   });
-  console.log(user)
+
   return (
     <Box maxWidth='xl'>
       <Stack direction='row' alignItems='center' gap={2} mb={2}>

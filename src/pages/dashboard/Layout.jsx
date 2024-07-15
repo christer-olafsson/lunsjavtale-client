@@ -17,7 +17,7 @@ import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
 import toast from 'react-hot-toast';
 import { useMutation, useQuery } from '@apollo/client';
-import { ME } from '../../graphql/query';
+import { CLIENT_DETAILS, ME } from '../../graphql/query';
 import SmallNotification from './notification/SmallNotification';
 import OrderPayment from './payment/OrderPayment';
 import CDialog from '../../common/dialog/CDialog';
@@ -74,9 +74,18 @@ function Layout() {
   const [openNotification, setOpenNotification] = useState(false);
   const [openPaymentDialog, setOpenPaymentDialog] = useState(false)
   const [unreadNotificationCount, setUnreadNotificationCount] = useState([])
+  const [clientDetails, setClientDetails] = useState({})
 
 
   const { pathname } = useLocation()
+
+
+  useQuery(CLIENT_DETAILS, {
+    onCompleted: (res) => {
+      setClientDetails(res.clientDetails)
+    },
+  });
+
 
   const productDetailsMatchFromMyside = useMatch('/dashboard/from-myside/products/:id')
   const productDetailsMatchFromProducts = useMatch('/dashboard/from-products/products/:id')
@@ -94,7 +103,6 @@ function Layout() {
 
   useQuery(UNREAD_NOTIFICATION_COUNT, {
     onCompleted: (res) => {
-      console.log(res)
       setUnreadNotificationCount(res.unreadNotificationCount)
     }
   });
@@ -151,7 +159,7 @@ function Layout() {
             <Typography sx={{ fontWeight: 600 }}>
               Account Restricted.
             </Typography>
-            <a style={{ fontSize: '13px' }} href="https://wa.me/+4748306377" target='blank'>Contact</a>
+            <a style={{ fontSize: '13px' }} href={`https://wa.me/${clientDetails?.contact}`} target='blank'>Contact</a>
           </Stack>
         }
         <Typography sx={{

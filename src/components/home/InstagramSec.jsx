@@ -1,8 +1,8 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SlideAnimation } from '../animation/Animation'
 import { InstagramEmbed } from 'react-social-media-embed'
-import { FOLLOW_US_LIST } from '../../graphql/query'
+import { CLIENT_DETAILS, FOLLOW_US_LIST } from '../../graphql/query'
 import { useQuery } from '@apollo/client'
 import Loader from '../../common/loader/Index'
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg'
@@ -34,14 +34,34 @@ const imgContainerBtn = {
   borderRadius: '8px'
 }
 
-const instagramData = [
-  'https://www.instagram.com/p/C9FG0npNotp',
-  'https://www.instagram.com/p/C9EqAWjoyHY/?img_index=1',
-  'https://www.instagram.com/p/C8mCSsDIbJ9/'
-]
-
 const InstagramSec = () => {
   const [links, setLinks] = useState([])
+  const [clientDetails, setClientDetails] = useState({})
+  const [socialLinkJson, setSocialLinkJson] = useState({})
+  const [socialLink, setSocialLink] = useState({
+    facebook: '',
+    instagram: '',
+    linkedIn: ''
+  })
+
+  useQuery(CLIENT_DETAILS, {
+    onCompleted: (res) => {
+      setClientDetails(res.clientDetails)
+    },
+  });
+
+  useEffect(() => {
+    setSocialLinkJson(JSON.parse(clientDetails.socialMediaLinks ?? null))
+  }, [clientDetails])
+
+
+  useEffect(() => {
+    setSocialLink({
+      facebook: socialLinkJson?.facebook ?? '',
+      instagram: socialLinkJson?.instagram ?? '',
+      linkedIn: socialLinkJson?.linkedIn ?? ''
+    })
+  }, [socialLinkJson])
 
   const { loading, error } = useQuery(FOLLOW_US_LIST, {
     onCompleted: (res) => {
@@ -57,9 +77,9 @@ const InstagramSec = () => {
         py: '12px', px: '24px',
         borderRadius: '8px', mb: 2
       }} >
-        <SlideAnimation direction='up'>
-          Følg oss på Instagram
-        </SlideAnimation>
+        {/* <SlideAnimation direction='up'> */}
+          <a style={{ textDecoration: 'none', color: 'inherit' }} href={socialLink?.instagram} target='blank'>Følg oss på Instagram</a>
+        {/* </SlideAnimation> */}
       </Box>
       <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>
         <SlideAnimation direction='up' delay={100}>

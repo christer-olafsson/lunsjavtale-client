@@ -166,3 +166,43 @@ export const ADDED_PRODUCTS = gql`
   }
 }
 `
+export const VENDORS = gql`
+  query($name: String,$hasProduct: Boolean){
+    vendors(name: $name,hasProduct:$hasProduct){
+      edges{
+        node{
+          id
+          createdOn
+          name
+          email
+          contact
+          postCode
+          soldAmount
+          isBlocked
+          logoUrl
+          fileId
+          isDeleted
+          products{
+            edges{
+              node{
+                id
+              }
+            }
+          }
+          users{
+          edges{
+            node{
+              id
+              username
+              firstName
+              lastName
+              role
+              photoUrl
+            }
+          }
+        }
+        }
+      }
+   }
+}
+`

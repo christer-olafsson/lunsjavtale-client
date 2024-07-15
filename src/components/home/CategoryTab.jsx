@@ -40,7 +40,7 @@ const TabItem = styled(Tab)(({ theme }) => ({
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-  console.log(other)
+ 
   return (
     <div
       role="tabpanel"
@@ -125,7 +125,7 @@ const CategoryTab = (props) => {
       setProducts(data)
     },
   });
-  console.log(allCategorys)
+
   return (
     <Box id='products'>
       <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 }, p: 0 }}>

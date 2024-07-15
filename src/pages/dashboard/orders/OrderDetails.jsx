@@ -37,7 +37,7 @@ const OrderDetails = () => {
       setOrder(res.order)
     },
   });
-  console.log(order)
+  
   const handleEditDialog = (id) => {
     setEditOrderId(id)
     setEditOrderDialogOpen(true)
