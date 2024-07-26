@@ -37,7 +37,7 @@ const OrderDetails = () => {
       setOrder(res.order)
     },
   });
-  
+
   const handleEditDialog = (id) => {
     setEditOrderId(id)
     setEditOrderDialogOpen(true)
@@ -69,13 +69,17 @@ const OrderDetails = () => {
           <Typography sx={{
             display: 'inline-flex',
             padding: '5px 12px',
-            bgcolor: order?.status === 'Cancelled'
+            bgcolor: order.status === 'Cancelled'
               ? 'red'
-              : order?.status === 'Confirmed'
+              : order.status === 'Confirmed'
                 ? 'lightgreen'
-                : order?.status === 'Delivered'
+                : order.status === 'Delivered'
                   ? 'green'
-                  : 'yellow',
+                  : order.status === 'Processing'
+                    ? '#8294C4'
+                    : order.status === 'Ready-to-deliver'
+                      ? '#01B8A9'
+                      : 'yellow',
             color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' : '#fff',
             borderRadius: '50px',
           }}>

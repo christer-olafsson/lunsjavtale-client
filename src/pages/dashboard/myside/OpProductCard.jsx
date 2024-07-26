@@ -6,8 +6,23 @@ import AddItem from '../products/AddItem';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { ME } from '../../../graphql/query';
+import SlideDrawer from '../products/SlideDrawer';
+import FoodDetails from '../products/FoodDetails';
 
 const OpProductCard = ({ item }) => {
+  const [openSlideDrawer, setOpenSlideDrawer] = useState(false);
+
+  const toggleDrawer = (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setOpenSlideDrawer(!openSlideDrawer);
+  };
+
   const [openOptionProductAddDialog, setOpenOptionProductAddDialog] = useState(false);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -44,7 +59,7 @@ const OpProductCard = ({ item }) => {
       <Stack alignItems='center' sx={{
         bgcolor: 'rgb(0,0,0,10'
       }}>
-        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#fff', textAlign: 'center',mb:1 }}>{item.name}</Typography>
+        <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#fff', textAlign: 'center', mb: 1 }}>{item.name}</Typography>
         <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end' }}>
           <Box sx={{
             py: { xs: '8px', md: '6px' },
@@ -66,20 +81,22 @@ const OpProductCard = ({ item }) => {
             <Add fontSize='small' />
           </IconButton>
         </Box>
-        <Link to={`/dashboard/from-myside/products/${item.id}`}>
-          <button style={{
-            backgroundColor: 'transparent',
-            color:'#fff',
-            outline:'none',
-            border: '1px solid gray',
-            borderRadius:'50px',
-            paddingLeft:'20px',
-            paddingRight:'20px',
-            marginTop:'10px',
-            cursor:'pointer'
-          }}>Details</button>
-        </Link>
+        <button onClick={toggleDrawer} style={{
+          backgroundColor: 'transparent',
+          color: '#fff',
+          outline: 'none',
+          border: '1px solid gray',
+          borderRadius: '50px',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+          marginTop: '10px',
+          cursor: 'pointer'
+        }}>Details</button>
       </Stack>
+      {/* food details page */}
+      <SlideDrawer openSlideDrawer={openSlideDrawer} toggleDrawer={toggleDrawer}>
+        <FoodDetails data={item} toggleDrawer={toggleDrawer} />
+      </SlideDrawer>
       <CDialog fullScreen={isMobile} maxWidth='md' openDialog={openOptionProductAddDialog}>
         <AddItem closeDialog={() => setOpenOptionProductAddDialog(false)} data={item} option={true} />
       </CDialog>

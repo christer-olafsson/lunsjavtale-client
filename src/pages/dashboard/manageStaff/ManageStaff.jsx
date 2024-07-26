@@ -163,12 +163,12 @@ const ManageStaff = () => {
             <Typography sx={{
               fontSize: '14px',
               fontWeight: 600,
-              bgcolor: params.row.dueAmount === '0' ? 'gray.main' : '#F7DCD9',
-              color: params.row.dueAmount === '0' ? 'inherit' : 'red',
+              bgcolor: '#F7DCD9',
+              color: 'red',
               borderRadius: '4px',
               textAlign: 'center',
               p: .5
-            }}>{row.dueAmount ?? <b>00 </b>} kr</Typography>
+            }}>{row.dueAmount} kr</Typography>
           </Stack>
         )
       }

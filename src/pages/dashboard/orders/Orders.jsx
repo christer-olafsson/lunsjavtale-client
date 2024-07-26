@@ -50,7 +50,7 @@ const Orders = () => {
 
     const diffInMilliseconds = future.diff(now);
     if (diffInMilliseconds < 0) {
-      return 'Date passed!';
+      return 'Date passed';
     }
 
     const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
@@ -152,7 +152,11 @@ const Orders = () => {
                 ? 'lightgreen'
                 : row.status === 'Delivered'
                   ? 'green'
-                  : 'yellow',
+                  : row.status === 'Processing'
+                    ? '#8294C4'
+                    : row.status === 'Ready-to-deliver'
+                      ? '#01B8A9'
+                      : 'yellow',
             color: row.status === 'Placed'
               ? 'dark' : row.status === 'Payment-pending'
                 ? 'dark' : row.status === 'Confirmed' ? 'dark' : '#fff',

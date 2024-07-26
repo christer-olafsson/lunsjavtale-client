@@ -19,7 +19,6 @@ import PassReset from './pages/passReset/PassReset'
 import { useQuery } from '@apollo/client'
 import { ME } from './graphql/query'
 import Meeting from './pages/dashboard/meeting/Index'
-import FoodDetails from './pages/dashboard/products/FoodDetails'
 import CheckPage from './pages/dashboard/checkPage/Index'
 import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
 import StaffsOrder from './pages/dashboard/staffsOrder/Index'
@@ -70,7 +69,6 @@ function App() {
           <Route path='/dashboard/notifications' element={<Notifications />} />
           <Route path='/dashboard/staffs-order' element={<StaffsOrder />} />
           <Route path='/dashboard/products' element={<Products />} />
-          <Route path='/dashboard/:path/products/:id' element={<FoodDetails />} />
           {
             !user?.me.company?.isBlocked &&
             <>

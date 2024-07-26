@@ -137,6 +137,7 @@ const MySide = (props) => {
                   centerMode={true}
                   responsive={responsive}
                   pauseOnHover
+                  
                   autoPlay={true}
                   infinite
                   renderButtonGroupOutside={true}

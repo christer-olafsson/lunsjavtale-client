@@ -24,7 +24,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
     lastName: '',
     username: '',
     email: '',
-    role: '',
+    role: 'company-employee',
     phone: ''
   });
 
@@ -143,11 +143,11 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
                   label="Staff Role"
                   onChange={handleRoleChange}
                 >
+                  <MenuItem selected value={'company-employee'}>Employee</MenuItem>
                   {
                     user?.me.role === 'company-owner' &&
                     <MenuItem value={'company-manager'}>Manager</MenuItem>
                   }
-                  <MenuItem value={'company-employee'}>Employee</MenuItem>
                 </Select>
                 {errors.role && <FormHelperText>{errors.role}</FormHelperText>}
               </FormControl>
