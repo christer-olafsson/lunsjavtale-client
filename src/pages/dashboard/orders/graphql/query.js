@@ -13,6 +13,7 @@ export const ORDERS = gql`
           status
           deliveryDate
           finalPrice
+          note
           orderCarts(addedFor: "141"){
             edges{
               node{
@@ -87,13 +88,23 @@ export const ORDERS = gql`
 export const ORDER = gql`
   query ($id:ID!,$addedFor: String) {
     order(id:$id){
-    id
-    createdOn
-    isDeleted
-    deliveryDate
-    finalPrice
-    status
-    shippingAddress{
+      id
+      createdOn
+      isDeleted
+      deliveryDate
+      finalPrice
+      status
+      createdOn
+      isDeleted
+      paymentType
+      companyAllowance
+      shippingCharge
+      dueAmount
+      discountAmount
+      paidAmount
+      isFullPaid
+      note
+      shippingAddress{
       address
       city
       state

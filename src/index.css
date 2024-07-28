@@ -121,3 +121,22 @@ html {
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
+
+/* Incoice table */
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.invoice-table th,
+.invoice-table td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px;
+}
+
+.invoice-table th {
+  background-color: #63883B;
+  /* background-color: #1F2626; */
+  color:#fff
+}

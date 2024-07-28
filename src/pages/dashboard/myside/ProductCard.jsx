@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Add, ArrowRightAltOutlined } from '@mui/icons-material'
+import { Add, ArrowRight, ArrowRightAltOutlined } from '@mui/icons-material'
 import { Box, Button, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog';
@@ -63,7 +63,7 @@ const ProductCard = ({ data }) => {
           {/* <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography> */}
         </Stack>
         <Stack direction='row' alignItems='center' gap={2} justifyContent='space-between'>
-          <Button onClick={toggleDrawer}>
+          <Button onClick={toggleDrawer} endIcon={<ArrowRight/>} >
             Details
           </Button>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>

@@ -1,4 +1,4 @@
-import { Add, ArrowBack, ArrowDropDown, ArrowDropDownOutlined, BorderColor, DriveFileRenameOutlineOutlined, Edit, Search } from '@mui/icons-material';
+import { Add, ArrowBack, ArrowDropDown, ArrowDropDownOutlined, BorderColor, Download, DriveFileRenameOutlineOutlined, Edit, KeyboardDoubleArrowRightOutlined, Search } from '@mui/icons-material';
 import { Box, Button, Chip, Collapse, Divider, IconButton, Input, Rating, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,6 +11,9 @@ import CDialog from '../../../common/dialog/CDialog';
 import EditOrder from './EditOrder';
 import { ME } from '../../../graphql/query';
 import SelectedStaffs from './SelectedStaffs';
+import { format } from 'date-fns';
+import SlideDrawer from '../products/SlideDrawer';
+import InvoiceTemplate, { downloadPDF } from './InvoiceTemplate';
 
 
 const OrderDetails = () => {
@@ -19,12 +22,24 @@ const OrderDetails = () => {
   const [editOrderDialogOpen, setEditOrderDialogOpen] = useState(false)
   const [editOrderId, setEditOrderId] = useState('')
   const [selectedStaffDetailsId, setSelectedStaffDetailsId] = useState('')
+  const [openSlideDrawer, setOpenSlideDrawer] = useState(false);
 
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'))
   const { id } = useParams()
   const { data: user } = useQuery(ME)
   const navigate = useNavigate()
+
+  const toggleDrawer = (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setOpenSlideDrawer(!openSlideDrawer);
+  };
 
   const { loading, error: orderErr } = useQuery(ORDER, {
     fetchPolicy: 'network-only',
@@ -61,32 +76,97 @@ const OrderDetails = () => {
         </IconButton>
         <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Order Details</Typography>
       </Stack>
+      {/* invoice page */}
+      <InvoiceTemplate data={order} toggleDrawer={toggleDrawer} />
+      {/* </SlideDrawer> */}
+      {/* <SlideDrawer openSlideDrawer={openSlideDrawer} toggleDrawer={toggleDrawer}>
+        <InvoiceTemplate data={order} toggleDrawer={toggleDrawer} />
+      </SlideDrawer> */}
       <Box mt={3}>
-        <Typography>Delivery Date: <b>{order?.deliveryDate}</b> </Typography>
-        <Typography sx={{ mb: 2 }}>Total Price: <b>{order?.finalPrice}</b> kr </Typography>
         {
           order?.status &&
-          <Typography sx={{
-            display: 'inline-flex',
-            padding: '5px 12px',
-            bgcolor: order.status === 'Cancelled'
-              ? 'red'
-              : order.status === 'Confirmed'
-                ? 'lightgreen'
-                : order.status === 'Delivered'
-                  ? 'green'
-                  : order.status === 'Processing'
-                    ? '#8294C4'
-                    : order.status === 'Ready-to-deliver'
-                      ? '#01B8A9'
-                      : 'yellow',
-            color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' : '#fff',
-            borderRadius: '50px',
-          }}>
-            Status:
-            <b style={{ marginLeft: '5px' }}> {order?.status}</b>
-          </Typography>
+          <Stack direction='row' gap={3}>
+            <Typography sx={{
+              display: 'inline-flex',
+              padding: '5px 12px', mb: 2,
+              bgcolor: order.status === 'Cancelled'
+                ? 'red'
+                : order.status === 'Confirmed'
+                  ? 'lightgreen'
+                  : order.status === 'Delivered'
+                    ? 'green'
+                    : order.status === 'Processing'
+                      ? '#8294C4'
+                      : order.status === 'Ready-to-deliver'
+                        ? '#01B8A9'
+                        : 'yellow',
+              color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' : '#fff',
+              borderRadius: '50px',
+            }}>
+              <b style={{ marginLeft: '5px' }}> {order?.status}</b>
+            </Typography>
+            {
+              (order?.status === 'Delivered' || order?.status === 'Payment-pending') &&
+              <Button size='small'
+                // onClick={toggleDrawer}
+                onClick={() => downloadPDF()}
+                sx={{ borderRadius: '50px', height: '30px' }} variant='outlined' startIcon={<Download />}>Invoice</Button>
+            }
+          </Stack>
         }
+        <Stack>
+          <Stack direction='row'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Order ID:</b></Typography>
+            <Typography>#{order?.id}</Typography>
+          </Stack>
+          <Stack direction='row'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Created On:</b></Typography>
+            <Box >
+              {
+                order?.createdOn &&
+                <Typography sx={{ whiteSpace: 'nowrap' }}>
+                  <b>{format(order?.createdOn, 'dd-MM-yyyy')}</b>
+                  <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(order?.createdOn, 'HH:mm')}</span>
+                </Typography>
+              }
+            </Box>
+          </Stack>
+          <Stack direction='row'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Delivery Date:</b></Typography>
+            <Typography>{order?.deliveryDate}</Typography>
+          </Stack>
+          <Stack direction='row'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Payment Type:</b></Typography>
+            <Typography>{order?.paymentType}</Typography>
+          </Stack>
+          <Stack direction='row'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Discount Amount:</b></Typography>
+            <Typography>{order?.discountAmount}</Typography>
+          </Stack>
+          <Stack direction='row'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Company Allowance:</b></Typography>
+            <Typography>{order?.companyAllowance ?? '0'} %</Typography>
+          </Stack>
+          <Stack direction='row'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Due Amount:</b></Typography>
+            <Typography>{order?.dueAmount}</Typography>
+          </Stack>
+          <Stack direction='row'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Paid Amount:</b></Typography>
+            <Typography>{order?.paidAmount}</Typography>
+          </Stack>
+          {
+            order?.note &&
+            <Typography sx={{
+              fontSize: '16px',
+              border: '1px solid lightgray',
+              p: 1, mt: 1, borderRadius: '8px',
+              maxWidth: '400px'
+            }}>
+              Note: <b>{order?.note}</b>
+            </Typography>
+          }
+        </Stack>
         {/* <Chip label={`Status: ${order?.status}`} /> */}
         <Divider sx={{ mt: 2 }} />
 

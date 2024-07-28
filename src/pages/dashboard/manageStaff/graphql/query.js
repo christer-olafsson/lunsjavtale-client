@@ -76,7 +76,7 @@ export const USER = gql`
 
 export const GET_INGREDIENTS = gql`
   query{
-    ingredients{
+    ingredients(isDeleted: false){
       edges{
         node{
           id

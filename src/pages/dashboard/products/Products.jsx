@@ -70,7 +70,7 @@ const Products = () => {
 
   useEffect(() => {
     setPage(1)
-  }, [categoryId])
+  }, [categoryId,selectedVendor])
 
   return (
     <Stack maxWidth='xl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
