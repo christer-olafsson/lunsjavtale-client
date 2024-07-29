@@ -11,30 +11,24 @@ import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import { ME } from '../../../graphql/query';
 import { enUS, nb } from 'date-fns/locale';
 import moment from 'moment-timezone';
+import LoadingBar from '../../../common/loadingBar/LoadingBar';
 
 const Orders = () => {
   const [orders, setOrders] = useState([])
-
-  const navigate = useNavigate()
-
-  const { data: user } = useQuery(ME)
+  const [orderId, setOrderId] = useState('')
 
 
   const { loading, error: orderErr } = useQuery(ORDERS, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    // variables: {
-    //   addedFor: '141'
-    // },
+    variables: {
+      id: orderId
+    },
     onCompleted: (res) => {
       setOrders(res.orders.edges.map(item => item.node));
     }
   });
 
-
-  function handleEdit(row) {
-    navigate(`/dashboard/orders/edit/${row.id}`)
-  }
 
 
   function timeUntilNorway(futureDate, mode = "") {
@@ -63,20 +57,7 @@ const Orders = () => {
   }
 
 
-
-
-
   const columns = [
-    // {
-    //   field: 'details', headerName: '', width: 70,
-    //   renderCell: (params) => (
-    //     <Link to={`/dashboard/orders/details/${params.row.id}`}>
-    //       <IconButton>
-    //         <ArrowRight />
-    //       </IconButton>
-    //     </Link>
-    //   ),
-    // },
     {
       field: 'id', headerName: '', width: 70,
       renderHeader: () => (
@@ -184,36 +165,40 @@ const Orders = () => {
     return {
       id: item.id,
       orderDate: item.createdOn,
-      // name: orderCart.item.name,
-      // quantity: orderCart.quantity,
-      // priceWithTax: orderCart.priceWithTax,
       totalPrice: item.finalPrice,
       status: item.status,
       deliveryDate: item.deliveryDate,
-      // fileUrl: orderCart.item.attachments.edges.find(item => item.node.isCover)?.node.fileUrl,
     }
   })
 
 
   return (
     <Box maxWidth='xl'>
-      <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent='space-between'>
+      <Stack sx={{ mb: 2 }} direction='row' alignItems='center'>
         <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Order History</Typography>
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          maxWidth: '480px',
-          bgcolor: '#fff',
-          width: '100%',
-          border: '1px solid lightgray',
+        <Typography sx={{
+          fontSize: '12px',
+          fontWeight: 600,
+          bgcolor: 'light.main',
           borderRadius: '4px',
-          pl: 2
-        }}>
-          <Input fullWidth disableUnderline placeholder='Search Order Id' />
-          <IconButton><Search /></IconButton>
-        </Box>
+          color: 'primary.main',
+          px: 1
+        }}>({orders?.length})</Typography>
       </Stack>
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        maxWidth: '300px',
+        bgcolor: '#fff',
+        width: '100%',
+        border: '1px solid lightgray',
+        borderRadius: '4px',
+        pl: 2
+      }}>
+        <Input onChange={e => setOrderId(e.target.value)} type='number' fullWidth disableUnderline placeholder='Order Id' />
+        <IconButton><Search /></IconButton>
+      </Box>
       <Box mt={3}>
         {
           loading ? <Loader /> : orderErr ? <ErrorMsg /> :

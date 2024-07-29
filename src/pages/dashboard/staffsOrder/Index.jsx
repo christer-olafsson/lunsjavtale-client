@@ -19,28 +19,24 @@ import { Link } from 'react-router-dom';
 
 const StaffsOrder = () => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
-  const [deleteStaffData, setDeleteStaffData] = useState({ email: '', fileId: '' });
-  const [searchText, setSearchText] = useState('')
   const [addedEmployeeCarts, setAddedEmployeeCarts] = useState([])
   const [selectedRowIds, setSelectedRowIds] = useState([]);
   const [reqStatus, setReqStatus] = useState('')
 
   const { data: user } = useQuery(ME)
 
-  const [fetchAddedEmployeeCarts, { loading, error }] = useLazyQuery(ADDED_EMPLOYEE_CARTS, {
+  const { loading, error } = useQuery(ADDED_EMPLOYEE_CARTS, {
     fetchPolicy: "network-only",
-    variables: {
-      title: searchText,
-    },
+    notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
       setAddedEmployeeCarts(res.addedEmployeeCarts.edges.map(item => item.node))
     },
   });
 
   const [cartRequest, { loading: cartReqLoading }] = useMutation(APPROVE_CART_REQUEST, {
+    refetchQueries: [ADDED_EMPLOYEE_CARTS],
     onCompleted: (res) => {
       toast.success(res.approveCartRequest.message)
-      fetchAddedEmployeeCarts()
     },
     onError: (err) => {
       toast.error(err.message)
@@ -101,36 +97,19 @@ const StaffsOrder = () => {
         )
       }
     },
+
     {
-      field: 'createdOn',
-      headerName: '',
-      width: 200,
+      field: 'Date', width: 250,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Date</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Date</Typography>
       ),
       renderCell: (params) => {
-        const { row } = params
         return (
           <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
-              <CalendarMonthOutlined fontSize='small' /> {format(row.createdOn, 'dd-MM-yyyy')}</Typography>
-          </Stack>
-        )
-      }
-    },
-    {
-      field: 'deliveriedOn',
-      headerName: '',
-      width: 200,
-      renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Delivery Date</Typography>
-      ),
-      renderCell: (params) => {
-        const { row } = params
-        return (
-          <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{ display: 'inline-flex', alignItems: 'center', fontWeight: 600, gap: 1 }}>
-              <CalendarMonthOutlined fontSize='small' /> {row.date}</Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Order: <b>{format(params.row.createdOn, 'dd-MM-yyyy')}</b>
+              <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(params.row?.createdOn, 'HH:mm')}</span>
+            </Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Delivery: <b>{format(params.row.date, 'dd-MM-yyyy')}</b> </Typography>
           </Stack>
         )
       }
@@ -143,7 +122,7 @@ const StaffsOrder = () => {
       renderCell: (params) => {
         return (
           <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-            <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{params.row.orderedQuantity}</Typography>
+            <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>x {params.row.orderedQuantity}</Typography>
           </Stack>
         )
       }
@@ -222,14 +201,9 @@ const StaffsOrder = () => {
     //   ),
     // },
   ];
-
-
-  useEffect(() => {
-    fetchAddedEmployeeCarts()
-  }, [])
-
+  
   return (
-    <Box maxWidth='xxl'>
+    <Box maxWidth='xl'>
       <Typography sx={{ fontSize: '24px', fontWeight: 600, mb: 5 }}>Order Request</Typography>
       <Stack direction='row' justifyContent='space-between' gap={2} sx={{
         mb: 4,
@@ -253,21 +227,6 @@ const StaffsOrder = () => {
             <CButton disable={reqStatus === ''} isLoading={cartReqLoading} onClick={handleCartRequest} variant='contained'>Approve</CButton>
           </Stack>
         }
-        {/* <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          maxWidth: '480px',
-          bgcolor: '#fff',
-          width: '100%',
-          border: '1px solid lightgray',
-          borderRadius: '4px',
-          pl: 2
-        }}>
-          <Input onChange={e => setSearchText(e.target.value)} fullWidth disableUnderline placeholder='Search' />
-          <IconButton><Search /></IconButton>
-        </Box> */}
-
       </Stack>
       <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
         <Typography variant='h5'>Confirm Remove?</Typography>
@@ -280,7 +239,6 @@ const StaffsOrder = () => {
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
             <DataTable
-              rowHeight={70}
               rows={addedEmployeeCarts}
               columns={columns}
               checkboxSelection={user?.me.role !== 'company-employee'}

@@ -23,6 +23,8 @@ import OrderPayment from './payment/OrderPayment';
 import CDialog from '../../common/dialog/CDialog';
 import { UNREAD_NOTIFICATION_COUNT, USER_NOTIFICATIONS } from './notification/query';
 import { googleLogout } from '@react-oauth/google';
+import { ADDED_EMPLOYEE_CARTS } from './staffsOrder/graphql/query';
+import StaffsOrder from './staffsOrder/Index';
 
 const drawerWidth = 264;
 
@@ -57,7 +59,7 @@ const ListBtn = ({ style, text, icon, link, selected, onClick, notification }) =
           lineHeight: '21px',
           textAlign: 'center',
           borderRadius: '50%',
-          bgcolor: 'primary.dark'
+          bgcolor: 'red'
         }}>{notification}</Typography>}
 
       </Box>
@@ -75,6 +77,7 @@ function Layout() {
   const [openPaymentDialog, setOpenPaymentDialog] = useState(false)
   const [unreadNotificationCount, setUnreadNotificationCount] = useState([])
   const [clientDetails, setClientDetails] = useState({})
+  const [addedEmployeeCarts, setAddedEmployeeCarts] = useState([])
 
 
   const { pathname } = useLocation()
@@ -105,6 +108,15 @@ function Layout() {
     onCompleted: (res) => {
       setUnreadNotificationCount(res.unreadNotificationCount)
     }
+  });
+
+
+  useQuery(ADDED_EMPLOYEE_CARTS, {
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (res) => {
+      setAddedEmployeeCarts(res.addedEmployeeCarts.edges.map(item => item.node))
+    },
   });
 
   const handleLogout = () => {
@@ -242,7 +254,6 @@ function Layout() {
         }
         <ListBtn
           onClick={handleDrawerClose}
-          notification={''}
           link={'dashboard/products'}
           icon={<CategoryOutlined fontSize='small' />}
           text='Products'
@@ -255,7 +266,7 @@ function Layout() {
 
         <ListBtn
           onClick={handleDrawerClose}
-          notification={''}
+          notification={addedEmployeeCarts.length > 0 ? addedEmployeeCarts.length :  ''}
           link={'dashboard/staffs-order'}
           icon={<ShoppingCartCheckout fontSize='small' />}
           text='Staff-Orders'

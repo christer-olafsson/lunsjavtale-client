@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid'
 
 const DataTable = ({ rows, columns, rowHeight, getRowHeight, checkboxSelection, onRowSelectionModelChange, columnVisibilityModel }) => {
   return (
-    <Box maxWidth='xl' sx={{
+    <Box  sx={{
       minHeight: '650px',
       width: '100%',
     }}>
@@ -12,7 +12,7 @@ const DataTable = ({ rows, columns, rowHeight, getRowHeight, checkboxSelection, 
         rows={rows}
         columns={columns}
         autoHeight
-        rowHeight={rowHeight}
+        // rowHeight={rowHeight}
         getRowHeight={getRowHeight}
         initialState={{
           pagination: {

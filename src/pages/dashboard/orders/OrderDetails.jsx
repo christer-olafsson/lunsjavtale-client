@@ -14,6 +14,7 @@ import SelectedStaffs from './SelectedStaffs';
 import { format } from 'date-fns';
 import SlideDrawer from '../products/SlideDrawer';
 import InvoiceTemplate, { downloadPDF } from './InvoiceTemplate';
+import LoadingBar from '../../../common/loadingBar/LoadingBar';
 
 
 const OrderDetails = () => {
@@ -65,6 +66,13 @@ const OrderDetails = () => {
       setSelectedStaffDetailsId(id)
 
     }
+  }
+
+  if (loading) {
+    return <LoadingBar />
+  }
+  if (orderErr) {
+    return <ErrorMsg />
   }
 
 
