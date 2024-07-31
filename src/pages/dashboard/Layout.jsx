@@ -269,7 +269,7 @@ function Layout() {
           notification={addedEmployeeCarts.length > 0 ? addedEmployeeCarts.length :  ''}
           link={'dashboard/staffs-order'}
           icon={<ShoppingCartCheckout fontSize='small' />}
-          text='Staff-Orders'
+          text={user?.me.role === 'company-employee' ? 'My-Order-Req' : 'Staff-Orders'}
           selected={pathname === '/dashboard/staffs-order'}
         />
 

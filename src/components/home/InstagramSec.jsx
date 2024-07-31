@@ -152,7 +152,7 @@ const InstagramSec = () => {
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
             links.map((item, id) => (
-              <Box key={id}>
+              <Box sx={{width:'200px',overflow:'hidden'}} key={id}>
                 <InstagramEmbed url={item.link} width={350} height={700} />
               </Box>
             ))

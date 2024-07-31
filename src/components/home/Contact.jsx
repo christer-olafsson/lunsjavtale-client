@@ -2,7 +2,7 @@ import { Box, Button, Checkbox, Container, Dialog, DialogContent, FormControlLab
 import React, { useState } from 'react'
 import CButton from '../../common/CButton/CButton'
 import styled from '@emotion/styled';
-import { Close, WhatsApp } from '@mui/icons-material';
+import { Close, Phone, WhatsApp } from '@mui/icons-material';
 import { SlideAnimation } from '../animation/Animation';
 import { useQuery } from '@apollo/client';
 import { CLIENT_DETAILS } from '../../graphql/query';
@@ -60,13 +60,24 @@ const Contact = () => {
           <SlideAnimation direction='up' delay={200}>
             <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelige på chat, eller så kan du ringe tråden når som helst</Typography>
           </SlideAnimation>
-          <a href={`https://wa.me/${clientDetails?.contact}`} target='blank'>
-            <SlideAnimation direction='up' delay={300}>
-              <CButton startIcon={<WhatsApp />} variant='contained' style={{ height: { xs: '37px', md: '56px' }, mt: 3, width: '150px' }}>
-              Ring oss
-              </CButton>
-            </SlideAnimation>
-          </a>
+          <Stack direction='row' gap={2}>
+            <a href={`https://wa.me/${clientDetails?.contact}`} target='blank'>
+              <SlideAnimation direction='up' delay={300}>
+                <CButton startIcon={<WhatsApp />} variant='contained'
+                  style={{ mt: 3, width: '150px' }}>
+                  Ring oss
+                </CButton>
+              </SlideAnimation>
+            </a>
+            <a className='link' href={`tel: ${clientDetails?.contact}`}>
+              <SlideAnimation direction='up' delay={300}>
+                <CButton color='warning' startIcon={<Phone />} variant='contained'
+                  style={{ mt: 3, width: '150px' }}>
+                  Ring oss
+                </CButton>
+              </SlideAnimation>
+            </a>
+          </Stack>
           {/* <Dialog
           // onClose={handleCloseDialog}
           aria-labelledby="customized-dialog-title"

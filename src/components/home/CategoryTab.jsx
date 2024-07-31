@@ -40,7 +40,7 @@ const TabItem = styled(Tab)(({ theme }) => ({
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
- 
+
   return (
     <div
       role="tabpanel"
@@ -167,10 +167,6 @@ const CategoryTab = (props) => {
                       {item.node.description}
                     </FadeAnimation>
                   </Typography>
-                  <Stack direction='row' justifyContent='space-between' sx={{ mb: 4 }}>
-                    <Typography sx={{ px: '16px' }}>*All prices are ex. VAT. Shipping price NOK 120 ex. VAT per delivery.</Typography>
-                    {/* <ButtonGroup /> */}
-                  </Stack>
                 </Stack>
                 <Box px={1}>
                   <Carousel

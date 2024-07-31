@@ -167,9 +167,10 @@ const OrderDetails = () => {
             order?.note &&
             <Typography sx={{
               fontSize: '16px',
-              border: '1px solid lightgray',
+              border: '1px solid coral',
               p: 1, mt: 1, borderRadius: '8px',
-              maxWidth: '400px'
+              maxWidth: '400px',
+              color:'coral'
             }}>
               Note: <b>{order?.note}</b>
             </Typography>
