@@ -34,6 +34,7 @@ const ListBtn = ({ style, text, icon, link, selected, onClick, notification }) =
       <Box sx={{
         width: '100%',
         display: 'inline-flex',
+        alignItems: 'center',
         justifyContent: 'space-between',
         padding: '8px 12px',
         borderRadius: '4px',
@@ -51,17 +52,7 @@ const ListBtn = ({ style, text, icon, link, selected, onClick, notification }) =
             ml: 1
           }}>{text}</Typography>
         </Box>
-        {notification && <Typography sx={{
-          fontSize: '14px',
-          color: '#fff',
-          width: '22px',
-          height: '22px',
-          lineHeight: '21px',
-          textAlign: 'center',
-          borderRadius: '50%',
-          bgcolor: 'red'
-        }}>{notification}</Typography>}
-
+        {notification && <Badge sx={{ mr: .5 }} badgeContent={notification} color="error" />}
       </Box>
     </Link>
   )
@@ -221,6 +212,7 @@ function Layout() {
             || pathname === productDetailsMatchFromMyside?.pathname
           } />
         <ListBtn
+          notification={unreadNotificationCount > 0 ? unreadNotificationCount : ''}
           onClick={handleDrawerClose}
           link='/dashboard/notifications'
           icon={<NotificationsNone fontSize='small' />}
@@ -266,7 +258,7 @@ function Layout() {
 
         <ListBtn
           onClick={handleDrawerClose}
-          notification={addedEmployeeCarts.length > 0 ? addedEmployeeCarts.length :  ''}
+          notification={addedEmployeeCarts.length > 0 ? addedEmployeeCarts.length : ''}
           link={'dashboard/staffs-order'}
           icon={<ShoppingCartCheckout fontSize='small' />}
           text={user?.me.role === 'company-employee' ? 'My-Order-Req' : 'Staff-Orders'}
@@ -409,14 +401,17 @@ function Layout() {
                     <NotificationsNone sx={{ fontSize: '30px' }} />
                   </Badge>
                 </IconButton>
-                <Collapse sx={{
-                  position: 'absolute',
-                  left: { xs: '50%', md: '0' },
-                  transform: 'translateX(-50%)',
-                  top: 55,
-                }} in={openNotification}>
-                  <SmallNotification onClose={() => setOpenNotification(false)} />
-                </Collapse>
+                {
+                  openNotification &&
+                  <Collapse sx={{
+                    position: 'absolute',
+                    left: { xs: '50%', md: '0' },
+                    transform: 'translateX(-50%)',
+                    top: 55,
+                  }} in={openNotification}>
+                    <SmallNotification onClose={() => setOpenNotification(false)} />
+                  </Collapse>
+                }
               </Box>
             </ClickAwayListener>
             {/* user menu */}

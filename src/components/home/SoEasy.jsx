@@ -11,7 +11,7 @@ const SoEasy = () => {
   const [meetingDialogOpen, setMeetingDialogOpen] = useState(false);
 
   return (
-    <Container sx={{ my: { xs: 5, md: 10 } }} maxWidth='lg'>
+    <Container sx={{ mt: { xs: 10, md: 10 }, mb: { xs: 0, md: 10 } }} maxWidth='lg'>
       <Stack sx={{ width: '100%' }} gap={{ xs: 8, md: 4 }} direction={{ xs: 'column', lg: 'row' }} alignItems='center' justifyContent='space-between'>
 
         <Box >

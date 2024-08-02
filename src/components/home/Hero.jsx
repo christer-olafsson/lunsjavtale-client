@@ -90,7 +90,7 @@ const Hero = () => {
                   p: isMobile ? 3 : 0,
                   zIndex: 999,
                   transition: '.5s ease',
-                  boxShadow: { xs: 2, md: 'none' }
+                  boxShadow: { xs: 3, md: 'none' }
                 }}>
                   <Button onClick={() => setSideBarOpen(false)} href='#hero'>Hjem</Button>
                   <Button onClick={() => setSideBarOpen(false)} href='#products'>Produkter</Button>

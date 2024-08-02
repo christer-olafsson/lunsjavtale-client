@@ -5,18 +5,16 @@ import React from 'react'
 const SlideDrawer = ({ children, toggleDrawer, openSlideDrawer }) => {
 
   return (
-    <div>
-      <React.Fragment>
-        <SwipeableDrawer
-          anchor='right'
-          open={openSlideDrawer}
-          onClose={toggleDrawer}
-          onOpen={toggleDrawer}
-        >
-          {children}
-        </SwipeableDrawer>
-      </React.Fragment>
-    </div>
+    <React.Fragment>
+      <SwipeableDrawer
+        anchor='right'
+        open={openSlideDrawer}
+        onClose={toggleDrawer}
+        onOpen={toggleDrawer}
+      >
+        {children}
+      </SwipeableDrawer>
+    </React.Fragment>
   )
 }
 
