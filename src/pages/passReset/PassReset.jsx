@@ -2,9 +2,10 @@ import { useMutation } from '@apollo/client';
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { RESET_PASSWORD } from './graphql/mutation';
-import { Box, Stack, TextField } from '@mui/material';
+import { Box, Stack, TextField, Typography } from '@mui/material';
 import CButton from '../../common/CButton/CButton';
 import toast from 'react-hot-toast';
+// import bg from '../../../public/passresetbg'
 
 const PassReset = () => {
   const [payload, setPayload] = useState({ password1: '', password2: '' });
@@ -54,12 +55,55 @@ const PassReset = () => {
   return (
     <Stack sx={{
       width: '100%',
-      height: '100vh'
+      height: '100vh',
+      position: 'relative',
+      '::before': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
+        url(/resetpassbg.jpg)`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'fixed',
+        // filter: 'brightness(0.6)',
+        zIndex: -1
+      }
     }} alignItems='center' justifyContent='center'>
-      <Stack>
-        <TextField error={payloadError} onChange={handleInputChange} name='password1' sx={{ mb: 1 }} size='small' placeholder='new password' />
-        <TextField error={payloadError} onChange={handleInputChange} name='password2' sx={{ mb: 1 }} size='small' placeholder='confirm password' />
-        <CButton isLoading={loading} onClick={handleSubmit} variant='contained' >Submit</CButton>
+      <Stack alignItems='center' sx={{
+        px: 5,
+        py: 3,
+        backdropFilter: 'blur(5px)',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderRadius: '8px'
+      }}>
+        <Box sx={{
+          width: '150px',
+          mb: 2,
+        }}>
+          <img width='100%' src="/Logo.svg" alt="" />
+        </Box>
+        <Typography variant='h5' pb={2}>Password Reset</Typography>
+        <TextField
+          error={payloadError}
+          onChange={handleInputChange}
+          name='password1'
+          sx={{ mb: 1, width: '300px' }}
+          label='New Password'
+          placeholder='new password'
+        />
+        <TextField
+          error={payloadError}
+          onChange={handleInputChange}
+          name='password2'
+          sx={{ mb: 1, width: '300px' }}
+          label='Confirm Password'
+          placeholder='confirm password'
+        />
+        <CButton style={{ width: '100%' }} isLoading={loading} onClick={handleSubmit} variant='contained' >Submit</CButton>
       </Stack>
     </Stack>
   )

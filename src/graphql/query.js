@@ -20,6 +20,7 @@ export const ME = gql`
       photoUrl
       fileId
       isActive
+      dueAmount
       company{
         id
         name

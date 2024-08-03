@@ -75,7 +75,7 @@ const OrderDetails = () => {
     return <ErrorMsg />
   }
 
-
+console.log(order)
   return (
     <Box maxWidth='xl'>
       <Stack direction='row' gap={2}>

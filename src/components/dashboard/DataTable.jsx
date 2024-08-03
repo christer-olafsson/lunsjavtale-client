@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid'
 
 const DataTable = ({ rows, columns, rowHeight, getRowHeight, checkboxSelection, onRowSelectionModelChange, columnVisibilityModel }) => {
   return (
-    <Box  sx={{
+    <Box sx={{
       minHeight: '650px',
       width: '100%',
     }}>
@@ -20,6 +20,13 @@ const DataTable = ({ rows, columns, rowHeight, getRowHeight, checkboxSelection, 
               pageSize: 10,
             },
           },
+        }}
+        localeText={{
+          noRowsLabel: 'Empty',
+          footerRowSelected: (count) =>
+            count !== 1
+              ? `${count.toLocaleString()} Selected`
+              : `${count.toLocaleString()} Selected`,
         }}
         checkboxSelection={checkboxSelection}
         onRowSelectionModelChange={onRowSelectionModelChange}

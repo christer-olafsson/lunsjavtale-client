@@ -199,6 +199,13 @@ const EditOrder = ({ data, closeDialog }) => {
 
       <Collapse in={tableOpen}>
         <DataGrid
+          localeText={{
+            noRowsLabel: 'Empty',
+            footerRowSelected: (count) =>
+              count !== 1
+                ? `${count.toLocaleString()} Selected`
+                : `${count.toLocaleString()} Selected`,
+          }}
           sx={{ my: 2 }}
           rows={rows}
           columns={columns}

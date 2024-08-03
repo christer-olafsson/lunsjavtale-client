@@ -82,7 +82,7 @@ const Login = (props) => {
   const [loginUser, { loading, error: loginErr }] = useMutation(LOGIN_USER, {
     onCompleted: (res) => {
       const userRole = res.loginUser.user.role;
-      if (userRole !== "company-owner" && userRole !== "company-employee") {
+      if (userRole !== "company-owner" && userRole !== "company-employee" && userRole !== "company-manager") {
         toast.error('Access Denied');
         return;
       }

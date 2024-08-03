@@ -192,6 +192,21 @@ function Layout() {
             <Button disabled={user?.me.company?.isBlocked} onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
           </Stack>
         }
+        {
+          (user?.me.role === 'company-employee') &&
+          <Stack gap={.5} justifyContent='center' sx={{
+            padding: '10px 12px',
+            color: 'red',
+            bgcolor: '#F7DCD9',
+            borderRadius: '4px',
+            fontSize: '15px',
+            textAlign: 'center',
+            display: user?.me.company.balance > 0 ? 'flex' : 'none'
+          }}>
+            <Typography>Due Amount: <b>{user?.me?.dueAmount}</b>  kr</Typography>
+            <Button disabled={user?.me.company?.isBlocked || user?.me?.dueAmount === '0.00'} onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
+          </Stack>
+        }
       </Stack>
       {/* payment page */}
       <CDialog openDialog={openPaymentDialog} >

@@ -35,6 +35,7 @@ export const theme = createTheme({
     //   }
     //  }
     // },
+
     MuiButton: {
       styleOverrides: {
         root: {
@@ -47,12 +48,13 @@ export const theme = createTheme({
       }
     }
   },
+
   typography: {
     fontFamily: [
       'Plus Jakarta Sans',
       'Roboto',
     ].join(','),
-    h6:{
+    h6: {
       fontSize: '16px',
       fontWeight: 600
     }

@@ -466,6 +466,13 @@ const AddItem = ({ closeDialog, data }) => {
                                 },
                               },
                             }}
+                            localeText={{
+                              noRowsLabel: 'Empty',
+                              footerRowSelected: (count) =>
+                                count !== 1
+                                  ? `${count.toLocaleString()} Selected`
+                                  : `${count.toLocaleString()} Selected`,
+                            }}
                             pageSizeOptions={[10]}
                             autoHeight
                             disableColumnFilter

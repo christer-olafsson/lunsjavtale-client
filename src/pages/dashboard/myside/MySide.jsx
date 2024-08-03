@@ -90,7 +90,7 @@ const MySide = (props) => {
                 color: '#fff',
                 textAlign: 'center',
                 borderRadius: '5px',
-              }}>Featured</Typography>
+              }}>Featured Products</Typography>
               <Box className='custom-scrollbar' sx={{
                 height: '470px',
                 overflowY: 'auto',
