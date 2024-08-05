@@ -167,7 +167,7 @@ const StaffsOrder = () => {
     },
 
     {
-      field: 'orderStatus', width: 150,
+      field: 'orderStatus', width: 150,flex:1,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Status</Typography>
       ),

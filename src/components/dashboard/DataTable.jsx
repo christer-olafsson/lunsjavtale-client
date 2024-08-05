@@ -7,6 +7,10 @@ const DataTable = ({ rows, columns, rowHeight, getRowHeight, checkboxSelection, 
     <Box sx={{
       minHeight: '650px',
       width: '100%',
+      '& .MuiDataGrid-columnHeader': {
+        backgroundColor: 'primary.main',
+        color: '#fff'
+      },
     }}>
       <DataGrid
         rows={rows}

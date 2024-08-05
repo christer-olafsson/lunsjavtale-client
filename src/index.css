@@ -143,13 +143,3 @@ body {
   /* background-color: #1F2626; */
   color: #fff
 }
-
-/* MUI data grid header color */
-.css-58mx1k-MuiDataGrid-root .MuiDataGrid-columnHeader {
-  background-color: #63883B;
-  color: #fff;
-}
-.css-58mx1k-MuiDataGrid-root .MuiDataGrid-filler {
-  background-color: #63883B;
-  color: #fff;
-}

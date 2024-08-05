@@ -193,6 +193,7 @@ const ManageStaff = () => {
       field: 'action',
       headerName: '',
       width: 150,
+      flex:1,
       renderCell: (params) => (
         <Stack sx={{ height: '100%', display: params.row.role === 'company-owner' ? 'none' : 'flex' }} direction='row' gap={2} alignItems='center'>
           <IconButton disabled={user?.me.company.isBlocked} sx={{
