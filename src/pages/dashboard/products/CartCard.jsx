@@ -65,7 +65,7 @@ const CartCard = ({ data }) => {
               minWidth: '120px',
               p: .5, textAlign: 'center',
               borderRadius: '50px'
-            }}>Quantity: {data?.quantity}</Typography>
+            }}>Quantity: x{data?.quantity}</Typography>
           </Box>
         </Stack>
         <Stack  direction={{xs:'row', md:'column'}} my={{xs:1,md:0}}>

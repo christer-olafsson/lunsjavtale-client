@@ -7,9 +7,12 @@ import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import DataTable from '../../../components/dashboard/DataTable';
 import { Person2Outlined } from '@mui/icons-material';
+import useIsMobile from '../../../hook/useIsMobile';
 
 const PaymentHistory = () => {
   const [orderPayents, setOrderPayents] = useState([])
+
+  const isMobile = useIsMobile()
 
   const { loading, error } = useQuery(ORDER_PAYMENTS, {
     onCompleted: (res) => {
@@ -72,7 +75,10 @@ const PaymentHistory = () => {
       )
     },
     {
-      field: 'paidAmount', headerName: '', width: 200,flex:1,
+      field: 'paidAmount',
+      headerName: '',
+      width: isMobile ? 200 : undefined,
+      flex: isMobile ? undefined : 1,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Paid Amount</Typography>
       ),

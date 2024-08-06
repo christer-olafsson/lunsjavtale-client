@@ -264,18 +264,22 @@ const AddItem = ({ closeDialog, data }) => {
                 </IconButton>
               </Stack>
 
-              <Stack direction={{ xs: 'column', md: 'row' }} gap={2} alignItems='center'>
+              <Stack direction='row' gap={2} alignItems='center'>
                 <Box sx={{
                   width: '96px',
-                  height: '96px',
+                  height: '120px',
                   mb: 2
                 }}>
                   <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }}
                     src={data?.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
                 </Box>
                 <Box sx={{ flex: 1, mb: 2 }}>
-                  <Typography variant='h6'>{data?.name}</Typography>
-                  <Typography sx={{ fontSize: '14px', mb: 1 }}>{data?.description}</Typography>
+                  <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>
+                    {data?.name.length > 50 ? data?.name.substring(0, 50) + '...' : data?.name}
+                  </Typography>
+                  <Typography sx={{ fontSize: '14px', mb: 1 }}>
+                    {data?.description.length > 100 ? data?.description.substring(0, 100) + '...' : data?.description}
+                  </Typography>
                   <Typography sx={{ fontSize: '14px' }}> <i>NOK:</i> {data?.priceWithTax}</Typography>
                 </Box>
               </Stack>
@@ -308,22 +312,28 @@ const AddItem = ({ closeDialog, data }) => {
                   <tbody>
                     {
                       selectedDates.sort((a, b) => new Date(a) - new Date(b)).map(date => (
-                        <tr key={date}>
+                        <tr style={{ overflowX: 'auto' }} key={date}>
                           <td style={{ whiteSpace: '' }}>{format(date, 'dd-MM-yyyy')}</td>
                           <td>
                             <Stack sx={{
-                              width: { xs: '110px', md: '150px' },
+                              minwidth: { xs: '90px', md: '150px' },
                               border: `1px solid ${theme.palette.primary.main}`,
                               borderRadius: '50px',
                             }} direction='row' alignItems='center' justifyContent='space-between' >
-                              <IconButton onClick={() => toggleQuantity(date, 'decrease')}><Remove fontSize='small' /></IconButton>
+                              <IconButton onClick={() => toggleQuantity(date, 'decrease')}>
+                                <Remove fontSize='small' />
+                              </IconButton>
                               <Typography >{cartItems[date]?.quantity || 0}</Typography>
-                              <IconButton onClick={() => toggleQuantity(date, 'increase')}><Add fontSize='small' /></IconButton>
+                              <IconButton onClick={() => toggleQuantity(date, 'increase')}>
+                                <Add fontSize='small' />
+                              </IconButton>
                             </Stack>
                           </td>
-                          <td style={{ width: isMobile ? '130px' : '200px', whiteSpace: 'nowrap' }}>{cartItems[date]?.totalPrice.toFixed(2) || 0} kr</td>
-                          <td style={{ width: '50px' }}>
-                            <IconButton sx={{ width: '30px', height: '30px' }} onClick={() => dateDeselect(date)}>
+                          <td style={{ width: isMobile ? '130px' : '200px', whiteSpace: 'nowrap' }}>
+                            {cartItems[date]?.totalPrice.toFixed(2) || 0} kr
+                          </td>
+                          <td>
+                            <IconButton sx={{ width: '20px', height: '20px' }} onClick={() => dateDeselect(date)}>
                               <Close fontSize='small' />
                             </IconButton>
                           </td>

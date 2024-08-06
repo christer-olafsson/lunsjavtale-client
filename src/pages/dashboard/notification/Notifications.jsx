@@ -8,9 +8,12 @@ import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import DataTable from '../../../components/dashboard/DataTable';
 import { AccessTime } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import useIsMobile from '../../../hook/useIsMobile';
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([])
+
+  const isMobile = useIsMobile()
 
   const { loading, error } = useQuery(USER_NOTIFICATIONS, {
     onCompleted: (res) => {
@@ -23,13 +26,9 @@ const Notifications = () => {
     return formatDistanceToNow(date, { addSuffix: true });
   };
 
-
   const columns = [
     {
-      field: 'Time', width: 250,
-      renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Time</Typography>
-      ),
+      field: 'Time',headerName:'', width: 150,
       renderCell: (params) => {
         const { row } = params
         return (
@@ -43,7 +42,7 @@ const Notifications = () => {
       }
     },
     {
-      field: 'title', width: 300,
+      field: 'title', width: 250,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Title</Typography>
       ),
@@ -59,7 +58,9 @@ const Notifications = () => {
       }
     },
     {
-      field: 'Message', flex: 1,
+      field: 'Message',
+      width: isMobile ? 400 : undefined,
+      flex: isMobile ? undefined : 1,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Message</Typography>
       ),
@@ -67,7 +68,7 @@ const Notifications = () => {
         const { row } = params
         return (
           <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-            <Link to={`/dashboard/orders/details/${row.objectId}`}>
+            <Link style={{color: row.isSeen ? 'gray' : 'inherit'}} to={`/dashboard/orders/details/${row.objectId}`}>
               <Typography sx={{
                 color: row.isSeen ? 'gray' : 'green'
               }} variant='body2'>{row.message}</Typography>
@@ -78,7 +79,7 @@ const Notifications = () => {
     },
   ]
   return (
-    <Box maxWidth='xxl'>
+    <Box maxWidth='xl'>
       <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>All Notifications</Typography>
       <Box mt={3}>
         {

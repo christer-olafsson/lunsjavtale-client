@@ -81,7 +81,8 @@ const FoodDetails = ({ data, toggleDrawer }) => {
             <Stack sx={{
               border: '1px solid coral',
               p: 1, borderRadius: '8px',
-              width: 'fit-content'
+              width: 'fit-content',
+              color: 'coral'
             }}>
               <Typography >Supplier: <b>{product?.vendor.name}</b></Typography>
 

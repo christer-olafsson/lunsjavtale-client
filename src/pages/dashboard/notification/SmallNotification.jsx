@@ -30,16 +30,20 @@ const SmallNotification = ({ onClose }) => {
       // minHeight: '500px',
       bgcolor: '#fff',
       border: '1px solid lightgray',
-      borderRadius: '8px', p: '10px 20px',
-    }} gap={2}>
+      borderRadius: '8px', 
+      // p: '10px 20px',
+    }} gap={1}>
       {
         loading ? <Loader /> : error ? <ErrorMsg /> :
           notifications?.length === 0 ?
             <Typography sx={{ textAlign: 'center', color: 'gray' }}>No Notification</Typography> :
             notifications?.slice(0, 5).map(item => (
-              <Box key={item.id}>
-                <Typography sx={{ fontSize: '16px', fontWeight: 600, color: 'green' }}>{item.title}</Typography>
-                <Link to={`/dashboard/orders/details/${item.objectId}`}>
+              <Box sx={{
+                borderBottom:'1px solid lightgray',
+                p:2
+              }} key={item.id}>
+                <Typography sx={{ fontSize: '16px', fontWeight: 600, color: item.isSeen ? 'gray' : 'green' }}>{item.title}</Typography>
+                <Link style={{color: item.isSeen ? 'gray' : 'inherit'}} to={`/dashboard/orders/details/${item.objectId}`}>
                   <Typography onClick={onClose} sx={{ fontSize: '14px' }}>{item.message}</Typography>
                 </Link>
                 <Stack direction='row' alignItems='center' gap={.5} >

@@ -15,6 +15,7 @@ import { ADDED_EMPLOYEE_CARTS } from './graphql/query';
 import { DataGrid } from '@mui/x-data-grid';
 import { APPROVE_CART_REQUEST } from './graphql/mutation';
 import { Link } from 'react-router-dom';
+import useIsMobile from '../../../hook/useIsMobile';
 
 
 const StaffsOrder = () => {
@@ -24,6 +25,8 @@ const StaffsOrder = () => {
   const [reqStatus, setReqStatus] = useState('')
 
   const { data: user } = useQuery(ME)
+
+  const isMobile = useIsMobile()
 
   const { loading, error } = useQuery(ADDED_EMPLOYEE_CARTS, {
     fetchPolicy: "network-only",
@@ -167,7 +170,9 @@ const StaffsOrder = () => {
     },
 
     {
-      field: 'orderStatus', width: 150,flex:1,
+      field: 'orderStatus',
+      width: isMobile ? 150 : undefined,
+      flex: isMobile ? undefined : 1,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Status</Typography>
       ),
@@ -201,7 +206,7 @@ const StaffsOrder = () => {
     //   ),
     // },
   ];
-  
+
   return (
     <Box maxWidth='xl'>
       <Typography sx={{ fontSize: '24px', fontWeight: 600, mb: 5 }}>Order Request</Typography>

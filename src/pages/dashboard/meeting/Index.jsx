@@ -15,6 +15,7 @@ import CButton from '../../../common/CButton/CButton';
 import { MEETING_DELETE } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import { nb } from 'date-fns/locale';
+import useIsMobile from '../../../hook/useIsMobile';
 
 const Meeting = () => {
   const [statusFilter, setStatusFilter] = useState('');
@@ -24,6 +25,8 @@ const Meeting = () => {
   const [deleteMeetingId, setDeleteMeetingId] = useState('')
   const [openDeleteMeetingDialog, setOpenDeleteMeetingDialog] = useState(false)
   const [meetings, setMeetings] = useState([])
+
+  const isMobile = useIsMobile()
 
   const [fetchMeeting, { loading: meetingsLoading, error: meetingsErr }] = useLazyQuery(FOOD_MEETINGS, {
     fetchPolicy: 'network-only',
@@ -130,7 +133,7 @@ const Meeting = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', }} justifyContent='center'>
-          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.createdOn, 'dd-MM-yyyy',{locale: nb})}</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.createdOn, 'dd-MM-yyyy', { locale: nb })}</Typography>
           <Typography sx={{ fontSize: '12px', fontWeight: 500, display: 'inline-flex', alignItems: 'center' }}>
             <AccessTime sx={{ fontSize: '14px' }} /> {formatedNorwayTime(params.row.meetingTime)}</Typography>
           {/* <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'HH:mm')}</Typography> */}
@@ -144,10 +147,10 @@ const Meeting = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', }} justifyContent='center'>
-          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.meetingTime, 'dd-MM-yyyy',{locale: nb})}</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.meetingTime, 'dd-MM-yyyy', { locale: nb })}</Typography>
           <Typography sx={{ fontSize: '12px', fontWeight: 500, display: 'inline-flex', alignItems: 'center' }}>
-            <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'p',{locale: nb})}</Typography>
-            {/* <AccessTime sx={{ fontSize: '14px' }} /> {formatedNorwayTime(params.row.meetingTime)}</Typography> */}
+            <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'p', { locale: nb })}</Typography>
+          {/* <AccessTime sx={{ fontSize: '14px' }} /> {formatedNorwayTime(params.row.meetingTime)}</Typography> */}
           {/* <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'HH:mm')}</Typography> */}
         </Stack>
       )
@@ -187,16 +190,19 @@ const Meeting = () => {
       field: 'edit', headerName: '', width: 80,
       renderCell: (params) => {
         return (
-          <IconButton disabled={params.row.status !== 'pending'} onClick={() =>handleEdit(params.row)}>
+          <IconButton disabled={params.row.status !== 'pending'} onClick={() => handleEdit(params.row)}>
             <EditOutlined />
           </IconButton>
         )
       },
     },
     {
-      field: 'note', headerName: '', flex: 1,
+      field: 'note',
+      headerName: '',
+      width: isMobile ? 400 : undefined,
+      flex: isMobile ? undefined : 1,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' }}}>Note</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Note</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} justifyContent='center'>
@@ -236,7 +242,7 @@ const Meeting = () => {
         }}>{meetings?.length ?? 0} meetings</Typography>
       </Stack>
       <Stack direction='row' justifyContent='space-between' mt={3} sx={{ height: '40px' }}>
-        <Box/>
+        <Box />
         {/* <Box sx={{ minWidth: 200 }}>
           <FormControl size='small' fullWidth>
             <InputLabel>Filter</InputLabel>
@@ -261,8 +267,8 @@ const Meeting = () => {
       <CDialog openDialog={createMeetingDialogOpen}>
         <NewMeeting fetchMeeting={fetchMeeting} closeDialog={() => setCreateMeetingDialogOpen(false)} />
       </CDialog>
-       {/* remove meeting */}
-       {/* <CDialog openDialog={openDeleteMeetingDialog} closeDialog={() => setOpenDeleteMeetingDialog(false)} >
+      {/* remove meeting */}
+      {/* <CDialog openDialog={openDeleteMeetingDialog} closeDialog={() => setOpenDeleteMeetingDialog(false)} >
         <Typography variant='h5'>Confirm Remove?</Typography>
         <DialogActions>
           <Button variant='outlined' onClick={() => setOpenDeleteMeetingDialog(false)}>Cancel</Button>

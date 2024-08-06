@@ -58,7 +58,7 @@ const SmallProductCard = ({ data }) => {
                 color: 'coral',
                 border: '1px solid coral',
                 py: .5,
-                height: '100%',
+                height: 'fit-content',
                 borderRadius: '4px',
                 width: 'fit-content',
                 fontSize: '14px'

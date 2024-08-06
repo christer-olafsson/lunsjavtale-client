@@ -14,7 +14,7 @@ import FoodDetails from '../products/FoodDetails';
 const ProductCard = ({ data }) => {
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
   const [openSlideDrawer, setOpenSlideDrawer] = useState(false);
-  
+
   const toggleDrawer = (event) => {
     if (
       event &&
@@ -36,7 +36,8 @@ const ProductCard = ({ data }) => {
     <Stack direction={{ xs: 'column', lg: 'row' }} gap={{ xs: 0, lg: 2 }} sx={{
       width: '100%',
       maxWidth: '1000px',
-      height: { xs: '310px', lg: '200px' },
+      minHeight: { xs: '310px', lg: '200px' },
+      height: { xs: '100%', md: '200px' },
       overflow: 'hidden',
       bgcolor: 'light.main',
       p: { xs: 2, lg: 2.5 },
@@ -53,17 +54,17 @@ const ProductCard = ({ data }) => {
       <Stack sx={{ flex: 1 }} justifyContent='space-between'>
         <Stack gap={{ xs: 0, lg: 1 }} mb={{ xs: 0, lg: 1 }} mt={{ xs: 1, lg: 0 }}>
           <Typography sx={{ fontSize: { xs: '16px', lg: '18px' }, fontWeight: '600' }}>
-            {data?.name.substring(0, 40)}
-            {data.name.length > 40 ? '...' : ''}
+            {data?.name.substring(0, 50)}
+            {data.name.length > 50 ? '...' : ''}
           </Typography>
           <Typography sx={{ fontSize: '14px' }}>
-            {data.description.substring(0, 50)}
-            {data.description.length > 50 ? '...' : ''}
+            {data.description.substring(0, 70)}
+            {data.description.length > 70 ? '...' : ''}
           </Typography>
           {/* <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography> */}
         </Stack>
         <Stack direction='row' alignItems='center' gap={2} justifyContent='space-between'>
-          <Button onClick={toggleDrawer} endIcon={<ArrowRight/>} >
+          <Button onClick={toggleDrawer} endIcon={<ArrowRight />} >
             Details
           </Button>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>

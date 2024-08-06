@@ -145,7 +145,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
         </Stack>
         <Stack sx={{ px: 2 }} gap={3}>
           <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>kr {totalCalculatedValue.totalPrices}</Typography>
-          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}> {totalCalculatedValue.totalQuantity}</Typography>
+          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>x {totalCalculatedValue.totalQuantity}</Typography>
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>- $ 53.99</Typography> */}
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>$ 65.00</Typography> */}
         </Stack>

@@ -8,15 +8,15 @@ import { ORDERS } from './graphql/query';
 import { format } from 'date-fns';
 import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
-import { ME } from '../../../graphql/query';
-import { enUS, nb } from 'date-fns/locale';
+import { nb } from 'date-fns/locale';
 import moment from 'moment-timezone';
-import LoadingBar from '../../../common/loadingBar/LoadingBar';
+import useIsMobile from '../../../hook/useIsMobile';
 
 const Orders = () => {
   const [orders, setOrders] = useState([])
   const [orderId, setOrderId] = useState('')
 
+  const isMobile = useIsMobile()
 
   const { loading, error: orderErr } = useQuery(ORDERS, {
     fetchPolicy: 'network-only',
@@ -149,7 +149,10 @@ const Orders = () => {
       }
     },
     {
-      field: 'timeUntil', headerName: '', width: 200,flex:1,
+      field: 'timeUntil',
+      headerName: '',
+      width: isMobile ? 200 : undefined,
+      flex: isMobile ? undefined : 1,
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
           <Typography variant='body2' sx={{ fontWeight: 500, display: 'inline-flex' }}>

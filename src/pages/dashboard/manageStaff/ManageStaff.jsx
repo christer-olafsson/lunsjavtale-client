@@ -16,6 +16,7 @@ import CButton from '../../../common/CButton/CButton';
 import { deleteFile } from '../../../utils/deleteFile';
 import { ME } from '../../../graphql/query';
 import { Link } from 'react-router-dom';
+import useIsMobile from '../../../hook/useIsMobile';
 
 
 const ManageStaff = () => {
@@ -29,6 +30,8 @@ const ManageStaff = () => {
   const [searchText, setSearchText] = useState('')
 
   const { data: user } = useQuery(ME)
+
+  const isMobile = useIsMobile()
 
   const [getCompanyStaffs, { loading, error }] = useLazyQuery(GET_COMPANY_STAFFS, {
     fetchPolicy: "network-only",
@@ -192,8 +195,8 @@ const ManageStaff = () => {
     {
       field: 'action',
       headerName: '',
-      width: 150,
-      flex:1,
+      width: isMobile ? 150 : undefined,
+      flex: isMobile ? undefined : 1,
       renderCell: (params) => (
         <Stack sx={{ height: '100%', display: params.row.role === 'company-owner' ? 'none' : 'flex' }} direction='row' gap={2} alignItems='center'>
           <IconButton disabled={user?.me.company.isBlocked} sx={{
