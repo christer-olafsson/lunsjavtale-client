@@ -61,10 +61,11 @@ const CheckPage = () => {
   })
 
   const [placeOrder, { loading }] = useMutation(PLACE_ORDER, {
-    onCompleted: () => {
+    onCompleted: (res) => {
       toast.success('Order Placed!')
       setErrors({})
-      navigate('/dashboard/orders')
+      console.log('order place:', res)
+      // navigate('/dashboard/orders')
 
     },
     refetchQueries: [ADDRESSES, ORDERS],
@@ -238,7 +239,7 @@ const CheckPage = () => {
                   label="Payment Type"
                   onChange={(e) => setPaymentType(e.target.value)}
                 >
-                  <MenuItem disabled value={'online'}>Online</MenuItem>
+                  <MenuItem value={'online'}>Online</MenuItem>
                   <MenuItem value={'pay-by-invoice'}>Pay By Invoice</MenuItem>
                   <MenuItem value={'cash-on-delivery'}>Cash On Delivery</MenuItem>
                 </Select>

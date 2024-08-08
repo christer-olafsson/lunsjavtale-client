@@ -117,7 +117,31 @@ const Orders = () => {
       )
     },
     {
-      field: 'status', headerName: 'Status', width: 150,
+      field: 'amount', headerName: '', width: 150,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Amount</Typography>
+      ),
+      renderCell: (params) => (
+        <Stack sx={{ height: '100%' }} justifyContent='center'>
+          {
+            params.row.paidAmount > 0 &&
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, color: params.row.paidAmount > 0 ? 'green' : 'lightgray' }}>
+              Paid: <b>{params.row.paidAmount}</b>
+              <span style={{ fontWeight: 400, marginLeft: '5px' }}>kr </span>
+            </Typography>
+          }
+          {
+            params.row.dueAmount > 0 &&
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, color: params.row.dueAmount > 0 ? 'coral' : 'lightgray' }}>
+              due: <b>{params.row.dueAmount}</b>
+              <span style={{ fontWeight: 400, marginLeft: '5px' }}>kr </span>
+            </Typography>
+          }
+        </Stack>
+      )
+    },
+    {
+      field: 'status', headerName: 'Status', width: 200,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Status</Typography>
       ),
@@ -131,13 +155,15 @@ const Orders = () => {
               ? 'red'
               : row.status === 'Confirmed'
                 ? 'lightgreen'
-                : row.status === 'Delivered'
-                  ? 'green'
-                  : row.status === 'Processing'
-                    ? '#8294C4'
-                    : row.status === 'Ready-to-deliver'
-                      ? '#01B8A9'
-                      : 'yellow',
+                : row.status === 'Payment-completed'
+                  ? 'blue'
+                  : row.status === 'Delivered'
+                    ? 'green'
+                    : row.status === 'Processing'
+                      ? '#8294C4'
+                      : row.status === 'Ready-to-deliver'
+                        ? '#01B8A9'
+                        : 'yellow',
             color: row.status === 'Placed'
               ? 'dark' : row.status === 'Payment-pending'
                 ? 'dark' : row.status === 'Confirmed' ? 'dark' : '#fff',
@@ -171,6 +197,8 @@ const Orders = () => {
       totalPrice: item.finalPrice,
       status: item.status,
       deliveryDate: item.deliveryDate,
+      paidAmount: item.paidAmount,
+      dueAmount: item.dueAmount,
     }
   })
 

@@ -13,6 +13,8 @@ export const ORDERS = gql`
           status
           deliveryDate
           finalPrice
+          dueAmount
+          paidAmount
           note
           orderCarts(addedFor: "141"){
             edges{

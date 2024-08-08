@@ -30,6 +30,7 @@ export const PLACE_ORDER = gql`
         shippingAddress: $shippingAddress
         ) {
           success
+          paymentUrl
         }
       }
     `

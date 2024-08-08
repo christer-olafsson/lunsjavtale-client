@@ -9,7 +9,6 @@ import ManageStaff from './pages/dashboard/manageStaff/ManageStaff'
 import Products from './pages/dashboard/products/Products'
 import Orders from './pages/dashboard/orders/Orders'
 import Setting from './pages/dashboard/setting/Setting'
-import OrderComplete from './pages/dashboard/products/OrderComplete'
 import ProductCartPage from './pages/dashboard/products/ProductCartPage'
 import EditOrder from './pages/dashboard/orders/EditOrder'
 import OrderDetails from './pages/dashboard/orders/OrderDetails'
@@ -24,6 +23,7 @@ import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
 import StaffsOrder from './pages/dashboard/staffsOrder/Index'
 import Notifications from './pages/dashboard/notification/Notifications'
 import StaffDetails from './pages/dashboard/manageStaff/StaffDetails'
+import PaymentSuccess from './pages/dashboard/products/PaymentSuccess'
 
 function App() {
 
@@ -56,7 +56,6 @@ function App() {
           <Route path='/dashboard' element={<MySide />} />
           {/* <Route path='/dashboard/myside/cart' element={<CartPage />} />
           <Route path='/dashboard/myside/checkout' element={<CheckPage />} /> */}
-          <Route path='/dashboard/complete' element={<OrderComplete />} />
           {
             (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') && (
               <>
@@ -77,6 +76,7 @@ function App() {
             </>
           }
           <Route path='/dashboard/orders' element={<Orders />} />
+          <Route path='/dashboard/orders/payment-success' element={<PaymentSuccess />} />
           <Route path='/dashboard/payments-history' element={<PaymentHistory />} />
           <Route path='/dashboard/orders/details/:id' element={<OrderDetails />} />
           <Route path='/dashboard/orders/edit/:id' element={<EditOrder />} />

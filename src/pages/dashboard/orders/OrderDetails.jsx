@@ -75,7 +75,7 @@ const OrderDetails = () => {
     return <ErrorMsg />
   }
 
-console.log(order)
+  console.log(order)
   return (
     <Box maxWidth='xl'>
       <Stack direction='row' gap={2}>
@@ -101,13 +101,15 @@ console.log(order)
                 ? 'red'
                 : order.status === 'Confirmed'
                   ? 'lightgreen'
-                  : order.status === 'Delivered'
-                    ? 'green'
-                    : order.status === 'Processing'
-                      ? '#8294C4'
-                      : order.status === 'Ready-to-deliver'
-                        ? '#01B8A9'
-                        : 'yellow',
+                  : order.status === 'Payment-completed'
+                    ? 'blue'
+                    : order.status === 'Delivered'
+                      ? 'green'
+                      : order.status === 'Processing'
+                        ? '#8294C4'
+                        : order.status === 'Ready-to-deliver'
+                          ? '#01B8A9'
+                          : 'yellow',
               color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' : '#fff',
               borderRadius: '50px',
             }}>
@@ -170,7 +172,7 @@ console.log(order)
               border: '1px solid coral',
               p: 1, mt: 1, borderRadius: '8px',
               maxWidth: '400px',
-              color:'coral'
+              color: 'coral'
             }}>
               Note: <b>{order?.note}</b>
             </Typography>
