@@ -2,16 +2,19 @@ import { useQuery } from '@apollo/client'
 import { ArrowBack } from '@mui/icons-material'
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { GET_ONLINE_PAYMENT_INFO } from './graphql/query'
 
 const PaymentSuccess = () => {
   const [paymentData, setPaymentData] = useState({})
-  const navigate = useNavigate()
+
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const ref = queryParams.get('ref')
 
   const { loading, error } = useQuery(GET_ONLINE_PAYMENT_INFO, {
     variables: {
-      id: '35d69fea-4d8e-4f9b-9de5-ef57da604191'
+      id: ref
     },
     onCompleted: (res) => {
       console.log(res)
