@@ -8,6 +8,7 @@ import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import DataTable from '../../../components/dashboard/DataTable';
 import { Person2Outlined } from '@mui/icons-material';
 import useIsMobile from '../../../hook/useIsMobile';
+import { Link } from 'react-router-dom';
 
 const PaymentHistory = () => {
   const [orderPayents, setOrderPayents] = useState([])
@@ -50,10 +51,9 @@ const PaymentHistory = () => {
                 display: 'inline-flex',
                 gap: '3px'
               }}>
-                {params.row.paymentFor?.firstName &&
-                  params.row.paymentFor?.firstName + ' ' + params.row.paymentFor?.LastName
-                }
-                {params.row.paymentFor?.username && '@' + params.row.paymentFor?.username}
+                <Link to={`/dashboard/staff-details/${params.row.paymentFor?.id}`}>
+                  {params.row.paymentFor?.username && '@ ' + params.row.paymentFor?.username}
+                </Link>
               </Typography>
             </Stack>
             <Typography sx={{ fontSize: '14px' }}>{params.row.paymentFor?.email}</Typography>
@@ -77,8 +77,7 @@ const PaymentHistory = () => {
     {
       field: 'paidAmount',
       headerName: '',
-      width: isMobile ? 200 : undefined,
-      flex: isMobile ? undefined : 1,
+      width: 150,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Paid Amount</Typography>
       ),
@@ -87,6 +86,21 @@ const PaymentHistory = () => {
           <Typography sx={{ fontSize: '14px', color: '#fff', fontWeight: 600, bgcolor: 'green', px: 2, borderRadius: '4px' }}>
             <span style={{ fontWeight: 400, }}>kr </span>
             {params.row.paidAmount}
+          </Typography>
+        </Stack>
+      )
+    },
+    {
+      field: 'status', headerName: '',
+      width: isMobile ? 200 : undefined,
+      flex: isMobile ? undefined : 1,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Status</Typography>
+      ),
+      renderCell: (params) => (
+        <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
+          <Typography sx={{ fontWeight: 600 }}>
+            {params.row.status}
           </Typography>
         </Stack>
       )

@@ -50,9 +50,9 @@ const Orders = () => {
     const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
 
     if (diffInDays === 0) {
-      return 'Delivered Today';
+      return 'Delivery Today';
     } else {
-      return `Delivered in ${diffInDays} days`;
+      return `Delivery in ${diffInDays} days`;
     }
   }
 
