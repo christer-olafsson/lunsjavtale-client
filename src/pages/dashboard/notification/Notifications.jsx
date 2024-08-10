@@ -12,7 +12,7 @@ import useIsMobile from '../../../hook/useIsMobile';
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([])
-
+console.log(notifications)
   const isMobile = useIsMobile()
 
   const { loading, error } = useQuery(USER_NOTIFICATIONS, {
@@ -68,7 +68,8 @@ const Notifications = () => {
         const { row } = params
         return (
           <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-            <Link style={{color: row.isSeen ? 'gray' : 'inherit'}} to={`/dashboard/orders/details/${row.objectId}`}>
+            <Link style={{color: row.isSeen ? 'gray' : 'inherit'}} 
+            to={row.objectId ? `/dashboard/orders/details/${row.objectId}` : `/dashboard/orders`}>
               <Typography sx={{
                 color: row.isSeen ? 'gray' : 'green'
               }} variant='body2'>{row.message}</Typography>

@@ -30,27 +30,32 @@ const SmallNotification = ({ onClose }) => {
       // minHeight: '500px',
       bgcolor: '#fff',
       border: '1px solid lightgray',
-      borderRadius: '8px', 
-      // p: '10px 20px',
-    }} gap={1}>
+      borderRadius: '8px',
+      px: '20px',
+      boxShadow:3,
+      pt: 2
+    }} gap={1.5}>
       {
         loading ? <Loader /> : error ? <ErrorMsg /> :
           notifications?.length === 0 ?
             <Typography sx={{ textAlign: 'center', color: 'gray' }}>No Notification</Typography> :
             notifications?.slice(0, 5).map(item => (
-              <Box sx={{
-                borderBottom:'1px solid lightgray',
-                p:2
-              }} key={item.id}>
-                <Typography sx={{ fontSize: '16px', fontWeight: 600, color: item.isSeen ? 'gray' : 'green' }}>{item.title}</Typography>
-                <Link style={{color: item.isSeen ? 'gray' : 'inherit'}} to={`/dashboard/orders/details/${item.objectId}`}>
-                  <Typography onClick={onClose} sx={{ fontSize: '14px' }}>{item.message}</Typography>
-                </Link>
-                <Stack direction='row' alignItems='center' gap={.5} >
-                  <QueryBuilder sx={{ fontSize: '12px' }} />
-                  <Typography sx={{ fontSize: '12px' }}>{getTimeDifference(item.sentOn)}</Typography>
-                </Stack>
-              </Box>
+              <Link className='link' key={item.id} to={item.objectId ? `/dashboard/orders/details/${item.objectId}` : `/dashboard/orders`}>
+                <Box sx={{
+                  borderBottom: '1px solid lightgray',
+                  p: 1,
+                  borderRadius:'4px',
+                  boxShadow: 2,
+                  bgcolor: item.isSeen ? '#fff' : '#F5F5F5'
+                }} >
+                  <Typography sx={{ fontSize: '16px', fontWeight: 600, color: item.isSeen ? 'gray' : 'green' }}>{item.title}</Typography>
+                  <Typography onClick={onClose} sx={{ fontSize: '14px', color: item.isSeen ? 'gray' : 'inherit' }}>{item.message}</Typography>
+                  <Stack direction='row' alignItems='center' gap={.5} >
+                    <QueryBuilder sx={{ fontSize: '12px' }} />
+                    <Typography sx={{ fontSize: '12px' }}>{getTimeDifference(item.sentOn)}</Typography>
+                  </Stack>
+                </Box>
+              </Link>
             ))
       }
       {
