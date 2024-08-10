@@ -166,6 +166,12 @@ export const ADDED_PRODUCTS = gql`
   }
 }
 `
+
+export const GET_ONLINE_PAYMENT_INFO = gql`
+  query GetOnlinePaymentInfo($id:ID){
+    getOnlinePaymentInfo(id:$id)
+  }
+`
 export const VENDORS = gql`
   query($name: String,$hasProduct: Boolean){
     vendors(name: $name,hasProduct:$hasProduct){

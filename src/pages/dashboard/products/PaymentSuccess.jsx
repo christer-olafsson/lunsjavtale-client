@@ -1,45 +1,62 @@
+import { useQuery } from '@apollo/client'
 import { ArrowBack } from '@mui/icons-material'
-import { Box, IconButton, Stack, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { GET_ONLINE_PAYMENT_INFO } from './graphql/query'
 
 const PaymentSuccess = () => {
+  const [paymentData, setPaymentData] = useState({})
   const navigate = useNavigate()
+
+  const { loading, error } = useQuery(GET_ONLINE_PAYMENT_INFO, {
+    variables: {
+      id: '35d69fea-4d8e-4f9b-9de5-ef57da604191'
+    },
+    onCompleted: (res) => {
+      console.log(res)
+      setPaymentData(res.getOnlinePaymentInfo)
+    }
+  })
+
   return (
     <Box sx={{ maxWidth: '1368px' }}>
 
-      {/* <Stack direction='row' justifyContent='space-between' alignItems='center'>
-        <Link to={navigate(-1)}>
-          <IconButton>
-            <ArrowBack />
-          </IconButton>
-        </Link>
-        <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Checkout</Typography>
-        <Box></Box>
-      </Stack> */}
-      <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 2, lg: 3 }} mt={3}>
+      <Link to='/dashboard'>
+        <Button startIcon={<ArrowBack />}>Dashboard</Button>
+      </Link>
+      {
+        paymentData ?
 
-
-        <Box sx={{
-          width: { xs: '100%', lg: '70%' },
-          p: { xs: 0, lg: 3 },
-          display: 'flex',
-          flexDirection: 'column',
-          textAlign: 'center',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: 1
-        }}>
-          <img style={{ width: '150px' }} src="/image 30.png" alt="" />
-          <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Thank you ! Your Payment is Completed !</Typography>
-          <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>You will receive an order confirmation email with details of your order.</Typography>
-          <Box sx={{ display: 'inline-flex', textAlign: 'center' }}>
+          <Box sx={{
+            p: { xs: 0, lg: 3 },
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 1
+          }}>
+            <img style={{ width: '100px' }} src="/image 30.png" alt="" />
+            <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Order Placed!</Typography>
+            {
+              paymentData?.sessionState &&
+              <Typography sx={{
+                fontSize: '16px',
+                fontWeight: 600,
+                color: paymentData?.sessionState === 'PaymentTerminated' ? 'red' : 'inherit'
+              }}>{paymentData?.sessionState}</Typography>
+            }
+            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>You will receive an order confirmation email with details of your order.</Typography>
+            {/* <Box sx={{ display: 'inline-flex', textAlign: 'center' }}>
             <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Order ID:</Typography>
             <Typography sx={{ fontSize: '24px', fontWeight: 600, color: 'primary.main', ml: 1 }}>#2548654 </Typography>
+            </Box> */}
           </Box>
-        </Box>
-      </Stack>
-    </Box>
+          :
+          <Typography p={6}>Not Found!</Typography>
+      }
+    </Box >
   )
 }
 

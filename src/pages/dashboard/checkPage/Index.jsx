@@ -50,6 +50,10 @@ const CheckPage = () => {
 
   const navigate = useNavigate()
 
+  const openPaymentGateway = (paymentUrl) => {
+    window.location.href = paymentUrl
+  };
+
   const { data: user } = useQuery(ME)
 
   useQuery(ADDRESSES, {
@@ -65,6 +69,9 @@ const CheckPage = () => {
       toast.success('Order Placed!')
       setErrors({})
       console.log('order place:', res)
+      if (res.placeOrder.paymentUrl) {
+        openPaymentGateway(res.placeOrder.paymentUrl)
+      }
       // navigate('/dashboard/orders')
 
     },
@@ -119,11 +126,11 @@ const CheckPage = () => {
   }
 
   useEffect(() => {
-    if(companyAllowance !== null){
+    if (companyAllowance !== null) {
       setErrors({ companyAllowance: '' })
     }
   }, [companyAllowance])
-  
+
 
 
   useEffect(() => {
@@ -265,7 +272,7 @@ const CheckPage = () => {
               <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
                 <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Shipping Info</Button>
                 {/* <Link to='/dashboard/complete'> */}
-                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>Place Order</CButton>
+                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>{paymentType === 'online' ? 'Pay Now' : 'Place Order'}</CButton>
                 {/* </Link> */}
               </Stack>
             </Stack>
