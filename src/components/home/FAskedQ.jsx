@@ -45,22 +45,23 @@ const FAskedQ = () => {
           <Box sx={{ flex: 1 }}>
             {
               loading ? <Loader /> : error ? <ErrorMsg /> :
-                FAQList.map((item, id) => (
-                  <SlideAnimation key={item.id} direction='up' delay={200 * id}>
+                FAQList.length === 0 ? <Typography textAlign='center'>==============</Typography> :
+                  FAQList.map((item, id) => (
+                    <SlideAnimation key={item.id} direction='up' delay={200 * id}>
 
-                    <Accordion  sx={{ mb: 4, boxShadow: 'none' }} defaultExpanded={id === 0 ? !match : null}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMore />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                        sx={{ fontWeight: 'bold', color: 'primary.main', p: 0 }}
-                      >
-                        {item.question}
-                      </AccordionSummary>
-                      <AccordionDetails sx={{ p: 0 }}>{item.answer}</AccordionDetails>
-                    </Accordion>
-                  </SlideAnimation>
-                ))
+                      <Accordion sx={{ mb: 4, boxShadow: 'none' }} defaultExpanded={id === 0 ? !match : null}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMore />}
+                          aria-controls="panel1-content"
+                          id="panel1-header"
+                          sx={{ fontWeight: 'bold', color: 'primary.main', p: 0 }}
+                        >
+                          {item.question}
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ p: 0 }}>{item.answer}</AccordionDetails>
+                      </Accordion>
+                    </SlideAnimation>
+                  ))
             }
           </Box>
           {/* <Box sx={{flex:1}}>

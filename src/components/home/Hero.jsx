@@ -137,10 +137,10 @@ const Hero = () => {
                 lineHeight: { xs: '40px', md: '80px' },
               }}>
                 <FadeAnimation damping={.1} delay={100} cascade={'cascade'}>
-                  Nytt lunsjkonsept
+                  Nytt lunsjkonsept levert
                 </FadeAnimation>
                 <FadeAnimation damping={.1} delay={1000} cascade={'cascade'}>
-                  på arbeidsplassen ..
+                  gratis til arbeidsplassen ..
                 </FadeAnimation>
               </Typography>
               <SlideAnimation direction='left' delay={500}>
@@ -155,7 +155,7 @@ const Hero = () => {
                   <Stack sx={{
                     width: { xs: '111px', md: '174px' }
                   }} direction='row' alignItems='center' gap={1}>
-                    <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>12</Typography>
+                    {/* <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>12</Typography> */}
                     <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>retter å velge mellom hver dag</Typography>
                   </Stack>
                 </SlideAnimation>
@@ -166,7 +166,7 @@ const Hero = () => {
                   <Stack sx={{
                     width: { xs: '64px', md: '93px' }
                   }} direction='row' alignItems='center' gap={1}>
-                    <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>59</Typography>
+                    <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>30</Typography>
                     <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Fra <br /> NOK</Typography>
                   </Stack>
                 </SlideAnimation>
@@ -212,15 +212,16 @@ const Hero = () => {
 
             <SlideAnimation direction='right'>
               <Box sx={{
-                display: { xs: 'none', md: 'block' },
-                width: { xs: '343px', lg: '446px' },
-                height: { xs: '445px', lg: '569px' }
+                display: { xs: 'none', lg: 'block' },
+                width: { xs: '343px', lg: '400px' },
+                height: { xs: '445px', lg: '500px' }
               }}>
                 <img style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'cover'
-                }} src="/Illustration.png" alt="" />
+                  objectFit: 'cover',
+                  borderRadius: '20px'
+                }} src="/herosmall.jpeg" alt="" />
               </Box>
             </SlideAnimation>
             <Box sx={{
@@ -234,7 +235,7 @@ const Hero = () => {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover'
-                }} src="/Illustration1.png" alt="" />
+                }} src="/herosmall.jpeg" alt="" />
               </SlideAnimation>
             </Box>
 

@@ -85,8 +85,7 @@ const Footer = () => {
             fontWeight: { xs: 600, md: 800 },
             color: '#fff', textAlign: 'center', mb: 2
           }}>
-            Sunn, smakfull og enkel lunsj <br /> kl
-            kontoret?
+            Friske råvarer, gode smaker, <br /> gratis levering i Follo.
           </Typography>
         </SlideAnimation>
         <Link to='/search'>
@@ -100,27 +99,27 @@ const Footer = () => {
           alignSelf: { xs: 'center', md: 'flex-start' },
           color: '#fff',
           mt: { xs: 8, md: 8 },
-          textAlign: { xs: 'center', md: 'none' },
+          textAlign: { xs: 'center', md: 'start' },
           pb: { xs: 10, md: 0 }
         }}>
           <a style={{ textDecoration: 'none' }} href={socialLink?.facebook ?? ''} target='blank'>
-            <ListItem>
-              <ListItemText sx={{ color: '#fff' }}>Facebook</ListItemText>
+            <ListItem sx={{width:'fit-content'}}>
+              <ListItemText sx={{ color: '#fff',mr:3 }}>Facebook</ListItemText>
               <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
             </ListItem>
           </a>
           <a style={{ textDecoration: 'none' }} href={socialLink?.instagram ?? ''} target='blank'>
-            <ListItem>
-              <ListItemText sx={{ color: '#fff' }}>Instagram</ListItemText>
+            <ListItem sx={{width:'fit-content'}}>
+              <ListItemText sx={{ color: '#fff',mr:3 }}>Instagram</ListItemText>
               <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
             </ListItem>
           </a>
-          <a style={{ textDecoration: 'none' }} href={socialLink?.linkedIn ?? ''} target='blank'>
+          {/* <a style={{ textDecoration: 'none' }} href={socialLink?.linkedIn ?? ''} target='blank'>
             <ListItem>
               <ListItemText sx={{ color: '#fff' }}>LinkedIn</ListItemText>
               <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
             </ListItem>
-          </a>
+          </a> */}
           {/* <Typography mt={3}>hei@lunsjavtale.no</Typography> */}
           <Typography mt={3}>{clientDetails?.email}</Typography>
           <Typography>{clientDetails?.contact}</Typography>

@@ -67,7 +67,7 @@ const ProductCard = ({ data }) => {
         }}>NOK {data.node.priceWithTax}</Typography>
         <Link to='/search'>
           <CButton style={{}} variant='contained' color='secondary'>
-            Get Stared
+          Bestill
           </CButton>
         </Link>
       </Stack>

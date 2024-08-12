@@ -147,7 +147,7 @@ function WhoAreYou() {
                 width: { xs: '100%', md: '713px' },
                 height: { xs: '404px', md: '416px' },
               }}>
-                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/Text input.png" alt="" />
+                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/dish1.jpeg" alt="" />
               </Box>
             </SlideAnimation>
             <Stack direction='row' gap={2} justifyContent={{ xs: 'center', sm: 'start', lg: 'space-between' }}>
@@ -156,7 +156,7 @@ function WhoAreYou() {
                   width: { xs: '106px', md: '221px' },
                   height: '180px'
                 }}>
-                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (1).png" alt="" />
+                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/dish2.jpeg" alt="" />
                 </Box>
               </SlideAnimation>
               <SlideAnimation direction='left' delay={100}>
@@ -164,7 +164,7 @@ function WhoAreYou() {
                   width: { xs: '106px', md: '221px' },
                   height: '180px'
                 }}>
-                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (2).png" alt="" />
+                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/dish3.jpeg" alt="" />
                 </Box>
               </SlideAnimation>
               <SlideAnimation direction='left' delay={200}>
@@ -172,7 +172,7 @@ function WhoAreYou() {
                   width: { xs: '106px', md: '221px' },
                   height: '180px'
                 }}>
-                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/Text input (3).png" alt="" />
+                  <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} src="/dish4.jpeg" alt="" />
                 </Box>
               </SlideAnimation>
             </Stack>

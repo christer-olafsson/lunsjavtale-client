@@ -17,18 +17,17 @@ const SoEasy = () => {
         <Box >
           <Typography sx={{ fontWeight: 800, fontSize: { xs: '32px', md: '58px' } }}>
             <FadeAnimation damping={.1} cascade={'cascade'}>
-              Så lett!
+              Enkelt og effektivt !
             </FadeAnimation>
           </Typography>
           <Divider sx={{ width: '64px', borderBottomWidth: '2px', my: { xs: 1, md: 3 } }} />
           <List>
             {[
-              "Med våre tjenester kan du enkelt administrere dine møtematbehov.",
-              "Få tilgang til et bredt utvalg av matkategorier for dine møter.",
-              "Bestill møtemat på nettet på et øyeblikk.",
-              "Vi tilbyr også et enkelt grensesnitt for administrering av møter og matbestillinger.",
-              "Få tilgang til vår fleksible planleggingstjeneste for møtemat.",
-              "Opplev den enkle og effektive måten å håndtere dine møtematbehov på."
+              "Med våre tjenester kan du enkelt administrere dine lunsjbestillinger.",
+              "Få tilgang til et bredt utvalg av lunsjmåltider for dine ansatte.",
+              "Bestill lunsj på nettet på et øyeblikk.",
+              "Vi tilbyr også et enkelt grensesnitt for administrering av deres matbestillinger.",
+              "All mat laget fra bunn av med de beste råvarer tilgjengelig.",
             ].map((text, index) => (
               <SlideAnimation key={index} direction='up' cascade>
                 <ListItem sx={{ mb: { xs: 1, md: 1 } }} disablePadding>
@@ -58,7 +57,7 @@ const SoEasy = () => {
                 width: { xs: '165px', md: '310px' },
                 height: { xs: '272px', md: '408px' }
               }}>
-                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/Rectangle 1.png" alt="" />
+                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/soeasy1.jpeg" alt="" />
               </Box>
             </SlideAnimation>
             <SlideAnimation direction='down' delay={100}>
@@ -66,7 +65,7 @@ const SoEasy = () => {
                 width: { xs: '165px', md: '310px' },
                 height: { xs: '78px', md: '117px' }
               }}>
-                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/Rectangle 3.png" alt="" />
+                <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/soeasy3.jpeg" alt="" />
               </Box>
             </SlideAnimation>
           </Stack>
@@ -75,7 +74,7 @@ const SoEasy = () => {
               width: { xs: '165px', md: '310px' },
               height: { xs: '272px', md: '408px' }
             }}>
-              <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/Rectangle 2.png" alt="" />
+              <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/soeasy2.jpeg" alt="" />
             </Box>
           </SlideAnimation>
         </Stack>

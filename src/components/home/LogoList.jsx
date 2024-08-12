@@ -39,7 +39,7 @@ const LogoList = () => {
                 cursor: 'pointer',
               }}>
                 <a href={item.node.siteUrl} target='blank'>
-                  <img style={{ width: '100%' }} src={item.node.logoUrl} alt="" />
+                  <img style={{ width: '100%',objectFit:'contain' }} src={item.node.logoUrl} alt="" />
                 </a>
               </Box>
             ))

@@ -78,7 +78,7 @@ const InstagramSec = () => {
         borderRadius: '8px', mb: 2
       }} >
         {/* <SlideAnimation direction='up'> */}
-          <a style={{ textDecoration: 'none', color: 'inherit' }} href={socialLink?.instagram} target='blank'>Følg oss på Instagram</a>
+        <a style={{ textDecoration: 'none', color: 'inherit' }} href={socialLink?.instagram} target='blank'>Følg oss på Instagram</a>
         {/* </SlideAnimation> */}
       </Box>
       <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>
@@ -151,11 +151,12 @@ const InstagramSec = () => {
       <Stack direction='row' gap={{ xs: 0, md: 6 }} flexWrap='wrap' justifyContent='center'>
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
-            links.map((item, id) => (
-              <Box sx={{width:'200px',overflow:'hidden'}} key={id}>
-                <InstagramEmbed url={item.link} width={350} height={700} />
-              </Box>
-            ))
+            links.length === 0 ? <Typography textAlign='center'>=============</Typography> :
+              links.map((item, id) => (
+                <Box sx={{ width: '350px', overflow: 'hidden' }} key={id}>
+                  <InstagramEmbed url={item.link} width={350} />
+                </Box>
+              ))
         }
       </Stack>
 

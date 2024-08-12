@@ -55,23 +55,23 @@ const Contact = () => {
             </SlideAnimation>
           </Box>
           <SlideAnimation direction='up' delay={100}>
-            <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du fortsatt spørsmål?</Typography>
+            <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du spørsmål?</Typography>
           </SlideAnimation>
           <SlideAnimation direction='up' delay={200}>
-            <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelige på chat, eller så kan du ringe tråden når som helst</Typography>
+            <Typography sx={{ textAlign: 'center' }}>Vi er tilgjengelig på telefon, ring oss i dag</Typography>
           </SlideAnimation>
           <Stack direction='row' gap={2}>
-            <a href={`https://wa.me/${clientDetails?.contact}`} target='blank'>
+            {/* <a href={`https://wa.me/${clientDetails?.contact}`} target='blank'>
               <SlideAnimation direction='up' delay={300}>
                 <CButton startIcon={<WhatsApp />} variant='contained'
                   style={{ mt: 3, width: '150px' }}>
                   Ring oss
                 </CButton>
               </SlideAnimation>
-            </a>
+            </a> */}
             <a className='link' href={`tel: ${clientDetails?.contact}`}>
               <SlideAnimation direction='up' delay={300}>
-                <CButton color='warning' startIcon={<Phone />} variant='contained'
+                <CButton color='primary' startIcon={<Phone />} variant='contained'
                   style={{ mt: 3, width: '150px' }}>
                   Ring oss
                 </CButton>

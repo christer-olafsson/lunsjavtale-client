@@ -26,7 +26,7 @@ const CreateProfile = () => {
             maxWidth: '582px'
           }}>
             <SlideAnimation direction='left'>
-              <Typography sx={smTitle}>01. Lag en pofil</Typography>
+              <Typography sx={smTitle}>01. Lag en profil</Typography>
             </SlideAnimation>
             <SlideAnimation direction='left' delay={100}>
               <Typography mb={3} sx={bigTitle}>Registrer bedriften din på få minutter</Typography>
@@ -68,7 +68,7 @@ const CreateProfile = () => {
               <Typography sx={smTitle}>02. Inviter ansatte</Typography>
             </SlideAnimation>
             <SlideAnimation direction='right' delay={100}>
-              <Typography sx={bigTitle} mb={3}>Det er like raskt å ombord 2 som 200 ansatte</Typography>
+              <Typography sx={bigTitle} mb={3}>Det går raskt å komme i gang uansett hvor mange dere er</Typography>
             </SlideAnimation>
             <SlideAnimation direction='right' delay={200}>
               <Typography mb={3}>Vi vet hvor viktig det er både for den som administrerer og den som skal få noe nytt «kastet» på seg at det ikke føles som en «belastning». Vi har laget et system som gjør at uansett hvor stor eller liten bedriften din er, er det like enkelt å komme i gang.</Typography>

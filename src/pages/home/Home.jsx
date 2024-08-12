@@ -23,7 +23,7 @@ const Home = () => {
       <CreateProfile/>
       <FAskedQ/>
       <Contact/>
-      {/* <InstagramSec/> */}
+      <InstagramSec/>
       <Footer/>
     </div>
   )
