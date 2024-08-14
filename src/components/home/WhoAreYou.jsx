@@ -203,7 +203,7 @@ function WhoAreYou() {
               <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Ansatt</Typography>
             </SlideAnimation>
             <SlideAnimation direction='up' delay={100}>
-              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Velg mellom 12 ulike lunsjretter hver dag</Typography>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Velg mellom ulike lunsjretter hver dag</Typography>
             </SlideAnimation>
             <SlideAnimation direction='up' delay={200}>
               <Typography mb={1}>Her er det garantert noe alle liker – og nye retter på menyen hver eneste dag! Vi kan ikke fikse alt, men vi kan arrangere en stressfri pause og sørge for at du får mat som ikke bare er bra, men også bra for kroppen.</Typography>

@@ -3,10 +3,10 @@ import React from 'react'
 import Marquee from 'react-fast-marquee'
 
 const logo = [
-  { img: '/Container.png' },
-  { img: '/Container (1).png' },
-  { img: '/Container (2).png' },
-  { img: '/Container (3).png' },
+  { img: '/gastronomen.svg' },
+  // { img: '/Container (1).png' },
+  // { img: '/Container (2).png' },
+  // { img: '/Container (3).png' },
 ]
 
 const LogoSlide = () => {

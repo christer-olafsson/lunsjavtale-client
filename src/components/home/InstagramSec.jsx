@@ -83,7 +83,7 @@ const InstagramSec = () => {
       </Box>
       <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>
         <SlideAnimation direction='up' delay={100}>
-          Se hva som skjer på noen
+          Se hva som skjer
         </SlideAnimation>
       </Typography>
       <Typography alignSelf='center' mb={6}>

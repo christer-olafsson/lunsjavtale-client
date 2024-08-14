@@ -191,7 +191,7 @@ const CategoryTab = (props) => {
                     deviceType={props.deviceType}
                   >
                     {
-                      item?.node?.products?.edges.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>No Products Found!</Typography> :
+                      item?.node?.products?.edges.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>Product Empty</Typography> :
                         item?.node?.products?.edges?.filter(item => !item.node.vendor?.isDeleted).map((data, id) => (
                           <SlideAnimation key={id} direction='up' delay={100 * id} >
 

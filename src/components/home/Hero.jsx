@@ -156,7 +156,7 @@ const Hero = () => {
                     width: { xs: '111px', md: '174px' }
                   }} direction='row' alignItems='center' gap={1}>
                     {/* <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>12</Typography> */}
-                    <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>retter å velge mellom hver dag</Typography>
+                    <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Mange retter å velge mellom hver dag</Typography>
                   </Stack>
                 </SlideAnimation>
                 <SlideAnimation delay={300}>

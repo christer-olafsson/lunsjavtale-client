@@ -1,10 +1,11 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { RESET_PASSWORD } from './graphql/mutation';
-import { Box, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
 import CButton from '../../common/CButton/CButton';
 import toast from 'react-hot-toast';
+import { HomeOutlined } from '@mui/icons-material';
 // import bg from '../../../public/passresetbg'
 
 const PassReset = () => {
@@ -80,30 +81,39 @@ const PassReset = () => {
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
         borderRadius: '8px'
       }}>
+        <Link to='/' style={{
+          position: 'absolute',
+          left: 20,
+          top: 20
+        }}>
+          <IconButton>
+            <HomeOutlined />
+          </IconButton>
+        </Link>
         <Box sx={{
           width: '150px',
           mb: 2,
         }}>
           <img width='100%' src="/Logo.svg" alt="" />
         </Box>
-        <Typography variant='h5' pb={2}>Password Reset</Typography>
+        <Typography variant='h5' pb={2}>Tilbakestill passord</Typography>
         <TextField
           error={payloadError}
           onChange={handleInputChange}
           name='password1'
           sx={{ mb: 1, width: '300px' }}
-          label='New Password'
-          placeholder='new password'
+          label='Nytt passord'
+          placeholder='Nytt passord'
         />
         <TextField
           error={payloadError}
           onChange={handleInputChange}
           name='password2'
           sx={{ mb: 1, width: '300px' }}
-          label='Confirm Password'
-          placeholder='confirm password'
+          label='Bekreft nytt passord'
+          placeholder='Bekreft nytt passord'
         />
-        <CButton style={{ width: '100%' }} isLoading={loading} onClick={handleSubmit} variant='contained' >Submit</CButton>
+        <CButton style={{ width: '100%' }} isLoading={loading} onClick={handleSubmit} variant='contained' >Send inn</CButton>
       </Stack>
     </Stack>
   )
