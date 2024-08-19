@@ -69,7 +69,7 @@ const InstagramSec = () => {
     }
   });
   return (
-    <Container maxWidth='lg' sx={{ display: 'flex', flexDirection: 'column', my: 10 }}>
+    <Container maxWidth='lg' sx={{ display: 'flex', flexDirection: 'column', my: 10, overflow: 'hidden' }}>
       <Box sx={{
         alignSelf: 'center',
         maxWidth: '288px',

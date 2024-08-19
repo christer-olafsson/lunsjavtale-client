@@ -1,4 +1,4 @@
-import { Chat, Close, Menu } from '@mui/icons-material'
+import { Chat, Close, LocalDiningOutlined, Menu, RestaurantOutlined } from '@mui/icons-material'
 import { Box, Button, ClickAwayListener, Container, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import CButton from '../../common/CButton/CButton'
@@ -150,7 +150,7 @@ const Hero = () => {
                 </Typography>
               </SlideAnimation>
 
-              <Stack direction='row' alignItems='center' gap={2} justifyContent={{ xs: 'center', sm: 'space-around', lg: 'space-between' }}>
+              <Stack direction='row' alignItems='center' gap={3} justifyContent={{ xs: 'center', sm: 'space-around', lg: 'space-between' }}>
                 <SlideAnimation delay={100}>
                   <Stack sx={{
                     width: { xs: '111px', md: '174px' }
@@ -159,9 +159,9 @@ const Hero = () => {
                     <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Mange retter å velge mellom hver dag</Typography>
                   </Stack>
                 </SlideAnimation>
-                <SlideAnimation delay={300}>
-                  <img src="/Line.png" alt="" />
-                </SlideAnimation>
+                {/* <SlideAnimation delay={300}>
+                  <LocalDiningOutlined fontSize='large'/>
+                </SlideAnimation> */}
                 <SlideAnimation delay={500}>
                   <Stack sx={{
                     width: { xs: '64px', md: '93px' }
@@ -170,9 +170,9 @@ const Hero = () => {
                     <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Fra <br /> NOK</Typography>
                   </Stack>
                 </SlideAnimation>
-                <SlideAnimation delay={700}>
-                  <img src="/Line.png" alt="" />
-                </SlideAnimation>
+                {/* <SlideAnimation delay={700}>
+                  <RestaurantOutlined fontSize='large'/>
+                </SlideAnimation> */}
                 <SlideAnimation delay={900}>
                   <Typography sx={{
                     width: { xs: '111px', md: '165px  ' },
