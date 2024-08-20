@@ -13,18 +13,20 @@ import Contact from '../../components/home/Contact'
 
 const Home = () => {
   return (
-    <div>
-      <Hero/>
-      <SoEasy/>
-      <LogoList/>
-      <WhoAreYou/>
-      <LogoSlide/>
-      <CategoryTab/>
-      <CreateProfile/>
-      <FAskedQ/>
-      <Contact/>
-      <InstagramSec/>
-      <Footer/>
+    <div
+      style={{ overflowX: 'hidden' }}
+    >
+      <Hero />
+      <SoEasy />
+      <LogoList />
+      <WhoAreYou />
+      <LogoSlide />
+      <CategoryTab />
+      <CreateProfile />
+      <FAskedQ />
+      <Contact />
+      <InstagramSec />
+      <Footer />
     </div>
   )
 }

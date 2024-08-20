@@ -16,6 +16,10 @@ const FAskedQ = () => {
       setFAQList(res.FAQList.edges.map(item => item.node))
     }
   })
+
+  if (FAQList.length === 0) {
+    return
+  }
   return (
     <Box id='faq'>
       <Container maxWidth='lg' sx={{ display: 'flex', flexDirection: 'column', my: 10 }}>

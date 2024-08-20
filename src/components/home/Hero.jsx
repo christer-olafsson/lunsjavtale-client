@@ -166,7 +166,7 @@ const Hero = () => {
                   <Stack sx={{
                     width: { xs: '64px', md: '93px' }
                   }} direction='row' alignItems='center' gap={1}>
-                    <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>30</Typography>
+                    <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>25</Typography>
                     <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Fra <br /> NOK</Typography>
                   </Stack>
                 </SlideAnimation>
