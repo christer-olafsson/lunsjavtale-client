@@ -1,4 +1,4 @@
-import { Box, Container, List, ListItem, ListItemIcon, ListItemText, Stack, Tabs, Typography, tabsClasses } from "@mui/material";
+import { Box, Container, List, ListItem, ListItemIcon, ListItemText, Stack, Tabs, Typography, tabsClasses, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { styled } from "@mui/material/styles";
@@ -35,6 +35,7 @@ const TabItem = styled(Tab)(({ theme }) => ({
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
+  
   return (
     <div
       role="tabpanel"
@@ -59,6 +60,7 @@ function CustomTabPanel(props) {
 
 function WhoAreYou() {
   const [tabIndex, setTabIndex] = useState(0);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'))
 
   return (
     <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 } }}>
@@ -96,7 +98,7 @@ function WhoAreYou() {
       </Stack>
 
       <CustomTabPanel value={tabIndex} index={0}>
-        <Stack direction={{ sm: 'column', lg: 'row' }} gap={6} >
+        <Stack direction={{ xs: 'column', lg: 'row' }} gap={6} >
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
@@ -104,10 +106,10 @@ function WhoAreYou() {
               <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Sjefen</Typography>
             </SlideAnimation>
             <SlideAnimation direction='up' delay={200}>
-              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader og få mer for <br /> dine Penger.</Typography>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader  <br style={{display:isMobile ? 'block' : 'none'}} /> og få mer for <br /> dine Penger.</Typography>
             </SlideAnimation>
             <SlideAnimation direction='up' delay={400}>
-              <Typography mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
+              <Typography sx={{maxWidth:'700px'}} mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
             </SlideAnimation>
             <List>
               {
@@ -181,7 +183,7 @@ function WhoAreYou() {
       </CustomTabPanel>
 
       <CustomTabPanel value={tabIndex} index={1}>
-        <Stack direction={{ sm: 'column', lg: 'row' }} gap={6} >
+        <Stack direction={{ xs: 'column-reverse', md: 'row' }} gap={6} >
           <Stack sx={{
             flex: 1,
             gap: 2,
@@ -189,8 +191,8 @@ function WhoAreYou() {
           }}>
             <SlideAnimation direction='left'>
               <Box sx={{
-                width: { xs: '100%', md: '713px' },
-                height: { xs: '404px', md: '580px' },
+                width: { xs: '100%', lg: '713px' },
+                height: { xs: '404px', lg: '580px' },
               }}>
                 <img style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} src="/image 7.png" alt="" />
               </Box>
@@ -241,7 +243,7 @@ function WhoAreYou() {
       </CustomTabPanel>
 
       <CustomTabPanel value={tabIndex} index={2}>
-        <Stack direction={{ sm: 'column', lg: 'row' }} gap={6} >
+        <Stack direction={{ sm: 'column', md: 'row' }} gap={6} >
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
           }}>
@@ -294,8 +296,8 @@ function WhoAreYou() {
             alignItems: { xs: '', md: 'center' }
           }}>
             <Box sx={{
-              width: { xs: '100%', md: '713px' },
-              height: { xs: '404px', md: '580px' },
+              width: { xs: '100%', lg: '713px' },
+              height: { xs: '404px', lg: '580px' },
               position: 'relative',
               mt: { xs: 5, md: 0 }
             }}>
