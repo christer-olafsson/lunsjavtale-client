@@ -127,30 +127,45 @@ const Hero = () => {
               // flex: 1,
               color: '#fff',
               width: { xs: '100%', md: '50%' },
-              gap: { xs: 3, md: 3 },
               justifyContent: 'center'
             }}>
-              <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 }, }}>{clientDetails?.slogan}</Typography>
+              <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 },mb:3 }}>{clientDetails?.slogan}</Typography>
               <Typography sx={{
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,
                 lineHeight: { xs: '40px', md: '80px' },
               }}>
                 <FadeAnimation damping={.1} delay={100} cascade={'cascade'}>
-                  Nytt lunsjkonsept levert
+                  Nytt lunsjkonsept
                 </FadeAnimation>
+              </Typography>
+              <Typography sx={{
+                fontSize: { xs: '32px', md: '68px' },
+                fontWeight: 800,
+                lineHeight: { xs: '40px', md: '80px' },
+              }}>
+                <FadeAnimation damping={.1} delay={100} cascade={'cascade'}>
+                  levert gratis til
+                </FadeAnimation>
+              </Typography>
+              <Typography sx={{
+                fontSize: { xs: '32px', md: '68px' },
+                fontWeight: 800,
+                lineHeight: { xs: '40px', md: '80px' },
+                mb:3
+              }}>
                 <FadeAnimation damping={.1} delay={1000} cascade={'cascade'}>
-                  gratis til arbeidsplassen ..
+                  arbeidsplassen ..
                 </FadeAnimation>
               </Typography>
               <SlideAnimation direction='left' delay={500}>
 
-                <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 1 }}>
+                <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 3}}>
                   La ansatte styre sin egen lunsj med bare noen få tastetrykk. Kutt administrasjon, kostnader og matsvinn, samtidig som ansatte får levert akkurat den lunsjen de ønsker.
                 </Typography>
               </SlideAnimation>
 
-              <Stack direction='row' alignItems='center' gap={3} justifyContent={{ xs: 'center', sm: 'space-around', lg: 'space-between' }}>
+              <Stack mb={3} direction='row' alignItems='center' gap={3} justifyContent={{ xs: 'center', sm: 'space-around', lg: 'space-between' }}>
                 <SlideAnimation delay={100}>
                   <Stack sx={{
                     width: { xs: '111px', md: '174px' }
