@@ -106,7 +106,8 @@ function WhoAreYou() {
               <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Sjefen</Typography>
             </SlideAnimation>
             <SlideAnimation direction='up' delay={200}>
-              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader  <br style={{display:isMobile ? 'block' : 'none'}} /> og få mer for <br /> dine Penger.</Typography>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader og få mer for dine Penger.</Typography>
+              {/* <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader  <br style={{display:isMobile ? 'block' : 'none'}} /> og få mer for <br /> dine Penger.</Typography> */}
             </SlideAnimation>
             <SlideAnimation direction='up' delay={400}>
               <Typography sx={{maxWidth:'700px'}} mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
