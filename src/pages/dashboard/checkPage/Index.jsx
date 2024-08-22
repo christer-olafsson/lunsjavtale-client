@@ -246,7 +246,7 @@ const CheckPage = () => {
                   label="Payment Type"
                   onChange={(e) => setPaymentType(e.target.value)}
                 >
-                  <MenuItem value={'online'}>Online</MenuItem>
+                  <MenuItem value={'online'}>Vipps</MenuItem>
                   <MenuItem value={'pay-by-invoice'}>Pay By Invoice</MenuItem>
                   <MenuItem value={'cash-on-delivery'}>Cash On Delivery</MenuItem>
                 </Select>
