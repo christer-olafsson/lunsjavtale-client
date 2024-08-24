@@ -110,7 +110,9 @@ const OrderDetails = () => {
                         : order.status === 'Ready-to-deliver'
                           ? '#01B8A9'
                           : 'yellow',
-              color: order?.status === 'Placed' ? 'dark' : order?.status === 'Confirmed' ? 'dark' : '#fff',
+              color: order.status === 'Placed'
+                ? 'dark' : order.status === 'Payment-pending'
+                  ? 'dark' : order.status === 'Confirmed' ? 'dark' : '#fff',
               borderRadius: '50px',
             }}>
               <b style={{ marginLeft: '5px' }}> {order?.status}</b>
