@@ -58,7 +58,7 @@ const CreateProfile = () => {
             // width: '560px'
           }}>
             <SlideAnimation direction='left'>
-              <img style={{ width: '100%' }} src="/image 6.png" alt="" />
+              <img style={{ width: '100%', borderRadius: '30px' }} src="/image 6.png" alt="" />
             </SlideAnimation>
           </Box>
           <Box sx={{
@@ -112,7 +112,7 @@ const CreateProfile = () => {
             // width: '560px'
           }}>
             <SlideAnimation direction='right'>
-              <img style={{ width: '100%' }} src="/image 6434.png" alt="" />
+              <img style={{ width: '100%', borderRadius: '30px' }} src="/image 6434.png" alt="" />
             </SlideAnimation>
           </Box>
         </Stack>
