@@ -1,5 +1,5 @@
-import { Add, ArrowBack, ArrowDropDown, ArrowDropDownOutlined, BorderColor, Download, DriveFileRenameOutlineOutlined, Edit, KeyboardDoubleArrowRightOutlined, Search } from '@mui/icons-material';
-import { Box, Button, Chip, Collapse, Divider, IconButton, Input, Rating, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
+import { Add, ArrowBack, ArrowDropDown, ArrowDropDownOutlined, BorderColor, Download, DriveFileRenameOutlineOutlined, Edit, Error, KeyboardDoubleArrowRightOutlined, Search } from '@mui/icons-material';
+import { Box, Button, Chip, Collapse, Divider, IconButton, Input, Rating, Stack, TextField, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { ORDER } from './graphql/query';
@@ -15,6 +15,7 @@ import { format } from 'date-fns';
 import SlideDrawer from '../products/SlideDrawer';
 import InvoiceTemplate, { downloadPDF } from './InvoiceTemplate';
 import LoadingBar from '../../../common/loadingBar/LoadingBar';
+import CreatePayment from './CreatePayment';
 
 
 const OrderDetails = () => {
@@ -24,6 +25,8 @@ const OrderDetails = () => {
   const [editOrderId, setEditOrderId] = useState('')
   const [selectedStaffDetailsId, setSelectedStaffDetailsId] = useState('')
   const [openSlideDrawer, setOpenSlideDrawer] = useState(false);
+  const [openCreatePaymentDialog, setOpenCreatePaymentDialog] = useState(false)
+  const [currentStaffOrder, setCurrentStaffOrder] = useState({})
 
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'))
@@ -68,14 +71,21 @@ const OrderDetails = () => {
     }
   }
 
+  useEffect(() => {
+    if (order) {
+      const userCarts = order?.orderCarts?.edges?.map(item => item.node?.users?.edges || []) || [];
+      const selectedUsers = userCarts.flat().map(user => user?.node);
+      const isCurrentStaff = selectedUsers?.find(data => data?.addedFor?.id === user?.me?.id);
+      setCurrentStaffOrder(isCurrentStaff)
+    }
+  }, [order])
+
   if (loading) {
     return <LoadingBar />
   }
   if (orderErr) {
     return <ErrorMsg />
   }
-
-  console.log(order)
   return (
     <Box maxWidth='xl'>
       <Stack direction='row' gap={2}>
@@ -90,10 +100,14 @@ const OrderDetails = () => {
       {/* <SlideDrawer openSlideDrawer={openSlideDrawer} toggleDrawer={toggleDrawer}>
         <InvoiceTemplate data={order} toggleDrawer={toggleDrawer} />
       </SlideDrawer> */}
+      {/* create payment */}
+      <CDialog openDialog={openCreatePaymentDialog}>
+        <CreatePayment orderData={order} closeDialog={() => setOpenCreatePaymentDialog(false)} />
+      </CDialog>
       <Box mt={3}>
         {
           order?.status &&
-          <Stack direction='row' gap={3}>
+          <Stack direction='row' alignItems='center' gap={3}>
             <Typography sx={{
               display: 'inline-flex',
               padding: '5px 12px', mb: 2,
@@ -112,13 +126,14 @@ const OrderDetails = () => {
                           : 'yellow',
               color: order.status === 'Placed'
                 ? 'dark' : order.status === 'Payment-pending'
-                  ? 'dark' : order.status === 'Confirmed' ? 'dark' : '#fff',
+                  ? 'dark' : order.status === 'Confirmed' ? 'dark'
+                    : order.status === 'Updated' ? 'dark' : '#fff',
               borderRadius: '50px',
             }}>
-              <b style={{ marginLeft: '5px' }}> {order?.status}</b>
+              <b style={{ marginLeft: '5px' }}>Status: {order?.status}</b>
             </Typography>
             {
-              (order?.status === 'Delivered' || order?.status === 'Payment-pending') &&
+              order?.status === 'Delivered' &&
               <Button size='small'
                 // onClick={toggleDrawer}
                 onClick={() => downloadPDF()}
@@ -127,6 +142,7 @@ const OrderDetails = () => {
           </Stack>
         }
         <Stack>
+
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Order ID:</b></Typography>
             <Typography>#{order?.id}</Typography>
@@ -149,23 +165,48 @@ const OrderDetails = () => {
           </Stack>
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Payment Type:</b></Typography>
-            <Typography>{order?.paymentType}</Typography>
+            <Typography>{order?.paymentType === 'online' ? 'Vipps' : order?.paymentType}</Typography>
           </Stack>
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Discount Amount:</b></Typography>
-            <Typography>{order?.discountAmount}</Typography>
+            <Typography>{order?.discountAmount} kr</Typography>
           </Stack>
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Company Allowance:</b></Typography>
             <Typography>{order?.companyAllowance ?? '0'} %</Typography>
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Due Amount:</b></Typography>
-            <Typography>{order?.dueAmount}</Typography>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Total Due Amount:</b></Typography>
+            <Stack direction='row'>
+              <Typography mr={1}>{order?.dueAmount} kr </Typography>
+              <Tooltip title='All Staffs due amount'>
+                <Error fontSize='small' color='primary' />
+              </Tooltip>
+            </Stack>
           </Stack>
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Paid Amount:</b></Typography>
-            <Typography>{order?.paidAmount}</Typography>
+            <Typography>{order?.paidAmount} kr</Typography>
+          </Stack>
+          <Stack direction='row' justifyContent='space-between' alignItems='center' sx={{
+            border: '1px solid lightgray',
+            maxWidth: '350px',
+            whiteSpace: 'nowrap',
+            pl: 1, borderRadius: '4px', mt: 2, mb: 1
+          }}>
+            <Typography>
+              {user?.me.role === 'company-employee' ? 'Your Due:' : 'Total Due:'}
+              <b style={{ marginLeft: '5px' }}>{user?.me.role === 'company-employee' ? currentStaffOrder?.dueAmount : order?.dueAmount}</b> kr
+            </Typography>
+            <Button
+              // disabled={(currentStaffOrder?.dueAmount === '0.00') || (order?.dueAmount === '0.00')}
+              onClick={() => setOpenCreatePaymentDialog(true)}
+              sx={{ alignSelf: 'flex-start', ml: 2 }}
+              variant='contained'>
+              {
+                user?.me.role === 'company-employee' ? 'Pay Now' : 'Pay for Staffs'
+              }
+            </Button>
           </Stack>
           {
             order?.note &&
@@ -180,6 +221,7 @@ const OrderDetails = () => {
             </Typography>
           }
         </Stack>
+
         {/* <Chip label={`Status: ${order?.status}`} /> */}
         <Divider sx={{ mt: 2 }} />
 
@@ -226,7 +268,7 @@ const OrderDetails = () => {
                               disabled={
                                 user?.me.company.isBlocked
                                 || user?.me.role === 'company-employee'
-                                || order?.status !== 'Placed'
+                                || (order?.status !== 'Placed' && order?.status !== 'Updated')
                               }
                               onClick={() => handleEditDialog(data.node.id)}
                               endIcon={<DriveFileRenameOutlineOutlined />}

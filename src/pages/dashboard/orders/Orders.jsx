@@ -65,7 +65,7 @@ const Orders = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-          <Link style={{textDecoration:'none'}} to={`/dashboard/orders/details/${params.row.id}`}>
+          <Link style={{ textDecoration: 'none' }} to={`/dashboard/orders/details/${params.row.id}`}>
             <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>&#x2022; {params.row.id}</Typography>
           </Link>
         </Stack>
@@ -166,7 +166,8 @@ const Orders = () => {
                         : 'yellow',
             color: row.status === 'Placed'
               ? 'dark' : row.status === 'Payment-pending'
-                ? 'dark' : row.status === 'Confirmed' ? 'dark' : '#fff',
+                ? 'dark' : row.status === 'Confirmed' ? 'dark' 
+                : row.status === 'Updated' ? 'dark' : '#fff',
             borderRadius: '4px',
           }}>
             <Typography sx={{ fontWeight: 500 }} variant='body2'>{row.status}</Typography>

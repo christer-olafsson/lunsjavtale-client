@@ -189,7 +189,14 @@ function Layout() {
             display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
             <Typography>Due Amount: <b>{user?.me.company.balance}</b>  kr</Typography>
-            <Button disabled={user?.me.company?.isBlocked} onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
+            <Button
+              disabled={user?.me.company?.isBlocked}
+              onClick={() => setOpenPaymentDialog(true)}
+              variant='outlined'
+              size='small'
+            >
+              Pay by Vipps
+            </Button>
           </Stack>
         }
         {
@@ -204,7 +211,14 @@ function Layout() {
             display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
             <Typography>Due Amount: <b>{user?.me?.dueAmount}</b>  kr</Typography>
-            <Button disabled={user?.me.company?.isBlocked || user?.me?.dueAmount === '0.00'} onClick={() => setOpenPaymentDialog(true)} variant='outlined' size='small'>Pay Now</Button>
+            <Button
+              disabled={user?.me.company?.isBlocked || user?.me?.dueAmount === '0.00'}
+              onClick={() => setOpenPaymentDialog(true)}
+              variant='outlined'
+              size='small'
+            >
+              Pay Now
+            </Button>
           </Stack>
         }
       </Stack>
@@ -240,7 +254,7 @@ function Layout() {
             onClick={handleDrawerClose}
             link='/dashboard/manage-staff'
             icon={<PeopleAltOutlined fontSize='small' />}
-            text='Manage Staff'
+            text='Manage-Staffs'
             selected={pathname === '/dashboard/manage-staff'}
           />
         }
@@ -276,7 +290,7 @@ function Layout() {
           notification={addedEmployeeCarts.length > 0 ? addedEmployeeCarts.length : ''}
           link={'dashboard/staffs-order'}
           icon={<ShoppingCartCheckout fontSize='small' />}
-          text={user?.me.role === 'company-employee' ? 'My-Order-Req' : 'Staff-Orders'}
+          text={user?.me.role === 'company-employee' ? 'My-Order-Req' : 'Staff-Order-Req'}
           selected={pathname === '/dashboard/staffs-order'}
         />
 
@@ -285,7 +299,7 @@ function Layout() {
           notification={''}
           link={'dashboard/orders'}
           icon={<ViewStreamOutlined fontSize='small' />}
-          text='Orders-History'
+          text='Order-History'
           selected={pathname === '/dashboard/orders' || pathname == orderDetailsMatch?.pathname}
         />
         <ListBtn
@@ -293,7 +307,7 @@ function Layout() {
           notification={''}
           link={'dashboard/payments-history'}
           icon={<PaidOutlined fontSize='small' />}
-          text='Payments-History'
+          text='Payment-History'
           selected={pathname === '/dashboard/payments-history'}
         />
         <ListBtn

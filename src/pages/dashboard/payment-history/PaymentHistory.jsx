@@ -69,7 +69,7 @@ const PaymentHistory = () => {
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
           <Typography sx={{ fontSize: '14px', fontWeight: 600, bgcolor: 'lightgray', px: 2, borderRadius: '4px' }}>
-            {params.row.paymentType}
+            {params.row.paymentType === 'online' ? 'vipps' : params.row.paymentType}
           </Typography>
         </Stack>
       )

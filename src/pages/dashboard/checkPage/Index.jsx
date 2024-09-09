@@ -66,13 +66,13 @@ const CheckPage = () => {
 
   const [placeOrder, { loading }] = useMutation(PLACE_ORDER, {
     onCompleted: (res) => {
-      toast.success('Order Placed!')
+      toast.success('Order Placed Successfully')
       setErrors({})
-      console.log('order place:', res)
       if (res.placeOrder.paymentUrl) {
         openPaymentGateway(res.placeOrder.paymentUrl)
+      } else {
+        navigate('/dashboard/orders')
       }
-      // navigate('/dashboard/orders')
 
     },
     refetchQueries: [ADDRESSES, ORDERS],

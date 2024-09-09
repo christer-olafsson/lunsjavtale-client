@@ -3,6 +3,7 @@ import { Avatar, Box, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import { MailOutline, PhoneInTalkOutlined } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const SelectedStaffs = ({ data }) => {
   const [selectedRows, setSelectedRows] = useState([])
@@ -21,7 +22,9 @@ const SelectedStaffs = ({ data }) => {
               <Box>
                 <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{row.firstName + row.lastName}</Typography>
                 <Stack direction='row' alignItems='center' gap={2}>
-                  <Typography sx={{ fontSize: '14px' }}>@{row.username}</Typography>
+                  <Link to={`/dashboard/staff-details/${row.id}`}>
+                    <Typography sx={{ fontSize: '14px' }}>@{row.username}</Typography>
+                  </Link>
                   <Typography sx={{
                     fontSize: '12px',
                     bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'gray.main',
@@ -106,6 +109,7 @@ const SelectedStaffs = ({ data }) => {
         sx={{ my: 2 }}
         rows={selectedRows ?? []}
         columns={columns}
+        rowSelection={false}
         initialState={{
           pagination: {
             paginationModel: {

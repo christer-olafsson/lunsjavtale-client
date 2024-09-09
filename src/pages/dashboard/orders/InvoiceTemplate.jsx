@@ -155,7 +155,7 @@ const InvoiceTemplate = ({ data, toggleDrawer }) => {
           <Divider />
           <Stack direction='row'>
             <Typography sx={{ width: '200px' }}> <b>Payment Type:</b></Typography>
-            <Typography>{data?.paymentType}</Typography>
+            <Typography>{data?.paymentType === 'online' ? 'Vipps' : data?.paymentType}</Typography>
           </Stack>
           <Divider />
           <Stack direction='row'>

@@ -64,14 +64,19 @@ export const ORDER = gql`
       paidAmount
       isFullPaid
       note
-      shippingAddress{
-      address
-      city
-      state
-      postCode
-      fullName
-      phone
-    }
+        shippingAddress{
+        address
+        city
+        state
+        postCode
+        fullName
+        phone
+          }
+      company{
+        id
+        name
+        email
+      }
     billingAddress{
       firstName
       lastName
