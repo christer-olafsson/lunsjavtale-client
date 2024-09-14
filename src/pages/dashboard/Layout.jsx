@@ -52,7 +52,7 @@ const ListBtn = ({ style, text, icon, link, selected, onClick, notification }) =
             ml: 1
           }}>{text}</Typography>
         </Box>
-        {notification && <Badge sx={{ mr: .5 }} badgeContent={notification} color="error" />}
+        {notification && <Badge sx={{ ml: 2, mr: .5 }} badgeContent={notification} color="error" />}
       </Box>
     </Link>
   )
@@ -287,10 +287,10 @@ function Layout() {
 
         <ListBtn
           onClick={handleDrawerClose}
-          notification={addedEmployeeCarts.length > 0 ? addedEmployeeCarts.length : ''}
+          notification={addedEmployeeCarts.length ?? ''}
           link={'dashboard/staffs-order'}
           icon={<ShoppingCartCheckout fontSize='small' />}
-          text={user?.me.role === 'company-employee' ? 'My-Order-Req' : 'Staff-Order-Req'}
+          text={user?.me.role === 'company-employee' ? 'Order-Request' : 'Staff-Order-Req'}
           selected={pathname === '/dashboard/staffs-order'}
         />
 
