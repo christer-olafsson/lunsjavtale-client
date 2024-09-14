@@ -8,57 +8,74 @@ import { CREATE_PAYMENT } from './graphql/mutation';
 import CButton from '../../../common/CButton/CButton';
 import { Link } from 'react-router-dom';
 import { ME } from '../../../graphql/query';
+import { MAKE_ONLINE_PAYMENT } from '../payment/graphql/mutation';
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
 
-const CreatePayment = ({ orderData, fetchOrder, fetchOrders, closeDialog }) => {
+const CreatePayment = ({ isStaffs, isCompany, orderData, closeDialog }) => {
   const [users, setUsers] = useState([])
-  const [selectedUsers, setSelectedUsers] = useState([])
+  const [selectedStaffsOrder, setSelectedStaffsOrder] = useState([])
   const [currentStaffOrder, setCurrentStaffOrder] = useState({})
-  const [payload, setPayload] = useState({
-    company: '',
-    orders: null,
-  })
 
   const { data: user } = useQuery(ME)
 
-  const [createPayment, { loading }] = useMutation(CREATE_PAYMENT, {
+  const [createPayment, { loading }] = useMutation(MAKE_ONLINE_PAYMENT, {
     onCompleted: (res) => {
-      toast.success(res.createPayment.message)
-      if (fetchOrder) {
-        fetchOrder()
+      console.log(res)
+      if (res.makeOnlinePayment.paymentUrl) {
+        window.location.href = res.makeOnlinePayment.paymentUrl
       }
-      if (fetchOrders) {
-        fetchOrders()
-      }
-      closeDialog()
     },
     onError: (err) => {
       toast.error(err.message)
     }
   });
 
-  const totalPayment = selectedUsers.reduce((total, user) => total + parseFloat(user.dueAmount), 0).toFixed(2)
 
-  const handleSave = () => {
-    if (user?.me.role !== 'company-employee') {
-      if (selectedUsers.length === 0) {
+  // const handleSave = () => {
+  //   createPayment({
+  //     variables: {
+  //       input: {
+  //         paymentFor: isStaff ? user?.me?.id : '',
+  //         company: user?.me?.company?.id,
+  //         paidAmount: isStaff ? user?.me?.dueAmount : user?.me?.company?.balance,
+  //       }
+  //     }
+  //   })
+  // }
+
+
+  const totalPayment = selectedStaffsOrder.reduce((total, user) => total + parseFloat(user.dueAmount), 0).toFixed(2)
+
+  const handlePay = () => {
+    if (isStaffs) {
+      if ((user?.me.role !== 'company-employee') && (selectedStaffsOrder.length === 0)) {
         toast.error('No Staffs Selected')
         return
       }
-    }
-    createPayment({
-      variables: {
-        input: {
-          orders: [orderData?.id] ?? null,
-          company: orderData?.company.id ?? '',
-          paidAmount: user?.me.role === 'company-employee' ? parseInt(currentStaffOrder?.dueAmount) : parseInt(totalPayment),
-          userCarts: user?.me.role === 'company-employee' ? [currentStaffOrder?.addedFor?.id] :
-            selectedUsers.map(user => user.addedFor.id) ?? ''
+      createPayment({
+        variables: {
+          input: {
+            company: orderData?.company.id ?? '',
+            paidAmount: user?.me.role === 'company-employee' ? parseInt(currentStaffOrder?.dueAmount) : parseInt(totalPayment),
+            userCarts: user?.me.role === 'company-employee' ? [currentStaffOrder?.id] : selectedStaffsOrder.map(user => user.id) ?? '',
+            paymentFor: user?.me.role === 'company-employee' ? currentStaffOrder?.addedFor?.id : null
+          }
         }
-      }
-    })
+      })
+    }
+    if (isCompany) {
+      createPayment({
+        variables: {
+          input: {
+            orders: [orderData?.id] ?? null,
+            company: orderData?.company.id ?? '',
+            paidAmount: parseInt(orderData.companyDueAmount),
+          }
+        }
+      })
+    }
   }
 
   useEffect(() => {
@@ -75,35 +92,41 @@ const CreatePayment = ({ orderData, fetchOrder, fetchOrders, closeDialog }) => {
     <Box>
 
       <Stack direction='row' justifyContent='space-between' mb={1}>
-        <Typography sx={{ fontWeight: 600, fontSize: '18px' }}>Create Staff Payment for Order <span style={{ color: 'coral' }}> #{orderData?.id}</span></Typography>
+        <Typography sx={{ fontWeight: 600, fontSize: '18px' }}>
+          Create payment for order
+          <span style={{ color: 'coral' }}> #{orderData?.id}</span>
+        </Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>
       </Stack>
       {
         user?.me.role === 'company-employee' &&
-        <Typography>Your due amount: <b>{currentStaffOrder?.dueAmount}</b> kr </Typography>
+        <Typography>Total Pay: <b>{currentStaffOrder?.dueAmount}</b> kr </Typography>
       }
       {
-        user?.me.role !== 'company-employee' &&
+        (user?.me.role !== 'company-employee' && !isCompany) &&
         <Box>
-          <Typography>Selected Staffs: <b>{selectedUsers.length}</b> </Typography>
+          <Typography>Selected Staffs: <b>{selectedStaffsOrder.length}</b> </Typography>
           <Typography mb={3}>
             Total Payment: <b>{totalPayment}</b> kr
           </Typography>
         </Box>
       }
+      {
+        isCompany && <Typography>Total Company Due for Pay <b style={{ color: 'coral' }}>{orderData?.companyDueAmount}</b>  kr</Typography>
+      }
       {/* user select */}
       <Autocomplete
         sx={{
           mb: 2,
-          display: user?.me.role === 'company-employee' ? 'none' : 'block'
+          display: user?.me.role === 'company-employee' ? 'none' : isCompany ? 'none' : 'block'
         }}
         options={users}
         multiple
         // disabled={!payload.company?.id}
         disableCloseOnSelect
-        onChange={(_, value) => setSelectedUsers(value)}
+        onChange={(_, value) => setSelectedStaffsOrder(value)}
         getOptionLabel={(option) => option?.addedFor?.username}
         renderOption={(props, option, { selected }) => {
           const { key, ...optionProps } = props;
@@ -118,12 +141,14 @@ const CreatePayment = ({ orderData, fetchOrder, fetchOrders, closeDialog }) => {
               <Stack direction='row' gap={1}>
                 <Avatar src={option.addedFor.photoUrl ?? ''} />
                 <Box>
-                  <Stack direction='row' gap={1}>
+                  <Stack >
                     <Typography sx={{ fontSize: '14px' }}> <b></b> {option?.addedFor?.email}</Typography>
                     <Typography sx={{
-                      border: '1px solid lightgray',
+                      // border: '1px solid lightgray',
+                      lineHeight: '12px',
+                      width: 'fit-content',
                       px: 1, borderRadius: '4px',
-                      fontSize: '12px'
+                      fontSize: '10px'
                     }}>{option.addedFor.role.replace('company-', '')}</Typography>
                   </Stack>
                   <Stack direction='row' gap={3}>
@@ -143,7 +168,7 @@ const CreatePayment = ({ orderData, fetchOrder, fetchOrders, closeDialog }) => {
         )}
       />
 
-      <CButton disable={payload?.paidAmount === '0.00'} isLoading={loading} onClick={handleSave} variant='contained' style={{ width: '100%', mt: 2 }}>
+      <CButton isLoading={loading} onClick={handlePay} variant='contained' style={{ width: '100%', mt: 2 }}>
         Confirm
       </CButton>
 

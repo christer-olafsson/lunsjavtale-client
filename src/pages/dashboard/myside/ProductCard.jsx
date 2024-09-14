@@ -33,10 +33,10 @@ const ProductCard = ({ data }) => {
   const theme = useTheme()
   return (
 
-    <Stack direction={{ xs: 'column', lg: 'row' }} gap={{ xs: 0, lg: 2 }} sx={{
+    <Stack gap={{ xs: 0, lg: 2 }} sx={{
       width: '100%',
       maxWidth: '1000px',
-      minHeight: { xs: '310px', lg: '200px' },
+      minHeight: '310px',
       height: { xs: '100%', md: '200px' },
       overflow: 'hidden',
       bgcolor: 'light.main',
@@ -45,7 +45,7 @@ const ProductCard = ({ data }) => {
       border: `1px solid ${theme.palette.primary.main}`
     }}>
       <Box sx={{
-        width: { xs: '100%', lg: '230px' },
+        width: '100%',
         height: '150px',
       }}>
         <img style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }}

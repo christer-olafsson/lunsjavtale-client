@@ -9,17 +9,26 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import { Grow, Slide } from '@mui/material';
+import { Grow, Slide, Zoom } from '@mui/material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Grow ref={ref} {...props} />;
+  return <Zoom ref={ref} {...props} />;
 });
 
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialog-paper': {
+    borderRadius: '16px',
+    padding: theme.spacing(0),
+    boxShadow: theme.shadows[5],
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.divider}`,
+  },
+}));
 
-export default function CDialog({ openDialog, closeDialog, children, maxWidth,fullScreen }) {
+export default function CDialog({ openDialog, closeDialog, children, maxWidth, fullScreen }) {
 
   return (
-    <Dialog
+    <StyledDialog
       fullScreen={fullScreen}
       TransitionComponent={Transition}
       maxWidth={maxWidth}
@@ -30,6 +39,6 @@ export default function CDialog({ openDialog, closeDialog, children, maxWidth,fu
       <DialogContent>
         {children}
       </DialogContent>
-    </Dialog>
+    </StyledDialog>
   );
 }

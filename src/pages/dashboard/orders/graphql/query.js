@@ -63,6 +63,8 @@ export const ORDER = gql`
       discountAmount
       paidAmount
       isFullPaid
+      employeeDueAmount
+      companyDueAmount
       note
         shippingAddress{
         address

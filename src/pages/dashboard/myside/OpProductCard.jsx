@@ -30,7 +30,7 @@ const OpProductCard = ({ item }) => {
 
   return (
     <Box sx={{
-      width: { xs: '140px', md: '173px' },
+      width: { xs: '140px', md: '173px', lg: '170px' },
       height: '152px',
       display: 'flex',
       alignItems: 'center',
