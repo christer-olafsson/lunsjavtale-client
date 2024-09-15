@@ -116,6 +116,7 @@ const PaymentHistory = () => {
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
             <DataTable
+              rowHeight={70}
               columns={columns}
               rows={orderPayents}
             />

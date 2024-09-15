@@ -279,6 +279,7 @@ const Meeting = () => {
         {
           meetingsLoading ? <Loader /> : meetingsErr ? <ErrorMsg /> :
             <DataTable
+              rowHeight={70}
               columns={columns}
               rows={meetings}
             />

@@ -2,21 +2,30 @@
 import { Box } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
-const DataTable = ({ rows, columns, rowHeight, getRowHeight, checkboxSelection, onRowSelectionModelChange, columnVisibilityModel }) => {
+const DataTable = ({
+  headerColor = true,
+  rows,
+  columns,
+  rowHeight,
+  getRowHeight,
+  checkboxSelection,
+  onRowSelectionModelChange,
+  columnVisibilityModel
+}) => {
   return (
     <Box sx={{
-      minHeight: '650px',
+      // minHeight: '650px',
       // width: '100%',
       '& .MuiDataGrid-columnHeader': {
-        backgroundColor: 'primary.main',
-        color: '#fff'
+        backgroundColor: headerColor ? 'primary.main' : '',
+        color: headerColor ? '#fff' : ''
       },
     }}>
       <DataGrid
         rows={rows}
         columns={columns}
         autoHeight
-        // rowHeight={rowHeight}
+        rowHeight={rowHeight}
         getRowHeight={getRowHeight}
         initialState={{
           pagination: {

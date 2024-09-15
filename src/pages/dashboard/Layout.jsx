@@ -287,7 +287,7 @@ function Layout() {
 
         <ListBtn
           onClick={handleDrawerClose}
-          notification={addedEmployeeCarts.length ?? ''}
+          notification={addedEmployeeCarts.length > 0 ? addedEmployeeCarts.length : ''}
           link={'dashboard/staffs-order'}
           icon={<ShoppingCartCheckout fontSize='small' />}
           text={user?.me.role === 'company-employee' ? 'Order-Request' : 'Staff-Order-Req'}

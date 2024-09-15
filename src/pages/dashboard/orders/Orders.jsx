@@ -55,7 +55,6 @@ const Orders = () => {
       return `Delivery in ${diffInDays} days`;
     }
   }
-  console.log(orders)
 
   const columns = [
     {
@@ -79,7 +78,7 @@ const Orders = () => {
       renderCell: (params) => {
         return (
           <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{format(params.row.orderDate, 'dd-MMMM-yyyy')}</Typography>
+            <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{format(params.row.orderDate, 'dd-MMM-yy')}</Typography>
             <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, fontWeight: 500, display: 'inline-flex' }}>
               <AccessTime fontSize='small' />
               {format(params.row.orderDate, 'HH:mm', { locale: nb })}
@@ -97,7 +96,7 @@ const Orders = () => {
         <Stack sx={{ height: '100%' }} alignItems='center' direction='row'>
           <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600, display: 'inline-flex', gap: '5px' }}>
             <CalendarMonthOutlined fontSize='small' />
-            {format(params.row.deliveryDate, 'dd-MMMM-yyyy')}
+            {format(params.row.deliveryDate, 'dd-MMM-yy')}
           </Typography>
         </Stack>
       )
@@ -110,14 +109,14 @@ const Orders = () => {
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
           <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600 }}>
-            <span style={{ fontWeight: 400 }}>kr </span>
-            {params.row.totalPrice}
+            <span style={{ fontWeight: 400 }}> </span>
+            {params.row.totalPrice} kr
           </Typography>
         </Stack>
       )
     },
     {
-      field: 'amount', headerName: '', width: 150,
+      field: 'amount', headerName: '', width: 200,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Amount</Typography>
       ),
@@ -133,7 +132,7 @@ const Orders = () => {
           {
             params.row.dueAmount > 0 &&
             <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, color: params.row.dueAmount > 0 ? 'coral' : 'lightgray' }}>
-              due: <b>{params.row.dueAmount}</b>
+              Due: <b>{params.row.dueAmount}</b>
               <span style={{ fontWeight: 400, marginLeft: '5px' }}>kr </span>
             </Typography>
           }
@@ -235,7 +234,7 @@ const Orders = () => {
         {
           loading ? <Loader /> : orderErr ? <ErrorMsg /> :
             <DataTable
-              rowHeight={60}
+              rowHeight={70}
               columns={columns}
               rows={rows}
             />

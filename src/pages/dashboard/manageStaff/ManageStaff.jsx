@@ -269,6 +269,7 @@ const ManageStaff = () => {
             <DataTable
               rows={rows}
               columns={columns}
+              rowHeight={70}
             // columnVisibilityModel={columnVisibilityModel}
             />
         }

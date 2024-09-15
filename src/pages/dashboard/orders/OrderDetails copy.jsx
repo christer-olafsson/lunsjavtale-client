@@ -1,28 +1,37 @@
-import { ArrowBack, Download } from '@mui/icons-material';
-import { Box, Button, Divider, IconButton, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react'
+import { Add, ArrowBack, ArrowDropDown, ArrowDropDownOutlined, BorderColor, Download, DriveFileRenameOutlineOutlined, Edit, Error, KeyboardDoubleArrowRightOutlined, Search } from '@mui/icons-material';
+import { Box, Button, Chip, Collapse, Divider, IconButton, Input, Rating, Stack, TextField, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { ORDER } from './graphql/query';
 import { useQuery } from '@apollo/client';
 import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
+import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator, timelineItemClasses } from '@mui/lab'
 import CDialog from '../../../common/dialog/CDialog';
+import EditOrder from './EditOrder';
 import { ME } from '../../../graphql/query';
+import SelectedStaffs from './SelectedStaffs';
 import { format } from 'date-fns';
+import SlideDrawer from '../products/SlideDrawer';
 import InvoiceTemplate, { downloadPDF } from './InvoiceTemplate';
 import LoadingBar from '../../../common/loadingBar/LoadingBar';
 import CreatePayment from './CreatePayment';
-import OrderCart from './OrderCart';
 
 
 const OrderDetails = () => {
   const [order, setOrder] = useState([]);
+  const [ratingCount, setRatingCount] = useState(5);
+  const [editOrderDialogOpen, setEditOrderDialogOpen] = useState(false)
+  const [editOrderId, setEditOrderId] = useState('')
+  const [selectedStaffDetailsId, setSelectedStaffDetailsId] = useState('')
   const [openSlideDrawer, setOpenSlideDrawer] = useState(false);
   const [openStaffPaymentDialog, setOpenStaffPaymentDialog] = useState(false)
   const [openCompanyPaymentDialog, setOpenCompanyPaymentDialog] = useState(false)
   const [currentStaffOrder, setCurrentStaffOrder] = useState({})
+  const [reqFoodChangeDialogOpen, setReqFoodChangeDialogOpen] = useState(false)
 
 
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'))
   const { id } = useParams()
   const { data: user } = useQuery(ME)
   const navigate = useNavigate()
@@ -52,8 +61,20 @@ const OrderDetails = () => {
 
   const isStaff = user?.me.role === 'company-employee';
 
-  console.log(order)
+  const handleEditDialog = (id) => {
+    setEditOrderId(id)
+    setEditOrderDialogOpen(true)
+  }
 
+  const handleSelectedStaffsDetails = (id) => {
+    if (selectedStaffDetailsId) {
+      setSelectedStaffDetailsId('')
+    } else {
+      setSelectedStaffDetailsId(id)
+
+    }
+  }
+  console.log(order)
   useEffect(() => {
     if (order) {
       const userCarts = order?.orderCarts?.edges?.map(item => item.node?.users?.edges || []) || [];
@@ -168,10 +189,6 @@ const OrderDetails = () => {
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Company Allowance:</b></Typography>
             <Typography>{order?.companyAllowance ?? '0'} %</Typography>
           </Stack>
-          <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Final Price:</b></Typography>
-            <Typography sx={{ color: 'Highlight', fontWeight: 600 }}>{order?.finalPrice ?? '0'} kr</Typography>
-          </Stack>
           {
             !isStaff &&
             <>
@@ -210,7 +227,8 @@ const OrderDetails = () => {
             </Stack>
           }
 
-          {/* <Stack direction='row' alignItems='center' sx={{
+          {/* staff due */}
+          <Stack direction='row' alignItems='center' sx={{
             border: '1px solid lightgray',
             maxWidth: 'fit-content',
             whiteSpace: 'nowrap',
@@ -227,7 +245,7 @@ const OrderDetails = () => {
               variant='contained'>
               Pay Now (Vipps)
             </Button>
-          </Stack> */}
+          </Stack>
 
           {/* Company due */}
           <Stack direction='row' alignItems=' center' sx={{
@@ -268,15 +286,81 @@ const OrderDetails = () => {
 
         <Divider sx={{ mt: 2 }} />
 
-        <Stack direction={{ xs: 'column', lg: 'row' }} mt={3} gap={6}>
-          <Box sx={{ maxWidth: '800px', width: '100%' }}>
-            {/* order cart */}
+        <Stack sx={{ maxWidth: '1200px' }} direction={{ xs: 'column', lg: 'row' }} mt={3} gap={6}>
+          <Box sx={{ width: { xs: '100%', md: '70%' } }}>
             <Stack gap={3}>
               {
                 loading ? <Loader /> : orderErr ? <ErrorMsg /> : order === null ?
                   <Typography>Order not Found!</Typography> :
                   order?.orderCarts?.edges.map(data => (
-                    <OrderCart order={order} orderCarts={data} key={data.node.id} />
+                    <Box sx={{
+                      border: '1px solid lightgray',
+                      // maxWidth: '800px',
+                      borderRadius: '8px',
+                      p: 1
+                    }} key={data.node.id}>
+                      <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 0, md: 2 }} alignItems={{ xs: 'start', md: 'center' }} justifyContent='space-between'>
+                        <Stack direction={{ xs: 'row', md: 'row' }} gap={2} alignItems='center'>
+                          <img style={{
+                            width: '100px',
+                            height: '100px',
+                            objectFit: 'cover',
+                            borderRadius: '4px',
+                          }} src={data?.node.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
+                          <Box>
+                            <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{data?.node.item.name}</Typography>
+                            <Typography variant='body2'>Category: <b>{data?.node.item.category.name}</b></Typography>
+                            <Typography>Price: <b>{data?.node.item.priceWithTax}</b> kr</Typography>
+                          </Box>
+                        </Stack>
+                        {
+                          isStaff ?
+                            <Button variant='contained'>Request Food Change</Button> :
+                            <Stack gap={.5} mr={2}>
+                              <Typography>Quantity: <b>{data?.node.orderedQuantity}</b> </Typography>
+                              <Typography>Selected Staffs: <b>({data?.node.users?.edges?.length})</b></Typography>
+                              <Typography>Total Price: <b>{data?.node.totalPriceWithTax} </b> kr </Typography>
+                              <Stack direction='row' gap={1}>
+                                <Button
+                                  onClick={() => handleSelectedStaffsDetails(data.node.id)}
+                                  variant='outlined'
+                                  endIcon={<ArrowDropDownOutlined />}
+                                  size='small'>
+                                  Details
+                                </Button>
+                                <Button
+                                  disabled={
+                                    user?.me.company.isBlocked
+                                    || user?.me.role === 'company-employee'
+                                    || (order?.status !== 'Placed' && order?.status !== 'Updated')
+                                  }
+                                  onClick={() => handleEditDialog(data.node.id)}
+                                  endIcon={<DriveFileRenameOutlineOutlined />}
+                                  variant='contained'
+                                  size='small'>
+                                  Edit
+                                </Button>
+                              </Stack>
+                            </Stack>
+                        }
+                        {/* edit order */}
+                        {
+                          editOrderId === data.node.id &&
+                          <CDialog
+                            fullScreen={isMobile}
+                            maxWidth='md'
+                            openDialog={editOrderDialogOpen}
+                            closeDialog={() => setEditOrderDialogOpen(false)}
+                          >
+                            <EditOrder
+                              closeDialog={() => setEditOrderDialogOpen(false)}
+                              data={data?.node}
+                            />
+                          </CDialog>
+                        }
+                      </Stack>
+                      <Collapse in={selectedStaffDetailsId === data.node.id}><SelectedStaffs data={data?.node} /></Collapse>
+                    </Box>
                   ))
               }
             </Stack>

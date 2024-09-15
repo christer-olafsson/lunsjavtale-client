@@ -15,3 +15,11 @@ export const CREATE_PAYMENT = gql`
     }
   }
 `
+
+export const USER_CART_UPDATE = gql`
+  mutation UserCartUpdate ($id:ID,$item:ID){
+    userCartUpdate(id:$id,item:$item){
+      message
+    }
+  }
+`

@@ -1,4 +1,4 @@
-import { Autocomplete, Avatar, Box, IconButton, Pagination, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Avatar, Box, IconButton, Input, Pagination, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import MiniCart from './MiniCart';
 import { useQuery } from '@apollo/client';
@@ -8,7 +8,7 @@ import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import SmallProductCard from './SmallProductCard';
 import { VENDORS } from './graphql/query';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from '@mui/icons-material';
+import { ChevronRight, Search } from '@mui/icons-material';
 
 const Products = () => {
   const [allCategorys, setAllCategorys] = useState([]);
@@ -18,6 +18,8 @@ const Products = () => {
   const [productsLength, setProductsLength] = useState([])
   const [vendors, setVendors] = useState([])
   const [selectedVendor, setSelectedVendor] = useState([])
+  const [searchText, setSearchText] = useState('')
+
 
 
   const { loading: vendorLoading } = useQuery(VENDORS, {
@@ -57,6 +59,7 @@ const Products = () => {
 
   const { loading: loadinProducts, error: errProducts } = useQuery(PRODUCTS, {
     variables: {
+      title: searchText,
       category: categoryId,
       offset: (page - 1) * 10,
       first: 10,
@@ -70,7 +73,7 @@ const Products = () => {
 
   useEffect(() => {
     setPage(1)
-  }, [categoryId,selectedVendor])
+  }, [categoryId, selectedVendor])
 
   return (
     <Stack maxWidth='xl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
@@ -85,11 +88,25 @@ const Products = () => {
         <Box sx={{
           bgcolor: 'light.main',
         }}>
-          <Stack direction='row' justifyContent='space-between'>
-            <Box />
+          <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent='space-between' alignItems='center' pt={2}>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              ml: 2,
+              justifyContent: 'space-between',
+              maxWidth: '480px',
+              bgcolor: '#fff',
+              width: { xs: '80%', md: '100%' },
+              border: '1px solid lightgray',
+              borderRadius: '4px',
+              pl: 2,
+            }}>
+              <Input onChange={e => setSearchText(e.target.value)} fullWidth disableUnderline placeholder='Search' />
+              <IconButton><Search /></IconButton>
+            </Box>
             {/* all vendors */}
             <Autocomplete
-              sx={{ minWidth: '250px', maxWidth: '300px', mt: 2, mr: 2 }}
+              sx={{ minWidth: '250px', maxWidth: '300px', mr: 2 }}
               size='small'
               loading={vendorLoading}
               options={vendors}
@@ -132,30 +149,30 @@ const Products = () => {
                   py: { xs: 1, md: 1.5 },
                   px: { xs: 1, md: 2 },
                   textAlign: 'center'
-                }}>All {<i style={{ fontSize: '14px',fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>}</Typography>
+                }}>All {<i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>}</Typography>
               </Box>
               {
-                  allCategorys?.map((item) => (
-                    <Box sx={{
-                      border: '1px solid lightgray',
-                      borderRadius: '8px',
-                      bgcolor: categoryId === item.node.id ? 'primary.main' : '#fff',
-                      color: categoryId === item.node.id ? '#fff' : 'inherit',
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      opacity: !item.node.isActive ? '.4' : '1'
-                    }} onClick={() => setCategoryId(item.node.id)} key={item?.node.id}>
-                      <Typography sx={{
-                        fontSize: { xs: '13px', md: '16px' },
-                        py: { xs: 1, md: 1.5 },
-                        px: { xs: 1, md: 2 },
-                        textAlign: 'center'
-                      }}>
-                        {item?.node.name}
-                        <i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.products?.edges.length})</i>
-                      </Typography>
-                    </Box>
-                  ))
+                allCategorys?.map((item) => (
+                  <Box sx={{
+                    border: '1px solid lightgray',
+                    borderRadius: '8px',
+                    bgcolor: categoryId === item.node.id ? 'primary.main' : '#fff',
+                    color: categoryId === item.node.id ? '#fff' : 'inherit',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    opacity: !item.node.isActive ? '.4' : '1'
+                  }} onClick={() => setCategoryId(item.node.id)} key={item?.node.id}>
+                    <Typography sx={{
+                      fontSize: { xs: '13px', md: '16px' },
+                      py: { xs: 1, md: 1.5 },
+                      px: { xs: 1, md: 2 },
+                      textAlign: 'center'
+                    }}>
+                      {item?.node.name}
+                      <i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.products?.edges.length})</i>
+                    </Typography>
+                  </Box>
+                ))
               }
             </Stack>
           </Stack>

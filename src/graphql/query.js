@@ -130,8 +130,8 @@ query($vendor: String){
 `
 
 export const PRODUCTS = gql`
-  query Products ($id: ID, $category: String,$offset:Int,$first: Int,$vendor: String) {
-      products(id:$id, category: $category, isDeleted: false,availability: true,offset: $offset,first: $first,vendor: $vendor ){
+  query Products ($id: ID,$title: String, $category: String,$offset:Int,$first: Int,$vendor: String) {
+      products(id:$id,title:$title, category: $category, isDeleted: false,availability: true,offset: $offset,first: $first,vendor: $vendor ){
         edges{
           node{
           id
