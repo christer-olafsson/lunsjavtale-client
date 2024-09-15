@@ -174,6 +174,19 @@ const EditOrder = ({ data, closeDialog }) => {
           <Close />
         </IconButton>
       </Stack>
+      <Stack direction={{ xs: 'row', md: 'row' }} mb={4} gap={2} alignItems='center'>
+        <img style={{
+          width: '100px',
+          height: '100px',
+          objectFit: 'cover',
+          borderRadius: '4px',
+        }} src={data?.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
+        <Box>
+          <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{data?.item.name}</Typography>
+          <Typography variant='body2'>Category: <b>{data?.item.category.name}</b></Typography>
+          <Typography>Price: <b>{data?.item.priceWithTax}</b> kr</Typography>
+        </Box>
+      </Stack>
       <Typography variant='body2' mb={.5}>Ordered Quantity</Typography>
       <Stack direction='row' gap={2} alignItems='center'>
         <Box>

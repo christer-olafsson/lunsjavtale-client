@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Button, Collapse, Stack, Typography, useMediaQuery } from '@mui/material'
+import { Box, Button, Collapse, Stack, Tab, Tabs, Typography, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog'
 import EditOrder from './EditOrder'
@@ -12,11 +12,42 @@ import SelectedStaffs from './SelectedStaffs'
 import Loader from '../../../common/loader/Index'
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg'
 import ReqFoodChange from './ReqFoodChange'
+import ChangeReq from './ChangeReq'
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+
 
 const OrderCart = ({ order, orderCarts }) => {
-  const [selectedStaffDetailsId, setSelectedStaffDetailsId] = useState('')
   const [editOrderDialogOpen, setEditOrderDialogOpen] = useState(false)
   const [reqFoodChangeDialogOpen, setReqFoodChangeDialogOpen] = useState(false)
+  const [cartDetailsOpen, setCartDetailsOpen] = useState(false)
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
 
   const { data: user } = useQuery(ME)
 
@@ -24,15 +55,6 @@ const OrderCart = ({ order, orderCarts }) => {
 
   const isStaff = user?.me.role === 'company-employee';
 
-  const handleSelectedStaffsDetails = (id) => {
-
-    if (selectedStaffDetailsId) {
-      setSelectedStaffDetailsId('')
-    } else {
-      setSelectedStaffDetailsId(id)
-
-    }
-  }
 
   return (
     <Box sx={{
@@ -67,7 +89,8 @@ const OrderCart = ({ order, orderCarts }) => {
               <Typography>Total Price: <b>{orderCarts?.node?.totalPriceWithTax} </b> kr </Typography>
               <Stack direction='row' gap={1}>
                 <Button
-                  onClick={() => handleSelectedStaffsDetails(orderCarts.node?.id)}
+                  onClick={() => setCartDetailsOpen(!cartDetailsOpen)}
+                  // onClick={() => handleSelectedStaffsDetails(orderCarts.node?.id)}
                   variant='outlined'
                   endIcon={<ArrowDropDownOutlined />}
                   size='small'>
@@ -83,7 +106,7 @@ const OrderCart = ({ order, orderCarts }) => {
                   endIcon={<DriveFileRenameOutlineOutlined />}
                   variant='contained'
                   size='small'>
-                  Edit
+                  Update
                 </Button>
               </Stack>
             </Stack>
@@ -97,12 +120,25 @@ const OrderCart = ({ order, orderCarts }) => {
         >
           <EditOrder
             closeDialog={() => setEditOrderDialogOpen(false)}
-            orderCarts={orderCarts?.node}
+            data={orderCarts?.node}
           />
         </CDialog>
       </Stack>
-      <Collapse in={selectedStaffDetailsId === orderCarts?.node?.id}>
-        <SelectedStaffs order={order} orderCarts={orderCarts?.node} />
+      <Collapse in={cartDetailsOpen}>
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label="Selected Staffs" {...a11yProps(0)} />
+              <Tab label="Change Request" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <SelectedStaffs order={order} orderCarts={orderCarts?.node} />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <ChangeReq orderCarts={orderCarts} />
+          </CustomTabPanel>
+        </Box>
       </Collapse>
     </Box>
   )

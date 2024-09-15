@@ -54,9 +54,11 @@ const SelectedStaffs = ({ order, orderCarts }) => {
 
   const columns = [
     {
-      field: 'users',
-      headerName: 'Users',
+      field: 'staffs',
       width: 250,
+      renderHeader: () => (
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Staffs</Typography>
+      ),
       renderCell: (params) => {
         const { row } = params
         return (
@@ -99,8 +101,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
       )
     },
     {
-      field: 'dueAmount', headerName: '', width: isMobile ? 200 : undefined,
-      flex: isMobile ? undefined : 1,
+      field: 'dueAmount', headerName: '', width: 150,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Due Amount</Typography>
       ),
@@ -128,7 +129,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
 
   return (
     <Box sx={{ maxWidth: '800px' }}>
-      <Stack direction={{ xs: 'column', md: 'row' }} justifyContent='space-between' mt={6} mb={2}>
+      <Box mb={2}>
         {
           staffSelectionOn ?
             <Stack direction='row' gap={2}>
@@ -136,11 +137,10 @@ const SelectedStaffs = ({ order, orderCarts }) => {
               <CButton onClick={handlePay} isLoading={paymentLoading} disable={selectedRowData.length === 0} variant='contained' >Pay Now (Vipps)</CButton>
             </Stack> :
             <CButton disable={cartUsers.length === 0} onClick={() => setStaffSelectionOn(true)} variant='contained' >
-              Select Staffs for Payment
+              Make Payment
             </CButton>
         }
-        <Typography variant='h5' mb={{ xs: 2, md: 0 }}>Selected Staffs</Typography>
-      </Stack>
+      </Box>
       {staffSelectionOn && <Typography mb={2}>Total Pay: <b>{totalPayment}</b> kr</Typography>}
 
       <DataTable

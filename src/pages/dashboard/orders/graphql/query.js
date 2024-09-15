@@ -116,6 +116,55 @@ export const ORDER = gql`
               node{
                 id
                 dueAmount
+                alterCart{ # if alterCart has data that means there is update request in user-cart
+                  id # need to use this id for confirmUserCartUpdate
+                  status
+                   previousCart{
+                    dueAmount
+                    id
+                    priceWithTax
+                    item{
+                      id
+                      priceWithTax
+                      name
+                      category{
+                        id
+                        name
+                      }
+                    }
+                  }
+                  base{
+                    id
+                    addedFor{
+                      id
+                      username
+                       firstName
+                      lastName
+                      email
+                      phone
+                      isStaff
+                      photoUrl
+                      role
+                    }
+                  }
+                  item{
+                    id
+                    name
+                    priceWithTax
+                    attachments{
+                        edges{
+                          node{
+                            fileUrl
+                            isCover
+                          }
+                        }
+                      }
+                    category{
+                      name
+                      id
+                    }
+                  }
+                }
                 addedFor{
                   id
                   username

@@ -52,8 +52,6 @@ const OrderDetails = () => {
 
   const isStaff = user?.me.role === 'company-employee';
 
-  console.log(order)
-
   useEffect(() => {
     if (order) {
       const userCarts = order?.orderCarts?.edges?.map(item => item.node?.users?.edges || []) || [];
@@ -269,7 +267,7 @@ const OrderDetails = () => {
         <Divider sx={{ mt: 2 }} />
 
         <Stack direction={{ xs: 'column', lg: 'row' }} mt={3} gap={6}>
-          <Box sx={{ maxWidth: '800px', width: '100%' }}>
+          <Box sx={{ maxWidth: '1200px', width: '100%' }}>
             {/* order cart */}
             <Stack gap={3}>
               {
