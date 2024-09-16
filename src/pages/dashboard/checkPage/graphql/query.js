@@ -21,3 +21,9 @@ export const ADDRESSES = gql`
     }
 }
 `
+
+export const ORDER_SUMMARY = gql`
+  query OrderSummary ($companyAllowance: Int){
+    orderSummary(companyAllowance:$companyAllowance)
+  }
+`

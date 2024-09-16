@@ -14,9 +14,7 @@ const ChangeReq = ({ orderCarts }) => {
   const [allAlterCarts, setAllAlterCarts] = useState([])
   const [selectedAlterCartData, setSelectedAlterCartData] = useState({})
 
-  const isMobile = useIsMobile()
 
-  //create staffs payment
   const [userCartUpdate, { loading }] = useMutation(CONFIRM_USER_CART_UPDATE, {
     onCompleted: (res) => {
       toast.success(res.confirmUserCartUpdate.message)
@@ -126,14 +124,19 @@ const ChangeReq = ({ orderCarts }) => {
       width: 150,
       renderCell: (params) => (
         <Stack sx={{ height: '100%', ml: 2, width: '100px' }} justifyContent='center'>
-          <CButton isLoading={selectedAlterCartData.id === params.row.id ? loading : false} onClick={() => handleAcceptClick(params.row)} variant='contained'>Accept</CButton>
+          <CButton
+            disable={params.row.status === 'accepted'}
+            isLoading={selectedAlterCartData.id === params.row.id ? loading : false}
+            onClick={() => handleAcceptClick(params.row)} variant='contained'
+          >
+            Accept
+          </CButton>
         </Stack>
       )
     },
   ];
 
 
-  console.log('allChangeReq', allAlterCarts)
   return (
     <Box>
       <DataTable

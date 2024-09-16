@@ -32,6 +32,7 @@ export const CONFIRM_USER_CART_UPDATE = gql`
     status: $status
   ){
     success
+    message
   }
   }
 `

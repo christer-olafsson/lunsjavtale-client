@@ -8,11 +8,13 @@ import CDialog from '../../../common/dialog/CDialog';
 import { ME } from '../../../graphql/query';
 import { ADDED_CARTS } from './graphql/query';
 import { useTheme } from '@emotion/react';
+import { ORDER_SUMMARY } from '../checkPage/graphql/query';
 
 const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
   const [allowanceDialog, setAllowanceDialog] = useState(false);
   const [addedCarts, setAddedCarts] = useState([]);
   const [totalCalculatedValue, setTotalCalculatedValue] = useState({})
+  const [orderSummaryData, setOrderSummaryData] = useState({})
 
   const { pathname } = useLocation();
   const { data: user } = useQuery(ME)
@@ -23,6 +25,15 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
     notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
       setAddedCarts(res.addedCarts.edges.map(item => item.node))
+    }
+  });
+
+  useQuery(ORDER_SUMMARY, {
+    variables: {
+      companyAllowance: companyAllowance ? parseInt(companyAllowance) : 100
+    },
+    onCompleted: (res) => {
+      setOrderSummaryData(res.orderSummary)
     }
   });
 
@@ -144,8 +155,8 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
           {/* <Typography>Shipping Charge :</Typography> */}
         </Stack>
         <Stack sx={{ px: 2 }} gap={3}>
-          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>kr {totalCalculatedValue.totalPrices}</Typography>
-          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>x {totalCalculatedValue.totalQuantity}</Typography>
+          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}> <b>{orderSummaryData?.subTotal}</b>  kr</Typography>
+          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>x {orderSummaryData?.quantity}</Typography>
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>- $ 53.99</Typography> */}
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>$ 65.00</Typography> */}
         </Stack>
@@ -171,13 +182,6 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
           </>
         )
       }
-      <Stack sx={{
-        bgcolor: 'light.main',
-        p: 2, borderRadius: '8px', mt: 2
-      }} direction='row' justifyContent='space-between'>
-        <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Tax 15%)</i>  :</Typography>
-        <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.totalPricesWithTax}</Typography>
-      </Stack>
       {
         (pathname === '/dashboard/products/checkout') &&
         <>
@@ -187,20 +191,28 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
             // color:'#fff',
             p: 2, borderRadius: '8px', mt: 2
           }} direction='row' justifyContent='space-between'>
-            <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Staffs)</i>  :</Typography>
-            <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.payByStaffs}</Typography>
+            <Typography sx={{ fontWeight: 600 }}>Total Staffs Due:</Typography>
+            <Typography sx={{ fontWeight: 600 }}>{orderSummaryData?.employeeDue} kr</Typography>
           </Stack>
           <Stack sx={{
             bgcolor: 'light.main',
-            border: `1px solid ${theme.palette.primary.main}`,
+            // border: `1px solid ${theme.palette.primary.main}`,
             // color:'#fff',
             p: 2, borderRadius: '8px', mt: 2
           }} direction='row' justifyContent='space-between'>
-            <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Pay by Company)</i>  :</Typography>
-            <Typography sx={{ fontWeight: 600 }}>kr {totalCalculatedValue.payByCompany}</Typography>
+            <Typography sx={{ fontWeight: 600 }}>Total Company Due:</Typography>
+            <Typography sx={{ fontWeight: 600 }}>{orderSummaryData.companyDue} kr</Typography>
           </Stack>
         </>
       }
+      <Stack sx={{
+        border: `1px solid ${theme.palette.primary.main}`,
+        bgcolor: 'light.main',
+        p: 2, borderRadius: '8px', mt: 2
+      }} direction='row' justifyContent='space-between'>
+        <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Tax 15%)</i>  :</Typography>
+        <Typography sx={{ fontWeight: 600 }}>kr {orderSummaryData?.total}</Typography>
+      </Stack>
       {
         (isMySideCartPage || isProductCartPage) &&
         <Link to={isProductCartPage ? '/dashboard/products/checkout' : '/dashboard/myside/checkout'}>
