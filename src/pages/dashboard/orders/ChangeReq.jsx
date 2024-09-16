@@ -37,7 +37,7 @@ const ChangeReq = ({ orderCarts }) => {
   }
 
   useEffect(() => {
-    const allReqData = orderCarts?.node.users.edges.map(item => item.node.alterCart)
+    const allReqData = orderCarts?.node.users.edges.filter(item => item.node.alterCart !== null).map(item => item.node.alterCart)
     setAllAlterCarts(allReqData)
   }, [orderCarts])
 
@@ -100,26 +100,6 @@ const ChangeReq = ({ orderCarts }) => {
       }
     },
     {
-      field: 'dueAmount', headerName: '',
-      width: 150,
-      renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Due Amount</Typography>
-      ),
-      renderCell: (params) => (
-        <Stack sx={{ height: '100%' }} justifyContent='center'>
-          <Typography sx={{
-            fontWeight: 600,
-            color: params.row.previousCart.dueAmount === '0' ? 'inherit' : 'red',
-            borderRadius: '4px',
-            p: 1
-          }}>
-            {params.row.previousCart
-              .dueAmount ?? '00'} <span style={{ fontWeight: 400 }}>kr</span>
-          </Typography>
-        </Stack>
-      )
-    },
-    {
       field: 'status', headerName: '',
       width: 150,
       renderHeader: () => (
@@ -129,11 +109,12 @@ const ChangeReq = ({ orderCarts }) => {
         <Stack sx={{ height: '100%' }} justifyContent='center'>
           <Typography sx={{
             fontWeight: 600,
-            bgcolor: params.row.status !== 'pending' ? 'green' : 'darkgray',
-            color: params.row.status !== 'pending' ? 'inherit' : '#fff',
+            border: '1px solid lightgray',
+            width: 'fit-content',
+            // bgcolor: params.row.status !== 'pending' ? 'green' : 'darkgray',
+            color: params.row.status !== 'pending' ? 'green' : 'gray',
             borderRadius: '4px',
-            textAlign: 'center',
-            p: .5
+            px: 1
           }}>
             {params.row.status}
           </Typography>
@@ -152,6 +133,7 @@ const ChangeReq = ({ orderCarts }) => {
   ];
 
 
+  console.log('allChangeReq', allAlterCarts)
   return (
     <Box>
       <DataTable

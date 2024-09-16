@@ -11,8 +11,9 @@ import { ME } from '../../../graphql/query';
 import { format } from 'date-fns';
 import InvoiceTemplate, { downloadPDF } from './InvoiceTemplate';
 import LoadingBar from '../../../common/loadingBar/LoadingBar';
-import CreatePayment from './CreatePayment';
+import PayCompanyDue from './PayCompanyDue';
 import OrderCart from './OrderCart';
+import PayStaffDue from './PayStaffDue';
 
 
 const OrderDetails = () => {
@@ -21,6 +22,7 @@ const OrderDetails = () => {
   const [openStaffPaymentDialog, setOpenStaffPaymentDialog] = useState(false)
   const [openCompanyPaymentDialog, setOpenCompanyPaymentDialog] = useState(false)
   const [currentStaffOrder, setCurrentStaffOrder] = useState({})
+  const [currentStaffCart, setCurrentStaffCart] = useState([]);
 
 
   const { id } = useParams()
@@ -52,14 +54,22 @@ const OrderDetails = () => {
 
   const isStaff = user?.me.role === 'company-employee';
 
+  const totalCurrentStaffDue = currentStaffCart.reduce((total, user) => total + parseFloat(user.dueAmount), 0).toFixed(2)
+
   useEffect(() => {
-    if (order) {
-      const userCarts = order?.orderCarts?.edges?.map(item => item.node?.users?.edges || []) || [];
-      const selectedUsers = userCarts.flat().map(user => user?.node);
-      const isCurrentStaff = selectedUsers?.find(data => data?.addedFor?.id === user?.me?.id);
-      setCurrentStaffOrder(isCurrentStaff)
-    }
-  }, [order])
+    const users = [];
+    order?.orderCarts?.edges.forEach((cartEdge) => {
+      cartEdge.node.users.edges.forEach((userEdge) => {
+        if (userEdge.node.addedFor?.id === user?.me.id) {
+          users.push(userEdge.node);
+        }
+      });
+    });
+    setCurrentStaffCart(users);
+  }, [order]);
+
+  console.log('matchedUsers', currentStaffCart)
+  console.log('order', order)
 
   if (loading) {
     return <LoadingBar />
@@ -84,11 +94,11 @@ const OrderDetails = () => {
 
       {/* create staff payment */}
       <CDialog openDialog={openStaffPaymentDialog}>
-        <CreatePayment isStaffs orderData={order} closeDialog={() => setOpenStaffPaymentDialog(false)} />
+        <PayStaffDue orderData={order} staffCart={currentStaffCart} totalDue={totalCurrentStaffDue} closeDialog={() => setOpenStaffPaymentDialog(false)} />
       </CDialog>
       {/* create company payment */}
       <CDialog openDialog={openCompanyPaymentDialog}>
-        <CreatePayment isCompany orderData={order} closeDialog={() => setOpenCompanyPaymentDialog(false)} />
+        <PayCompanyDue isCompany orderData={order} closeDialog={() => setOpenCompanyPaymentDialog(false)} />
       </CDialog>
 
       <Box mt={3}>
@@ -155,24 +165,22 @@ const OrderDetails = () => {
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Payment Type:</b></Typography>
             <Typography>{order?.paymentType === 'online' ? 'Vipps' : order?.paymentType}</Typography>
           </Stack>
-          {
-            user?.me.role === 'company-employee' &&
-            <Stack direction='row'>
-              <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Discount Amount:</b></Typography>
-              <Typography>{order?.discountAmount} kr</Typography>
-            </Stack>
-          }
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Company Allowance:</b></Typography>
             <Typography>{order?.companyAllowance ?? '0'} %</Typography>
           </Stack>
-          <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Final Price:</b></Typography>
-            <Typography sx={{ color: 'Highlight', fontWeight: 600 }}>{order?.finalPrice ?? '0'} kr</Typography>
-          </Stack>
+
           {
             !isStaff &&
             <>
+              <Stack direction='row'>
+                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Discount Amount:</b></Typography>
+                <Typography>{order?.discountAmount} kr</Typography>
+              </Stack>
+              <Stack direction='row'>
+                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Final Price:</b></Typography>
+                <Typography sx={{ color: 'Highlight', fontWeight: 600 }}>{order?.finalPrice ?? '0'} kr</Typography>
+              </Stack>
               <Stack direction='row'>
                 <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Company Due Amount:</b></Typography>
                 <Stack direction='row'>
@@ -185,15 +193,6 @@ const OrderDetails = () => {
                   <Typography sx={{ fontWeight: 600, color: 'coral' }} mr={1}>{order?.employeeDueAmount} kr </Typography>
                 </Stack>
               </Stack>
-              {/* <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Total Due Amount:</b></Typography>
-            <Stack direction='row'>
-              <Typography mr={1}>{order?.dueAmount} kr </Typography>
-              <Tooltip title='All Staffs due amount'>
-                <Error fontSize='small' color='primary' />
-              </Tooltip>
-            </Stack>
-          </Stack> */}
               <Stack direction='row'>
                 <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Paid Amount:</b></Typography>
                 <Typography sx={{ fontWeight: 600, color: 'green' }}>{order?.paidAmount} kr</Typography>
@@ -204,28 +203,32 @@ const OrderDetails = () => {
             isStaff &&
             <Stack direction='row'>
               <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Your Due:</b></Typography>
-              <Typography sx={{ fontWeight: 600, color: 'coral' }}>{currentStaffOrder?.dueAmount} kr</Typography>
+              <Typography sx={{ fontWeight: 600, color: 'coral' }}>{totalCurrentStaffDue} kr</Typography>
             </Stack>
           }
 
-          {/* <Stack direction='row' alignItems='center' sx={{
-            border: '1px solid lightgray',
-            maxWidth: 'fit-content',
-            whiteSpace: 'nowrap',
-            pl: 1, borderRadius: '4px', mt: 2,
-          }}>
-            <Typography sx={{ color: 'coral' }}>
-              {user?.me.role === 'company-employee' ? 'Due:' : 'Staffs Due:'}
-              <b style={{ marginLeft: '5px' }}>{user?.me.role === 'company-employee' ? currentStaffOrder?.dueAmount : order?.employeeDueAmount}</b> kr
-            </Typography>
-            <Button
-              disabled={(currentStaffOrder?.dueAmount === '0.00') || (order?.employeeDueAmount === '0.00')}
-              onClick={() => setOpenStaffPaymentDialog(true)}
-              sx={{ alignSelf: 'flex-start', ml: 2 }}
-              variant='contained'>
-              Pay Now (Vipps)
-            </Button>
-          </Stack> */}
+          {/* staff due  */}
+          {
+            isStaff &&
+            <Stack direction='row' alignItems='center' sx={{
+              border: '1px solid lightgray',
+              maxWidth: 'fit-content',
+              whiteSpace: 'nowrap',
+              pl: 1, borderRadius: '4px', mt: 2,
+            }}>
+              <Typography sx={{ color: 'coral' }}>
+                Total Due:
+                <b style={{ marginLeft: '5px' }}>{totalCurrentStaffDue}</b> kr
+              </Typography>
+              <Button
+                disabled={totalCurrentStaffDue === '0.00'}
+                onClick={() => setOpenStaffPaymentDialog(true)}
+                sx={{ alignSelf: 'flex-start', ml: 2 }}
+                variant='contained'>
+                Pay Now (Vipps)
+              </Button>
+            </Stack>
+          }
 
           {/* Company due */}
           <Stack direction='row' alignItems=' center' sx={{
@@ -267,7 +270,7 @@ const OrderDetails = () => {
         <Divider sx={{ mt: 2 }} />
 
         <Stack direction={{ xs: 'column', lg: 'row' }} mt={3} gap={6}>
-          <Box sx={{ maxWidth: '1200px', width: '100%' }}>
+          <Box>
             {/* order cart */}
             <Stack gap={3}>
               {

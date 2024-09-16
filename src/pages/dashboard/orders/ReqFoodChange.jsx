@@ -45,14 +45,11 @@ const ReqFoodChange = ({ orderCarts, closeDialog }) => {
     })
   }
 
-  console.log(products)
-  console.log(orderCarts)
-  // console.log(selectedProduct)
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' mb={1}>
         <Typography sx={{ fontWeight: 600, fontSize: '18px' }}>
-          Change Food
+          Request For Change
         </Typography>
         <IconButton onClick={closeDialog}>
           <Close />

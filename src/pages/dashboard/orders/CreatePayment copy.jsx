@@ -24,7 +24,7 @@ const CreatePayment = ({ isStaffs, isCompany, orderData, closeDialog }) => {
     onCompleted: (res) => {
       console.log(res)
       if (res.makeOnlinePayment.paymentUrl) {
-        window.location.href = res.makeOnlinePayment.paymentUrl
+        // window.location.href = res.makeOnlinePayment.paymentUrl
       }
     },
     onError: (err) => {

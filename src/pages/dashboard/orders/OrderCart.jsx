@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Box, Button, Collapse, Stack, Tab, Tabs, Typography, useMediaQuery } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog'
 import EditOrder from './EditOrder'
 import { useQuery } from '@apollo/client'
@@ -42,12 +42,9 @@ const OrderCart = ({ order, orderCarts }) => {
   const [editOrderDialogOpen, setEditOrderDialogOpen] = useState(false)
   const [reqFoodChangeDialogOpen, setReqFoodChangeDialogOpen] = useState(false)
   const [cartDetailsOpen, setCartDetailsOpen] = useState(false)
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
+  const [tabValue, setTabValue] = useState(0);
+  const [currentStaffReqCart, setCurrentStaffReqCart] = useState({})
+  const [allStaffReqCart, setAllStaffReqCart] = useState([])
 
   const { data: user } = useQuery(ME)
 
@@ -55,7 +52,19 @@ const OrderCart = ({ order, orderCarts }) => {
 
   const isStaff = user?.me.role === 'company-employee';
 
-
+  useEffect(() => {
+    if (user && orderCarts) {
+      const cartData = orderCarts.node.users.edges.find(
+        (data) => data.node.alterCart?.base?.addedFor?.id === user.me.id
+      );
+      setCurrentStaffReqCart(cartData)
+    }
+    if (orderCarts) {
+      const allReqCart = orderCarts.node.users.edges.filter(item => item.node.alterCart !== null).map(item => item.node)
+      setAllStaffReqCart(allReqCart)
+    }
+  }, [orderCarts, user]);
+  // console.log(allStaffReqCart)
   return (
     <Box sx={{
       border: '1px solid lightgray',
@@ -71,6 +80,16 @@ const OrderCart = ({ order, orderCarts }) => {
             borderRadius: '4px',
           }} src={orderCarts?.node.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
           <Box>
+            {
+              (!isStaff && allStaffReqCart.length > 0) &&
+              <Typography sx={{
+                fontSize: '16px', fontWeight: 600,
+                width: 'fit-content',
+                color: 'coral',
+                border: '1px solid coral',
+                borderRadius: '4px', px: 1
+              }}> Change Request ({allStaffReqCart?.length})</Typography>
+            }
             <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{orderCarts?.node.item.name}</Typography>
             <Typography variant='body2'>Category: <b>{orderCarts?.node.item.category.name}</b></Typography>
             <Typography>Price: <b>{orderCarts?.node?.item.priceWithTax}</b> kr</Typography>
@@ -81,8 +100,36 @@ const OrderCart = ({ order, orderCarts }) => {
           <ReqFoodChange orderCarts={orderCarts?.node} closeDialog={() => setReqFoodChangeDialogOpen(false)} />
         </CDialog>
         {
-          isStaff ?
-            <Button sx={{ mt: { xs: 2, md: 0 }, whiteSpace: 'nowrap' }} onClick={() => setReqFoodChangeDialogOpen(true)} variant='contained'>Request Food Change</Button> :
+          isStaff ? (
+            currentStaffReqCart ?
+              <Box mt={{ xs: 3, md: 0 }} sx={{ border: '1px solid coral', p: 1, borderRadius: '8px' }}>
+                <Typography sx={{ color: 'coral', fontWeight: 600, mb: .5 }}>Requested For Change</Typography>
+                <Stack direction={{ xs: 'row', md: 'row' }} gap={2} alignItems='center'>
+                  <img style={{
+                    border: '1px solid lightgray',
+                    width: '100px',
+                    height: '100px',
+                    objectFit: 'cover',
+                    borderRadius: '4px',
+                  }} src={currentStaffReqCart?.node?.alterCart?.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
+                  <Box>
+                    <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{currentStaffReqCart?.node?.alterCart?.item.name}</Typography>
+                    <Typography variant='body2'>Category: <b>{currentStaffReqCart?.node?.alterCart?.item.category.name}</b></Typography>
+                    <Typography>Price: <b>{currentStaffReqCart?.node?.alterCart?.item.priceWithTax}</b> kr</Typography>
+                    <Typography sx={{
+                      fontSize: '14px',
+                      bgcolor: currentStaffReqCart?.node?.alterCart?.status !== 'pending' ? 'green' : 'darkgray',
+                      color: '#fff',
+                      width: 'fit-content',
+                      px: 1, borderRadius: '4px'
+                    }}><b>{currentStaffReqCart?.node?.alterCart?.status}</b></Typography>
+                  </Box>
+                </Stack>
+              </Box>
+              :
+              <Button sx={{ mt: { xs: 2, md: 0 }, whiteSpace: 'nowrap' }} onClick={() => setReqFoodChangeDialogOpen(true)} variant='contained'>Request Food Change</Button>
+          )
+            :
             <Stack gap={.5} mr={2}>
               <Typography>Quantity: <b>{orderCarts?.node?.orderedQuantity}</b> </Typography>
               <Typography>Selected Staffs: <b>({orderCarts?.node?.users?.edges?.length})</b></Typography>
@@ -127,15 +174,15 @@ const OrderCart = ({ order, orderCarts }) => {
       <Collapse in={cartDetailsOpen}>
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs value={tabValue} onChange={(e, value) => setTabValue(value)}>
               <Tab label="Selected Staffs" {...a11yProps(0)} />
-              <Tab label="Change Request" {...a11yProps(1)} />
+              <Tab label={`Change Request (${allStaffReqCart.length})`} {...a11yProps(1)} />
             </Tabs>
           </Box>
-          <CustomTabPanel value={value} index={0}>
+          <CustomTabPanel value={tabValue} index={0}>
             <SelectedStaffs order={order} orderCarts={orderCarts?.node} />
           </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
+          <CustomTabPanel value={tabValue} index={1}>
             <ChangeReq orderCarts={orderCarts} />
           </CustomTabPanel>
         </Box>
