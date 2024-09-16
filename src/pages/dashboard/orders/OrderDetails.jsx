@@ -18,10 +18,11 @@ import PayStaffDue from './PayStaffDue';
 
 const OrderDetails = () => {
   const [order, setOrder] = useState([]);
+  const [currentStaffOrder, setCurrentStaffOrder] = useState({})
+
   const [openSlideDrawer, setOpenSlideDrawer] = useState(false);
   const [openStaffPaymentDialog, setOpenStaffPaymentDialog] = useState(false)
   const [openCompanyPaymentDialog, setOpenCompanyPaymentDialog] = useState(false)
-  const [currentStaffOrder, setCurrentStaffOrder] = useState({})
   const [currentStaffCart, setCurrentStaffCart] = useState([]);
 
 
@@ -45,7 +46,7 @@ const OrderDetails = () => {
     notifyOnNetworkStatusChange: true,
     variables: {
       id,
-      addedFor: user?.me.role !== 'employee' ? null : user?.me.id
+      addedFor: user?.me.role === 'company-employee' ? user?.me.id : null
     },
     onCompleted: (res) => {
       setOrder(res.order)
@@ -68,11 +69,8 @@ const OrderDetails = () => {
     setCurrentStaffCart(users);
   }, [order]);
 
-  console.log('matchedUsers', currentStaffCart)
-  console.log('order', order)
-
   if (loading) {
-    return <LoadingBar />
+    return <Loader />
   }
   if (orderErr) {
     return <ErrorMsg />
@@ -198,13 +196,6 @@ const OrderDetails = () => {
                 <Typography sx={{ fontWeight: 600, color: 'green' }}>{order?.paidAmount} kr</Typography>
               </Stack>
             </>
-          }
-          {
-            isStaff &&
-            <Stack direction='row'>
-              <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Your Due:</b></Typography>
-              <Typography sx={{ fontWeight: 600, color: 'coral' }}>{totalCurrentStaffDue} kr</Typography>
-            </Stack>
           }
 
           {/* staff due  */}

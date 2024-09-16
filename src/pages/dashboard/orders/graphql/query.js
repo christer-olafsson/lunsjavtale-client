@@ -85,7 +85,7 @@ export const ORDER = gql`
       address
       phone
     }
-    orderCarts{
+    orderCarts(addedFor:$addedFor){
       edges{
         node{
           id
@@ -111,7 +111,7 @@ export const ORDER = gql`
               name
             }
           }
-          users(addedFor:$addedFor){
+          users{
             edges{
               node{
                 id

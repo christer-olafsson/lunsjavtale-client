@@ -19,18 +19,20 @@ const PayStaffDue = ({ orderData, closeDialog, staffCart, totalDue }) => {
       toast.error(err.message)
     }
   });
-
+  console.log('staffCart', staffCart)
+  console.log('orderData', orderData)
 
   const handlePay = () => {
-    // createPayment({
-    //   variables: {
-    //     input: {
-    //       orders: [orderData?.id] ?? null,
-    //       company: orderData?.company.id ?? '',
-    //       paidAmount: parseInt(orderData.companyDueAmount),
-    //     }
-    //   }
-    // })
+    createPayment({
+      variables: {
+        input: {
+          company: orderData?.company.id,
+          paidAmount: parseInt(totalDue),
+          paymentFor: staffCart[0].addedFor.id,
+          userCarts: staffCart.map(item => item.id)
+        }
+      }
+    })
   }
 
   return (
@@ -45,7 +47,7 @@ const PayStaffDue = ({ orderData, closeDialog, staffCart, totalDue }) => {
           <Close />
         </IconButton>
       </Stack>
-      <Typography>Total Due for Pay <b style={{ color: 'coral' }}>{orderData?.companyDueAmount}</b>  kr</Typography>
+      <Typography>Total Due for Pay <b style={{ color: 'coral' }}>{totalDue}</b>  kr</Typography>
 
       <CButton isLoading={loading} onClick={handlePay} variant='contained' style={{ width: '100%', mt: 2 }}>
         Confirm

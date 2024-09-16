@@ -25,8 +25,8 @@ const PaymentSuccess = () => {
   return (
     <Box sx={{ maxWidth: '1368px' }}>
 
-      <Link to='/dashboard'>
-        <Button startIcon={<ArrowBack />}>Dashboard</Button>
+      <Link to='/dashboard/payments-history'>
+        <Button startIcon={<ArrowBack />}>Go To Payment History</Button>
       </Link>
       {
         paymentData ?
@@ -41,7 +41,6 @@ const PaymentSuccess = () => {
             gap: 1
           }}>
             <img style={{ width: '100px' }} src="/image 30.png" alt="" />
-            <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Order Placed!</Typography>
             {
               paymentData?.sessionState &&
               <Typography sx={{
