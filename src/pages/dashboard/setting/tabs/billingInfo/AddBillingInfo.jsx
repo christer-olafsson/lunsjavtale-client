@@ -23,6 +23,7 @@ const AddBillingInfo = () => {
     onCompleted: (res) => {
       toast.success(res.companyBillingAddressMutation.message)
       setErrors({})
+      setEditOn(false)
     },
     // refetchQueries: [ADDRESSES],
     onError: (err) => {

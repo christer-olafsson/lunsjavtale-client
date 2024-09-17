@@ -17,6 +17,7 @@ import { deleteFile } from '../../../utils/deleteFile';
 import { ME } from '../../../graphql/query';
 import { Link } from 'react-router-dom';
 import useIsMobile from '../../../hook/useIsMobile';
+import CreatePayment from './CreatePayment';
 
 
 const ManageStaff = () => {
@@ -28,6 +29,7 @@ const ManageStaff = () => {
   const [deleteStaffData, setDeleteStaffData] = useState({ email: '', fileId: '' });
   const [loadingFiledelete, setLoadingFileDelete] = useState(false)
   const [searchText, setSearchText] = useState('')
+  const [makeOnlinePaymentDialogOpen, setMakeOnlinePaymentDialogOpen] = useState(false)
 
   const { data: user } = useQuery(ME)
 
@@ -245,8 +247,15 @@ const ManageStaff = () => {
           <Input onChange={e => setSearchText(e.target.value)} fullWidth disableUnderline placeholder='Search Staff' />
           <IconButton><Search /></IconButton>
         </Box>
-        <Button disabled={user?.me.company.isBlocked} onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Add Staff</Button>
+        <Stack direction='row' gap={2}>
+          <Button variant='outlined' onClick={() => setMakeOnlinePaymentDialogOpen(true)}>Make Payment (Vipps)</Button>
+          <Button disabled={user?.me.company.isBlocked} onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Add Staff</Button>
+        </Stack>
       </Stack>
+      {/* make online payment */}
+      <CDialog openDialog={makeOnlinePaymentDialogOpen} >
+        <CreatePayment closeDialog={() => setMakeOnlinePaymentDialogOpen(false)} />
+      </CDialog>
       {/* Add Staff */}
       <CDialog openDialog={addStaffDialogOpen} >
         <AddStaff closeDialog={handleAddStaffDialogClose} getCompanyStaffs={getCompanyStaffs} />

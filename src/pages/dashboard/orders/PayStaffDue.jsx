@@ -27,7 +27,7 @@ const PayStaffDue = ({ orderData, closeDialog, staffCart, totalDue }) => {
       variables: {
         input: {
           company: orderData?.company.id,
-          paidAmount: parseInt(totalDue),
+          paidAmount: totalDue,
           paymentFor: staffCart[0].addedFor.id,
           userCarts: staffCart.map(item => item.id)
         }

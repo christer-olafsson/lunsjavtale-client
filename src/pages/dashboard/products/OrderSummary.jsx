@@ -1,32 +1,21 @@
 /* eslint-disable react/prop-types */
 import { Close, Edit } from '@mui/icons-material';
 import { Autocomplete, Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import CDialog from '../../../common/dialog/CDialog';
 import { ME } from '../../../graphql/query';
-import { ADDED_CARTS } from './graphql/query';
 import { useTheme } from '@emotion/react';
 import { ORDER_SUMMARY } from '../checkPage/graphql/query';
 
 const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
   const [allowanceDialog, setAllowanceDialog] = useState(false);
-  const [addedCarts, setAddedCarts] = useState([]);
-  const [totalCalculatedValue, setTotalCalculatedValue] = useState({})
   const [orderSummaryData, setOrderSummaryData] = useState({})
 
   const { pathname } = useLocation();
   const { data: user } = useQuery(ME)
   const theme = useTheme()
-
-  useQuery(ADDED_CARTS, {
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (res) => {
-      setAddedCarts(res.addedCarts.edges.map(item => item.node))
-    }
-  });
 
   useQuery(ORDER_SUMMARY, {
     variables: {
@@ -38,43 +27,14 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
   });
 
 
-  const calculateTotals = (data, allowancePercent = 0) => {
-    const totalPricesWithTax = data.reduce((acc, item) => acc + parseFloat(item.totalPriceWithTax), 0);
-    const totalPrices = data.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0);
-    const totalQuantity = data.reduce((acc, item) => acc + parseFloat(item.quantity), 0);
-
-    // Calculate the adjusted total price with tax based on the allowance percentage
-    const payByStaffs = totalPricesWithTax * (1 - allowancePercent / 100);
-    const payByCompany = totalPricesWithTax - payByStaffs
-    return {
-      totalPrices: totalPrices.toFixed(2),
-      totalPricesWithTax: totalPricesWithTax.toFixed(2),
-      payByStaffs: payByStaffs.toFixed(2),
-      totalQuantity,
-      payByCompany: payByCompany.toFixed(2)
-    };
-  };
-
-
 
   const isMySideCartPage = pathname === '/dashboard/myside/cart';
   const isProductCartPage = pathname === '/dashboard/products/cart';
-  const isCheckoutPage = pathname === '/dashboard/products/checkout';
 
   function handleAllowanceDialogClose() {
     setAllowanceDialog(false)
   }
 
-  // useEffect(() => {
-  //   if (isCheckoutPage) {
-  //     setAllowanceDialog(true)
-  //   }
-  // }, [isCheckoutPage])
-
-
-  useEffect(() => {
-    setTotalCalculatedValue(calculateTotals(addedCarts, companyAllowance))
-  }, [addedCarts, companyAllowance])
 
   return (
     <Stack sx={{
@@ -88,15 +48,6 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
       borderRadius: '8px'
     }}>
       <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Order Summary</Typography>
-      {/* <Stack sx={{
-        bgcolor: 'light.main',
-        p: 2, mt: 2,
-        display: isMySideCartPage || isProductCartPage ? 'none' : 'flex'
-      }} direction='row' justifyContent='space-between'>
-        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: '14px' }}>Product</Typography>
-        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: '14px' }}>Product Info</Typography>
-        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: '14px' }}>Price</Typography>
-      </Stack> */}
 
       {/* company allowance dialog */}
       <CDialog openDialog={allowanceDialog}>

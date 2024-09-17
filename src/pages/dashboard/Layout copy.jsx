@@ -25,10 +25,8 @@ import { UNREAD_NOTIFICATION_COUNT, USER_NOTIFICATIONS } from './notification/qu
 import { googleLogout } from '@react-oauth/google';
 import { ADDED_EMPLOYEE_CARTS } from './staffsOrder/graphql/query';
 import StaffsOrder from './staffsOrder/Index';
-import CDrawer from './CDrawer';
-import { ADDED_PRODUCTS } from './products/graphql/query';
 
-const drawerWidth = 300;
+const drawerWidth = 264;
 
 const ListBtn = ({ style, text, icon, link, selected, onClick, notification }) => {
   return (
@@ -70,8 +68,10 @@ function Layout() {
   const [openPaymentDialog, setOpenPaymentDialog] = useState(false)
   const [unreadNotificationCount, setUnreadNotificationCount] = useState([])
   const [clientDetails, setClientDetails] = useState({})
-  const [addedProducts, setAddedProducts] = useState([]);
+  const [addedEmployeeCarts, setAddedEmployeeCarts] = useState([])
 
+
+  const { pathname } = useLocation()
 
 
   useQuery(CLIENT_DETAILS, {
@@ -80,14 +80,10 @@ function Layout() {
     },
   });
 
-  useQuery(ADDED_PRODUCTS, {
-    fetchPolicy: 'no-cache',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (res) => {
-      setAddedProducts(res.addedProducts.edges.map(item => item.node))
-    }
-  });
 
+  const productDetailsMatchFromMyside = useMatch('/dashboard/from-myside/products/:id')
+  const productDetailsMatchFromProducts = useMatch('/dashboard/from-products/products/:id')
+  const orderDetailsMatch = useMatch('/dashboard/orders/details/:id')
 
   const { data: user } = useQuery(ME)
 
@@ -105,6 +101,14 @@ function Layout() {
     }
   });
 
+
+  useQuery(ADDED_EMPLOYEE_CARTS, {
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (res) => {
+      setAddedEmployeeCarts(res.addedEmployeeCarts.edges.map(item => item.node))
+    },
+  });
 
   const handleLogout = () => {
     logout()
@@ -127,7 +131,12 @@ function Layout() {
   };
 
   const drawer = (
-    <Box>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
       <Toolbar sx={{
         display: 'flex',
         justifyContent: 'center', mt: 2
@@ -179,7 +188,7 @@ function Layout() {
             textAlign: 'center',
             display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
-            <Typography>Due: <b>{user?.me.company.balance}</b>  kr</Typography>
+            <Typography>Due Amount: <b>{user?.me.company.balance}</b>  kr</Typography>
             <Button
               disabled={user?.me.company?.isBlocked}
               onClick={() => setOpenPaymentDialog(true)}
@@ -217,8 +226,106 @@ function Layout() {
       <CDialog openDialog={openPaymentDialog} >
         <OrderPayment closeDialog={() => setOpenPaymentDialog(false)} />
       </CDialog>
-      {/* drawer item */}
-      <CDrawer handleDrawerClose={handleDrawerClose} />
+      <Stack>
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
+          link='/dashboard'
+          icon={<SpaceDashboardOutlined fontSize='small' />}
+          text='My Side'
+          selected={
+            pathname === '/dashboard'
+            || pathname === '/dashboard/myside/cart'
+            || pathname === '/dashboard/myside/checkout'
+            || pathname === '/dashboard/myside/complete'
+            || pathname === productDetailsMatchFromMyside?.pathname
+          } />
+        <ListBtn
+          notification={''}
+          onClick={handleDrawerClose}
+          link='/dashboard/cart'
+          icon={<ShoppingCartOutlined fontSize='small' />}
+          text='Order-Cart'
+          selected={pathname === '/dashboard/cart'}
+        />
+        <ListBtn
+          notification={unreadNotificationCount > 0 ? unreadNotificationCount : ''}
+          onClick={handleDrawerClose}
+          link='/dashboard/notifications'
+          icon={<NotificationsNone fontSize='small' />}
+          text='Notifications'
+          selected={pathname === '/dashboard/notifications'}
+        />
+        {
+          (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
+          <ListBtn
+            onClick={handleDrawerClose}
+            link='/dashboard/manage-staff'
+            icon={<PeopleAltOutlined fontSize='small' />}
+            text='Manage-Staffs'
+            selected={pathname === '/dashboard/manage-staff'}
+          />
+        }
+        {/* <Typography sx={{
+          color: '#C2C2C2',
+          textTransform: 'uppercase',
+          fontSize: '14px', my: 2
+        }}>Company</Typography> */}
+        {
+          (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
+          <ListBtn
+            onClick={handleDrawerClose}
+            link='/dashboard/meetings'
+            icon={<Diversity3 fontSize='small' />}
+            text='Meeting-Schedule'
+            selected={pathname === '/dashboard/meetings'}
+          />
+        }
+        <ListBtn
+          onClick={handleDrawerClose}
+          link={'dashboard/products'}
+          icon={<CategoryOutlined fontSize='small' />}
+          text='Products'
+          selected={
+            pathname === '/dashboard/products'
+            || pathname === '/dashboard/products/cart'
+            || pathname === '/dashboard/products/checkout'
+            || pathname === productDetailsMatchFromProducts?.pathname
+          } />
+
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={addedEmployeeCarts.length > 0 ? addedEmployeeCarts.length : ''}
+          link={'dashboard/staffs-order'}
+          icon={<ShoppingCartCheckout fontSize='small' />}
+          text={user?.me.role === 'company-employee' ? 'Order-Request' : 'Staff-Order-Req'}
+          selected={pathname === '/dashboard/staffs-order'}
+        />
+
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
+          link={'dashboard/orders'}
+          icon={<ViewStreamOutlined fontSize='small' />}
+          text='Order-History'
+          selected={pathname === '/dashboard/orders' || pathname == orderDetailsMatch?.pathname}
+        />
+        <ListBtn
+          onClick={handleDrawerClose}
+          notification={''}
+          link={'dashboard/payments-history'}
+          icon={<PaidOutlined fontSize='small' />}
+          text='Payment-History'
+          selected={pathname === '/dashboard/payments-history'}
+        />
+        <ListBtn
+          onClick={handleDrawerClose}
+          link={'dashboard/setting'}
+          icon={<SettingsOutlined fontSize='small' />}
+          text='Setting'
+          selected={pathname === '/dashboard/setting'}
+        />
+      </Stack>
     </Box>
   );
 
@@ -250,18 +357,73 @@ function Layout() {
           </IconButton>
           <Box />
 
+          {/* {
+            user?.me.company?.isBlocked &&
+            <Typography sx={{
+              bgcolor: '#F7DCD9',
+              p: '5px 30px',
+              color: 'red',
+              borderRadius: '4px',
+              display: {xs: 'none', md: 'block'}
+            }}>
+              Account Restricted.
+              <a style={{ fontSize: '13px' }} href="https://wa.me/+4748306377" target='blank'>Contact</a>
+            </Typography>
+          } */}
+          {/* <TextField sx={{
+            mr: { xs: 0, sm: 2, md: 20 },
+            maxWidth: '700px',
+            width: '100%'
+          }}
+            size='small'
+            placeholder='Type to search'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search sx={{
+                    display: { xs: 'none', md: 'block' }
+                  }} />
+                </InputAdornment>
+              )
+            }}
+          /> */}
+
           <Box sx={{
             display: 'flex',
             alignItems: 'center',
             gap: 1
           }}>
-            <Link to='/dashboard/cart'>
-              <IconButton>
-                <Badge badgeContent={addedProducts.length} color='warning'>
-                  <ShoppingCartOutlined />
-                </Badge>
-              </IconButton>
-            </Link>
+            {/* <ClickAwayListener onClickAway={() => setOpenEmail(false)}>
+              <Box sx={{
+                position: 'relative'
+              }}>
+                <IconButton onClick={() => (
+                  setOpenEmail(!openEmail),
+                  setOpenNotification(false)
+                )} sx={{ color: 'darkgray' }}>
+                  <Badge badgeContent={0} color="error">
+                    <MailOutline />
+                  </Badge>
+                </IconButton>
+                <Collapse sx={{
+                  position: 'absolute',
+                  right: { xs: -80, md: 0 },
+                  top: 55,
+                  zIndex: 9999999
+                }} in={openEmail}>
+                  <Box sx={{
+                    width: { xs: '90vw', sm: '300px', md: '350px' },
+                    maxHeight: '500px',
+                    overflowY: 'auto',
+                    bgcolor: '#fff',
+                    border: '1px solid gray',
+                    borderRadius: '8px', p: '10px 20px',
+                  }}>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum ipsam asperiores quasi dolor, recusandae sequi ducimus nam labore impedit quam?</p>
+                  </Box>
+                </Collapse>
+              </Box>
+            </ClickAwayListener> */}
             {/* small notification */}
             <ClickAwayListener onClickAway={() => setOpenNotification(false)}>
               <Box sx={{
@@ -272,8 +434,8 @@ function Layout() {
                   setOpenEmail(false)
                 )} sx={{ color: 'darkgray' }} color="inherit"
                 >
-                  <Badge badgeContent={unreadNotificationCount} color="warning">
-                    <NotificationsNone />
+                  <Badge badgeContent={unreadNotificationCount} color="error">
+                    <NotificationsNone sx={{ fontSize: '30px' }} />
                   </Badge>
                 </IconButton>
                 {

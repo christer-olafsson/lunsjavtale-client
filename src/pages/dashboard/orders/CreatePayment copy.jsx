@@ -58,7 +58,7 @@ const CreatePayment = ({ isStaffs, isCompany, orderData, closeDialog }) => {
         variables: {
           input: {
             company: orderData?.company.id ?? '',
-            paidAmount: user?.me.role === 'company-employee' ? parseInt(currentStaffOrder?.dueAmount) : parseInt(totalPayment),
+            paidAmount: user?.me.role === 'company-employee' ? parseFloat(currentStaffOrder?.dueAmount) : parseFloat(totalPayment),
             userCarts: user?.me.role === 'company-employee' ? [currentStaffOrder?.id] : selectedStaffsOrder.map(user => user.id) ?? '',
             paymentFor: user?.me.role === 'company-employee' ? currentStaffOrder?.addedFor?.id : null
           }
@@ -71,7 +71,7 @@ const CreatePayment = ({ isStaffs, isCompany, orderData, closeDialog }) => {
           input: {
             orders: [orderData?.id] ?? null,
             company: orderData?.company.id ?? '',
-            paidAmount: parseInt(orderData.companyDueAmount),
+            paidAmount: parseFloat(orderData.companyDueAmount),
           }
         }
       })

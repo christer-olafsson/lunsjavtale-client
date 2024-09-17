@@ -9,13 +9,13 @@ const DataTable = ({
   rowHeight,
   getRowHeight,
   checkboxSelection,
+  isRowSelectable,
   onRowSelectionModelChange,
   columnVisibilityModel
 }) => {
   return (
     <Box sx={{
       // minHeight: '650px',
-      // width: '100%',
       '& .MuiDataGrid-columnHeader': {
         backgroundColor: headerColor ? 'primary.main' : '',
         color: headerColor ? '#fff' : ''
@@ -43,6 +43,7 @@ const DataTable = ({
         }}
         checkboxSelection={checkboxSelection}
         onRowSelectionModelChange={onRowSelectionModelChange}
+        isRowSelectable={isRowSelectable}
         columnVisibilityModel={columnVisibilityModel}
         pageSizeOptions={[10]}
         disableRowSelectionOnClick

@@ -17,8 +17,6 @@ const SelectedStaffs = ({ order, orderCarts }) => {
   const [selectedRowData, setSelectedRowData] = useState([])
   const [staffSelectionOn, setStaffSelectionOn] = useState(false)
 
-  const isMobile = useIsMobile()
-
   //create staffs payment
   const [createPayment, { loading: paymentLoading }] = useMutation(MAKE_ONLINE_PAYMENT, {
     onCompleted: (res) => {
@@ -44,7 +42,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
       variables: {
         input: {
           company: order?.company.id,
-          paidAmount: parseInt(totalPayment),
+          paidAmount: totalPayment,
           userCarts: selectedRowData.map(data => data.id),
         }
       }
@@ -126,7 +124,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
     const users = orderCarts?.users?.edges.map(user => user.node)
     setCartUsers(users)
   }, [orderCarts])
-
+  console.log(cartUsers)
   return (
     <Box sx={{ maxWidth: '800px' }}>
       <Box mb={2}>
@@ -153,6 +151,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
         disableColumnFilter
         disableColumnMenu
         disableColumnSorting
+        isRowSelectable={(params) => params.row.dueAmount !== "0.00"}
       />
     </Box>
   )

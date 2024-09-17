@@ -27,7 +27,7 @@ const PayCompanyDue = ({ orderData, closeDialog }) => {
         input: {
           orders: [orderData?.id] ?? null,
           company: orderData?.company.id ?? '',
-          paidAmount: parseInt(orderData.companyDueAmount),
+          paidAmount: orderData.companyDueAmount,
         }
       }
     })

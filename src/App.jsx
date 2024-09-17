@@ -24,6 +24,7 @@ import StaffsOrder from './pages/dashboard/staffsOrder/Index'
 import Notifications from './pages/dashboard/notification/Notifications'
 import StaffDetails from './pages/dashboard/manageStaff/StaffDetails'
 import PaymentSuccess from './pages/dashboard/products/PaymentSuccess'
+import Cart from './pages/dashboard/cart/Cart'
 
 function App() {
 
@@ -53,7 +54,7 @@ function App() {
         <Route path='/email-verification/:token?' element={<EmailVerification />} />
         <Route path='/password-reset/:token?' element={<PassReset />} />
         <Route element={token ? <Layout /> : <Navigate to='/login' />}>
-          <Route path='/dashboard' element={<MySide />} />
+          <Route path='/dashboard/mySide' element={<MySide />} />
           {/* <Route path='/dashboard/myside/cart' element={<CartPage />} />
           <Route path='/dashboard/myside/checkout' element={<CheckPage />} /> */}
           {
@@ -64,8 +65,9 @@ function App() {
               </>
             )
           }
-          <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} />
+          <Route path='/dashboard/cart' element={<Cart />} />
           <Route path='/dashboard/notifications' element={<Notifications />} />
+          <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} />
           <Route path='/dashboard/staffs-order' element={<StaffsOrder />} />
           <Route path='/dashboard/products' element={<Products />} />
           {

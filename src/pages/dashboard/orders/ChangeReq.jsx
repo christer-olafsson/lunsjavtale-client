@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { MailOutline, PhoneInTalkOutlined } from '@mui/icons-material'
 import DataTable from '../../../components/dashboard/DataTable'
 import CButton from '../../../common/CButton/CButton'
+import { ORDER } from './graphql/query'
 
 const ChangeReq = ({ orderCarts }) => {
   const [allAlterCarts, setAllAlterCarts] = useState([])
@@ -19,6 +20,7 @@ const ChangeReq = ({ orderCarts }) => {
     onCompleted: (res) => {
       toast.success(res.confirmUserCartUpdate.message)
     },
+    refetchQueries: [ORDER],
     onError: (err) => {
       toast.error(err.message)
     }

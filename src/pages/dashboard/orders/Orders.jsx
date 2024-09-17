@@ -30,7 +30,6 @@ const Orders = () => {
   });
 
 
-
   function timeUntilNorway(futureDate, mode = "") {
     if (mode === "Delivered") {
       return "Delivered";

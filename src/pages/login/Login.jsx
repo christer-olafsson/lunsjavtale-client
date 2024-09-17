@@ -88,7 +88,7 @@ const Login = (props) => {
       }
       localStorage.setItem("lunsjavtale", res.loginUser.access);
       toast.success('Login Success!');
-      window.location.href = "/dashboard";
+      window.location.href = "/dashboard/mySide";
     },
     onError: (err) => {
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {
