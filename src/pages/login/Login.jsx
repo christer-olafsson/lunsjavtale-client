@@ -108,7 +108,7 @@ const Login = (props) => {
     onCompleted: (res) => {
       localStorage.setItem("lunsjavtale", res.socialLogin.access);
       toast.success('Login Success!');
-      window.location.href = "/dashboard";
+      window.location.href = "/dashboard/mySide";
     },
     onError: (err) => {
       toast.error(err.message)
