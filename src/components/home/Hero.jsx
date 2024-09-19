@@ -98,7 +98,7 @@ const Hero = () => {
                   <Button onClick={() => setSideBarOpen(false)} href='#contact'>Kontakt</Button>
                   {
                     token ?
-                      <Link style={{ width: '100%' }} to='/dashboard'>
+                      <Link style={{ width: '100%' }} to='/dashboard/mySide'>
                         <CButton style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
                           Dashboard
                         </CButton>
@@ -129,7 +129,7 @@ const Hero = () => {
               width: { xs: '100%', md: '50%' },
               justifyContent: 'center'
             }}>
-              <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 },mb:3 }}>{clientDetails?.slogan}</Typography>
+              <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 }, mb: 3 }}>{clientDetails?.slogan}</Typography>
               <Typography sx={{
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,
@@ -152,7 +152,7 @@ const Hero = () => {
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,
                 lineHeight: { xs: '40px', md: '80px' },
-                mb:3
+                mb: 3
               }}>
                 <FadeAnimation damping={.1} delay={1000} cascade={'cascade'}>
                   arbeidsplassen ..
@@ -160,7 +160,7 @@ const Hero = () => {
               </Typography>
               <SlideAnimation direction='left' delay={500}>
 
-                <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 3}}>
+                <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 3 }}>
                   La ansatte styre sin egen lunsj med bare noen få tastetrykk. Kutt administrasjon, kostnader og matsvinn, samtidig som ansatte får levert akkurat den lunsjen de ønsker.
                 </Typography>
               </SlideAnimation>
