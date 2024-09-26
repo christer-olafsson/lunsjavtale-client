@@ -24,7 +24,7 @@ const Footer = () => {
   });
 
   useEffect(() => {
-    setSocialLinkJson(JSON.parse(clientDetails.socialMediaLinks ?? null))
+    setSocialLinkJson(JSON.parse(clientDetails?.socialMediaLinks ?? null))
   }, [clientDetails])
 
 

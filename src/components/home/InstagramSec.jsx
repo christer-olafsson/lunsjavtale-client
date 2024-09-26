@@ -24,7 +24,7 @@ const InstagramSec = () => {
   });
 
   useEffect(() => {
-    setSocialLinkJson(JSON.parse(clientDetails.socialMediaLinks ?? '{}'));
+    setSocialLinkJson(JSON.parse(clientDetails?.socialMediaLinks ?? '{}'));
   }, [clientDetails]);
 
   useEffect(() => {
