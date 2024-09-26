@@ -45,15 +45,15 @@ const Contact = () => {
         my: 5
       }}>
         <Stack justifyContent='center' alignItems='center' py={5}>
-          <Box sx={{
+          {/* <Box sx={{
             width: '120px',
             height: '56px',
             mb: 3
           }}>
             <SlideAnimation direction='up'>
-              <img style={{ width: '100%' }} src="/Avatar group.png" alt="" />
+              <img style={{ width: '70px' }} src="/contact-classic.svg" alt="" />
             </SlideAnimation>
-          </Box>
+          </Box> */}
           <SlideAnimation direction='up' delay={100}>
             <Typography sx={{ fontSize: '24px', mb: 1, color: 'primary.main' }}>Har du spørsmål?</Typography>
           </SlideAnimation>
