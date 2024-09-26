@@ -131,14 +131,6 @@ const Hero = () => {
             }}>
               <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 }, mb: 3 }}>{clientDetails?.slogan}</Typography>
               <Typography sx={{
-                fontSize: { xs: '22px', md: '38px' },
-                fontWeight: 800,
-                lineHeight: { xs: '40px', md: '80px' },
-                color: 'red'
-              }}>
-                Test Mode..
-              </Typography>
-              <Typography sx={{
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,
                 lineHeight: { xs: '40px', md: '80px' },
