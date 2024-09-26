@@ -136,7 +136,7 @@ const Hero = () => {
                 lineHeight: { xs: '40px', md: '80px' },
               }}>
                 <FadeAnimation damping={.1} delay={100} cascade={'cascade'}>
-                  Nytt lunsjkonsept
+                  Stage Nytt lunsjkonsept
                 </FadeAnimation>
               </Typography>
               <Typography sx={{
