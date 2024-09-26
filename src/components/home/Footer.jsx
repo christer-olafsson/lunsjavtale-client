@@ -103,14 +103,14 @@ const Footer = () => {
           pb: { xs: 10, md: 0 }
         }}>
           <a style={{ textDecoration: 'none' }} href={socialLink?.facebook ?? ''} target='blank'>
-            <ListItem sx={{width:'fit-content'}}>
-              <ListItemText sx={{ color: '#fff',mr:3 }}>Facebook</ListItemText>
+            <ListItem sx={{ width: 'fit-content' }}>
+              <ListItemText sx={{ color: '#fff', mr: 3 }}>Facebook</ListItemText>
               <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
             </ListItem>
           </a>
           <a style={{ textDecoration: 'none' }} href={socialLink?.instagram ?? ''} target='blank'>
-            <ListItem sx={{width:'fit-content'}}>
-              <ListItemText sx={{ color: '#fff',mr:3 }}>Instagram</ListItemText>
+            <ListItem sx={{ width: 'fit-content' }}>
+              <ListItemText sx={{ color: '#fff', mr: 3 }}>Instagram</ListItemText>
               <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
             </ListItem>
           </a>

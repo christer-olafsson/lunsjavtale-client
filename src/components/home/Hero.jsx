@@ -134,7 +134,7 @@ const Hero = () => {
                 fontSize: { xs: '22px', md: '38px' },
                 fontWeight: 800,
                 lineHeight: { xs: '40px', md: '80px' },
-                color: 'coral'
+                color: 'red'
               }}>
                 Test Mode..
               </Typography>
