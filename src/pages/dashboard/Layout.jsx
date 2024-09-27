@@ -255,11 +255,14 @@ function Layout() {
             alignItems: 'center',
             gap: 1
           }}>
-            <Typography sx={{
-              fontSize: { xs: '14px', md: '18px' },
-              fontWeight: 600,
-              color: 'red', mr: { xs: 0, md: 4 }
-            }}>Test Mode</Typography>
+            {
+              import.meta.env.VITE_ENVIRONMENT === 'stage' &&
+              <Typography sx={{
+                fontSize: { xs: '14px', md: '18px' },
+                fontWeight: 600,
+                color: 'red', mr: { xs: 0, md: 4 }
+              }}>Test Mode</Typography>
+            }
             <Link to='/dashboard/cart'>
               <IconButton>
                 <Badge badgeContent={addedProducts.length} color='warning'>
