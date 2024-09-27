@@ -255,6 +255,11 @@ function Layout() {
             alignItems: 'center',
             gap: 1
           }}>
+            <Typography sx={{
+              fontSize: '18px',
+              fontWeight: 600,
+              color: 'red', mr: 4
+            }}>Test Mode</Typography>
             <Link to='/dashboard/cart'>
               <IconButton>
                 <Badge badgeContent={addedProducts.length} color='warning'>
