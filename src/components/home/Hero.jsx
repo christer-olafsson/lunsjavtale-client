@@ -129,6 +129,7 @@ const Hero = () => {
               width: { xs: '100%', md: '50%' },
               justifyContent: 'center'
             }}>
+              <Typography variant='h4' sx={{ position: 'fixed', top: 10, left: 10, fontWeight: 600, mb: 2, color: 'red' }}>(Test Mode)</Typography>
               <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 }, mb: 3 }}>{clientDetails?.slogan}</Typography>
               <Typography sx={{
                 fontSize: { xs: '32px', md: '68px' },
