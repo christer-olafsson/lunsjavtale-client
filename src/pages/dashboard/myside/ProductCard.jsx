@@ -58,8 +58,8 @@ const ProductCard = ({ data }) => {
             {data.name.length > 50 ? '...' : ''}
           </Typography>
           <Typography sx={{ fontSize: '14px' }}>
-            {data.description.substring(0, 70)}
-            {data.description.length > 70 ? '...' : ''}
+            {data.description.substring(0, 60)}
+            {data.description.length > 60 ? '...' : ''}
           </Typography>
           {/* <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography> */}
         </Stack>
