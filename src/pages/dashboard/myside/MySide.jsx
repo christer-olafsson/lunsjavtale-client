@@ -98,6 +98,13 @@ const MySide = (props) => {
               }}>
                 <Grid container spacing={2}>
                   {
+                    products?.length === 0 &&
+                    <Typography sx={{
+                      textAlign: 'center',
+                      p: 5
+                    }}>No featured products found</Typography>
+                  }
+                  {
                     products?.length > 0 &&
                     products?.map((item, id) => (
                       <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
@@ -118,12 +125,19 @@ const MySide = (props) => {
               textAlign: 'center',
               borderRadius: '5px',
               mb: 2
-            }}>{optionProducts[0]?.category?.name}</Typography>
+            }}>{optionProducts[0]?.category?.name ?? 'Optional Products'}</Typography>
             <Box sx={{
               width: { xs: '100%', sm: '100%' },
               px: 2,
               overflow: 'hidden'
             }}>
+              {
+                optionProducts?.length === 0 &&
+                <Typography sx={{
+                  textAlign: 'center',
+                  p: 5
+                }}>No optional products found</Typography>
+              }
               {
                 optionProducts?.length > 0 &&
                 <Carousel

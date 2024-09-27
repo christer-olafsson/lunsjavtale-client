@@ -11,7 +11,8 @@ const DataTable = ({
   checkboxSelection,
   isRowSelectable,
   onRowSelectionModelChange,
-  columnVisibilityModel
+  columnVisibilityModel,
+  emptyText = 'Empty'
 }) => {
   return (
     <Box sx={{
@@ -22,6 +23,7 @@ const DataTable = ({
       },
     }}>
       <DataGrid
+        sx={{ minHeight: '650px' }}
         rows={rows}
         columns={columns}
         autoHeight
@@ -35,7 +37,7 @@ const DataTable = ({
           },
         }}
         localeText={{
-          noRowsLabel: 'Empty',
+          noRowsLabel: emptyText,
           footerRowSelected: (count) =>
             count !== 1
               ? `${count.toLocaleString()} Selected`
