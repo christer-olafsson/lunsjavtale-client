@@ -353,7 +353,7 @@ const AddItem = ({ closeDialog, data }) => {
                 </table>
               </Box>
               {
-                data?.category.id !== '4' &&
+                data?.category.id !== import.meta.env.VITE_STATIC_CATEGORY_ID &&
                 <Autocomplete
                   multiple
                   options={allAllergies}

@@ -78,7 +78,7 @@ function App() {
             </>
           }
           <Route path='/dashboard/orders' element={<Orders />} />
-          <Route path='/dashboard/orders/payment-success' element={<PaymentSuccess />} />
+          <Route path='/dashboard/payment-success' element={<PaymentSuccess />} />
           <Route path='/dashboard/payments-history' element={<PaymentHistory />} />
           <Route path='/dashboard/orders/details/:id' element={<OrderDetails />} />
           <Route path='/dashboard/orders/edit/:id' element={<EditOrder />} />
