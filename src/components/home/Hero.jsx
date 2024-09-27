@@ -129,6 +129,7 @@ const Hero = () => {
               width: { xs: '100%', md: '50%' },
               justifyContent: 'center'
             }}>
+              {/* for stage */}
               {
                 import.meta.env.VITE_ENVIRONMENT === 'stage' &&
                 <Typography variant='h5' sx={{ fontWeight: 600, mb: 2, color: 'red' }}>(Test Mode)</Typography>
