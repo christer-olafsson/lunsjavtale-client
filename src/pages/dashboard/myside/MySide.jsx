@@ -61,7 +61,7 @@ const MySide = (props) => {
 
   useQuery(PRODUCTS, {
     variables: {
-      category: "4"
+      category: import.meta.env.VITE_STATIC_CATEGORY_ID
     },
     onCompleted: (res) => {
       setOptionProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node))
@@ -137,7 +137,7 @@ const MySide = (props) => {
                   centerMode={true}
                   responsive={responsive}
                   pauseOnHover
-                  
+
                   autoPlay={true}
                   infinite
                   renderButtonGroupOutside={true}

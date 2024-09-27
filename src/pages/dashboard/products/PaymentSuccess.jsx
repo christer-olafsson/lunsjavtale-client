@@ -1,9 +1,11 @@
-import { useQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import { ArrowBack } from '@mui/icons-material'
-import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Box, Button, Typography } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { GET_ONLINE_PAYMENT_INFO } from './graphql/query'
+import Loader from '../../../common/loader/Index'
+import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg'
 
 const PaymentSuccess = () => {
   const [paymentData, setPaymentData] = useState({})
@@ -12,7 +14,8 @@ const PaymentSuccess = () => {
   const queryParams = new URLSearchParams(location.search)
   const ref = queryParams.get('ref')
 
-  const { loading, error } = useQuery(GET_ONLINE_PAYMENT_INFO, {
+  const [getOnlinePaymentInfo, { loading, error }] = useLazyQuery(GET_ONLINE_PAYMENT_INFO, {
+    fetchPolicy: 'network-only',
     variables: {
       id: ref
     },
@@ -21,6 +24,20 @@ const PaymentSuccess = () => {
       setPaymentData(res.getOnlinePaymentInfo)
     }
   })
+
+  useEffect(() => {
+    if (paymentData.sessionState === 'PaymentInitiated') {
+      getOnlinePaymentInfo()
+    }
+  }, [paymentData])
+
+
+  useEffect(() => {
+    getOnlinePaymentInfo()
+  }, [ref])
+
+  if (loading) return <Loader />
+  if (error) return <Typography><ErrorMsg /></Typography>
 
   return (
     <Box sx={{ maxWidth: '1368px' }}>

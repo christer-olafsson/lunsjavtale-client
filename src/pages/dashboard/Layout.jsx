@@ -256,9 +256,9 @@ function Layout() {
             gap: 1
           }}>
             <Typography sx={{
-              fontSize: '18px',
+              fontSize: { xs: '14px', md: '18px' },
               fontWeight: 600,
-              color: 'red', mr: 4
+              color: 'red', mr: { xs: 0, md: 4 }
             }}>Test Mode</Typography>
             <Link to='/dashboard/cart'>
               <IconButton>
