@@ -147,7 +147,7 @@ const OrderCart = ({ order, orderCarts }) => {
                   disabled={
                     user?.me.company.isBlocked
                     || user?.me.role === 'company-employee'
-                    || (order?.status !== 'Placed' && order?.status !== 'Updated')
+                    || (order?.status !== 'Placed' && order?.status !== 'Updated' && order?.status !== 'Payment-pending')
                   }
                   onClick={() => setEditOrderDialogOpen(true)}
                   endIcon={<DriveFileRenameOutlineOutlined />}

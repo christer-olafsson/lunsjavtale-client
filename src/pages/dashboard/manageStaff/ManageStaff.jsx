@@ -248,7 +248,7 @@ const ManageStaff = () => {
           <IconButton><Search /></IconButton>
         </Box>
         <Stack direction='row' gap={2}>
-          <Button variant='outlined' onClick={() => setMakeOnlinePaymentDialogOpen(true)}>Make Payment (Vipps)</Button>
+          <Button variant='outlined' onClick={() => setMakeOnlinePaymentDialogOpen(true)}>Make Staff Payment (Vipps)</Button>
           <Button disabled={user?.me.company.isBlocked} onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Add Staff</Button>
         </Stack>
       </Stack>

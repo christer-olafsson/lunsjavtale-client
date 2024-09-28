@@ -42,7 +42,7 @@ const OrderPayment = ({ closeDialog }) => {
     <Box>
 
       <Stack direction='row' justifyContent='space-between' mb={1}>
-        <Typography sx={{ fontWeight: 600, fontSize: '20px' }}>Make Vipps Payment</Typography>
+        <Typography sx={{ fontWeight: 600, fontSize: '20px' }}>Make Vipps Payment For Staff</Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>
@@ -50,7 +50,7 @@ const OrderPayment = ({ closeDialog }) => {
 
       <Typography>
         Total For Payment:
-        <b>{isStaff ? user?.me?.dueAmount :  user?.me?.company?.balance}</b> kr
+        <b>{isStaff ? user?.me?.dueAmount : user?.me?.company?.balance}</b> kr
       </Typography>
 
       <CButton disable={user?.me?.dueAmount === '0.00'} isLoading={loading} onClick={handleSave} variant='contained' style={{ width: '100%', mt: 2 }}>
