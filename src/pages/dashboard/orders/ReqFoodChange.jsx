@@ -20,7 +20,8 @@ const ReqFoodChange = ({ orderCarts, closeDialog }) => {
       setProducts(data)
     },
   });
-
+  console.log('orderCarts', orderCarts)
+  console.log('products', products)
   const [userCartUpdate, { loading: userCartUpdateLoading }] = useMutation(USER_CART_UPDATE, {
     onCompleted: (res) => {
       toast.success(res.userCartUpdate.message);

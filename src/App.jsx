@@ -25,11 +25,12 @@ import Notifications from './pages/dashboard/notification/Notifications'
 import StaffDetails from './pages/dashboard/manageStaff/StaffDetails'
 import PaymentSuccess from './pages/dashboard/products/PaymentSuccess'
 import Cart from './pages/dashboard/cart/Cart'
+import ProtectedRoutes from './components/ProtectedRoutes' // You'll need to create this component
 
 function App() {
 
   const [token, setToken] = useState(localStorage.getItem('lunsjavtale'));
-  const { data: user } = useQuery(ME, {
+  const { data: user, loading } = useQuery(ME, {
     skip: !token
   });
 
@@ -55,28 +56,12 @@ function App() {
         <Route path='/password-reset/:token?' element={<PassReset />} />
         <Route element={token ? <Layout /> : <Navigate to='/login' />}>
           <Route path='/dashboard/mySide' element={<MySide />} />
-          {/* <Route path='/dashboard/myside/cart' element={<CartPage />} />
-          <Route path='/dashboard/myside/checkout' element={<CheckPage />} /> */}
-          {
-            (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') && (
-              <>
-                <Route path='/dashboard/manage-staff' element={<ManageStaff />} />
-                <Route path='/dashboard/meetings' element={<Meeting />} />
-              </>
-            )
-          }
           <Route path='/dashboard/cart' element={<Cart />} />
           <Route path='/dashboard/notifications' element={<Notifications />} />
           <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} />
           <Route path='/dashboard/staffs-order' element={<StaffsOrder />} />
           <Route path='/dashboard/products' element={<Products />} />
-          {
-            !user?.me.company?.isBlocked &&
-            <>
-              <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
-              <Route path='/dashboard/products/checkout' element={<CheckPage />} />
-            </>
-          }
+          <Route path='/dashboard/*' element={<ProtectedRoutes user={user} loading={loading} />} />
           <Route path='/dashboard/orders' element={<Orders />} />
           <Route path='/dashboard/payment-success' element={<PaymentSuccess />} />
           <Route path='/dashboard/payments-history' element={<PaymentHistory />} />

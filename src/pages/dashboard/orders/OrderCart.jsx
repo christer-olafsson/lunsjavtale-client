@@ -127,7 +127,10 @@ const OrderCart = ({ order, orderCarts }) => {
                 </Stack>
               </Box>
               :
-              <Button sx={{ mt: { xs: 2, md: 0 }, whiteSpace: 'nowrap' }} onClick={() => setReqFoodChangeDialogOpen(true)} variant='contained'>Request Food Change</Button>
+              <Button disabled={
+                user?.me.company.isBlocked
+                || (order?.status !== 'Placed' && order?.status !== 'Updated' && order?.status !== 'Payment-pending' && order?.status !== 'Payment-completed')
+              } sx={{ mt: { xs: 2, md: 0 }, whiteSpace: 'nowrap' }} onClick={() => setReqFoodChangeDialogOpen(true)} variant='contained'>Request Food Change</Button>
           )
             :
             <Stack gap={.5} mr={2}>
@@ -147,7 +150,10 @@ const OrderCart = ({ order, orderCarts }) => {
                   disabled={
                     user?.me.company.isBlocked
                     || user?.me.role === 'company-employee'
-                    || (order?.status !== 'Placed' && order?.status !== 'Updated' && order?.status !== 'Payment-pending')
+                    || (order?.status !== 'Placed'
+                      && order?.status !== 'Updated'
+                      && order?.status !== 'Payment-pending'
+                      && order?.status !== 'Payment-completed')
                   }
                   onClick={() => setEditOrderDialogOpen(true)}
                   endIcon={<DriveFileRenameOutlineOutlined />}
