@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
 import { ADDED_CARTS, ADDED_CARTS_LIST } from './graphql/query';
 import CDialog from '../../../common/dialog/CDialog';
+import { ORDER_SUMMARY } from '../checkPage/graphql/query';
 
 const CartCard = ({ data }) => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false)
@@ -16,7 +17,7 @@ const CartCard = ({ data }) => {
     onCompleted: (res) => {
       toast.success(res.removeCart.message)
     },
-    refetchQueries: [ADDED_CARTS_LIST,ADDED_CARTS],
+    refetchQueries: [ADDED_CARTS_LIST, ADDED_CARTS, ORDER_SUMMARY],
     onError: (err) => {
       toast.error(err.message)
     }
@@ -36,7 +37,7 @@ const CartCard = ({ data }) => {
       border: '1px solid lightgray',
       borderRadius: '8px'
     }}>
-      <Stack sx={{ p: { xs: 1, lg: 2 } }} direction={{xs:'column', md:'row'}} justifyContent='space-between'>
+      <Stack sx={{ p: { xs: 1, lg: 2 } }} direction={{ xs: 'column', md: 'row' }} justifyContent='space-between'>
         <Stack direction='row' gap={2} alignItems='center'>
           <Box sx={{
             width: { xs: '64px', lg: '100px' },
@@ -68,7 +69,7 @@ const CartCard = ({ data }) => {
             }}>Quantity: x{data?.quantity}</Typography>
           </Box>
         </Stack>
-        <Stack  direction={{xs:'row', md:'column'}} my={{xs:1,md:0}}>
+        <Stack direction={{ xs: 'row', md: 'column' }} my={{ xs: 1, md: 0 }}>
           <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Item Price: </Typography>
           <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}><b>{data?.item?.priceWithTax} kr</b> </Typography>
         </Stack>
@@ -79,7 +80,7 @@ const CartCard = ({ data }) => {
         px: 3,
         py: .5
       }} direction='row' justifyContent='space-between' alignItems='center'>
-        <CButton onClick={()=> setRemoveDialogOpen(true)} size='small' startIcon={<Close />}>Remove</CButton>
+        <CButton onClick={() => setRemoveDialogOpen(true)} size='small' startIcon={<Close />}>Remove</CButton>
         <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Total: <b> {data?.totalPriceWithTax} kr</b></Typography>
       </Stack>
       {/* remove dialog */}

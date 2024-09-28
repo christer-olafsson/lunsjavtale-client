@@ -18,6 +18,8 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
   const theme = useTheme()
 
   useQuery(ORDER_SUMMARY, {
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
     variables: {
       companyAllowance: companyAllowance ? parseInt(companyAllowance) : 100
     },
