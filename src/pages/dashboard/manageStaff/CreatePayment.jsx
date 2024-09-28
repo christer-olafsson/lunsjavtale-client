@@ -15,12 +15,11 @@ const CreatePayment = ({ closeDialog }) => {
   const [paidAmount, setPaidAmount] = useState('')
 
   const { data: user } = useQuery(ME)
-
+  console.log(selectedStaff)
   const [createPayment, { loading: paymentLoading }] = useMutation(MAKE_ONLINE_PAYMENT, {
     onCompleted: (res) => {
-      console.log(res)
       if (res.makeOnlinePayment.paymentUrl) {
-        // window.location.href = res.makeOnlinePayment.paymentUrl
+        window.location.href = res.makeOnlinePayment.paymentUrl
       }
     },
     onError: (err) => {
@@ -109,7 +108,7 @@ const CreatePayment = ({ closeDialog }) => {
         />
       </FormGroup>
 
-      <CButton isLoading={paymentLoading} onClick={handlePay} variant='contained' style={{ width: '100%', mt: 2 }}>
+      <CButton disable={selectedStaff?.dueAmount === '0.00'} isLoading={paymentLoading} onClick={handlePay} variant='contained' style={{ width: '100%', mt: 2 }}>
         Confirm
       </CButton>
 

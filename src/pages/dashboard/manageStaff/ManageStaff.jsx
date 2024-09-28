@@ -230,7 +230,7 @@ const ManageStaff = () => {
   return (
     <Box maxWidth='xl'>
       <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Manage Staff</Typography>
-      <Stack direction='row' justifyContent='space-between' gap={2} sx={{
+      <Stack direction={{ xs: 'column-reverse', md: 'row' }} justifyContent='space-between' gap={2} sx={{
         my: 2
       }}>
         <Box sx={{

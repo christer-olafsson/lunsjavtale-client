@@ -11,7 +11,7 @@ import { MAKE_ONLINE_PAYMENT } from './graphql/mutation';
 
 const OrderPayment = ({ closeDialog }) => {
   const { data: user } = useQuery(ME)
-
+  console.log(user)
   const [createPayment, { loading }] = useMutation(MAKE_ONLINE_PAYMENT, {
     onCompleted: (res) => {
       if (res.makeOnlinePayment.paymentUrl) {
@@ -42,7 +42,7 @@ const OrderPayment = ({ closeDialog }) => {
     <Box>
 
       <Stack direction='row' justifyContent='space-between' mb={1}>
-        <Typography sx={{ fontWeight: 600, fontSize: '20px' }}>Make Vipps Payment For Staff</Typography>
+        <Typography sx={{ fontWeight: 600, fontSize: '20px' }}>Make Vipps Payment</Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>

@@ -151,7 +151,6 @@ const CDrawer = ({ handleDrawerClose }) => {
                   direction='row'
                   alignItems='center'
                   onClick={handleDrawerClose}
-                  disablegutters
                   sx={{
                     py: 1,
                     px: 1,
