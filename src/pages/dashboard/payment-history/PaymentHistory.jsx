@@ -23,14 +23,14 @@ const PaymentHistory = () => {
 
   const columns = [
     {
-      field: 'createdDate', width: 200,
+      field: 'createdDate', width: 250,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Created On</Typography>
       ),
       renderCell: (params) => {
         return (
           <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}>{format(params.row.createdOn, 'dd-MM-yyyy')}</Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}>{format(params.row.createdOn, 'dd-MM-yyyy hh:mm a')}</Typography>
           </Stack>
         )
       }
@@ -56,7 +56,7 @@ const PaymentHistory = () => {
                 </Link>
               </Typography>
             </Stack>
-            <Typography sx={{ fontSize: '14px' }}>{params.row.paymentFor?.email}</Typography>
+            <Typography sx={{ fontSize: '14px' }}>{params.row.paymentFor?.email ?? '---'}</Typography>
           </Box>
         </Stack>
       )
@@ -68,7 +68,7 @@ const PaymentHistory = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-          <Typography sx={{ fontSize: '14px', fontWeight: 600, bgcolor: 'lightgray', px: 2, borderRadius: '4px' }}>
+          <Typography sx={{ fontSize: '14px', fontWeight: 600, bgcolor: 'lightgray', px: 2, py: .5, borderRadius: '4px' }}>
             {params.row.paymentType === 'online' ? 'vipps' : params.row.paymentType}
           </Typography>
         </Stack>

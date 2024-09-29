@@ -1,4 +1,4 @@
-import { AccessTime, Add, Close, DeleteOutline, EditOutlined } from '@mui/icons-material'
+import { AccessTime, Add, ArrowRight, Close, DeleteOutline, EditOutlined, LockOutlined } from '@mui/icons-material'
 import { Box, Button, DialogActions, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
 import DataTable from '../../../components/dashboard/DataTable';
 import NewMeeting from './NewMeeting';
@@ -16,15 +16,16 @@ import { MEETING_DELETE } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import { nb } from 'date-fns/locale';
 import useIsMobile from '../../../hook/useIsMobile';
+import MeetingDetails from './MeetingDetails';
 
 const Meeting = () => {
   const [statusFilter, setStatusFilter] = useState('');
   const [createMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);
   const [editMeetingDialogOpen, setEditMeetingDialogOpen] = useState(false);
   const [editMeetingData, setEditMeetingData] = useState({})
-  const [deleteMeetingId, setDeleteMeetingId] = useState('')
-  const [openDeleteMeetingDialog, setOpenDeleteMeetingDialog] = useState(false)
   const [meetings, setMeetings] = useState([])
+  const [meetingDetailsDialogOpen, setMeetingDetailsDialogOpen] = useState(false)
+  const [meetingDetailsData, setMeetingDetailsData] = useState({})
 
   const isMobile = useIsMobile()
 
@@ -46,6 +47,10 @@ const Meeting = () => {
   //   }
   // });
 
+  const handleMeetingDetailsDialog = (row) => {
+    setMeetingDetailsDialogOpen(true)
+    setMeetingDetailsData(row)
+  }
 
   const handleEdit = (row) => {
     setEditMeetingDialogOpen(true)
@@ -102,6 +107,18 @@ const Meeting = () => {
 
   const columns = [
     {
+      field: 'details', width: 80, headerName: '',
+      renderCell: (params) => {
+        return (
+          <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
+            <IconButton onClick={() => handleMeetingDetailsDialog(params.row)}>
+              <ArrowRight />
+            </IconButton>
+          </Stack>
+        )
+      }
+    },
+    {
       field: 'title', width: 250,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Title</Typography>
@@ -133,9 +150,9 @@ const Meeting = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', }} justifyContent='center'>
-          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.createdOn, 'dd-MM-yyyy', { locale: nb })}</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.createdOn, 'dd-MM-yyyy')}</Typography>
           <Typography sx={{ fontSize: '12px', fontWeight: 500, display: 'inline-flex', alignItems: 'center' }}>
-            <AccessTime sx={{ fontSize: '14px' }} /> {formatedNorwayTime(params.row.meetingTime)}</Typography>
+            <AccessTime sx={{ fontSize: '14px', mr: .5 }} /> {format(params.row.createdOn, 'hh:mm a')}</Typography>
           {/* <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'HH:mm')}</Typography> */}
         </Stack>
       )
@@ -147,9 +164,9 @@ const Meeting = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', }} justifyContent='center'>
-          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.meetingTime, 'dd-MM-yyyy', { locale: nb })}</Typography>
+          <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>{format(params.row.meetingTime, 'dd-MM-yyyy')}</Typography>
           <Typography sx={{ fontSize: '12px', fontWeight: 500, display: 'inline-flex', alignItems: 'center' }}>
-            <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'p', { locale: nb })}</Typography>
+            <AccessTime sx={{ fontSize: '14px', mr: .5 }} /> {format(params.row.meetingTime, 'hh:mm a')}</Typography>
           {/* <AccessTime sx={{ fontSize: '14px' }} /> {formatedNorwayTime(params.row.meetingTime)}</Typography> */}
           {/* <AccessTime sx={{ fontSize: '14px' }} /> {format(params.row.meetingTime, 'HH:mm')}</Typography> */}
         </Stack>
@@ -267,14 +284,10 @@ const Meeting = () => {
       <CDialog openDialog={createMeetingDialogOpen}>
         <NewMeeting fetchMeeting={fetchMeeting} closeDialog={() => setCreateMeetingDialogOpen(false)} />
       </CDialog>
-      {/* remove meeting */}
-      {/* <CDialog openDialog={openDeleteMeetingDialog} closeDialog={() => setOpenDeleteMeetingDialog(false)} >
-        <Typography variant='h5'>Confirm Remove?</Typography>
-        <DialogActions>
-          <Button variant='outlined' onClick={() => setOpenDeleteMeetingDialog(false)}>Cancel</Button>
-          <CButton isLoading={meetingDeleteLoading} onClick={handleMeetingRemove} variant='contained'>Confirm</CButton>
-        </DialogActions>
-      </CDialog> */}
+      {/* details meeting */}
+      <CDialog maxWidth='md' openDialog={meetingDetailsDialogOpen}>
+        <MeetingDetails data={meetingDetailsData} closeDialog={() => setMeetingDetailsDialogOpen(false)} />
+      </CDialog>
       <Box mt={3}>
         {
           meetingsLoading ? <Loader /> : meetingsErr ? <ErrorMsg /> :

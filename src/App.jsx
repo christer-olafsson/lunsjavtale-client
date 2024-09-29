@@ -5,7 +5,6 @@ import Search from './pages/search/Search'
 import Login from './pages/login/Login'
 import Layout from './pages/dashboard/Layout'
 import MySide from './pages/dashboard/myside/MySide'
-import ManageStaff from './pages/dashboard/manageStaff/ManageStaff'
 import Products from './pages/dashboard/products/Products'
 import Orders from './pages/dashboard/orders/Orders'
 import Setting from './pages/dashboard/setting/Setting'
@@ -17,7 +16,6 @@ import EmailVerification from './pages/emailVerification/EmailVerification'
 import PassReset from './pages/passReset/PassReset'
 import { useQuery } from '@apollo/client'
 import { ME } from './graphql/query'
-import Meeting from './pages/dashboard/meeting/Index'
 import CheckPage from './pages/dashboard/checkPage/Index'
 import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
 import StaffsOrder from './pages/dashboard/staffsOrder/Index'
@@ -61,6 +59,8 @@ function App() {
           <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} />
           <Route path='/dashboard/staffs-order' element={<StaffsOrder />} />
           <Route path='/dashboard/products' element={<Products />} />
+          <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
+          <Route path='/dashboard/products/checkout' element={<CheckPage />} />
           <Route path='/dashboard/*' element={<ProtectedRoutes user={user} loading={loading} />} />
           <Route path='/dashboard/orders' element={<Orders />} />
           <Route path='/dashboard/payment-success' element={<PaymentSuccess />} />

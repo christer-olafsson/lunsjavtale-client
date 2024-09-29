@@ -130,8 +130,8 @@ query($vendor: String){
 `
 
 export const PRODUCTS = gql`
-  query Products ($id: ID,$title: String, $category: String,$offset:Int,$first: Int,$vendor: String) {
-      products(id:$id,title:$title, category: $category, isDeleted: false,availability: true,offset: $offset,first: $first,vendor: $vendor ){
+  query Products ($id: ID,$title: String, $category: String,$offset:Int,$first: Int,$vendor: String,$weeklyVariants: String) {
+      products(id:$id,title:$title, category: $category, isDeleted: false,availability: true,offset: $offset,first: $first,vendor: $vendor,weeklyVariants: $weeklyVariants ){
         edges{
           node{
           id
@@ -145,6 +145,15 @@ export const PRODUCTS = gql`
           title
           contains
           isFeatured
+          weeklyVariants {
+            edges {
+              node {
+                id
+                name
+                days
+              }
+            }
+          }
           vendor{
             id
             name

@@ -10,7 +10,6 @@ import { ACCOUNT_PROFILE_UPDATE } from '../graphql/mutation';
 
 const Account = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [payloadEditOn, setPayloadEditOn] = useState(false);
   const [errors, setErrors] = useState([])
   const [passwordErr, setPasswordErr] = useState(null);
   const [forgotePassSecOpen, setForgotePassSecOpen] = useState(false);
@@ -30,8 +29,14 @@ const Account = () => {
     onCompleted: (res) => {
       const data = res.accountProfileUpdate
       toast.success(data.message);
-      setPayloadEditOn(false)
+      setEditOn(false)
       setErrors({})
+      setPayload({
+        username: '',
+        currentPass: '',
+        newPass: '',
+        repeatPass: ''
+      })
     },
     onError: (err) => {
       toast.error(err.message)
@@ -50,7 +55,7 @@ const Account = () => {
   }
 
   const handleUpdate = () => {
-    if(!payload.username){
+    if (!payload.username) {
       toast.error('User name required!')
       return
     }
@@ -148,7 +153,25 @@ const Account = () => {
             <Input disabled={!editOn} name='username' value={payload.username} onChange={handleInputChange}
             />
             <InputLabel sx={{ mt: 3 }}>Current password</InputLabel>
-            <Input disabled={!editOn} name='currentPass' value={payload.currentPass} onChange={handleInputChange} variant='standard' />
+            <Input
+              disabled={!editOn}
+              name='currentPass'
+              value={payload.currentPass}
+              onChange={handleInputChange}
+              variant='standard'
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
             <InputLabel sx={{ mt: 3 }}>New Password</InputLabel>
             <Input
               disabled={!editOn}

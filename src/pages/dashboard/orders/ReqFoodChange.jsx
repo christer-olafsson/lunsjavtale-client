@@ -16,7 +16,11 @@ const ReqFoodChange = ({ orderCarts, closeDialog }) => {
 
   const { loading: loadinProducts, error: errProducts } = useQuery(PRODUCTS, {
     onCompleted: (res) => {
-      const data = res.products.edges.filter(item => !item.node.vendor?.isDeleted && item.node.category.id === orderCarts.item.category.id).map(item => item.node)
+      const data = res.products.edges.filter(item =>
+        !item.node.vendor?.isDeleted &&
+        item.node.category.id === orderCarts.item.category.id &&
+        item.node.id !== orderCarts.item.id
+      ).map(item => item.node)
       setProducts(data)
     },
   });

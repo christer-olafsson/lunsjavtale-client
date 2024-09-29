@@ -212,3 +212,16 @@ export const VENDORS = gql`
    }
 }
 `
+
+export const WEEKLY_VARIANTS = gql`
+  query WeeklyVariants {
+    weeklyVariants {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`

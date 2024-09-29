@@ -88,7 +88,7 @@ const CDrawer = ({ handleDrawerClose }) => {
     { name: 'Products', icon: <CategoryOutlined />, path: '/dashboard/products' },
     { name: 'Order History', icon: <ViewStreamOutlined />, path: '/dashboard/orders' },
     { name: 'Payment History', icon: <PaidOutlined />, path: '/dashboard/payments-history' },
-    { name: isStaff ? 'My Order Request' : 'Staff Order Req', icon: <ShoppingCartCheckout />, path: '/dashboard/staffs-order', notification: addedEmployeeCarts.length },
+    { name: isStaff ? 'My Order Request' : 'Staff Order Request', icon: <ShoppingCartCheckout />, path: '/dashboard/staffs-order', notification: addedEmployeeCarts.length },
     { name: 'Setting ', icon: <SettingsOutlined />, path: '/dashboard/setting' },
   ];
 

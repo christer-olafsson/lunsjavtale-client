@@ -60,11 +60,11 @@ const OrderCart = ({ order, orderCarts }) => {
       setCurrentStaffReqCart(cartData)
     }
     if (orderCarts) {
-      const allReqCart = orderCarts.node.users.edges.filter(item => item.node.alterCart !== null).map(item => item.node)
+      const allReqCart = orderCarts.node.users.edges.filter(item => item.node.alterCart !== null && item.node.alterCart.status !== 'accepted').map(item => item.node)
       setAllStaffReqCart(allReqCart)
     }
   }, [orderCarts, user]);
-  // console.log(allStaffReqCart)
+  // console.log('orderCarts', orderCarts)
   return (
     <Box sx={{
       border: '1px solid lightgray',

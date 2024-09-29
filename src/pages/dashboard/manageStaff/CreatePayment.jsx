@@ -105,6 +105,7 @@ const CreatePayment = ({ closeDialog }) => {
           value={paidAmount}
           label='Amount'
           type='number'
+          InputProps={{ readOnly: true }}
         />
       </FormGroup>
 

@@ -89,10 +89,26 @@ const FoodDetails = ({ data, toggleDrawer }) => {
             </Stack>
           }
 
-          {/* <Stack direction='row' gap={2} mt={2}>
-                  <LocalOffer fontSize='small' />
-                  <Typography sx={{ fontSize: '14px' }}>Save 50% right now</Typography>
-                </Stack> */}
+          {
+            product?.weeklyVariants?.edges.length > 0 &&
+            <Stack direction='row' flexWrap='wrap' gap={1}>
+              {
+                product?.weeklyVariants?.edges.map((item, id) => (
+                  <Typography
+                    key={id}
+                    sx={{
+                      width: 'fit-content',
+                      fontSize: '12px',
+                      bgcolor: 'Highlight',
+                      color: '#fff',
+                      px: 1, borderRadius: '4px',
+                    }}>
+                    {item.node.name}
+                  </Typography>
+                ))
+              }
+            </Stack>
+          }
           <Box>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}> <i>Description:</i> </Typography>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>{product?.description}</Typography>

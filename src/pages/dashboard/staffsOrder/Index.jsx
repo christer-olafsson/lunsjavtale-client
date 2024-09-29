@@ -109,8 +109,8 @@ const StaffsOrder = () => {
       renderCell: (params) => {
         return (
           <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Order: <b>{format(params.row.createdOn, 'dd-MM-yyyy')}</b>
-              <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(params.row?.createdOn, 'HH:mm')}</span>
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Order: <b>{format(params.row.createdOn, 'dd-MM-yyyy ')}</b>
+              <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(params.row?.createdOn, 'hh:mm a')}</span>
             </Typography>
             <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Delivery: <b>{format(params.row.date, 'dd-MM-yyyy')}</b> </Typography>
           </Stack>

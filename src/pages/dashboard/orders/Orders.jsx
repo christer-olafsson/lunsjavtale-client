@@ -79,8 +79,8 @@ const Orders = () => {
           <Stack sx={{ height: '100%' }} justifyContent='center'>
             <Typography sx={{ fontSize: { xs: '14px', md: '16px' } }}>{format(params.row.orderDate, 'dd-MMM-yy')}</Typography>
             <Typography sx={{ fontSize: { xs: '12px', md: '14px' }, fontWeight: 500, display: 'inline-flex' }}>
-              <AccessTime fontSize='small' />
-              {format(params.row.orderDate, 'HH:mm', { locale: nb })}
+              <AccessTime sx={{ mr: .5 }} fontSize='small' />
+              {format(params.row.orderDate, 'hh:mm a')}
             </Typography>
           </Stack>
         )

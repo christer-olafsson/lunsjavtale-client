@@ -124,7 +124,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
     const users = orderCarts?.users?.edges.map(user => user.node)
     setCartUsers(users)
   }, [orderCarts])
-  console.log(cartUsers)
+
   return (
     <Box sx={{ maxWidth: '800px' }}>
       <Box mb={2}>
@@ -134,7 +134,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
               <CButton onClick={() => setStaffSelectionOn(false)} variant='outlined' >Cancel</CButton>
               <CButton onClick={handlePay} isLoading={paymentLoading} disable={selectedRowData.length === 0} variant='contained' >Pay Now (Vipps)</CButton>
             </Stack> :
-            <CButton disable={cartUsers.length === 0} onClick={() => setStaffSelectionOn(true)} variant='contained' >
+            <CButton disable={cartUsers.length === 0 || order?.employeeDueAmount === '0.00'} onClick={() => setStaffSelectionOn(true)} variant='contained' >
               Make Payment
             </CButton>
         }

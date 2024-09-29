@@ -143,13 +143,13 @@ const OrderDetails = () => {
             <Typography>#{order?.id}</Typography>
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Created On:</b></Typography>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Ordered On:</b></Typography>
             <Box >
               {
                 order?.createdOn &&
                 <Typography sx={{ whiteSpace: 'nowrap' }}>
                   <b>{format(order?.createdOn, 'dd-MM-yyyy')}</b>
-                  <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(order?.createdOn, 'HH:mm')}</span>
+                  <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(order?.createdOn, 'hh:mm a')}</span>
                 </Typography>
               }
             </Box>
@@ -272,112 +272,46 @@ const OrderDetails = () => {
                   ))
               }
             </Stack>
-            {/* <Box mt={6} maxWidth='700px'>
-              <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 3 }}>Timeline</Typography>
-              <Timeline sx={{
-                [`& .${timelineItemClasses.root}:before`]: {
-                  flex: 0,
-                  padding: 0,
-                },
-              }}>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot sx={{ bgcolor: 'primary.main' }} />
-                    <TimelineConnector sx={{ bgcolor: 'primary.main' }} />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Stack direction='row' justifyContent='space-between'>
-                      <Box>
-                        <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Feb 09, Monday 2024 </Typography>
-                        <Typography sx={{ fontSize: '14px' }}>order place</Typography>
-                      </Box>
-                      <Typography sx={{ fontSize: '14px' }}>3.35 am</Typography>
-                    </Stack>
-                  </TimelineContent>
-                </TimelineItem>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot sx={{ bgcolor: 'primary.main' }} />
-                    <TimelineConnector sx={{ bgcolor: 'primary.main' }} />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Stack direction='row' justifyContent='space-between'>
-                      <Box>
-                        <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Feb 10, Monday 2024 </Typography>
-                        <Typography sx={{ fontSize: '14px' }}>order confirmed, waiting for payment</Typography>
-                      </Box>
-                      <Typography sx={{ fontSize: '14px' }}>5.20 pm</Typography>
-                    </Stack>
-                  </TimelineContent>
-                </TimelineItem>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot sx={{ bgcolor: 'primary.main' }} />
-                    <TimelineConnector sx={{ bgcolor: 'primary.main' }} />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Stack direction='row' justifyContent='space-between'>
-                      <Box>
-                        <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Feb 10, Monday 2024 </Typography>
-                        <Typography sx={{ fontSize: '14px' }}>payment confirmed </Typography>
-                      </Box>
-                      <Typography sx={{ fontSize: '14px' }}>6.50 pm</Typography>
-                    </Stack>
-                  </TimelineContent>
-                </TimelineItem>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot sx={{ bgcolor: 'primary.main' }} />
-                    <TimelineConnector sx={{ bgcolor: 'primary.main' }} />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Stack direction='row' justifyContent='space-between'>
-                      <Box>
-                        <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Feb 11, Monday 2024 </Typography>
-                        <Typography sx={{ fontSize: '14px' }}>product sent to example company</Typography>
-                      </Box>
-                      <Typography sx={{ fontSize: '14px' }}>4.50 am</Typography>
-                    </Stack>
-                  </TimelineContent>
-                </TimelineItem>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot sx={{ bgcolor: 'primary.main' }} />
-                    <TimelineConnector sx={{ bgcolor: 'primary.main' }} />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Stack direction='row' justifyContent='space-between'>
-                      <Box>
-                        <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>Feb 11, Monday 2024 </Typography>
-                        <Typography sx={{ fontSize: '14px' }}>product picked by delivery man</Typography>
-                      </Box>
-                      <Typography sx={{ fontSize: '14px' }}>1.20 pm</Typography>
-                    </Stack>
-                  </TimelineContent>
-                </TimelineItem>
-              </Timeline>
-            </Box> */}
+            {/* order timeline */}
+            <Stack mt={4}>
+              <Typography variant='h5' sx={{ px: 3, mb: 2 }}>Order Timeline</Typography>
+              <Box sx={{ px: 3 }}>
+                {order?.statuses?.edges.map((status, index) => (
+                  <Box key={status.node.id} sx={{ display: 'flex', mb: 2 }}>
+                    <Box sx={{
+                      width: 2,
+                      bgcolor: 'primary.main',
+                      mr: 2,
+                      position: 'relative',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: -4,
+                        width: 10,
+                        height: 10,
+                        borderRadius: '50%',
+                        bgcolor: 'primary.main',
+                      }
+                    }} />
+                    <Box>
+                      <Typography variant='subtitle1' sx={{ fontWeight: 'bold' }}>
+                        {status.node.status}
+                      </Typography>
+                      <Typography variant='body2' color='text.secondary'>
+                        {format(new Date(status.node.createdOn), 'dd-MM-yyyy hh:mm a')}
+                      </Typography>
+                      {status.node.note && (
+                        <Typography variant='body2' sx={{ mt: 1 }}>
+                          {status.node.note}
+                        </Typography>
+                      )}
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </Stack>
           </Box>
-
-          {/* <Box sx={{
-            width: { xs: '100%', md: '30%' },
-            px: { xs: 0, md: 3 }
-          }}>
-            <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 2 }}>Customer Information</Typography>
-            <Typography sx={{ fontSize: '16px' }}>Info:</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, }}>{user?.me.company?.name}</Typography>
-            {user?.me.username &&
-              <Typography sx={{ fontSize: '14px', mb: 4 }}>@{user?.me.username}</Typography>
-            }
-            <Typography sx={{ fontSize: '16px' }}>Email:</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{user?.me.company?.email}</Typography>
-            <Typography sx={{ fontSize: '16px' }}>Shipping address:</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>
-              {order?.shippingAddress?.address}, {order?.shippingAddress?.city}, {order?.shippingAddress?.postCode}
-            </Typography>
-            <Typography sx={{ fontSize: '16px' }}>Billing address:</Typography>
-            <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 4 }}>{order?.billingAddress?.address}</Typography>
-          </Box> */}
 
         </Stack>
 

@@ -69,14 +69,24 @@ const SmallProductCard = ({ data }) => {
           </Stack>
           <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>{data.description}</Typography>
           {
-            data?.contains &&
-            <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b>
-              <i>{JSON.parse(data.contains)}</i>
-            </Typography>
+            data?.weeklyVariants.edges.length > 0 &&
+            data?.weeklyVariants.edges.map((item, id) => (
+              <Typography
+                key={id}
+                sx={{
+                  width: 'fit-content',
+                  fontSize: '12px',
+                  bgcolor: 'Highlight',
+                  color: '#fff',
+                  px: 1, borderRadius: '4px',
+                }}>
+                {item.node.name}
+              </Typography>
+            ))
           }
         </Stack>
         <Stack sx={{ width: '100%' }} direction='row' alignItems='center' justifyContent='space-between' gap={2}>
-          <Button onClick={toggleDrawer} endIcon={<ArrowRight/>} >Details</Button>
+          <Button onClick={toggleDrawer} endIcon={<ArrowRight />} >Details</Button>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
             <Box sx={{ padding: '6px 16px', mr: 2, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>
               <Typography sx={{ fontSize: '14px' }}>kr:  <b>{data.priceWithTax}</b></Typography>

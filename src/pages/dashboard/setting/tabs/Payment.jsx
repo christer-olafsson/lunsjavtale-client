@@ -65,9 +65,9 @@ const Payment = () => {
 
       {/* payment getway integration */}
       <Paper sx={{ p: 2, mt: 3 }}>
-        <Stack direction='row' justifyContent='space-between' alignItems='center'>
-          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Payment Gateway Integration</Typography>
-          <IconButton onClick={() => setOpenPaymentGateway(!openPaymentGateway)}>
+        <Stack sx={{ cursor: 'pointer' }} onClick={() => setOpenPaymentGateway(!openPaymentGateway)} direction='row' justifyContent='space-between' alignItems='center'>
+          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Payment Methods</Typography>
+          <IconButton>
             <ArrowForwardIos sx={{
               transition: 'transform .3s ease',
               transform: openPaymentGateway ? 'rotate(90deg)' : 'none'
@@ -163,9 +163,9 @@ const Payment = () => {
 
       {/* billing information */}
       <Paper sx={{ p: 2, mt: 3 }}>
-        <Stack direction='row' justifyContent='space-between' alignItems='center'>
+        <Stack sx={{ cursor: 'pointer' }} onClick={() => setOpenBillingInfo(!openBillingInfo)} direction='row' justifyContent='space-between' alignItems='center'>
           <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Billing Information</Typography>
-          <IconButton disabled={user?.me.role === 'company-employee'} onClick={() => setOpenBillingInfo(!openBillingInfo)}>
+          <IconButton disabled={user?.me.role === 'company-employee'}>
             <ArrowForwardIos sx={{
               transition: 'transform .3s ease',
               transform: openBillingInfo ? 'rotate(90deg)' : 'none'
@@ -180,11 +180,9 @@ const Payment = () => {
 
       {/* shipping information */}
       <Paper sx={{ p: 2, mt: 3 }}>
-        <Stack direction='row' justifyContent='space-between' alignItems='center'>
+        <Stack sx={{ cursor: 'pointer' }} onClick={() => setOpenShippingInfo(!openShippingInfo)} direction='row' justifyContent='space-between' alignItems='center'>
           <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Shipping Information</Typography>
-          <IconButton disabled={user?.me.role === 'company-employee'}
-            onClick={() => setOpenShippingInfo(!openShippingInfo)}
-          >
+          <IconButton disabled={user?.me.role === 'company-employee'}>
             <ArrowForwardIos sx={{
               transition: 'transform .3s ease',
               transform: openShippingInfo ? 'rotate(90deg)' : 'none'

@@ -66,6 +66,16 @@ export const ORDER = gql`
       employeeDueAmount
       companyDueAmount
       note
+      statuses{
+        edges{
+          node{
+            id
+          status
+          note
+              createdOn
+            }
+          }
+        }
         shippingAddress{
         address
         city

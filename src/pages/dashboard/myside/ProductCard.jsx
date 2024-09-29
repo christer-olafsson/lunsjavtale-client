@@ -33,11 +33,11 @@ const ProductCard = ({ data }) => {
   const theme = useTheme()
   return (
 
-    <Stack gap={{ xs: 0, lg: 2 }} sx={{
+    <Stack gap={{ xs: 0, lg: 1 }} sx={{
       width: '100%',
       maxWidth: '1000px',
       minHeight: '310px',
-      height: { xs: '100%', md: '200px' },
+      height: { xs: '100%' },
       overflow: 'hidden',
       bgcolor: 'light.main',
       p: { xs: 2, lg: 2.5 },
@@ -52,11 +52,31 @@ const ProductCard = ({ data }) => {
           src={data?.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
       </Box>
       <Stack sx={{ flex: 1 }} justifyContent='space-between'>
-        <Stack gap={{ xs: 0, lg: 1 }} mb={{ xs: 0, lg: 1 }} mt={{ xs: 1, lg: 0 }}>
+        <Stack gap={{ xs: 0, lg: .5 }} mt={{ xs: 1, lg: 0 }}>
           <Typography sx={{ fontSize: { xs: '16px', lg: '18px' }, fontWeight: '600' }}>
             {data?.name.substring(0, 50)}
             {data.name.length > 50 ? '...' : ''}
           </Typography>
+          {
+            data?.weeklyVariants?.edges.length > 0 &&
+            <Stack direction='row' flexWrap='wrap' gap={1}>
+              {
+                data?.weeklyVariants?.edges.map((item, id) => (
+                  <Typography
+                    key={id}
+                    sx={{
+                      width: 'fit-content',
+                      fontSize: '12px',
+                      bgcolor: 'Highlight',
+                      color: '#fff',
+                      px: 1, borderRadius: '4px',
+                    }}>
+                    {item.node.name}
+                  </Typography>
+                ))
+              }
+            </Stack>
+          }
           <Typography sx={{ fontSize: '14px' }}>
             {data.description.substring(0, 60)}
             {data.description.length > 60 ? '...' : ''}

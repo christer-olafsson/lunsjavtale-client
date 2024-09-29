@@ -28,7 +28,7 @@ const Notifications = () => {
 
   const columns = [
     {
-      field: 'Time', headerName: '', width: 150,
+      field: 'Time', headerName: '', width: 250,
       renderCell: (params) => {
         const { row } = params
         return (

@@ -266,7 +266,8 @@ const ManageStaff = () => {
       </CDialog>
       {/* remove staff */}
       <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
-        <Typography variant='h5'>Confirm Remove?</Typography>
+        <Typography variant='h5'>Confirm Remove <i style={{ color: 'red' }}>{deleteStaffData.email}</i>?</Typography>
+        <Typography color='red'>This user will be permanently removed from the staff list</Typography>
         <DialogActions>
           <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Cancel</Button>
           <CButton isLoading={userDeleteLoading || loadingFiledelete} onClick={handlStaffDelete} variant='contained'>Confirm</CButton>
