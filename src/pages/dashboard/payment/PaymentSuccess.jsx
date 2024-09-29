@@ -1,9 +1,9 @@
 import { useLazyQuery, useQuery } from '@apollo/client'
-import { ArrowBack } from '@mui/icons-material'
+import { ArrowBack, Cancel, CheckCircle } from '@mui/icons-material'
 import { Box, Button, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { GET_ONLINE_PAYMENT_INFO } from './graphql/query'
+import { GET_ONLINE_PAYMENT_INFO } from '../products/graphql/query'
 import Loader from '../../../common/loader/Index'
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg'
 
@@ -57,23 +57,33 @@ const PaymentSuccess = () => {
             alignItems: 'center',
             gap: 1
           }}>
-            <img style={{ width: '100px' }} src="/image 30.png" alt="" />
+            {
+              paymentData?.sessionState === 'PaymentTerminated' &&
+              <Cancel sx={{ color: 'red', fontSize: '100px' }} />
+            }
+            {
+              paymentData?.sessionState === 'PaymentSuccessful' &&
+              <CheckCircle sx={{ color: 'green', fontSize: '100px' }} />
+            }
             {
               paymentData?.sessionState &&
               <Typography sx={{
-                fontSize: '16px',
+                fontSize: '20px',
                 fontWeight: 600,
-                color: paymentData?.sessionState === 'PaymentTerminated' ? 'red' : 'inherit'
+                color: paymentData?.sessionState === 'PaymentTerminated' ? 'red' : 'green'
               }}>{paymentData?.sessionState}</Typography>
             }
-            <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>You will receive an order confirmation email with details of your order.</Typography>
+            {
+              paymentData?.sessionState === 'PaymentSuccessful' &&
+              <Typography sx={{ fontSize: '14px', fontWeight: 400 }}>You will receive confirmation email with details of your payment.</Typography>
+            }
             {/* <Box sx={{ display: 'inline-flex', textAlign: 'center' }}>
             <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Order ID:</Typography>
             <Typography sx={{ fontSize: '24px', fontWeight: 600, color: 'primary.main', ml: 1 }}>#2548654 </Typography>
             </Box> */}
           </Box>
           :
-          <Typography p={6}>Not Found!</Typography>
+          <Typography p={6} color='red'>No Payment Found!</Typography>
       }
     </Box >
   )

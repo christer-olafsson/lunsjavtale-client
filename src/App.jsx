@@ -23,7 +23,7 @@ import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
 import StaffsOrder from './pages/dashboard/staffsOrder/Index'
 import Notifications from './pages/dashboard/notification/Notifications'
 import StaffDetails from './pages/dashboard/manageStaff/StaffDetails'
-import PaymentSuccess from './pages/dashboard/products/PaymentSuccess'
+import PaymentSuccess from './pages/dashboard/payment/PaymentSuccess'
 import Cart from './pages/dashboard/cart/Cart'
 import ProtectedRoutes from './components/ProtectedRoutes' // You'll need to create this component
 

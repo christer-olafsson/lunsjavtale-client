@@ -11,7 +11,7 @@ import { MAKE_ONLINE_PAYMENT } from './graphql/mutation';
 
 const OrderPayment = ({ closeDialog }) => {
   const { data: user } = useQuery(ME)
-  console.log(user)
+
   const [createPayment, { loading }] = useMutation(MAKE_ONLINE_PAYMENT, {
     onCompleted: (res) => {
       if (res.makeOnlinePayment.paymentUrl) {
@@ -53,7 +53,13 @@ const OrderPayment = ({ closeDialog }) => {
         <b>{isStaff ? user?.me?.dueAmount : user?.me?.company?.balance}</b> kr
       </Typography>
 
-      <CButton disable={user?.me?.dueAmount === '0.00'} isLoading={loading} onClick={handleSave} variant='contained' style={{ width: '100%', mt: 2 }}>
+      <CButton
+        disable={isStaff ? user?.me?.dueAmount === '0.00' : user?.me?.company?.balance === '0.00'}
+        isLoading={loading}
+        onClick={handleSave}
+        variant='contained'
+        style={{ width: '100%', mt: 2 }}
+      >
         Pay Now (Vipps)
       </CButton>
 

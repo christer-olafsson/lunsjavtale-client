@@ -67,7 +67,8 @@ function Layout() {
   const [userMenuOpen, setUsermenuOpen] = useState(null);
   const [openEmail, setOpenEmail] = useState(false)
   const [openNotification, setOpenNotification] = useState(false);
-  const [openPaymentDialog, setOpenPaymentDialog] = useState(false)
+  const [openCompanyPaymentDialog, setOpenCompanyPaymentDialog] = useState(false)
+  const [openStaffPaymentDialog, setOpenStaffPaymentDialog] = useState(false)
   const [unreadNotificationCount, setUnreadNotificationCount] = useState([])
   const [clientDetails, setClientDetails] = useState({})
   const [addedProducts, setAddedProducts] = useState([]);
@@ -181,8 +182,8 @@ function Layout() {
           }}>
             <Typography>Due: <b>{user?.me.company.balance}</b>  kr</Typography>
             <Button
-              disabled={user?.me.company?.isBlocked}
-              onClick={() => setOpenPaymentDialog(true)}
+              disabled={user?.me.company?.isBlocked || user?.me?.company?.balance === '0.00'}
+              onClick={() => setOpenCompanyPaymentDialog(true)}
               variant='outlined'
               size='small'
             >
@@ -204,18 +205,22 @@ function Layout() {
             <Typography>Due Amount: <b>{user?.me?.dueAmount}</b>  kr</Typography>
             <Button
               disabled={user?.me.company?.isBlocked || user?.me?.dueAmount === '0.00'}
-              onClick={() => setOpenPaymentDialog(true)}
+              onClick={() => setOpenStaffPaymentDialog(true)}
               variant='outlined'
               size='small'
             >
-              Pay Now
+              Pay Now (Vipps)
             </Button>
           </Stack>
         }
       </Stack>
-      {/* payment page */}
-      <CDialog openDialog={openPaymentDialog} >
-        <OrderPayment closeDialog={() => setOpenPaymentDialog(false)} />
+      {/*company payment */}
+      <CDialog openDialog={openCompanyPaymentDialog} >
+        <OrderPayment closeDialog={() => setOpenCompanyPaymentDialog(false)} />
+      </CDialog>
+      {/* staff payment */}
+      <CDialog openDialog={openStaffPaymentDialog} >
+        <OrderPayment closeDialog={() => setOpenStaffPaymentDialog(false)} />
       </CDialog>
       {/* drawer item */}
       <CDrawer handleDrawerClose={handleDrawerClose} />
