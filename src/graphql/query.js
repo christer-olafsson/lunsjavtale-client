@@ -78,7 +78,7 @@ export const CLIENT_DETAILS = gql`
 `
 
 export const GET_ALL_CATEGORY = gql`
-query($vendor: String){
+query($vendor: String,$weeklyVariants: String){
   categories{
   edges{
     node{
@@ -86,7 +86,7 @@ query($vendor: String){
       name
       description
       isActive
-      products(isDeleted: false, availability : true,vendor: $vendor){
+      products(isDeleted: false, availability : true,vendor: $vendor,weeklyVariants: $weeklyVariants){
         edges{
           node{
             id
@@ -99,6 +99,15 @@ query($vendor: String){
             availability
             discountAvailability
             isDeleted
+             weeklyVariants {
+            edges {
+              node {
+                id
+                name
+                days
+              }
+            }
+          }
             vendor{
                 id
                 isDeleted

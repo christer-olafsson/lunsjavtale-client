@@ -100,44 +100,39 @@ const OrderDetails = () => {
       </CDialog>
 
       <Box mt={3}>
-        {
-          order?.status &&
-          <Stack direction='row' alignItems='center' gap={3}>
-            <Typography sx={{
-              display: 'inline-flex',
-              padding: '5px 12px', mb: 2,
-              bgcolor: order.status === 'Cancelled'
-                ? 'red'
-                : order.status === 'Confirmed'
-                  ? 'lightgreen'
-                  : order.status === 'Payment-completed'
-                    ? 'blue'
-                    : order.status === 'Delivered'
-                      ? 'green'
-                      : order.status === 'Processing'
-                        ? '#8294C4'
-                        : order.status === 'Ready-to-deliver'
-                          ? '#01B8A9'
-                          : 'yellow',
-              color: order.status === 'Placed'
-                ? 'dark' : order.status === 'Payment-pending'
-                  ? 'dark' : order.status === 'Confirmed' ? 'dark'
-                    : order.status === 'Updated' ? 'dark' : '#fff',
-              borderRadius: '50px',
-            }}>
-              <b style={{ marginLeft: '5px' }}>Status: {order?.status}</b>
-            </Typography>
-            {
-              order?.status === 'Delivered' &&
-              <Button size='small'
-                // onClick={toggleDrawer}
-                onClick={() => downloadPDF()}
-                sx={{ borderRadius: '50px', height: '30px' }} variant='outlined' startIcon={<Download />}>Invoice</Button>
-            }
-          </Stack>
-        }
+        <Stack direction='row' alignItems='center' gap={3}>
+          {
+            (order?.status === 'Delivered') && !isStaff &&
+            <Button size='small'
+              // onClick={toggleDrawer}
+              onClick={() => downloadPDF()}
+              sx={{ borderRadius: '50px', height: '30px', mb: 2 }} variant='outlined' startIcon={<Download />}>Invoice</Button>
+          }
+        </Stack>
         <Stack gap={1}>
-
+          <Stack direction='row' alignItems='center'>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Status:</b></Typography>
+            <Stack alignItems='center' sx={{
+              display: 'inline-flex',
+              padding: '0px 12px',
+              bgcolor:
+                order?.status === 'Cancelled' ? 'red' :
+                  order?.status === 'Placed' ? '#6251DA' :
+                    order?.status === 'Updated' ? '#6251DA' :
+                      order?.status === 'Confirmed' ? '#433878' :
+                        order?.status === 'Delivered' ? 'green' :
+                          order?.status === 'Processing' ? '#B17457' :
+                            order?.status === 'Payment-completed' ? '#00695c' :
+                              order?.status === 'Ready-to-deliver' ? '#283593' :
+                                order?.status === 'Payment-pending' ? '#c2185b' :
+                                  '#616161',
+              color: '#FFF',
+              borderRadius: '4px',
+              minWidth: '150px',
+            }}>
+              <Typography sx={{ fontWeight: 600, }} >{order?.status}</Typography>
+            </Stack>
+          </Stack>
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Order ID:</b></Typography>
             <Typography>#{order?.id}</Typography>
@@ -299,7 +294,8 @@ const OrderDetails = () => {
                         {status.node.status}
                       </Typography>
                       <Typography variant='body2' color='text.secondary'>
-                        {format(new Date(status.node.createdOn), 'dd-MM-yyyy hh:mm a')}
+                        {format(status?.node.createdOn, 'dd-MM-yyyy')}
+                        <span style={{ fontSize: '12px', marginLeft: '5px', fontWeight: 600 }}>{format(status?.node.createdOn, 'hh:mm a')}</span>
                       </Typography>
                       {status.node.note && (
                         <Typography variant='body2' sx={{ mt: 1 }}>

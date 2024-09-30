@@ -134,7 +134,7 @@ const Hero = () => {
                 <Typography variant='h5' sx={{ fontWeight: 600, mb: 2, color: 'red' }}>(Test Mode)</Typography>
               }
               <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 }, mb: 3 }}>{clientDetails?.slogan}</Typography>
-              <Typography sx={{
+              <Box sx={{
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,
                 lineHeight: { xs: '40px', md: '80px' },
@@ -142,8 +142,8 @@ const Hero = () => {
                 <FadeAnimation damping={.1} delay={100} cascade={'cascade'}>
                   Nytt lunsjkonsept
                 </FadeAnimation>
-              </Typography>
-              <Typography sx={{
+              </Box>
+              <Box sx={{
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,
                 lineHeight: { xs: '40px', md: '80px' },
@@ -151,8 +151,8 @@ const Hero = () => {
                 <FadeAnimation damping={.1} delay={100} cascade={'cascade'}>
                   levert gratis til
                 </FadeAnimation>
-              </Typography>
-              <Typography sx={{
+              </Box>
+              <Box sx={{
                 fontSize: { xs: '32px', md: '68px' },
                 fontWeight: 800,
                 lineHeight: { xs: '40px', md: '80px' },
@@ -161,7 +161,7 @@ const Hero = () => {
                 <FadeAnimation damping={.1} delay={1000} cascade={'cascade'}>
                   arbeidsplassen ..
                 </FadeAnimation>
-              </Typography>
+              </Box>
               <SlideAnimation direction='left' delay={500}>
 
                 <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 3 }}>

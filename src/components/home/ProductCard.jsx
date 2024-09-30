@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 
 const ProductCard = ({ data }) => {
   const theme = useTheme()
+
   return (
     <Stack sx={{
       alignSelf: 'center',
@@ -30,10 +31,28 @@ const ProductCard = ({ data }) => {
       <Typography sx={{
         fontSize: { xs: '20px', md: '26px' },
         fontWeight: 600,
-        mb: { xs: 1, md: 2 }
+        mb: { xs: 1, md: 1 }
       }}>
         {data.node.name.length > 50 ? data.node.name.substring(0, 50) + '...' : data.node.name}
       </Typography>
+      <Stack direction='row' gap={1} mb={1} flexWrap='wrap'>
+        {
+          data?.node?.weeklyVariants?.edges.length > 0 &&
+          data?.node?.weeklyVariants?.edges.map((item, id) => (
+            <Typography
+              key={id}
+              sx={{
+                width: 'fit-content',
+                fontSize: '12px',
+                bgcolor: 'green',
+                color: '#fff',
+                px: 1, py: .5, borderRadius: '4px',
+              }}>
+              {item.node.name}
+            </Typography>
+          ))
+        }
+      </Stack>
       <Typography sx={{
         mb: 2,
         fontSize: { xs: '14px', md: '16px' }

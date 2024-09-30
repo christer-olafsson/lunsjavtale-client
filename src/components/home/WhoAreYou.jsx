@@ -35,13 +35,10 @@ const TabItem = styled(Tab)(({ theme }) => ({
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
-  
+
   return (
     <div
-      role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
       {value === index && (
@@ -52,11 +49,11 @@ function CustomTabPanel(props) {
     </div>
   );
 }
-// CustomTabPanel.propTypes = {
-//   children: PropTypes.node,
-//   index: PropTypes.number.isRequired,
-//   value: PropTypes.number.isRequired,
-// };
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
 
 function WhoAreYou() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -110,7 +107,7 @@ function WhoAreYou() {
               {/* <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader  <br style={{display:isMobile ? 'block' : 'none'}} /> og få mer for <br /> dine Penger.</Typography> */}
             </SlideAnimation>
             <SlideAnimation direction='up' delay={400}>
-              <Typography sx={{maxWidth:'700px'}} mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
+              <Typography sx={{ maxWidth: '700px' }} mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
             </SlideAnimation>
             <List>
               {

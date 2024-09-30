@@ -1,4 +1,4 @@
-import { Box, Container, IconButton, Stack, Tab, Tabs, Typography, styled, tabClasses, tabsClasses } from '@mui/material'
+import { Box, Container, FormControl, FormControlLabel, IconButton, Radio, RadioGroup, Stack, Tab, Tabs, Typography, styled, tabClasses, tabsClasses } from '@mui/material'
 import React, { useRef, useState } from 'react'
 import { useTheme } from '@emotion/react';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
 import { FadeAnimation, SlideAnimation } from '../animation/Animation';
+import { WEEKLY_VARIANTS } from '../../pages/dashboard/products/graphql/query';
 
 const TabItem = styled(Tab)(({ theme }) => ({
   position: "relative",
@@ -106,8 +107,11 @@ const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
 const CategoryTab = (props) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [allCategorys, setAllCategorys] = useState([])
-  const [categoryId, setCategoryId] = useState('')
-  const [products, setProducts] = useState({})
+  const [categoryId, setCategoryId] = useState(null)
+  const [products, setProducts] = useState([])
+  const [allWeeklyVariants, setAllWeeklyVariants] = useState([])
+  const [selectedWeeklyVariantId, setSelectedWeeklyVariantId] = useState('')
+  const [productsLength, setProductsLength] = useState([])
 
   const { loading, error } = useQuery(GET_ALL_CATEGORY, {
     onCompleted: (data) => {
@@ -116,96 +120,165 @@ const CategoryTab = (props) => {
     },
   });
 
-  const { loading: loadinProducts, error: errProducts } = useQuery(PRODUCTS, {
-    variables: {
-      category: categoryId
-    },
+  useQuery(PRODUCTS, {
     onCompleted: (res) => {
       const data = res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node)
+      setProductsLength(data.length)
+    },
+  });
+
+  const { loading: loadinProducts, error: errProducts } = useQuery(PRODUCTS, {
+    variables: {
+      category: categoryId,
+      weeklyVariants: selectedWeeklyVariantId ?? null
+    },
+    onCompleted: (res) => {
+      const data = res?.products?.edges?.filter(item => !item.node.vendor?.isDeleted)?.map(item => item)
       setProducts(data)
+    },
+  });
+
+  useQuery(WEEKLY_VARIANTS, {
+    onCompleted: (res) => {
+      const data = res.weeklyVariants.edges.map(item => item.node)
+      setAllWeeklyVariants(data)
     },
   });
 
   return (
     <Box id='products'>
       <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 }, p: 0 }}>
-        <Stack direction='row' sx={{
+        <Stack sx={{
           mb: 3,
           justifyContent: 'center',
+          alignItems: 'center',
+          gap: 3
         }}>
-          <Tabs
-            variant="scrollable"
-            scrollButtons
-            allowScrollButtonsMobile
-            value={tabIndex}
-            onChange={(e, index) => setTabIndex(index)}
-            sx={{
-              width: "fit-content",
-              [`& .${tabsClasses.indicator}`]: {
-                display: "none",
-              },
-            }}
-          >
+
+          <Stack sx={{
+            width: '100%',
+            p: 3
+          }} direction='row' justifyContent='center' gap={{ xs: 1, md: 2 }} flexWrap='wrap'>
+            <Box sx={{
+              border: '1px solid lightgray',
+              borderRadius: '8px',
+              bgcolor: categoryId === null ? 'primary.main' : '#fff',
+              color: categoryId === null ? '#fff' : 'inherit',
+              cursor: 'pointer',
+              userSelect: 'none'
+            }} onClick={() => setCategoryId(null)}>
+              <Typography sx={{
+                fontSize: { xs: '13px', md: '16px' },
+                py: { xs: 1, md: 1.5 },
+                px: { xs: 1, md: 2 },
+                textAlign: 'center'
+              }}>All {<i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>}</Typography>
+            </Box>
             {
-              loading ? <Loader /> : error ? <h4>Something went wrong!</h4> :
-                allCategorys.map((item) => (
-                  <TabItem key={item.node.id} disableRipple label={item.node.name} />
-                ))
+              allCategorys?.map((item) => (
+                <Box sx={{
+                  border: '1px solid lightgray',
+                  borderRadius: '8px',
+                  bgcolor: categoryId === item.node.id ? 'primary.main' : '#fff',
+                  color: categoryId === item.node.id ? '#fff' : 'inherit',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                  opacity: !item.node.isActive ? '.4' : '1'
+                }} onClick={() => setCategoryId(item.node.id)} key={item?.node.id}>
+                  <Typography sx={{
+                    fontSize: { xs: '13px', md: '16px' },
+                    py: { xs: 1, md: 1.5 },
+                    px: { xs: 1, md: 2 },
+                    textAlign: 'center'
+                  }}>
+                    {item?.node.name}
+                    <i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.products?.edges.length})</i>
+                  </Typography>
+                </Box>
+              ))
             }
-          </Tabs>
+          </Stack>
+
+          {/* select week */}
+          <FormControl sx={{ mb: 2 }}>
+            <RadioGroup
+              row
+              value={selectedWeeklyVariantId}
+              onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
+            >
+              <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='All' />
+              {
+                allWeeklyVariants?.map((item, index) => (
+                  <FormControlLabel
+                    key={item.id}
+                    value={item.id}
+                    control={<Radio />}
+                    label={item.name}
+                  />
+                ))
+              }
+            </RadioGroup>
+          </FormControl>
+
         </Stack>
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
-            allCategorys.map((item, id) => (
-              <CustomTabPanel key={id} value={tabIndex} index={id}>
-                <Stack>
-                  <SlideAnimation direction='up'>
-                    <Typography sx={{ fontSize: '32px', mb: 2, fontWeight: 600, textAlign: 'center' }}>{item.node.name}</Typography>
-                  </SlideAnimation>
-                  <Typography sx={{ mb: 6, px: '16px', maxWidth: '727px', alignSelf: 'center', textAlign: 'center', fontSize: { xs: '14px', md: '16px' } }}>
-                    <FadeAnimation>
-                      {item.node.description}
-                    </FadeAnimation>
-                  </Typography>
-                </Stack>
-                <Box px={1}>
-                  <Carousel
-                    swipeable={true}
-                    // draggable={true}
-                    showDots={false}
-                    arrows={false}
-                    rewindWithAnimation={true}
-                    rewind={true}
-                    responsive={responsive}
-                    // infinite={true}
-                    renderButtonGroupOutside={true}
-                    autoPlay={true}
-                    customButtonGroup={<ButtonGroup />}
-                    // autoPlay={props.deviceType !== "mobile" ? true : false}
-                    autoPlaySpeed={2000}
-                    keyBoardControl={true}
-                    customTransition="all 1s"
-                    transitionDuration={1000}
-                    containerClass="carousel-container"
-                    removeArrowOnDeviceType={["tablet", "mobile"]}
-                    deviceType={props.deviceType}
-                  >
-                    {
-                      item?.node?.products?.edges.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>Product Empty</Typography> :
-                        item?.node?.products?.edges?.filter(item => !item.node.vendor?.isDeleted).map((data, id) => (
-                          <SlideAnimation key={id} direction='up' delay={100 * id} >
-
-                            <Box px={1}>
-                              <ProductCard data={data} />
-                            </Box>
-                          </SlideAnimation>
-                        ))
-                    }
-                  </Carousel>
-                </Box>
-              </CustomTabPanel>
-            ))
+            categoryId === null ?
+              <Typography sx={{ fontSize: '32px', mb: 4, fontWeight: 600, textAlign: 'center' }}>Alle produkter</Typography>
+              : (
+                allCategorys.find(item => item.node.id === categoryId) && (
+                  <Stack>
+                    <SlideAnimation direction='up'>
+                      <Typography sx={{ fontSize: '32px', mb: 2, fontWeight: 600, textAlign: 'center' }}>
+                        {allCategorys.find(item => item.node.id === categoryId).node.name}
+                      </Typography>
+                    </SlideAnimation>
+                    <Typography sx={{ mb: 6, px: '16px', maxWidth: '727px', alignSelf: 'center', textAlign: 'center', fontSize: { xs: '14px', md: '16px' } }}>
+                      <FadeAnimation>
+                        {allCategorys.find(item => item.node.id === categoryId).node.description}
+                      </FadeAnimation>
+                    </Typography>
+                  </Stack>
+                )
+              )
         }
+
+
+        <Box px={1}>
+          <Carousel
+            swipeable={true}
+            // draggable={true}
+            showDots={false}
+            arrows={false}
+            rewindWithAnimation={true}
+            rewind={true}
+            responsive={responsive}
+            // infinite={true}
+            renderButtonGroupOutside={true}
+            autoPlay={true}
+            customButtonGroup={<ButtonGroup />}
+            // autoPlay={props.deviceType !== "mobile" ? true : false}
+            autoPlaySpeed={2000}
+            keyBoardControl={true}
+            customTransition="all 1s"
+            transitionDuration={1000}
+            containerClass="carousel-container"
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            deviceType={props.deviceType}
+          >
+            {
+              products?.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>Product Empty</Typography> :
+                products?.map((data, id) => (
+                  // <SlideAnimation key={id} direction='up' delay={100 * id} >
+                  <Box key={id} px={1}>
+                    <ProductCard data={data} />
+                  </Box>
+                  // </SlideAnimation>
+                ))
+            }
+          </Carousel>
+        </Box>
+
       </Container>
     </Box>
   )
