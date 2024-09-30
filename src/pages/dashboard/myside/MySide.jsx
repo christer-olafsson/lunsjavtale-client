@@ -1,5 +1,5 @@
 import { ArrowBack, ArrowForward } from '@mui/icons-material'
-import { Box, Grid, IconButton, Paper, Stack, Typography } from '@mui/material'
+import { Box, FormControl, FormControlLabel, Grid, IconButton, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import Carousel from 'react-multi-carousel';
 import { PRODUCTS } from '../../../graphql/query';
@@ -9,7 +9,7 @@ import ProductCard from './ProductCard';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import OpProductCard from './OpProductCard';
 import MiniCart from '../products/MiniCart';
-import { ADDED_PRODUCTS } from '../products/graphql/query';
+import { ADDED_PRODUCTS, WEEKLY_VARIANTS } from '../products/graphql/query';
 
 
 
@@ -51,11 +51,20 @@ const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
 const MySide = (props) => {
   const [products, setProducts] = useState([]);
   const [optionProducts, setOptionProducts] = useState([])
-  const [addedProducts, setAddedProducts] = useState([]);
+  const [allWeeklyVariants, setAllWeeklyVariants] = useState([])
+  const [selectedWeeklyVariantId, setSelectedWeeklyVariantId] = useState(null)
+  const [selectedWeeklyProducts, setSelectedWeeklyProducts] = useState([])
 
   const { loading, error } = useQuery(PRODUCTS, {
     onCompleted: (res) => {
       setProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted && item.node.isFeatured).map(item => item.node))
+    },
+  });
+
+  useQuery(WEEKLY_VARIANTS, {
+    onCompleted: (res) => {
+      const data = res.weeklyVariants.edges.map(item => item.node)
+      setAllWeeklyVariants(data)
     },
   });
 
@@ -68,13 +77,16 @@ const MySide = (props) => {
     },
   });
 
-  useQuery(ADDED_PRODUCTS, {
-    fetchPolicy: 'no-cache',
-    notifyOnNetworkStatusChange: true,
+  useQuery(PRODUCTS, {
+    variables: {
+      weeklyVariants: selectedWeeklyVariantId ?? null
+    },
     onCompleted: (res) => {
-      setAddedProducts(res.addedProducts.edges.map(item => item.node))
-    }
+      console.log(res)
+      setSelectedWeeklyProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted && item.node.weeklyVariants.edges.length > 0).map(item => item.node))
+    },
   });
+
 
   return (
     <Stack maxWidth='xl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
@@ -83,13 +95,16 @@ const MySide = (props) => {
       }}>
         {
           loading ? <LoadingBar /> : error ? <ErrorMsg /> :
-            <Paper elevation={3}>
+            <Paper sx={{ mb: 4 }} elevation={3}>
               <Typography sx={{
                 bgcolor: '#52525B',
                 padding: '12px 24px',
                 color: '#fff',
                 textAlign: 'center',
                 borderRadius: '5px',
+                fontWeight: 600,
+                fontSize: '18px',
+                height: '50px',
               }}>Featured Products</Typography>
               <Box className='custom-scrollbar' sx={{
                 height: '470px',
@@ -116,64 +131,200 @@ const MySide = (props) => {
               </Box>
             </Paper>
         }
+
+        {/* weekly selected */}
         {
-          <Paper sx={{ mt: 2, width: '100%' }} elevation={3}>
-            <Typography sx={{
+          selectedWeeklyProducts?.length > 0 &&
+          <Paper sx={{ mb: 4 }} elevation={3}>
+            <Stack direction='row' alignItems='center' justifyContent='center' sx={{
               bgcolor: '#52525B',
               padding: '12px 24px',
               color: '#fff',
               textAlign: 'center',
               borderRadius: '5px',
-              mb: 2
-            }}>{optionProducts[0]?.category?.name ?? 'Optional Products'}</Typography>
-            <Box sx={{
-              width: { xs: '100%', sm: '100%' },
-              px: 2,
-              overflow: 'hidden'
+              height: '50px',
             }}>
-              {
-                optionProducts?.length === 0 &&
-                <Typography sx={{
-                  textAlign: 'center',
-                  p: 5
-                }}>No optional products found</Typography>
-              }
-              {
-                optionProducts?.length > 0 &&
-                <Carousel
-                  swipeable={true}
-                  draggable={true}
-                  showDots={false}
-                  arrows={false}
-                  // rewindWithAnimation={true}
-                  customRightArrow={true}
-                  // rewind={true}
-                  centerMode={true}
-                  responsive={responsive}
-                  pauseOnHover
+              <Typography sx={{
+                fontWeight: 600,
+                fontSize: '18px',
+              }}>Weekly Selected</Typography>
 
-                  autoPlay={true}
-                  infinite
-                  renderButtonGroupOutside={true}
-                  customButtonGroup={<ButtonGroup />}
-                  autoPlaySpeed={2000}
-                  keyBoardControl={true}
-                  customTransition="all 1s"
-                  transitionDuration={1000}
-                  containerClass="carousel-container"
-                  removeArrowOnDeviceType={["mobile"]}
-                  deviceType={props.deviceType}
+              {/* <FormControl size='small' sx={{
+                minWidth: '200px',
+              }}>
+                <InputLabel sx={{ color: '#fff' }}>Weekly Variants</InputLabel>
+                <Select
+                  value={selectedWeeklyVariantId || ''}
+                  label="Weekly Variants"
+                  onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
+                  sx={{
+                    color: '#fff',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgba(255, 255, 255, 0.5)',
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgba(255, 255, 255, 0.7)',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#fff',
+                    },
+                    '& .MuiSvgIcon-root': {
+                      color: '#fff',
+                    },
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        bgcolor: '#52525B',
+                        color: '#fff',
+                      },
+                    },
+                  }}
                 >
+                  <MenuItem value=''>All Weekly Variants</MenuItem>
+                  {allWeeklyVariants?.map(item => (
+                    <MenuItem key={item?.id} value={item?.id}>{item?.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl> */}
+
+              {/* <FormControl>
+                <RadioGroup
+                  row
+                  value={selectedWeeklyVariantId}
+                  onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
+                >
+                  <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio sx={{
+                    color: '#fff',
+                    '&.Mui-checked': {
+                      color: '#fff',
+                    },
+                  }} />} label='All' />
                   {
-                    optionProducts?.map((item, id) => (
-                      <OpProductCard key={id} item={item} />
+                    allWeeklyVariants?.map((item) => (
+                      <FormControlLabel
+                        key={item.id}
+                        value={item.id}
+                        control={<Radio sx={{
+                          color: '#fff',
+                          '&.Mui-checked': {
+                            color: '#fff',
+                          },
+                        }} />}
+                        label={item.name}
+                      />
                     ))
                   }
-                </Carousel>
-              }
+                </RadioGroup>
+              </FormControl> */}
+            </Stack>
+            <Box className='custom-scrollbar' sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '470px',
+              overflowY: 'auto',
+              p: 2,
+            }}>
+              <FormControl sx={{ mb: 2, ml: 2 }}>
+                <RadioGroup
+                  row
+                  value={selectedWeeklyVariantId}
+                  onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
+                >
+                  <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Alle uker' />
+                  {
+                    allWeeklyVariants?.map((item, index) => (
+                      <FormControlLabel
+                        key={item.id}
+                        value={item.id}
+                        control={<Radio />}
+                        label={item.name}
+                      />
+                    ))
+                  }
+                </RadioGroup>
+              </FormControl>
+              <Grid container spacing={2}>
+                {
+                  selectedWeeklyProducts?.length === 0 &&
+                  <Typography sx={{
+                    textAlign: 'center',
+                    p: 5
+                  }}>No Weekly Selected products found</Typography>
+                }
+                {
+                  selectedWeeklyProducts?.length > 0 &&
+                  selectedWeeklyProducts?.map((item, id) => (
+                    <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
+                      <ProductCard data={item} />
+                    </Grid>
+                  ))
+                }
+              </Grid>
             </Box>
           </Paper>
         }
+
+        <Paper sx={{ width: '100%' }} elevation={3}>
+          <Typography sx={{
+            bgcolor: '#52525B',
+            padding: '12px 24px',
+            color: '#fff',
+            textAlign: 'center',
+            borderRadius: '5px',
+            mb: 2,
+            height: '50px',
+            fontWeight: 600,
+            fontSize: '18px',
+          }}>{optionProducts[0]?.category?.name ?? 'Optional Products'}</Typography>
+          <Box sx={{
+            width: { xs: '100%', sm: '100%' },
+            px: 2,
+            overflow: 'hidden'
+          }}>
+            {
+              optionProducts?.length === 0 &&
+              <Typography sx={{
+                textAlign: 'center',
+                p: 5
+              }}>No optional products found</Typography>
+            }
+            {
+              optionProducts?.length > 0 &&
+              <Carousel
+                swipeable={true}
+                draggable={true}
+                showDots={false}
+                arrows={false}
+                // rewindWithAnimation={true}
+                customRightArrow={true}
+                // rewind={true}
+                centerMode={true}
+                responsive={responsive}
+                pauseOnHover
+
+                autoPlay={true}
+                infinite
+                renderButtonGroupOutside={true}
+                customButtonGroup={<ButtonGroup />}
+                autoPlaySpeed={2000}
+                keyBoardControl={true}
+                customTransition="all 1s"
+                transitionDuration={1000}
+                containerClass="carousel-container"
+                removeArrowOnDeviceType={["mobile"]}
+                deviceType={props.deviceType}
+              >
+                {
+                  optionProducts?.map((item, id) => (
+                    <OpProductCard key={id} item={item} />
+                  ))
+                }
+              </Carousel>
+            }
+          </Box>
+        </Paper>
       </Box>
       <Box sx={{
         flex: 1

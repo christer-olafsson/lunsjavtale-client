@@ -172,7 +172,7 @@ const CategoryTab = (props) => {
                 py: { xs: 1, md: 1.5 },
                 px: { xs: 1, md: 2 },
                 textAlign: 'center'
-              }}>All {<i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>}</Typography>
+              }}>Alle produkter{<i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>}</Typography>
             </Box>
             {
               allCategorys?.map((item) => (
@@ -192,7 +192,7 @@ const CategoryTab = (props) => {
                     textAlign: 'center'
                   }}>
                     {item?.node.name}
-                    <i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.products?.edges.length})</i>
+                    <span style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.products?.edges.length})</span>
                   </Typography>
                 </Box>
               ))
@@ -200,13 +200,13 @@ const CategoryTab = (props) => {
           </Stack>
 
           {/* select week */}
-          <FormControl sx={{ mb: 2 }}>
+          <FormControl sx={{ mb: 2, px: 4 }}>
             <RadioGroup
               row
               value={selectedWeeklyVariantId}
               onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
             >
-              <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='All' />
+              <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Ingen' />
               {
                 allWeeklyVariants?.map((item, index) => (
                   <FormControlLabel
@@ -267,7 +267,7 @@ const CategoryTab = (props) => {
             deviceType={props.deviceType}
           >
             {
-              products?.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>Product Empty</Typography> :
+              products?.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>Ingen produkter</Typography> :
                 products?.map((data, id) => (
                   // <SlideAnimation key={id} direction='up' delay={100 * id} >
                   <Box key={id} px={1}>

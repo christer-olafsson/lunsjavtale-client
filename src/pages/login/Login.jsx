@@ -207,16 +207,18 @@ const Login = (props) => {
 
 
   return (
-    <Container sx={{
+    <Box sx={{
       width: '100%',
-      height: { xs: '100%', lg: '100vh' },
+      height: { xs: promotions.length > 0 ? '100%' : '100vh', sm: '100vh' },
       display: 'flex',
       flexDirection: { xs: 'column', lg: 'row' },
       alignItems: 'center',
       justifyContent: 'center',
       gap: 5,
+      px: 2,
       py: { xs: 5, lg: 0 },
-      background: { xs: 'linear-gradient(90deg, #EDF3FF 0%, #FFE8D7 100%, #F0FFDF 100%)', lg: 'none' }
+      background: 'linear-gradient(90deg, #EDF3FF 0%, #FFE8D7 100%, #F0FFDF 100%)'
+      // background: { xs: 'linear-gradient(90deg, #EDF3FF 0%, #FFE8D7 100%, #F0FFDF 100%)', lg: 'none' }
     }} maxWidth='xxl'>
       <Stack sx={{ width: '100%', display: { xs: 'flex', md: 'none' } }} direction='row' alignItems='center' justifyContent='space-between'>
         <Link to='/'>
@@ -235,46 +237,49 @@ const Login = (props) => {
         </Box>
         <Box />
       </Stack>
-      <Stack alignItems='center' justifyContent='center' sx={{
-        width: { xs: '100%', md: '50%' },
-        height: '100%',
-        background: { xs: 'none', md: `linear-gradient(90deg, #EDF3FF 0%, #FFE8D7 100%, #F0FFDF 100%)` }
-      }}>
-        <Box sx={{ width: { xs: '100%', md: '500px' } }}>
-          {
-            promotionLoading ? <Loader /> : promotionErr ? <ErrorMsg /> :
-              <Carousel
-                swipeable={true}
-                // draggable={true}
-                showDots={true}
-                arrows={false}
-                rewindWithAnimation={true}
-                rewind={true}
-                responsive={responsive}
-                infinite={true}
-                renderButtonGroupOutside={true}
-                autoPlay={true}
-                autoPlaySpeed={3000}
-                keyBoardControl={true}
-                customTransition="all 1s"
-                transitionDuration={1000}
-                containerClass="carousel-container"
-                removeArrowOnDeviceType={["tablet", "mobile"]}
-                deviceType={props.deviceType}
-              >
+      {
+        promotions.length > 0 && (
+          <Stack alignItems='center' justifyContent='center' sx={{
+            width: { xs: '100%', md: '50%' },
+            height: '100%',
+            background: { xs: 'none', md: `linear-gradient(90deg, #EDF3FF 0%, #FFE8D7 100%, #F0FFDF 100%)` }
+          }}>
+            <Box sx={{ width: { xs: '100%', md: '500px' } }}>
+              {
+                promotionLoading ? <Loader /> : promotionErr ? <ErrorMsg /> :
+                  <Carousel
+                    swipeable={true}
+                    // draggable={true}
+                    showDots={true}
+                    arrows={false}
+                    rewindWithAnimation={true}
+                    rewind={true}
+                    responsive={responsive}
+                    infinite={true}
+                    renderButtonGroupOutside={true}
+                    autoPlay={true}
+                    autoPlaySpeed={3000}
+                    keyBoardControl={true}
+                    customTransition="all 1s"
+                    transitionDuration={1000}
+                    containerClass="carousel-container"
+                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                    deviceType={props.deviceType}
+                  >
 
-                {
-                  promotions.map(data => (
-                    <Box key={data.node.id} py={5}>
-                      <SlideItem data={data} />
-                    </Box>
-                  ))
-                }
-              </Carousel>
-          }
-        </Box>
-
-      </Stack>
+                    {
+                      promotions.map(data => (
+                        <Box key={data.node.id} py={5}>
+                          <SlideItem data={data} />
+                        </Box>
+                      ))
+                    }
+                  </Carousel>
+              }
+            </Box>
+          </Stack>
+        )
+      }
       <Stack alignItems='center' sx={{ width: { xs: '100%', md: '50%' } }}>
         {
           forgotePassSecOpen ? (
@@ -413,7 +418,7 @@ const Login = (props) => {
           )
         }
       </Stack>
-    </Container>
+    </Box>
 
   )
 }

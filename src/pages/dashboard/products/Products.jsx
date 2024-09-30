@@ -159,7 +159,7 @@ const Products = () => {
                   py: { xs: 1, md: 1.5 },
                   px: { xs: 1, md: 2 },
                   textAlign: 'center'
-                }}>All {<i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>}</Typography>
+                }}>Alle {<i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>}</Typography>
               </Box>
               {
                 allCategorys?.map((item) => (
@@ -195,7 +195,7 @@ const Products = () => {
             value={selectedWeeklyVariantId}
             onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
           >
-            <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='All' />
+            <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Ingen' />
             {
               allWeeklyVariants?.map((item, index) => (
                 <FormControlLabel
