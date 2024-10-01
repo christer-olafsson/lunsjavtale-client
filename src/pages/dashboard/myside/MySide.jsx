@@ -83,7 +83,6 @@ const MySide = (props) => {
       weeklyVariants: selectedWeeklyVariantId ?? null
     },
     onCompleted: (res) => {
-      console.log(res)
       setSelectedWeeklyProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted && item.node.weeklyVariants.edges.length > 0).map(item => item.node))
     },
   });
@@ -151,74 +150,6 @@ const MySide = (props) => {
                   fontSize: '18px',
                 }}>Weekly Selected</Typography>
 
-                {/* <FormControl size='small' sx={{
-                minWidth: '200px',
-              }}>
-                <InputLabel sx={{ color: '#fff' }}>Weekly Variants</InputLabel>
-                <Select
-                  value={selectedWeeklyVariantId || ''}
-                  label="Weekly Variants"
-                  onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
-                  sx={{
-                    color: '#fff',
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'rgba(255, 255, 255, 0.5)',
-                    },
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'rgba(255, 255, 255, 0.7)',
-                    },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#fff',
-                    },
-                    '& .MuiSvgIcon-root': {
-                      color: '#fff',
-                    },
-                  }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: {
-                        bgcolor: '#52525B',
-                        color: '#fff',
-                      },
-                    },
-                  }}
-                >
-                  <MenuItem value=''>All Weekly Variants</MenuItem>
-                  {allWeeklyVariants?.map(item => (
-                    <MenuItem key={item?.id} value={item?.id}>{item?.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl> */}
-
-                {/* <FormControl>
-                <RadioGroup
-                  row
-                  value={selectedWeeklyVariantId}
-                  onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
-                >
-                  <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio sx={{
-                    color: '#fff',
-                    '&.Mui-checked': {
-                      color: '#fff',
-                    },
-                  }} />} label='All' />
-                  {
-                    allWeeklyVariants?.map((item) => (
-                      <FormControlLabel
-                        key={item.id}
-                        value={item.id}
-                        control={<Radio sx={{
-                          color: '#fff',
-                          '&.Mui-checked': {
-                            color: '#fff',
-                          },
-                        }} />}
-                        label={item.name}
-                      />
-                    ))
-                  }
-                </RadioGroup>
-              </FormControl> */}
               </Stack>
               <Box className='custom-scrollbar' sx={{
                 display: 'flex',

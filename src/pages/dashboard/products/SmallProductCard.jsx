@@ -48,42 +48,52 @@ const SmallProductCard = ({ data }) => {
       </Box>
       <Stack sx={{ width: '100%' }} justifyContent='space-between'>
         <Stack gap={1} mb={1}>
-          <Stack direction='row' gap={2} justifyContent='space-between' mt={1}>
-            <Typography sx={{ fontSize: { xs: '14px', lg: '18px' }, fontWeight: '600' }}>{data?.name}</Typography>
+          <Stack direction='row' gap={2} justifyContent='space-between'>
+            <Typography sx={{ mt: { xs: 1, md: 0 }, fontSize: { xs: '16px', lg: '18px' }, fontWeight: '600' }}>
+              {data?.name.substring(0, 100)}
+              {data.name.length > 100 ? '...' : ''}
+            </Typography>
             {
               data?.vendor &&
               <Typography sx={{
                 fontWeight: '600',
                 px: 1,
-                color: 'coral',
-                border: '1px solid coral',
+                color: 'blue',
+                // border: '1px solid coral',
                 py: .5,
                 height: 'fit-content',
-                borderRadius: '4px',
+                // borderRadius: '4px',
                 width: 'fit-content',
                 fontSize: '14px'
               }}>
-                Supplier:{data?.vendor?.name}
+                Supplier: <br />{data?.vendor?.name}
               </Typography>
             }
           </Stack>
-          <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}>{data.description}</Typography>
-          {
-            data?.weeklyVariants.edges.length > 0 &&
-            data?.weeklyVariants.edges.map((item, id) => (
-              <Typography
-                key={id}
-                sx={{
-                  width: 'fit-content',
-                  fontSize: '12px',
-                  bgcolor: 'Highlight',
-                  color: '#fff',
-                  px: 1, borderRadius: '4px',
-                }}>
-                {item.node.name}
-              </Typography>
-            ))
-          }
+          <Typography sx={{ fontSize: '13px', width: 'fit-content', fontWeight: 500, border: '1px solid lightgray', borderRadius: '4px', px: 1 }}><i>{data?.category?.name ? data?.category?.name : 'Uncategorised'}</i> </Typography>
+
+          <Typography variant='body2'>
+            {data.description.substring(0, 200)}
+            {data.description.length > 200 ? '...' : ''}
+          </Typography>
+          <Stack direction='row' flexWrap='wrap' gap={1}>
+            {
+              data?.weeklyVariants.edges.length > 0 &&
+              data?.weeklyVariants.edges.map((item, id) => (
+                <Typography
+                  key={id}
+                  sx={{
+                    width: 'fit-content',
+                    fontSize: '12px',
+                    bgcolor: 'blue',
+                    color: '#fff',
+                    px: 1, borderRadius: '4px',
+                  }}>
+                  {item.node.name}
+                </Typography>
+              ))
+            }
+          </Stack>
         </Stack>
         <Stack sx={{ width: '100%' }} direction='row' alignItems='center' justifyContent='space-between' gap={2}>
           <Button onClick={toggleDrawer} endIcon={<ArrowRight />} >Details</Button>

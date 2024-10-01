@@ -15,7 +15,7 @@ const CreatePayment = ({ closeDialog }) => {
   const [paidAmount, setPaidAmount] = useState('')
 
   const { data: user } = useQuery(ME)
-  console.log(selectedStaff)
+
   const [createPayment, { loading: paymentLoading }] = useMutation(MAKE_ONLINE_PAYMENT, {
     onCompleted: (res) => {
       if (res.makeOnlinePayment.paymentUrl) {
@@ -30,7 +30,6 @@ const CreatePayment = ({ closeDialog }) => {
   const { loading: usersLoading } = useQuery(GET_COMPANY_STAFFS, {
     onCompleted: (res) => {
       const data = res.companyStaffs.edges.filter(({ node }) => !node.isDeleted).map(data => data.node);
-      console.log(data)
       setStaffs(data)
     },
   });

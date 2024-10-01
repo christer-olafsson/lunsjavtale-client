@@ -64,7 +64,7 @@ const OrderCart = ({ order, orderCarts }) => {
       setAllStaffReqCart(allReqCart)
     }
   }, [orderCarts, user]);
-  // console.log('orderCarts', orderCarts)
+
   return (
     <Box sx={{
       border: '1px solid lightgray',

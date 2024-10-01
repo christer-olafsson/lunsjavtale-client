@@ -10,7 +10,6 @@ const PayCompanyDue = ({ orderData, closeDialog }) => {
 
   const [createPayment, { loading }] = useMutation(MAKE_ONLINE_PAYMENT, {
     onCompleted: (res) => {
-      console.log(res)
       if (res.makeOnlinePayment.paymentUrl) {
         window.location.href = res.makeOnlinePayment.paymentUrl
       }

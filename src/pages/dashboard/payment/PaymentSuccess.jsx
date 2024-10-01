@@ -20,7 +20,6 @@ const PaymentSuccess = () => {
       id: ref
     },
     onCompleted: (res) => {
-      console.log(res)
       setPaymentData(res.getOnlinePaymentInfo)
     }
   })

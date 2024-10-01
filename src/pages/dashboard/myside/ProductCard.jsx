@@ -67,7 +67,7 @@ const ProductCard = ({ data }) => {
                     sx={{
                       width: 'fit-content',
                       fontSize: '12px',
-                      bgcolor: 'Highlight',
+                      bgcolor: 'blue',
                       color: '#fff',
                       px: 1, borderRadius: '4px',
                     }}>

@@ -21,6 +21,12 @@ const Products = () => {
   const [searchText, setSearchText] = useState('')
   const [allWeeklyVariants, setAllWeeklyVariants] = useState([])
   const [selectedWeeklyVariantId, setSelectedWeeklyVariantId] = useState(null)
+  const [productState, setProductState] = useState({
+    isLoading: true,
+    error: null,
+    products: [],
+  });
+
 
 
   const { loading: vendorLoading } = useQuery(VENDORS, {
@@ -77,13 +83,29 @@ const Products = () => {
     },
     onCompleted: (res) => {
       const data = res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node)
-      setProducts(data)
+      setProductState({
+        isLoading: false,
+        error: null,
+        products: data,
+      })
+    },
+    onError: (error) => {
+      setProductState({
+        isLoading: false,
+        error: error,
+        products: [],
+      });
     },
   });
 
   useEffect(() => {
     setPage(1)
   }, [categoryId, selectedVendor])
+
+  useEffect(() => {
+    setProductState(prev => ({ ...prev, isLoading: true }));
+  }, [])
+
 
   return (
     <Stack maxWidth='xl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
@@ -215,12 +237,11 @@ const Products = () => {
 
         <Stack direction='row' flexWrap='wrap' gap={2} px={{ xs: 0, lg: 3 }}>
           {
-            loadinProducts ? <Loader /> : errProducts ? <ErrorMsg /> :
-              products.length === 0 ?
-                <Typography sx={{ p: 5 }}>No Product Found!</Typography> :
-                products?.map(item => (
+            productState.isLoading ? <Loader /> : productState.error ? <ErrorMsg /> :
+              productState.products.length > 0 ?
+                productState.products?.map(item => (
                   <SmallProductCard data={item} key={item.id} />
-                ))
+                )) : <Typography>No products found</Typography>
           }
         </Stack>
         <Stack width='100%' direction='row' justifyContent='space-between' my={2}>

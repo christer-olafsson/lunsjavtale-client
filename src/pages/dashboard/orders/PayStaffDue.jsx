@@ -10,7 +10,6 @@ const PayStaffDue = ({ orderData, closeDialog, staffCart, totalDue }) => {
 
   const [createPayment, { loading }] = useMutation(MAKE_ONLINE_PAYMENT, {
     onCompleted: (res) => {
-      console.log(res)
       if (res.makeOnlinePayment.paymentUrl) {
         window.location.href = res.makeOnlinePayment.paymentUrl
       }
@@ -19,8 +18,6 @@ const PayStaffDue = ({ orderData, closeDialog, staffCart, totalDue }) => {
       toast.error(err.message)
     }
   });
-  console.log('staffCart', staffCart)
-  console.log('orderData', orderData)
 
   const handlePay = () => {
     createPayment({
