@@ -1,15 +1,10 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
-import { Grow, Slide, Zoom } from '@mui/material';
+import { useMediaQuery, Zoom } from '@mui/material';
+import useIsMobile from '../../hook/useIsMobile';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Zoom ref={ref} {...props} />;
@@ -17,7 +12,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
-    borderRadius: '16px',
+    // borderRadius: '16px',
     padding: theme.spacing(0),
     boxShadow: theme.shadows[5],
     backgroundColor: theme.palette.background.paper,
@@ -27,9 +22,11 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 
 export default function CDialog({ openDialog, closeDialog, children, maxWidth, fullScreen }) {
 
+  const isMobile = useIsMobile()
+
   return (
     <StyledDialog
-      fullScreen={fullScreen}
+      fullScreen={isMobile}
       TransitionComponent={Transition}
       maxWidth={maxWidth}
       fullWidth

@@ -8,6 +8,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { MEETING_MUTATION } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
+import { format } from 'date-fns';
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
@@ -15,7 +16,7 @@ const checkedIcon = <CheckBox fontSize="small" />;
 
 
 
-const NewMeeting = ({fetchMeeting, closeDialog }) => {
+const NewMeeting = ({ fetchMeeting, closeDialog }) => {
   const { data: user } = useQuery(ME)
   const [allCategories, setAllCategories] = useState([]);
   const [errors, setErrors] = useState({})
@@ -54,6 +55,13 @@ const NewMeeting = ({fetchMeeting, closeDialog }) => {
   const handleInputChange = (e) => {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   }
+
+  const handleDateTimeChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    // Format the date as 'YYYY-MM-DDTHH:mm:ssXXX' (ISO 8601 format)
+    const formattedDate = format(selectedDate, "yyyy-MM-dd'T'HH:mm:ssXXX");
+    setPayload({ ...payload, meetingTime: formattedDate });
+  };
 
   const handleCreate = () => {
     if (!payload.title) {
@@ -123,7 +131,7 @@ const NewMeeting = ({fetchMeeting, closeDialog }) => {
           </Stack>
           <Box mb={2}>
             <Typography variant='body2'>Meeting Time</Typography>
-            <TextField value={payload.meetingTime} onChange={(e) => setPayload({ ...payload, meetingTime: e.target.value })} error={Boolean(errors.meetingTime)} helperText={errors.meetingTime} fullWidth type='datetime-local' />
+            <TextField onChange={handleDateTimeChange} error={Boolean(errors.meetingTime)} helperText={errors.meetingTime} fullWidth type='datetime-local' />
           </Box>
           <Stack gap={2}>
             <Autocomplete

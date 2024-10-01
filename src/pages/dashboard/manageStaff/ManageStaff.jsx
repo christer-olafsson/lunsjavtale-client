@@ -247,8 +247,8 @@ const ManageStaff = () => {
           <Input onChange={e => setSearchText(e.target.value)} fullWidth disableUnderline placeholder='Search Staff' />
           <IconButton><Search /></IconButton>
         </Box>
-        <Stack direction='row' gap={2}>
-          <Button variant='outlined' onClick={() => setMakeOnlinePaymentDialogOpen(true)}>Make Staff Payment (Vipps)</Button>
+        <Stack direction='row' justifyContent='space-between' gap={2}>
+          <Button variant='outlined' onClick={() => setMakeOnlinePaymentDialogOpen(true)}>Create Staff Payment</Button>
           <Button disabled={user?.me.company.isBlocked} onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Add Staff</Button>
         </Stack>
       </Stack>

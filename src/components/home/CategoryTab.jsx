@@ -206,13 +206,13 @@ const CategoryTab = (props) => {
               value={selectedWeeklyVariantId}
               onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
             >
-              <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Ingen' />
+              <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio size='small' />} label='Ingen' />
               {
                 allWeeklyVariants?.map((item, index) => (
                   <FormControlLabel
                     key={item.id}
                     value={item.id}
-                    control={<Radio />}
+                    control={<Radio size='small' />}
                     label={item.name}
                   />
                 ))

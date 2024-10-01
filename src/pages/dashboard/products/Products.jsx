@@ -98,15 +98,14 @@ const Products = () => {
         <Box sx={{
           bgcolor: 'light.main',
         }}>
-          <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent='space-between' alignItems='center' pt={2}>
+          <Stack direction={{ xs: 'column', md: 'row' }} mx={2} gap={2} justifyContent='space-between' alignItems='center' pt={2}>
             <Box sx={{
               display: 'flex',
               alignItems: 'center',
-              ml: 2,
               justifyContent: 'space-between',
               maxWidth: '480px',
               bgcolor: '#fff',
-              width: { xs: '80%', md: '100%' },
+              width: { xs: '100%', md: '100%' },
               border: '1px solid lightgray',
               borderRadius: '4px',
               pl: 2,
@@ -116,7 +115,11 @@ const Products = () => {
             </Box>
             {/* all vendors */}
             <Autocomplete
-              sx={{ minWidth: '250px', maxWidth: '300px', mr: 2 }}
+              sx={{
+                minWidth: '250px',
+                maxWidth: { xs: '100%', md: '250px' },
+                width: '100%'
+              }}
               size='small'
               loading={vendorLoading}
               options={vendors}
@@ -144,7 +147,7 @@ const Products = () => {
           }}>
             <Stack sx={{
               width: '100%',
-              p: 3
+              p: 2
             }} direction='row' gap={{ xs: 1, md: 2 }} flexWrap='wrap'>
               <Box sx={{
                 border: '1px solid lightgray',
@@ -195,13 +198,13 @@ const Products = () => {
             value={selectedWeeklyVariantId}
             onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
           >
-            <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Ingen' />
+            <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio size='small' />} label='Ingen' />
             {
               allWeeklyVariants?.map((item, index) => (
                 <FormControlLabel
                   key={item.id}
                   value={item.id}
-                  control={<Radio />}
+                  control={<Radio size='small' />}
                   label={item.name}
                 />
               ))
@@ -227,6 +230,7 @@ const Products = () => {
       </Paper >
 
       <Box sx={{
+        display: { xs: 'none', lg: 'block' },
         flex: 1
       }}>
         <MiniCart />

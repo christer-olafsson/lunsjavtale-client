@@ -10,6 +10,7 @@ import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import OpProductCard from './OpProductCard';
 import MiniCart from '../products/MiniCart';
 import { ADDED_PRODUCTS, WEEKLY_VARIANTS } from '../products/graphql/query';
+import Loader from '../../../common/loader/Index';
 
 
 
@@ -68,7 +69,7 @@ const MySide = (props) => {
     },
   });
 
-  useQuery(PRODUCTS, {
+  const { loading: optionLoading, error: optionError } = useQuery(PRODUCTS, {
     variables: {
       category: import.meta.env.VITE_STATIC_CATEGORY_ID
     },
@@ -77,7 +78,7 @@ const MySide = (props) => {
     },
   });
 
-  useQuery(PRODUCTS, {
+  const { loading: weeklyLoading, error: weeklyError } = useQuery(PRODUCTS, {
     variables: {
       weeklyVariants: selectedWeeklyVariantId ?? null
     },
@@ -94,7 +95,7 @@ const MySide = (props) => {
         width: { xs: '100%', lg: '70%' },
       }}>
         {
-          loading ? <LoadingBar /> : error ? <ErrorMsg /> :
+          loading ? <Loader /> : error ? <ErrorMsg /> :
             <Paper sx={{ mb: 4 }} elevation={3}>
               <Typography sx={{
                 bgcolor: '#52525B',
@@ -134,22 +135,23 @@ const MySide = (props) => {
 
         {/* weekly selected */}
         {
-          selectedWeeklyProducts?.length > 0 &&
-          <Paper sx={{ mb: 4 }} elevation={3}>
-            <Stack direction='row' alignItems='center' justifyContent='center' sx={{
-              bgcolor: '#52525B',
-              padding: '12px 24px',
-              color: '#fff',
-              textAlign: 'center',
-              borderRadius: '5px',
-              height: '50px',
-            }}>
-              <Typography sx={{
-                fontWeight: 600,
-                fontSize: '18px',
-              }}>Weekly Selected</Typography>
+          weeklyLoading ? <Loader /> : weeklyError ? <ErrorMsg /> :
+            selectedWeeklyProducts?.length > 0 &&
+            <Paper sx={{ mb: 4 }} elevation={3}>
+              <Stack direction='row' alignItems='center' justifyContent='center' sx={{
+                bgcolor: '#52525B',
+                padding: '12px 24px',
+                color: '#fff',
+                textAlign: 'center',
+                borderRadius: '5px',
+                height: '50px',
+              }}>
+                <Typography sx={{
+                  fontWeight: 600,
+                  fontSize: '18px',
+                }}>Weekly Selected</Typography>
 
-              {/* <FormControl size='small' sx={{
+                {/* <FormControl size='small' sx={{
                 minWidth: '200px',
               }}>
                 <InputLabel sx={{ color: '#fff' }}>Weekly Variants</InputLabel>
@@ -188,7 +190,7 @@ const MySide = (props) => {
                 </Select>
               </FormControl> */}
 
-              {/* <FormControl>
+                {/* <FormControl>
                 <RadioGroup
                   row
                   value={selectedWeeklyVariantId}
@@ -217,116 +219,121 @@ const MySide = (props) => {
                   }
                 </RadioGroup>
               </FormControl> */}
-            </Stack>
-            <Box className='custom-scrollbar' sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              height: '470px',
-              overflowY: 'auto',
-              p: 2,
-            }}>
-              <FormControl sx={{ mb: 2, ml: 2 }}>
-                <RadioGroup
-                  row
-                  value={selectedWeeklyVariantId}
-                  onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
-                >
-                  <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Alle uker' />
+              </Stack>
+              <Box className='custom-scrollbar' sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                height: '470px',
+                overflowY: 'auto',
+                p: 2,
+              }}>
+                <FormControl sx={{ mb: 2, ml: 2 }}>
+                  <RadioGroup
+                    row
+                    value={selectedWeeklyVariantId}
+                    onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
+                  >
+                    <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Alle uker' />
+                    {
+                      allWeeklyVariants?.map((item, index) => (
+                        <FormControlLabel
+                          key={item.id}
+                          value={item.id}
+                          control={<Radio />}
+                          label={item.name}
+                        />
+                      ))
+                    }
+                  </RadioGroup>
+                </FormControl>
+                <Grid container spacing={2}>
                   {
-                    allWeeklyVariants?.map((item, index) => (
-                      <FormControlLabel
-                        key={item.id}
-                        value={item.id}
-                        control={<Radio />}
-                        label={item.name}
-                      />
+                    selectedWeeklyProducts?.length === 0 &&
+                    <Typography sx={{
+                      textAlign: 'center',
+                      p: 5
+                    }}>No Weekly Selected products found</Typography>
+                  }
+                  {
+                    selectedWeeklyProducts?.length > 0 &&
+                    selectedWeeklyProducts?.map((item, id) => (
+                      <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
+                        <ProductCard data={item} />
+                      </Grid>
                     ))
                   }
-                </RadioGroup>
-              </FormControl>
-              <Grid container spacing={2}>
+                </Grid>
+              </Box>
+            </Paper>
+        }
+
+        {
+          optionLoading ? <Loader /> : optionError ? <ErrorMsg /> :
+
+            <Paper sx={{ width: '100%' }} elevation={3}>
+              <Typography sx={{
+                bgcolor: '#52525B',
+                padding: '12px 24px',
+                color: '#fff',
+                textAlign: 'center',
+                borderRadius: '5px',
+                mb: 2,
+                height: '50px',
+                fontWeight: 600,
+                fontSize: '18px',
+              }}>{optionProducts[0]?.category?.name ?? 'Optional Products'}</Typography>
+              <Box sx={{
+                width: { xs: '100%', sm: '100%' },
+                px: 2,
+                overflow: 'hidden'
+              }}>
                 {
-                  selectedWeeklyProducts?.length === 0 &&
+                  optionProducts?.length === 0 &&
                   <Typography sx={{
                     textAlign: 'center',
                     p: 5
-                  }}>No Weekly Selected products found</Typography>
+                  }}>No optional products found</Typography>
                 }
                 {
-                  selectedWeeklyProducts?.length > 0 &&
-                  selectedWeeklyProducts?.map((item, id) => (
-                    <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
-                      <ProductCard data={item} />
-                    </Grid>
-                  ))
+                  optionProducts?.length > 0 &&
+                  <Carousel
+                    swipeable={true}
+                    draggable={true}
+                    showDots={false}
+                    arrows={false}
+                    // rewindWithAnimation={true}
+                    customRightArrow={true}
+                    // rewind={true}
+                    centerMode={true}
+                    responsive={responsive}
+                    pauseOnHover
+
+                    autoPlay={true}
+                    infinite
+                    renderButtonGroupOutside={true}
+                    customButtonGroup={<ButtonGroup />}
+                    autoPlaySpeed={2000}
+                    keyBoardControl={true}
+                    customTransition="all 1s"
+                    transitionDuration={1000}
+                    containerClass="carousel-container"
+                    removeArrowOnDeviceType={["mobile"]}
+                    deviceType={props.deviceType}
+                  >
+                    {
+                      optionProducts?.map((item, id) => (
+                        <OpProductCard key={id} item={item} />
+                      ))
+                    }
+                  </Carousel>
                 }
-              </Grid>
-            </Box>
-          </Paper>
+              </Box>
+            </Paper>
         }
-
-        <Paper sx={{ width: '100%' }} elevation={3}>
-          <Typography sx={{
-            bgcolor: '#52525B',
-            padding: '12px 24px',
-            color: '#fff',
-            textAlign: 'center',
-            borderRadius: '5px',
-            mb: 2,
-            height: '50px',
-            fontWeight: 600,
-            fontSize: '18px',
-          }}>{optionProducts[0]?.category?.name ?? 'Optional Products'}</Typography>
-          <Box sx={{
-            width: { xs: '100%', sm: '100%' },
-            px: 2,
-            overflow: 'hidden'
-          }}>
-            {
-              optionProducts?.length === 0 &&
-              <Typography sx={{
-                textAlign: 'center',
-                p: 5
-              }}>No optional products found</Typography>
-            }
-            {
-              optionProducts?.length > 0 &&
-              <Carousel
-                swipeable={true}
-                draggable={true}
-                showDots={false}
-                arrows={false}
-                // rewindWithAnimation={true}
-                customRightArrow={true}
-                // rewind={true}
-                centerMode={true}
-                responsive={responsive}
-                pauseOnHover
-
-                autoPlay={true}
-                infinite
-                renderButtonGroupOutside={true}
-                customButtonGroup={<ButtonGroup />}
-                autoPlaySpeed={2000}
-                keyBoardControl={true}
-                customTransition="all 1s"
-                transitionDuration={1000}
-                containerClass="carousel-container"
-                removeArrowOnDeviceType={["mobile"]}
-                deviceType={props.deviceType}
-              >
-                {
-                  optionProducts?.map((item, id) => (
-                    <OpProductCard key={id} item={item} />
-                  ))
-                }
-              </Carousel>
-            }
-          </Box>
-        </Paper>
       </Box>
       <Box sx={{
+        display: { xs: 'none', lg: 'block' },
         flex: 1
       }}>
         <MiniCart />

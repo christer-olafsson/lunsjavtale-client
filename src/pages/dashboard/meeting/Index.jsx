@@ -139,7 +139,7 @@ const Meeting = () => {
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-          <Typography>{params.row.meetingType}</Typography>
+          <Typography sx={{ border: '1px solid lightgray', fontWeight: 600, borderRadius: '4px', px: 1 }}>{params.row.meetingType}</Typography>
         </Stack>
       )
     },
@@ -197,7 +197,7 @@ const Meeting = () => {
               fontSize: { xs: '12px', md: '16px' },
               color: '#fff',
               bgcolor: row.status === 'attended' ? 'primary.main' : row.status === 'postponed' ? 'red' : 'darkgray',
-              px: 1, borderRadius: '8px',
+              px: 1, borderRadius: '4px',
             }}>&#x2022; {row.status}</Typography>
           </Stack>
         )

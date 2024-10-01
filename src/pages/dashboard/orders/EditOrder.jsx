@@ -87,7 +87,7 @@ const EditOrder = ({ data, closeDialog }) => {
     {
       field: 'email',
       headerName: 'Email',
-      flex: 1,
+      width: 250,
     },
   ];
 
@@ -188,25 +188,23 @@ const EditOrder = ({ data, closeDialog }) => {
         </Box>
       </Stack>
       <Typography variant='body2' mb={.5}>Ordered Quantity</Typography>
-      <Stack direction='row' gap={2} alignItems='center'>
-        <Box>
-          <Stack sx={{
-            width: '150px',
-            border: `1px solid lightgray`,
-            borderRadius: '4px',
-          }} direction='row' alignItems='center' justifyContent='space-between' >
-            <IconButton sx={{ height: '35px' }} onClick={() => toggleQuantity('decrease')}><Remove fontSize='small' /></IconButton>
-            <Typography>{orderedQuantity}</Typography>
-            <IconButton sx={{ height: '35px' }} onClick={() => toggleQuantity('increase')}><Add fontSize='small' /></IconButton>
-          </Stack>
-        </Box>
+      <Stack direction='row' justifyContent='space-between' gap={2} alignItems='center'>
+        <Stack sx={{
+          width: '150px',
+          border: `1px solid lightgray`,
+          borderRadius: '4px',
+        }} direction='row' alignItems='center' justifyContent='space-between' >
+          <IconButton sx={{ height: '35px' }} onClick={() => toggleQuantity('decrease')}><Remove fontSize='small' /></IconButton>
+          <Typography>{orderedQuantity}</Typography>
+          <IconButton sx={{ height: '35px' }} onClick={() => toggleQuantity('increase')}><Add fontSize='small' /></IconButton>
+        </Stack>
         <Button
           onClick={() => setTableOpen(!tableOpen)}
-          sx={{ height: '100%' }}
+          sx={{ height: '100%', whiteSpace: 'nowrap' }}
           variant='outlined'
           endIcon={<ArrowDropDownOutlined />}
         >
-          Selected Staffs
+          Staffs
         </Button>
       </Stack>
 

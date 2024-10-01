@@ -40,13 +40,13 @@ const MeetingDetails = ({ data, closeDialog }) => {
         <Grid item xs={12} md={6}>
           <Stack direction='row' alignItems='center' spacing={1}>
             <AccessTime color='primary' />
-            <Typography><b>Submit Time:</b> {format(data?.createdOn, 'yyyy-MM-dd HH:mm a')}</Typography>
+            <Typography><b>Submit Time:</b> {format(data?.createdOn, 'dd-MM-yyyy hh:mm a')}</Typography>
           </Stack>
         </Grid>
         <Grid item xs={12} md={6}>
           <Stack direction='row' alignItems='center' spacing={1}>
             <CalendarToday color='primary' />
-            <Typography><b>Meeting Time:</b> {format(data?.meetingTime, 'yyyy-MM-dd HH:mm a')}</Typography>
+            <Typography><b>Meeting Time:</b> {format(data?.meetingTime, 'dd-MM-yyyy hh:mm a')}</Typography>
           </Stack>
         </Grid>
       </Grid>
@@ -56,11 +56,6 @@ const MeetingDetails = ({ data, closeDialog }) => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Stack spacing={2}>
-            <DetailItem icon={<Person />} label="Customer Name" value={data?.companyName} />
-            <DetailItem icon={<Email />} label="Email" value={data?.email} />
-            <DetailItem icon={<Phone />} label="Phone" value={data?.phone} />
-            <DetailItem icon={<Person />} label="First Name" value={data?.firstName} />
-            <DetailItem icon={<Person />} label="Last Name" value={data?.lastName} />
             <DetailItem icon={<Title />} label="Meeting Title" value={data?.title} />
             <DetailItem icon={<Description />} label="Meeting Type" value={data?.meetingType} />
             <DetailItem icon={<Description />} label="Description" value={data?.description} />
