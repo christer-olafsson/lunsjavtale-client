@@ -172,7 +172,9 @@ const CategoryTab = (props) => {
                 py: { xs: 1, md: 1.5 },
                 px: { xs: 1, md: 2 },
                 textAlign: 'center'
-              }}>Alle produkter{<i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>}</Typography>
+              }}>Alle produkter
+                {/* {<i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({productsLength})</i>} */}
+              </Typography>
             </Box>
             {
               allCategorys?.map((item) => (
@@ -192,7 +194,7 @@ const CategoryTab = (props) => {
                     textAlign: 'center'
                   }}>
                     {item?.node.name}
-                    <span style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.products?.edges.length})</span>
+                    {/* <span style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.products?.edges.length})</span> */}
                   </Typography>
                 </Box>
               ))
@@ -200,7 +202,7 @@ const CategoryTab = (props) => {
           </Stack>
 
           {/* select week */}
-          <FormControl sx={{ mb: 2, px: 4 }}>
+          {/* <FormControl sx={{ mb: 2, px: 4 }}>
             <RadioGroup
               row
               value={selectedWeeklyVariantId}
@@ -218,7 +220,7 @@ const CategoryTab = (props) => {
                 ))
               }
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
 
         </Stack>
         {
@@ -243,42 +245,43 @@ const CategoryTab = (props) => {
               )
         }
 
+        {
+          products?.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>Ingen produkter</Typography> :
 
-        <Box px={1}>
-          <Carousel
-            swipeable={true}
-            // draggable={true}
-            showDots={false}
-            arrows={false}
-            rewindWithAnimation={true}
-            rewind={true}
-            responsive={responsive}
-            // infinite={true}
-            renderButtonGroupOutside={true}
-            autoPlay={true}
-            customButtonGroup={<ButtonGroup />}
-            // autoPlay={props.deviceType !== "mobile" ? true : false}
-            autoPlaySpeed={2000}
-            keyBoardControl={true}
-            customTransition="all 1s"
-            transitionDuration={1000}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={["tablet", "mobile"]}
-            deviceType={props.deviceType}
-          >
-            {
-              products?.length === 0 ? <Typography my={5} textAlign='center' variant='h5'>Ingen produkter</Typography> :
-                products?.map((data, id) => (
-                  // <SlideAnimation key={id} direction='up' delay={100 * id} >
-                  <Box key={id} px={1}>
-                    <ProductCard data={data} />
-                  </Box>
-                  // </SlideAnimation>
-                ))
-            }
-          </Carousel>
-        </Box>
-
+            <Box px={1}>
+              <Carousel
+                swipeable={true}
+                // draggable={true}
+                showDots={false}
+                arrows={false}
+                rewindWithAnimation={true}
+                rewind={true}
+                responsive={responsive}
+                // infinite={true}
+                renderButtonGroupOutside={true}
+                autoPlay={true}
+                customButtonGroup={<ButtonGroup />}
+                // autoPlay={props.deviceType !== "mobile" ? true : false}
+                autoPlaySpeed={2000}
+                keyBoardControl={true}
+                customTransition="all 1s"
+                transitionDuration={1000}
+                containerClass="carousel-container"
+                removeArrowOnDeviceType={["tablet", "mobile"]}
+                deviceType={props.deviceType}
+              >
+                {
+                  products?.map((data, id) => (
+                    // <SlideAnimation key={id} direction='up' delay={100 * id} >
+                    <Box key={id} px={1}>
+                      <ProductCard data={data} />
+                    </Box>
+                    // </SlideAnimation>
+                  ))
+                }
+              </Carousel>
+            </Box>
+        }
       </Container>
     </Box>
   )

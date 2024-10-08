@@ -134,69 +134,68 @@ const MySide = (props) => {
 
         {/* weekly selected */}
         {
-          weeklyLoading ? <Loader /> : weeklyError ? <ErrorMsg /> :
-            selectedWeeklyProducts?.length > 0 &&
-            <Paper sx={{ mb: 4 }} elevation={3}>
-              <Stack direction='row' alignItems='center' justifyContent='center' sx={{
-                bgcolor: '#52525B',
-                padding: '12px 24px',
-                color: '#fff',
-                textAlign: 'center',
-                borderRadius: '5px',
-                height: '50px',
-              }}>
-                <Typography sx={{
-                  fontWeight: 600,
-                  fontSize: '18px',
-                }}>Weekly Selected</Typography>
+          // selectedWeeklyProducts?.length > 0 &&
+          <Paper sx={{ mb: 4, }} elevation={3}>
+            <Stack direction='row' alignItems='center' justifyContent='center' sx={{
+              bgcolor: '#52525B',
+              padding: '12px 24px',
+              color: '#fff',
+              textAlign: 'center',
+              borderRadius: '5px',
+              height: '50px',
+            }}>
+              <Typography sx={{
+                fontWeight: 600,
+                fontSize: '18px',
+              }}>Weekly Selected</Typography>
 
-              </Stack>
-              <Box className='custom-scrollbar' sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '470px',
-                overflowY: 'auto',
-                p: 2,
-              }}>
-                <FormControl sx={{ mb: 2, ml: 2 }}>
-                  <RadioGroup
-                    row
-                    value={selectedWeeklyVariantId}
-                    onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
-                  >
-                    <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Alle uker' />
-                    {
-                      allWeeklyVariants?.map((item, index) => (
-                        <FormControlLabel
-                          key={item.id}
-                          value={item.id}
-                          control={<Radio />}
-                          label={item.name}
-                        />
-                      ))
-                    }
-                  </RadioGroup>
-                </FormControl>
-                <Grid container spacing={2}>
+            </Stack>
+            <Box className='custom-scrollbar' sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: selectedWeeklyProducts?.length === 0 ? '150px' : '526px',
+              overflowY: 'auto',
+              p: 2,
+            }}>
+              <FormControl sx={{ mb: 2, ml: 2 }}>
+                <RadioGroup
+                  row
+                  value={selectedWeeklyVariantId}
+                  onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
+                >
+                  <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Alle uker' />
                   {
-                    selectedWeeklyProducts?.length === 0 &&
-                    <Typography sx={{
-                      textAlign: 'center',
-                      p: 5
-                    }}>No Weekly Selected products found</Typography>
+                    allWeeklyVariants?.map((item, index) => (
+                      <FormControlLabel
+                        key={item.id}
+                        value={item.id}
+                        control={<Radio />}
+                        label={item.name}
+                      />
+                    ))
                   }
-                  {
-                    selectedWeeklyProducts?.length > 0 &&
+                </RadioGroup>
+              </FormControl>
+              <Grid container spacing={2}>
+                {
+                  selectedWeeklyProducts?.length === 0 &&
+                  <Typography sx={{
+                    textAlign: 'center',
+                    p: 2
+                  }}>No Weekly Selected products found</Typography>
+                }
+                {
+                  weeklyLoading ? <Loader /> : weeklyError ? <ErrorMsg /> :
                     selectedWeeklyProducts?.map((item, id) => (
                       <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
                         <ProductCard data={item} />
                       </Grid>
                     ))
-                  }
-                </Grid>
-              </Box>
-            </Paper>
+                }
+              </Grid>
+            </Box>
+          </Paper>
         }
 
         {

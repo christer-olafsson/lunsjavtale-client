@@ -10,6 +10,7 @@ import FAskedQ from '../../components/home/FAskedQ'
 import InstagramSec from '../../components/home/InstagramSec'
 import Footer from '../../components/home/Footer'
 import Contact from '../../components/home/Contact'
+import WeeklyTab from '../../components/home/WeeklyTab'
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
       <LogoList />
       <WhoAreYou />
       <LogoSlide />
+      <WeeklyTab />
       <CategoryTab />
       <CreateProfile />
       <FAskedQ />

@@ -46,7 +46,7 @@ const ProductCard = ({ data }) => {
     }}>
       <Box sx={{
         width: '100%',
-        height: '150px',
+        height: '245px',
       }}>
         <img style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }}
           src={data?.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
