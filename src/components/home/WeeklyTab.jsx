@@ -102,7 +102,7 @@ const WeeklyTab = (props) => {
   if (products.length === 0) return;
 
   return (
-    <Box id='products'>
+    <Box id='Ukentlig'>
       <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 }, p: 0 }}>
         <Stack sx={{
           mb: 3,
@@ -164,7 +164,7 @@ const WeeklyTab = (props) => {
                     products?.map((data, id) => (
                       // <SlideAnimation key={id} direction='up' delay={100 * id} >
                       <Box key={id} px={1}>
-                        <ProductCard data={data} />
+                        <ProductCard isWeekly={true} data={data} />
                       </Box>
                       // </SlideAnimation>
                     ))

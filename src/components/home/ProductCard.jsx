@@ -10,7 +10,7 @@ import SlideDrawer from '../../pages/dashboard/products/SlideDrawer'
 import FoodDetails from '../../pages/dashboard/products/FoodDetails'
 import { Info } from '@mui/icons-material'
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, isWeekly }) => {
   const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
   const [openSlideDrawer, setOpenSlideDrawer] = useState(false);
   const [token, setToken] = useState(localStorage.getItem('lunsjavtale'));
@@ -43,7 +43,7 @@ const ProductCard = ({ data }) => {
       cursor: 'grab',
     }}>
       {
-        data?.node?.title &&
+        (data?.node?.title && !isWeekly) &&
         <Typography sx={{
           fontSize: { xs: '14px', md: '18px' },
           fontWeight: 700,

@@ -42,7 +42,7 @@ const SoEasy = () => {
           <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 2, md: 3 }}>
             <SlideAnimation direction='up' delay={200}>
               <Link to='/search'>
-                <CButton variant='contained' color='secondary' style={{ width: { xs: '100%', md: '119px' }, textWrap: 'noWrap' }}>Bli kunde</CButton>
+                <CButton variant='contained' color='secondary' style={{ width: { xs: '100%' }, px: 2, textWrap: 'noWrap' }}>Bli kunde</CButton>
               </Link>
             </SlideAnimation>
             {/* <SlideAnimation direction='up' delay={400}>
@@ -86,8 +86,8 @@ const SoEasy = () => {
         >
           <NewMeetingFromHome closeDialog={() => setMeetingDialogOpen(false)} />
         </CDialog>
-      </Stack>
-    </Container>
+      </Stack >
+    </Container >
   )
 }
 

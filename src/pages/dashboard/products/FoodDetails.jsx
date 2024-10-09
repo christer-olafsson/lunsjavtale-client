@@ -37,6 +37,7 @@ const FoodDetails = ({ data, toggleDrawer }) => {
             maxHeight: '600px',
           }} flexWrap='wrap' gap={2}>
             {
+              product?.attachments?.edges.length > 1 &&
               product?.attachments?.edges.map((item, id) => (
                 <Box onClick={() => setSelectedImg(id)} key={id} sx={{
                   width: '100px',

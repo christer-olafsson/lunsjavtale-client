@@ -33,7 +33,7 @@ const Contact = () => {
     setOpenDialog(false)
   }
   return (
-    <Box id='contact'>
+    <Box id='Kontakt'>
       <Container maxWidth='lg' sx={{
         dispaly: 'flex',
         flexDirection: 'column',

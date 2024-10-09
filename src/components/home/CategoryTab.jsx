@@ -146,7 +146,7 @@ const CategoryTab = (props) => {
   });
 
   return (
-    <Box id='products'>
+    <Box id='Produkter'>
       <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 }, p: 0 }}>
         <Stack sx={{
           mb: 3,

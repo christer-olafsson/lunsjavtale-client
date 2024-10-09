@@ -26,7 +26,7 @@ const Hero = () => {
   }, [])
 
   return (
-    <Box id='hero'>
+    <Box id='Hjem'>
       <Container maxWidth='xxl'
         sx={{
           position: 'relative',
@@ -92,10 +92,11 @@ const Hero = () => {
                   transition: '.5s ease',
                   boxShadow: { xs: 3, md: 'none' }
                 }}>
-                  <Button onClick={() => setSideBarOpen(false)} href='#hero'>Hjem</Button>
-                  <Button onClick={() => setSideBarOpen(false)} href='#products'>Produkter</Button>
-                  <Button onClick={() => setSideBarOpen(false)} href='#faq'>FAQ</Button>
-                  <Button onClick={() => setSideBarOpen(false)} href='#contact'>Kontakt</Button>
+                  <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Hjem'>Hjem</Button>
+                  <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Ukentlig'>Ukentlig</Button>
+                  <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Produkter'>Produkter</Button>
+                  {/* <Button onClick={() => setSideBarOpen(false)} href='#faq'>FAQ</Button> */}
+                  <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Kontakt'>Kontakt</Button>
                   {
                     token ?
                       <Link style={{ width: '100%' }} to='/dashboard/mySide'>

@@ -133,7 +133,7 @@ function WhoAreYou() {
             </List>
             <SlideAnimation direction='down' delay={1000}>
               <Link to='/search'>
-                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Bli kunde</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, minWidth: '200px', px: 2, color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
             </SlideAnimation>
           </Stack>
@@ -232,7 +232,7 @@ function WhoAreYou() {
             </List>
             <Stack direction='row ' gap={2}>
               <Link to='/search'>
-                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '136px', color: 'secondary.main' }}>Bli kunde</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, minWidth: '200px', width: { xs: '100%' }, px: 2, color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
               {/* <CButton variant='outlined' style={{ height: { xs: '45px', md: '56px' }, width: '136px' }}>Tips sjefen</CButton> */}
             </Stack>
@@ -284,7 +284,7 @@ function WhoAreYou() {
             </FadeAnimation>
             <Stack direction='row ' gap={2}>
               <Link to='/search'>
-                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, width: '219px', color: 'secondary.main' }}>Bli kunde</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, minWidth: '219px', px: 2, color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
             </Stack>
           </Stack>

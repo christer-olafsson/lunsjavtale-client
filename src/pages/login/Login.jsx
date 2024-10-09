@@ -36,7 +36,6 @@ const responsive = {
 };
 
 const SlideItem = ({ data }) => {
-
   return (
     <Stack sx={{ maxWidth: '521px' }}>
       <Box sx={{
@@ -54,7 +53,13 @@ const SlideItem = ({ data }) => {
             src={data?.node?.photoUrl ? data?.node?.photoUrl : '/noImage.png'} alt="" />
         </Box>
       </Box>
-      <Typography sx={{ fontSize: { xs: '18px', md: '32px' }, fontWeight: 700, mt: { xs: 1, md: 2 }, textAlign: 'center' }}>{data.node.title}</Typography>
+      {
+        data.node.productUrl ?
+          <a href={data.node.productUrl} target='blank' >
+            <Typography sx={{ fontSize: { xs: '18px', md: '32px' }, fontWeight: 700, mt: { xs: 1, md: 2 }, textAlign: 'center' }}>{data.node.title}</Typography>
+          </a> :
+          <Typography sx={{ fontSize: { xs: '18px', md: '32px' }, fontWeight: 700, mt: { xs: 1, md: 2 }, textAlign: 'center' }}>{data.node.title}</Typography>
+      }
       <Typography sx={{ fontSize: '14px', fontWeight: 400, mt: { xs: 1, md: 3 }, textAlign: 'center' }}>{data.node.description}</Typography>
     </Stack>
   )
