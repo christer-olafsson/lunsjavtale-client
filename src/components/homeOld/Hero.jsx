@@ -1,4 +1,4 @@
-import { ArrowOutward, Chat, Close, LocalDiningOutlined, Menu, RestaurantOutlined } from '@mui/icons-material'
+import { Chat, Close, LocalDiningOutlined, Menu, RestaurantOutlined } from '@mui/icons-material'
 import { Box, Button, ClickAwayListener, Container, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import CButton from '../../common/CButton/CButton'
@@ -26,12 +26,12 @@ const Hero = () => {
   }, [])
 
   return (
-    <Box id='Hjem' pb={{ xs: 20, md: 27 }}>
-      <Box maxWidth='xxl'
+    <Box id='Hjem'>
+      <Container maxWidth='xxl'
         sx={{
           position: 'relative',
           p: 0,
-          // height: { xs: '1044px', md: '900px' },
+          height: { xs: '1044px', md: '900px' },
           '::before': {
             content: '""',
             position: 'absolute',
@@ -50,6 +50,7 @@ const Hero = () => {
         <Container maxWidth='lg'>
           <ClickAwayListener onClickAway={() => setSideBarOpen(false)}>
             <Stack direction='row' alignItems='center' justifyContent='space-between' py={2}>
+              {/* <Box sx={{ display: { xs: 'none', lg: 'block' } }}></Box> */}
               <Box sx={{
                 width: { xs: '150px', md: '300px' }
               }}>
@@ -99,12 +100,12 @@ const Hero = () => {
                   {
                     token ?
                       <Link style={{ width: '100%' }} to='/dashboard/mySide'>
-                        <CButton endIcon={<ArrowOutward />} style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
+                        <CButton style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
                           Dashboard
                         </CButton>
                       </Link> :
                       <Link style={{ width: '100%' }} to='/login'>
-                        <CButton endIcon={<ArrowOutward />} style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
+                        <CButton style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
                           Logg inn
                         </CButton>
                       </Link>
@@ -122,32 +123,83 @@ const Hero = () => {
             </Stack>
           </ClickAwayListener>
 
-          <Stack alignItems='center' justifyContent='space-between' gap={5}>
+          <Stack sx={{ height: '700px' }} direction={{ xs: 'column', md: 'row' }} alignItems='center' justifyContent='space-between' gap={5}>
             <Stack sx={{
               // flex: 1,
               color: '#fff',
-              justifyContent: 'center',
-              alignItems: 'center'
+              width: { xs: '100%', md: '50%' },
+              justifyContent: 'center'
             }}>
               {
                 import.meta.env.VITE_ENVIRONMENT === 'stage' &&
-                <Typography variant='h5' sx={{ fontWeight: 600, mb: 2, color: 'red', textAlign: 'center' }}>(Test Mode)</Typography>
+                <Typography variant='h5' sx={{ fontWeight: 600, mb: 2, color: 'red' }}>(Test Mode)</Typography>
               }
-              <Typography variant='h5' sx={{ mb: { xs: 3, md: 6 }, textAlign: 'center' }}>{clientDetails?.slogan}</Typography>
-              <Typography sx={{
-                fontSize: { xs: '50px', md: '100px' },
-                fontWeight: 400,
-                fontFamily: "Forum",
-                lineHeight: { xs: '50px', md: '100px' },
+              <Typography variant='h5' sx={{ mt: { xs: 5, md: 0 }, mb: 3 }}>{clientDetails?.slogan}</Typography>
+              <Box sx={{
+                fontSize: { xs: '32px', md: '68px' },
+                fontWeight: 800,
+                lineHeight: { xs: '40px', md: '80px' },
               }}>
-                Nytt lunsjkonsept levert <br style={{ display: isMobile ? 'none' : 'block' }} /> gratis til arbeidsplassen ..
-              </Typography>
+                <FadeAnimation damping={.1} delay={100} cascade={'cascade'}>
+                  Nytt lunsjkonsept
+                </FadeAnimation>
+              </Box>
+              <Box sx={{
+                fontSize: { xs: '32px', md: '68px' },
+                fontWeight: 800,
+                lineHeight: { xs: '40px', md: '80px' },
+              }}>
+                <FadeAnimation damping={.1} delay={100} cascade={'cascade'}>
+                  levert gratis til
+                </FadeAnimation>
+              </Box>
+              <Box sx={{
+                fontSize: { xs: '32px', md: '68px' },
+                fontWeight: 800,
+                lineHeight: { xs: '40px', md: '80px' },
+                mb: 3
+              }}>
+                <FadeAnimation damping={.1} delay={1000} cascade={'cascade'}>
+                  arbeidsplassen ..
+                </FadeAnimation>
+              </Box>
               <SlideAnimation direction='left' delay={500}>
 
-                <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, maxWidth: '800px', fontWeight: 200, my: 5, textAlign: 'center' }}>
+                <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, fontWeight: 200, mb: 3 }}>
                   La ansatte styre sin egen lunsj med bare noen få tastetrykk. Kutt administrasjon, kostnader og matsvinn, samtidig som ansatte får levert akkurat den lunsjen de ønsker.
                 </Typography>
               </SlideAnimation>
+
+              <Stack mb={3} direction='row' alignItems='center' gap={3} justifyContent={{ xs: 'center', sm: 'space-around', lg: 'space-between' }}>
+                <SlideAnimation delay={100}>
+                  <Stack sx={{
+                    width: { xs: '111px', md: '174px' }
+                  }} direction='row' alignItems='center' gap={1}>
+                    {/* <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>12</Typography> */}
+                    <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Mange retter å velge mellom hver dag</Typography>
+                  </Stack>
+                </SlideAnimation>
+                {/* <SlideAnimation delay={300}>
+                  <LocalDiningOutlined fontSize='large'/>
+                </SlideAnimation> */}
+                <SlideAnimation delay={500}>
+                  <Stack sx={{
+                    width: { xs: '64px', md: '93px' }
+                  }} direction='row' alignItems='center' gap={1}>
+                    <Typography sx={{ fontWeight: 600, fontSize: { xs: '16px', md: '42px' } }}>25</Typography>
+                    <Typography sx={{ fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' } }}>Fra <br /> NOK</Typography>
+                  </Stack>
+                </SlideAnimation>
+                {/* <SlideAnimation delay={700}>
+                  <RestaurantOutlined fontSize='large'/>
+                </SlideAnimation> */}
+                <SlideAnimation delay={900}>
+                  <Typography sx={{
+                    width: { xs: '111px', md: '165px  ' },
+                    fontWeight: 400, fontSize: { xs: '12px', md: '16px' }, lineHeight: { xs: '18px', md: '24px' }
+                  }}>Enkel administrasjon for bedriften</Typography>
+                </SlideAnimation>
+              </Stack>
 
               <SlideAnimation direction='left' delay={500}>
                 <Stack direction='row' sx={{
@@ -159,46 +211,58 @@ const Hero = () => {
                   borderRadius: '40px',
                   // pl: { xs: 1.5, md: 2 },
                 }}>
+                  {/* <Input autoFocus={inputdetect} disableUnderline sx={{
+                border: 'none', outline: 'none',
+                flex: 1, fontSize: { xs: '11px', sm: '13px', md: '15px' }, borderRadius: '38px'
+              }} type="number" placeholder="Your company's postcode" value={postcode} onChange={e => setPostcode(e.target.value)} /> */}
                   <Link to='/search'>
-                    <Button variant='contained' size='large' sx={{
+                    <Button variant='contained' size='small' sx={{
                       textWrap: 'nowrap',
-                      bgcolor: '#fff',
-                      color: 'primary.main',
                       fontWeight: 500,
-                      // px: { xs: 3, md: 5 },
-                      // py: { xs: 1, md: 2 }
-                    }} endIcon={<ArrowOutward />}>Jeg vil begynne nå</Button>
+                      fontSize: { xs: '14px', sm: '15px', md: '16px' },
+                      borderRadius: '38px',
+                      px: { xs: 3, md: 5 },
+                      py: { xs: 1, md: 2 }
+                    }} startIcon={<Chat size='small' />}>Jeg vil begynne nå</Button>
                   </Link>
                 </Stack>
               </SlideAnimation>
 
             </Stack>
-            <Box sx={{
-              mb: { xs: -15, sm: -20, md: -27 },
-              backgroundColor: '#000',
-              p: { xs: 1, md: 2 },
-              borderRadius: '15px',
-              overflow: 'hidden',
-              width: { xs: '100%', md: '800px' },
-              height: { xs: '250px', sm: '350px', md: '450px' }
-            }}>
-              <iframe
-                style={{ borderRadius: '20px', overflow: 'hidden' }}
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${'https://www.youtube.com/watch?v=FcEVbVrNIyg'.split('v=')[1].split('&')[0]}?modestbranding=1&rel=0&controls=1&disablekb=1`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              // title={item.title}
-              ></iframe>
-            </Box>
 
+            <SlideAnimation direction='right'>
+              <Box sx={{
+                display: { xs: 'none', lg: 'block' },
+                width: { xs: '343px', lg: '400px' },
+                height: { xs: '445px', lg: '500px' }
+              }}>
+                <img style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '20px'
+                }} src="/herosmall.jpeg" alt="" />
+              </Box>
+            </SlideAnimation>
+            <Box sx={{
+              display: { xs: 'block', md: 'none' },
+              width: { xs: '343px', md: '446px' },
+              height: { xs: '445px', md: '569px' }
+            }}>
+              <SlideAnimation direction='up'>
+                <img style={{
+                  borderRadius: '10px',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }} src="/herosmall.jpeg" alt="" />
+              </SlideAnimation>
+            </Box>
 
           </Stack>
         </Container>
 
-      </Box >
+      </Container >
     </Box>
   )
 }

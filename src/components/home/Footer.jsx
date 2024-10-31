@@ -1,4 +1,4 @@
-import { Box, Container, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Box, Container, Divider, ListItem, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CButton from '../../common/CButton/CButton'
 import { Link } from 'react-router-dom'
@@ -39,53 +39,35 @@ const Footer = () => {
 
   return (
     <Container sx={{
-      // backgroundImage: 'url(/footer.png)',
-      // backgroundRepeat: 'no-repeat',
-      // backgroundSize: 'cover',
-      // backgroundPosition: 'center',
+      bgcolor: '#021611',
       p: 0, position: 'relative',
-      height: { xs: '631px', md: '720px' },
 
     }} maxWidth='xxl'>
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundImage: 'url(/footer.png)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          // backgroundAttachment:'fixed',
-          backgroundPosition: 'center',
-          zIndex: -1,
-          ":before": {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: { xs: '100%', md: '0' },
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-          }
-        }}
-      />
       <Container sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: { xs: 'end', md: 'center' },
         height: '100%',
+        pb: 10
       }} maxWidth='lg'>
         <SlideAnimation direction='up'>
+          <Box sx={{
+            width: { xs: '100px', md: '200px' },
+            mt: 5
+          }}>
+            <img style={{ width: '100%' }} src={clientDetails?.logoUrl ?? ''} alt="" />
+          </Box>
+        </SlideAnimation>
+        <SlideAnimation direction='up' delay={200}>
           <Typography sx={{
-            mt: { xs: 0, md: 10 },
-            fontSize: { xs: '32px', md: '48px' },
-            fontWeight: { xs: 600, md: 800 },
+            mt: { xs: 0, md: 2 },
+            fontFamily: 'Forum',
+            lineHeight: '70px',
+            fontSize: { xs: '44px', md: '64px' },
             color: '#fff', textAlign: 'center', mb: 2
           }}>
-            Friske råvarer, gode smaker, <br /> gratis levering i Follo.
+            Friske råvarer, gode smaker, gratis <br /> levering i Follo.
           </Typography>
         </SlideAnimation>
         <Link to='/search'>
@@ -95,36 +77,53 @@ const Footer = () => {
             </CButton>
           </SlideAnimation>
         </Link>
-        <Box sx={{
-          alignSelf: { xs: 'center', md: 'flex-start' },
+        <Divider />
+        <Stack gap={4} direction={{ xs: 'column', md: 'row' }} justifyContent='space-between' sx={{
           color: '#fff',
-          mt: { xs: 8, md: 8 },
-          textAlign: { xs: 'center', md: 'start' },
-          pb: { xs: 10, md: 0 }
+          width: '100%',
+          mt: 8,
         }}>
-          <a style={{ textDecoration: 'none' }} href={socialLink?.facebook ?? ''} target='blank'>
-            <ListItem sx={{ width: 'fit-content' }}>
-              <ListItemText sx={{ color: '#fff', mr: 3 }}>Facebook</ListItemText>
-              <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
-            </ListItem>
-          </a>
-          <a style={{ textDecoration: 'none' }} href={socialLink?.instagram ?? ''} target='blank'>
-            <ListItem sx={{ width: 'fit-content' }}>
-              <ListItemText sx={{ color: '#fff', mr: 3 }}>Instagram</ListItemText>
-              <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
-            </ListItem>
-          </a>
-          {/* <a style={{ textDecoration: 'none' }} href={socialLink?.linkedIn ?? ''} target='blank'>
+
+          <Box flex={1}>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Email Us At</Typography>
+            <Typography >{clientDetails?.email}</Typography>
+          </Box>
+
+          <Box flex={1}>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Give Us A Call</Typography>
+            <Typography>{clientDetails?.contact}</Typography>
+          </Box>
+
+          <Box flex={1} >
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Visit Us At</Typography>
+            <a style={{ textDecoration: 'none' }} href={socialLink?.facebook ?? ''} target='blank'>
+              <ListItem sx={{ width: 'fit-content' }}>
+                <ListItemText sx={{ color: '#fff', mr: 3 }}>Facebook</ListItemText>
+                <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
+              </ListItem>
+            </a>
+            <a style={{ textDecoration: 'none' }} href={socialLink?.instagram ?? ''} target='blank'>
+              <ListItem sx={{ width: 'fit-content' }}>
+                <ListItemText sx={{ color: '#fff', mr: 3 }}>Instagram</ListItemText>
+                <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
+              </ListItem>
+            </a>
+            {/* <a style={{ textDecoration: 'none' }} href={socialLink?.linkedIn ?? ''} target='blank'>
             <ListItem>
               <ListItemText sx={{ color: '#fff' }}>LinkedIn</ListItemText>
               <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
             </ListItem>
           </a> */}
-          {/* <Typography mt={3}>hei@lunsjavtale.no</Typography> */}
-          <Typography mt={3}>{clientDetails?.email}</Typography>
-          <Typography>{clientDetails?.contact}</Typography>
-          <Typography>{clientDetails?.address}</Typography>
-        </Box>
+          </Box>
+
+          <Box flex={1}>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Our Address</Typography>
+            <Typography>{clientDetails?.address}</Typography>
+          </Box>
+
+
+
+        </Stack>
       </Container>
     </Container>
   )

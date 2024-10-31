@@ -11,6 +11,8 @@ import InstagramSec from '../../components/home/InstagramSec'
 import Footer from '../../components/home/Footer'
 import Contact from '../../components/home/Contact'
 import WeeklyTab from '../../components/home/WeeklyTab'
+import Features from '../../components/home/Features'
+import FeaturesTwo from '../../components/home/FeaturesTwo'
 
 const Home = () => {
   return (
@@ -18,13 +20,15 @@ const Home = () => {
       style={{ overflowX: 'hidden' }}
     >
       <Hero />
+      <Features />
       <SoEasy />
+      <FeaturesTwo />
       <LogoList />
       <WhoAreYou />
       <LogoSlide />
       <WeeklyTab />
       <CategoryTab />
-      <CreateProfile />
+      {/* <CreateProfile /> */}
       <FAskedQ />
       <Contact />
       <InstagramSec />

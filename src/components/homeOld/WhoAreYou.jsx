@@ -1,4 +1,4 @@
-import { Box, Container, Divider, List, ListItem, ListItemIcon, ListItemText, Stack, Tabs, Typography, tabsClasses, useMediaQuery } from "@mui/material";
+import { Box, Container, List, ListItem, ListItemIcon, ListItemText, Stack, Tabs, Typography, tabsClasses, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { styled } from "@mui/material/styles";
@@ -7,11 +7,10 @@ import PropTypes from 'prop-types';
 import CButton from "../../common/CButton/CButton";
 import { Link } from "react-router-dom";
 import { FadeAnimation, SlideAnimation } from "../animation/Animation";
-import { ArrowOutward, CheckCircle } from "@mui/icons-material";
 
 const TabItem = styled(Tab)(({ theme }) => ({
   position: "relative",
-  // borderRadius: "30px",
+  borderRadius: "30px",
   textAlign: "center",
   textTransform: 'none',
   transition: "all .5s",
@@ -28,7 +27,7 @@ const TabItem = styled(Tab)(({ theme }) => ({
   [`&.${tabClasses.selected}`]: {
     // color: "#FFFFFF",
     // backgroundColor: theme.palette.secondary.main,
-    // border: `1px solid gray`,
+    border: `1px solid gray`,
 
   },
 }));
@@ -62,23 +61,18 @@ function WhoAreYou() {
 
   return (
     <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 } }}>
-      <Typography sx={{
-        fontSize: { xs: '22px', md: '64px' },
-        fontWeight: 400,
-        textAlign: 'center',
-        fontFamily: 'Forum'
-      }}>
+      <Typography sx={{ fontSize: { xs: '22px', md: '32px' }, fontWeight: 600, textAlign: 'center', mb: 2 }}>
         <FadeAnimation damping={.1} cascade={'cascade'}>
           Hvem er du?
         </FadeAnimation>
       </Typography>
-      <Typography sx={{ fontSize: '16px', fontWeight: 500, textAlign: 'center', mb: 6 }}>
+      <Typography sx={{ fontSize: { xs: '16px', md: '24px' }, fontWeight: 500, textAlign: 'center', mb: 6 }}>
         <FadeAnimation damping={.05} cascade={'cascade'}>
           lunsjavtale gir deg kantinen rett i lomma
         </FadeAnimation>
       </Typography>
-      <Divider />
-      <Stack direction='row' my={1} sx={{
+      <Stack direction='row' sx={{
+        mb: { xs: 3, md: 10 },
         justifyContent: 'center',
       }}>
         <Tabs
@@ -99,20 +93,17 @@ function WhoAreYou() {
           <TabItem style={{ borderRadius: "30px" }} disableRipple label={"Lunsjsjef"} />
         </Tabs>
       </Stack>
-      <Divider sx={{ mb: 6 }} />
 
       <CustomTabPanel value={tabIndex} index={0}>
-        <Stack direction={{ xs: 'column', lg: 'row' }} gap={6} alignItems='center' >
+        <Stack direction={{ xs: 'column', lg: 'row' }} gap={6} >
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
-            border: '1px solid lightgray',
-            p: 3, borderRadius: '16px'
           }}>
-            {/* <SlideAnimation direction='up'>
+            <SlideAnimation direction='up'>
               <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Sjefen</Typography>
-            </SlideAnimation> */}
+            </SlideAnimation>
             <SlideAnimation direction='up' delay={200}>
-              <Typography sx={{ fontSize: '48px', lineHeight: '50px', mb: 2, fontFamily: 'Forum' }}>Kutt kostnader og få mer for dine Penger.</Typography>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader og få mer for dine Penger.</Typography>
               {/* <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader  <br style={{display:isMobile ? 'block' : 'none'}} /> og få mer for <br /> dine Penger.</Typography> */}
             </SlideAnimation>
             <SlideAnimation direction='up' delay={400}>
@@ -130,10 +121,10 @@ function WhoAreYou() {
                   <FadeAnimation key={id} damping={.1} cascade={'cascade'} delay={300 * id}>
                     <ListItem sx={{ mb: 1 }} disablePadding >
                       <ListItemIcon>
-                        <CheckCircle color='primary' />
+                        <img src="/ok.png" alt="" />
                       </ListItemIcon>
                       <ListItemText sx={{ ml: -3 }}>
-                        <Typography>{text}</Typography>
+                        <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
                       </ListItemText>
                     </ListItem>
                   </FadeAnimation>
@@ -142,7 +133,7 @@ function WhoAreYou() {
             </List>
             <SlideAnimation direction='down' delay={1000}>
               <Link to='/search'>
-                <CButton endIcon={<ArrowOutward />} variant='outlined'>Bli kunde</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, minWidth: '200px', px: 2, color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
             </SlideAnimation>
           </Stack>
@@ -194,7 +185,7 @@ function WhoAreYou() {
           <Stack sx={{
             flex: 1,
             gap: 2,
-            alignItems: { xs: '', md: 'center' },
+            alignItems: { xs: '', md: 'center' }
           }}>
             <SlideAnimation direction='left'>
               <Box sx={{
@@ -207,14 +198,12 @@ function WhoAreYou() {
           </Stack>
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
-            border: '1px solid lightgray',
-            p: 3, borderRadius: '16px'
           }}>
-            {/* <SlideAnimation direction='up'>
+            <SlideAnimation direction='up'>
               <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Ansatt</Typography>
-            </SlideAnimation> */}
+            </SlideAnimation>
             <SlideAnimation direction='up' delay={100}>
-              <Typography sx={{ fontSize: '48px', lineHeight: '50px', mb: 2, fontFamily: 'Forum' }}>Velg mellom ulike lunsjretter hver dag</Typography>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Velg mellom ulike lunsjretter hver dag</Typography>
             </SlideAnimation>
             <SlideAnimation direction='up' delay={200}>
               <Typography mb={1}>Her er det garantert noe alle liker – og nye retter på menyen hver eneste dag! Vi kan ikke fikse alt, men vi kan arrangere en stressfri pause og sørge for at du får mat som ikke bare er bra, men også bra for kroppen.</Typography>
@@ -231,10 +220,10 @@ function WhoAreYou() {
                   <FadeAnimation key={id} damping={.1} cascade={'cascade'} delay={300 * id}>
                     <ListItem sx={{ mb: 1 }} disablePadding >
                       <ListItemIcon>
-                        <CheckCircle color='primary' />
+                        <img src="/ok.png" alt="" />
                       </ListItemIcon>
                       <ListItemText sx={{ ml: -3 }}>
-                        <Typography>{text}</Typography>
+                        <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>{text}</Typography>
                       </ListItemText>
                     </ListItem>
                   </FadeAnimation>
@@ -243,7 +232,7 @@ function WhoAreYou() {
             </List>
             <Stack direction='row ' gap={2}>
               <Link to='/search'>
-                <CButton endIcon={<ArrowOutward />} variant='outlined'>Bli kunde</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, minWidth: '200px', width: { xs: '100%' }, px: 2, color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
               {/* <CButton variant='outlined' style={{ height: { xs: '45px', md: '56px' }, width: '136px' }}>Tips sjefen</CButton> */}
             </Stack>
@@ -255,14 +244,12 @@ function WhoAreYou() {
         <Stack direction={{ sm: 'column', md: 'row' }} gap={6} >
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
-            border: '1px solid lightgray',
-            p: 3, borderRadius: '16px'
           }}>
-            {/* <SlideAnimation direction='up'>
+            <SlideAnimation direction='up'>
               <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Lunsjsjef</Typography>
-            </SlideAnimation> */}
+            </SlideAnimation>
             <SlideAnimation direction='up' delay={100}>
-              <Typography sx={{ fontSize: '48px', lineHeight: '50px', mb: 2, fontFamily: 'Forum' }}>Bruker du unødvendig tid på å organisere lunsj for alle?</Typography>
+              <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Bruker du unødvendig tid på å organisere lunsj for alle?</Typography>
             </SlideAnimation>
             <SlideAnimation direction='up' delay={200}>
               <Typography mb={1}>Fleksibel arbeidshverdag krever fleksible løsninger. La ansatte selv holde orden på hva de skal spise og når de har hjemmekontor.</Typography>
@@ -271,33 +258,33 @@ function WhoAreYou() {
               <List>
                 <ListItem sx={{ mb: 1 }} disablePadding>
                   <ListItemIcon>
-                    <CheckCircle color='primary' />
+                    <img src="/ok.png" alt="" />
                   </ListItemIcon>
                   <ListItemText sx={{ ml: -3 }}>
-                    <Typography >Stressfri teknologi lar deg administrere ansatte, ha full kostnadskontroll og bestemme hvor mye selskapet skal betale.</Typography>
+                    <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Stressfri teknologi lar deg administrere ansatte, ha full kostnadskontroll og bestemme hvor mye selskapet skal betale.</Typography>
                   </ListItemText>
                 </ListItem>
                 <ListItem sx={{ mb: 2 }} disablePadding>
                   <ListItemIcon>
-                    <CheckCircle color='primary' />
+                    <img src="/ok.png" alt="" />
                   </ListItemIcon>
                   <ListItemText sx={{ ml: -3 }}>
-                    <Typography >Vi fikser til og med lønnstrekk og har full kontroll på skattereglene😇</Typography>
+                    <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>Vi fikser til og med lønnstrekk og har full kontroll på skattereglene😇</Typography>
                   </ListItemText>
                 </ListItem>
                 <ListItem sx={{ mb: 2 }} disablePadding>
                   <ListItemIcon>
-                    <CheckCircle color='primary' />
+                    <img src="/ok.png" alt="" />
                   </ListItemIcon>
                   <ListItemText sx={{ ml: -3 }}>
-                    <Typography>La oss fikse lunsj. Da kan du fokusere på alt annet!</Typography>
+                    <Typography sx={{ fontSize: { xs: '14px', md: '18px' } }}>La oss fikse lunsj. Da kan du fokusere på alt annet!</Typography>
                   </ListItemText>
                 </ListItem>
               </List>
             </FadeAnimation>
             <Stack direction='row ' gap={2}>
               <Link to='/search'>
-                <CButton endIcon={<ArrowOutward />} variant='outlined'>Bli kunde</CButton>
+                <CButton variant='contained' color='light' style={{ height: { xs: '45px', md: '56px' }, minWidth: '219px', px: 2, color: 'secondary.main' }}>Bli kunde</CButton>
               </Link>
             </Stack>
           </Stack>

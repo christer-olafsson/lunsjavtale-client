@@ -11,7 +11,6 @@ import 'react-multi-carousel/lib/styles.css';
 import { WEEKLY_VARIANTS } from '../../pages/dashboard/products/graphql/query';
 import Loader from '../../common/loader/Index';
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
-import useIsMobile from '../../hook/useIsMobile';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,10 +66,10 @@ const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
       mt: 2, ml: 2,
       // position:'absolute',top:0
     }}>
-      <CButton disable={currentSlide === 0 ? true : false} onClick={() => previous()} variant='outlined' style={{ height: '40px', mr: 2, borderRadius: '50px', color: '#fff', border: '1px solid #fff', width: '90px' }}>
+      <CButton disable={currentSlide === 0 ? true : false} onClick={() => previous()} variant='outlined' style={{ height: '40px', mr: 2, borderRadius: '50px', width: '90px' }}>
         <ArrowBack />
       </CButton>
-      <CButton onClick={() => next()} variant='outlined' style={{ height: '40px', color: '#fff', border: '1px solid #fff', borderRadius: '50px', width: '90px' }}>
+      <CButton onClick={() => next()} variant='outlined' style={{ height: '40px', borderRadius: '50px', width: '90px' }}>
         <ArrowForward />
       </CButton>
     </Stack>
@@ -82,8 +81,6 @@ const WeeklyTab = (props) => {
   const [products, setProducts] = useState([])
   const [allWeeklyVariants, setAllWeeklyVariants] = useState([])
   const [selectedWeeklyVariantId, setSelectedWeeklyVariantId] = useState('')
-
-  const isMobile = useIsMobile()
 
   const { loading: loadinProducts, error: errProducts } = useQuery(PRODUCTS, {
     variables: {
@@ -105,29 +102,8 @@ const WeeklyTab = (props) => {
   if (products.length === 0) return;
 
   return (
-    <Box sx={{
-      // bgcolor: '#021611',
-      position: 'relative',
-      my: { xs: 10, md: 15 },
-      minHeight: '800px',
-      py: { xs: 5, md: 10 },
-      '::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(/heroImg2.jpg)`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundAttachment: 'fixed',
-        // filter: 'brightness(0.6)',
-
-        zIndex: -1
-      }
-    }} id='Ukentlig'>
-      <Container maxWidth='lg' sx={{ p: 0 }}>
+    <Box id='Ukentlig'>
+      <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 }, p: 0 }}>
         <Stack sx={{
           mb: 3,
           justifyContent: 'center',
@@ -135,23 +111,11 @@ const WeeklyTab = (props) => {
           gap: 3
         }}>
 
-          <Typography sx={{
-            fontSize: { xs: '44px', md: '64px', lineHeight: '50px' },
-            fontFamily: 'Forum',
-            color: '#fff',
-            textAlign: 'center'
-          }}>Vårt ukentlige utvalgte</Typography>
+          <Typography sx={{ fontSize: '32px', mb: 2, fontWeight: 600, textAlign: 'center' }}>Vårt ukentlige utvalgte</Typography>
 
           {/* select week */}
-          <FormControl sx={{
-            mb: 2,
-            px: 4,
-            mx: 2,
-            bgcolor: '#fff',
-            borderRadius: '50px'
-          }}>
+          <FormControl sx={{ mb: 2, px: 4 }}>
             <RadioGroup
-
               row
               value={selectedWeeklyVariantId}
               onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
@@ -178,7 +142,7 @@ const WeeklyTab = (props) => {
                 <Carousel
                   swipeable={true}
                   // draggable={true}
-                  // showDots={isMobile ? true : false}
+                  showDots={false}
                   arrows={false}
                   rewindWithAnimation={true}
                   rewind={true}

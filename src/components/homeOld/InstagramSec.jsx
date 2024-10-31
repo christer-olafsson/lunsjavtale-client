@@ -6,8 +6,6 @@ import { CLIENT_DETAILS, FOLLOW_US_LIST } from '../../graphql/query';
 import { useQuery } from '@apollo/client';
 import Loader from '../../common/loader/Index';
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
-import CButton from '../../common/CButton/CButton';
-import { ArrowOutward } from '@mui/icons-material';
 
 const InstagramSec = () => {
   const [links, setLinks] = useState([]);
@@ -55,20 +53,27 @@ const InstagramSec = () => {
         my: 10,
         overflowX: 'hidden',
       }}>
-      <Typography sx={{ fontSize: { xs: '44px', md: '64px' }, fontFamily: 'Forum', textAlign: 'center', }}>
+      <Box sx={{
+        alignSelf: 'center',
+        maxWidth: '288px',
+        overflowX: 'hidden',
+        bgcolor: 'light.main',
+        py: '12px', px: '24px',
+        borderRadius: '8px', mb: 2
+      }}>
+        <a style={{ textDecoration: 'none', color: 'inherit' }} href={socialLink?.instagram} target='blank'>Følg oss på Instagram</a>
+      </Box>
+      <Typography sx={{ fontSize: { xs: '24px', md: '32px' }, fontWeight: 600, alignSelf: 'center', mb: 2 }}>
         <SlideAnimation direction='up' delay={100}>
           Se hva som skjer
         </SlideAnimation>
       </Typography>
-      <Typography sx={{ textAlign: 'center' }} alignSelf='center' mb={3}>
+      <Typography sx={{ textAlign: 'center' }} alignSelf='center' mb={6}>
         <SlideAnimation direction='up' delay={200}>
           lunsjavtale er en digital kantine som gjør lunsjen enklere (og smartere)!
         </SlideAnimation>
       </Typography>
-      <a style={{ textDecoration: 'none', color: 'inherit', alignSelf: 'center' }} href={socialLink?.instagram} target='blank'>
-        <CButton endIcon={<ArrowOutward />} variant='outlined'>Følg oss på Instagram</CButton>
-      </a>
-      <Stack direction='row' gap={{ xs: 0, md: 6 }} mt={4} flexWrap='wrap' justifyContent='center'>
+      <Stack direction='row' gap={{ xs: 0, md: 6 }} flexWrap='wrap' justifyContent='center'>
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
             links.length === 0 ? <Typography textAlign='center'>=============</Typography> :
