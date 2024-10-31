@@ -72,30 +72,29 @@ const Footer = () => {
         </SlideAnimation>
         <Link to='/search'>
           <SlideAnimation direction='up' delay={100}>
-            <CButton variant='contained' style={{ height: { xs: '45px', md: '56px' }, mt: 3, width: '128px' }}>
+            <CButton variant='contained' style={{ mt: 3 }}>
               Kom i gang
             </CButton>
           </SlideAnimation>
         </Link>
-        <Divider />
+        <Box sx={(theme) => ({ borderBottom: `1px solid ${theme.palette.primary.main}`, my: 6, width: '100%' })} />
         <Stack gap={4} direction={{ xs: 'column', md: 'row' }} justifyContent='space-between' sx={{
           color: '#fff',
           width: '100%',
-          mt: 8,
         }}>
 
           <Box flex={1}>
-            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Email Us At</Typography>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Send oss ​​en e-post på</Typography>
             <Typography >{clientDetails?.email}</Typography>
           </Box>
 
           <Box flex={1}>
-            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Give Us A Call</Typography>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Ring oss</Typography>
             <Typography>{clientDetails?.contact}</Typography>
           </Box>
 
           <Box flex={1} >
-            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Visit Us At</Typography>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Besøk oss på</Typography>
             <a style={{ textDecoration: 'none' }} href={socialLink?.facebook ?? ''} target='blank'>
               <ListItem sx={{ width: 'fit-content' }}>
                 <ListItemText sx={{ color: '#fff', mr: 3 }}>Facebook</ListItemText>
@@ -117,7 +116,7 @@ const Footer = () => {
           </Box>
 
           <Box flex={1}>
-            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Our Address</Typography>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Vår adresse</Typography>
             <Typography>{clientDetails?.address}</Typography>
           </Box>
 
