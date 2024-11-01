@@ -140,7 +140,7 @@ function WhoAreYou() {
                 ))
               }
             </List>
-            <SlideAnimation direction='down' delay={1000}>
+            <SlideAnimation direction='up' delay={400}>
               <Link to='/search'>
                 <CButton endIcon={<ArrowOutward />} variant='outlined'>Bli kunde</CButton>
               </Link>
@@ -242,9 +242,11 @@ function WhoAreYou() {
               }
             </List>
             <Stack direction='row ' gap={2}>
-              <Link to='/search'>
-                <CButton endIcon={<ArrowOutward />} variant='outlined'>Bli kunde</CButton>
-              </Link>
+              <SlideAnimation direction='up' delay={200}>
+                <Link to='/search'>
+                  <CButton endIcon={<ArrowOutward />} variant='outlined'>Bli kunde</CButton>
+                </Link>
+              </SlideAnimation>
               {/* <CButton variant='outlined' style={{ height: { xs: '45px', md: '56px' }, width: '136px' }}>Tips sjefen</CButton> */}
             </Stack>
           </Stack>
@@ -296,9 +298,11 @@ function WhoAreYou() {
               </List>
             </FadeAnimation>
             <Stack direction='row ' gap={2}>
-              <Link to='/search'>
-                <CButton endIcon={<ArrowOutward />} variant='outlined'>Bli kunde</CButton>
-              </Link>
+              <SlideAnimation direction='up' delay={200}>
+                <Link to='/search'>
+                  <CButton endIcon={<ArrowOutward />} variant='outlined'>Bli kunde</CButton>
+                </Link>
+              </SlideAnimation>
             </Stack>
           </Stack>
           <Stack sx={{

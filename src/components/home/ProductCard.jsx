@@ -37,7 +37,7 @@ const ProductCard = ({ data, isWeekly }) => {
       alignSelf: 'center',
       width: { xs: '100%', md: '396px' },
       height: '600px',
-      // border: `1px solid ${theme.palette.primary.main}`,
+      // border: `1px solid lightgray`,
       borderRadius: '16px',
       overflow: 'hidden',
       cursor: 'grab',

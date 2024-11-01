@@ -1,7 +1,6 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { SlideAnimation } from '../animation/Animation';
-import { InstagramEmbed } from 'react-social-media-embed';
 import { CLIENT_DETAILS, FOLLOW_US_LIST } from '../../graphql/query';
 import { useQuery } from '@apollo/client';
 import Loader from '../../common/loader/Index';

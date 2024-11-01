@@ -83,29 +83,24 @@ const Footer = () => {
           width: '100%',
         }}>
 
-          <Box flex={1}>
-            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Send oss ​​en e-post på</Typography>
+          <Box flex={1} sx={{ textAlign: 'center' }}>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Kontakt oss</Typography>
             <Typography >{clientDetails?.email}</Typography>
-          </Box>
-
-          <Box flex={1}>
-            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Ring oss</Typography>
             <Typography>{clientDetails?.contact}</Typography>
           </Box>
 
-          <Box flex={1} >
+          <Box flex={1} sx={{ textAlign: 'center', maxWidth: { xs: '100%', md: '200px' } }}>
+            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Vår adresse</Typography>
+            <Typography >{clientDetails?.address}</Typography>
+          </Box>
+
+          <Box flex={1} sx={{ textAlign: 'center' }} >
             <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Besøk oss på</Typography>
-            <a style={{ textDecoration: 'none' }} href={socialLink?.facebook ?? ''} target='blank'>
-              <ListItem sx={{ width: 'fit-content' }}>
-                <ListItemText sx={{ color: '#fff', mr: 3 }}>Facebook</ListItemText>
-                <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
-              </ListItem>
+            <a style={{ textDecoration: 'none', color: '#fff' }} href={socialLink?.facebook ?? ''} target='blank'>
+              <Typography>Facebook</Typography>
             </a>
-            <a style={{ textDecoration: 'none' }} href={socialLink?.instagram ?? ''} target='blank'>
-              <ListItem sx={{ width: 'fit-content' }}>
-                <ListItemText sx={{ color: '#fff', mr: 3 }}>Instagram</ListItemText>
-                <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
-              </ListItem>
+            <a style={{ textDecoration: 'none', color: '#fff' }} href={socialLink?.instagram ?? ''} target='blank'>
+              <Typography>Instagram</Typography>
             </a>
             {/* <a style={{ textDecoration: 'none' }} href={socialLink?.linkedIn ?? ''} target='blank'>
             <ListItem>
@@ -115,10 +110,7 @@ const Footer = () => {
           </a> */}
           </Box>
 
-          <Box flex={1}>
-            <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Vår adresse</Typography>
-            <Typography>{clientDetails?.address}</Typography>
-          </Box>
+
 
 
 

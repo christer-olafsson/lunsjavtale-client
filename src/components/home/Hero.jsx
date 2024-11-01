@@ -26,7 +26,7 @@ const Hero = () => {
   }, [])
 
   return (
-    <Box id='Hjem' pb={{ xs: 20, md: 27 }}>
+    <Box id='Hjem' pb={{ xs: 10, md: 25 }}>
       <Box maxWidth='xxl'
         sx={{
           position: 'relative',
@@ -133,23 +133,26 @@ const Hero = () => {
                 import.meta.env.VITE_ENVIRONMENT === 'stage' &&
                 <Typography variant='h5' sx={{ fontWeight: 600, mb: 2, color: 'red', textAlign: 'center' }}>(Test Mode)</Typography>
               }
-              <Typography variant='h5' sx={{ mb: { xs: 3, md: 6 }, textAlign: 'center' }}>{clientDetails?.slogan}</Typography>
-              <Typography sx={{
-                fontSize: { xs: '50px', md: '100px' },
-                fontWeight: 400,
-                fontFamily: "Forum",
-                lineHeight: { xs: '50px', md: '100px' },
-              }}>
-                Nytt lunsjkonsept levert <br style={{ display: isMobile ? 'none' : 'block' }} /> gratis til arbeidsplassen ..
-              </Typography>
-              <SlideAnimation direction='left' delay={500}>
-
+              <SlideAnimation direction='up'>
+                <Typography variant='h5' sx={{ mb: 3, textAlign: 'center' }}>{clientDetails?.slogan}</Typography>
+              </SlideAnimation>
+              <SlideAnimation direction='up' delay={200}>
+                <Typography sx={{
+                  fontSize: { xs: '50px', md: '100px' },
+                  fontWeight: 600,
+                  fontFamily: "Forum",
+                  lineHeight: { xs: '50px', md: '100px' },
+                }}>
+                  Nytt lunsjkonsept levert <br style={{ display: isMobile ? 'none' : 'block' }} /> gratis til arbeidsplassen ..
+                </Typography>
+              </SlideAnimation>
+              <SlideAnimation direction='up' delay={400}>
                 <Typography sx={{ fontSize: { xs: '14px', md: '18px' }, maxWidth: '800px', fontWeight: 200, my: 5, textAlign: 'center' }}>
                   La ansatte styre sin egen lunsj med bare noen få tastetrykk. Kutt administrasjon, kostnader og matsvinn, samtidig som ansatte får levert akkurat den lunsjen de ønsker.
                 </Typography>
               </SlideAnimation>
 
-              <SlideAnimation direction='left' delay={500}>
+              <SlideAnimation direction='up' delay={600}>
                 <Stack direction='row' sx={{
                   alignSelf: { xs: 'start', md: 'start' },
                   // bgcolor: '#fff',
@@ -173,27 +176,33 @@ const Hero = () => {
               </SlideAnimation>
 
             </Stack>
-            <Box sx={{
-              mb: { xs: -15, sm: -20, md: -27 },
-              backgroundColor: '#000',
-              p: { xs: 1, md: 2 },
-              borderRadius: '15px',
-              overflow: 'hidden',
-              width: { xs: '100%', md: '800px' },
-              height: { xs: '250px', sm: '350px', md: '450px' }
-            }}>
-              <iframe
-                style={{ borderRadius: '20px', overflow: 'hidden' }}
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${'https://www.youtube.com/watch?v=FcEVbVrNIyg'.split('v=')[1].split('&')[0]}?modestbranding=1&rel=0&controls=1&disablekb=1`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              // title={item.title}
-              ></iframe>
-            </Box>
+            <SlideAnimation direction='up' delay={800}>
 
+              <Box
+                sx={{
+                  position: 'relative',
+                  mb: { xs: -13, sm: -20, md: -27 },
+                  borderRadius: '15px',
+                  overflow: 'hidden',
+                  width: { xs: '100%', md: '750px' },
+                  minWidth: '300px',
+                  height: 'auto',
+                  aspectRatio: '16/9',
+                }}
+              >
+                <iframe
+                  style={{
+                    borderRadius: '15px',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                  src={`https://www.youtube.com/embed/${'https://www.youtube.com/watch?v=M93NSz5bcIk'.split('v=')[1].split('&')[0]}?autoplay=1&mute=1&loop=1&playlist=M93NSz5bcIk&modestbranding=1&controls=0&rel=0&showinfo=0&disablekb=1`}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                ></iframe>
+              </Box>
+            </SlideAnimation>
 
           </Stack>
         </Container>

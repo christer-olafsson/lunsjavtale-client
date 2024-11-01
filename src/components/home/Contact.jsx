@@ -41,7 +41,7 @@ const Contact = () => {
       width: '100%',
       bgcolor: 'primary.main',
       color: '#fff',
-      my: 5
+      mt: 10
     }}>
       <Container maxWidth='lg'>
         <Stack justifyContent='space-between' direction={{ xs: 'column', md: 'row' }} alignItems='center' py={6}>

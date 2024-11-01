@@ -76,7 +76,7 @@ const Search = () => {
           flex: 1,
           width: { xs: '100%', md: '588px' }
         }}>
-          <img style={{ width: '100%', height: '100%' }} src="/Group155.png" alt="" />
+          <img style={{ width: '100%', height: '100%' }} src={postcodeAvailable ? "/Group155.png" : postcodeNotAvailabe ? "/Frame 16.png" : "/Group155.png"} alt="" />
         </Box>
         <Box sx={{ flex: 1 }}>
           <Typography sx={{

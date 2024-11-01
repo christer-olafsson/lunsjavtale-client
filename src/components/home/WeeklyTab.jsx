@@ -12,6 +12,7 @@ import { WEEKLY_VARIANTS } from '../../pages/dashboard/products/graphql/query';
 import Loader from '../../common/loader/Index';
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
 import useIsMobile from '../../hook/useIsMobile';
+import { SlideAnimation } from '../animation/Animation';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -134,40 +135,43 @@ const WeeklyTab = (props) => {
           alignItems: 'center',
           gap: 3
         }}>
-
-          <Typography sx={{
-            fontSize: { xs: '44px', md: '64px', lineHeight: '50px' },
-            fontFamily: 'Forum',
-            color: '#fff',
-            textAlign: 'center'
-          }}>Vårt ukentlige utvalgte</Typography>
+          <SlideAnimation direction='up'>
+            <Typography sx={{
+              fontSize: { xs: '44px', md: '64px', lineHeight: '50px' },
+              fontFamily: 'Forum',
+              color: '#fff',
+              textAlign: 'center'
+            }}>Vårt ukentlige utvalgte</Typography>
+          </SlideAnimation>
 
           {/* select week */}
-          <FormControl sx={{
-            mb: 2,
-            px: 4,
-            mx: 2,
-            bgcolor: '#fff',
-            borderRadius: '50px'
-          }}>
-            <RadioGroup
+          <SlideAnimation direction='up' delay={200}>
+            <FormControl sx={{
+              mb: 2,
+              px: 4,
+              mx: 2,
+              bgcolor: '#fff',
+              borderRadius: '50px'
+            }}>
+              <RadioGroup
 
-              row
-              value={selectedWeeklyVariantId}
-              onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
-            >
-              {
-                allWeeklyVariants?.map((item, index) => (
-                  <FormControlLabel
-                    key={item.id}
-                    value={item.id}
-                    control={<Radio size='small' />}
-                    label={item.name}
-                  />
-                ))
-              }
-            </RadioGroup>
-          </FormControl>
+                row
+                value={selectedWeeklyVariantId}
+                onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
+              >
+                {
+                  allWeeklyVariants?.map((item, index) => (
+                    <FormControlLabel
+                      key={item.id}
+                      value={item.id}
+                      control={<Radio size='small' />}
+                      label={item.name}
+                    />
+                  ))
+                }
+              </RadioGroup>
+            </FormControl>
+          </SlideAnimation>
 
         </Stack>
 

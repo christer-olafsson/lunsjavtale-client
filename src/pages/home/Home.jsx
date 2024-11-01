@@ -13,6 +13,7 @@ import Contact from '../../components/home/Contact'
 import WeeklyTab from '../../components/home/WeeklyTab'
 import Features from '../../components/home/Features'
 import FeaturesTwo from '../../components/home/FeaturesTwo'
+import HowItWorks from '../../components/home/HowItWorks'
 
 const Home = () => {
   return (
@@ -29,6 +30,7 @@ const Home = () => {
       <WeeklyTab />
       <CategoryTab />
       {/* <CreateProfile /> */}
+      <HowItWorks />
       <FAskedQ />
       <Contact />
       <InstagramSec />

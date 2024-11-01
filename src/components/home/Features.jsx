@@ -1,5 +1,6 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { SlideAnimation } from '../animation/Animation'
 
 const data = [
   {
@@ -28,29 +29,35 @@ const Features = () => {
       <Stack direction={{ xs: 'column', md: 'row' }} justifyContent='center' gap={4}>
         {
           data.map((d, i) => (
-            <Box key={i} sx={{
-              width: { xs: '100%' },
-              position: 'relative',
-              border: '1px solid lightgray',
-              p: 2.5,
-              borderRadius: '16px'
-            }}>
-              <img style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translateX(-50%) translateY(-50%)',
-                width: '200px',
-                objectFit: 'contain'
-              }} src={d.bg} alt="" />
-              <img src={d.icon} alt="" />
-              <Typography my={2} sx={{
-                fontSize: '32px',
-                fontWeight: 400,
-                fontFamily: 'Forum'
-              }}>{d.title}</Typography>
-              <Typography>{d.desc}</Typography>
-            </Box>
+            <SlideAnimation key={i} direction='up' delay={100 * i}>
+              <Box sx={{
+                width: { xs: '100%' },
+                position: 'relative',
+                border: '1px solid lightgray',
+                p: 2.5,
+                borderRadius: '16px'
+              }}>
+                <img style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translateX(-50%) translateY(-50%)',
+                  width: '200px',
+                  objectFit: 'contain'
+                }} src={d.bg} alt="" />
+                <img src={d.icon} alt="" />
+                <SlideAnimation key={i} direction='up' delay={200 * i}>
+                  <Typography my={2} sx={{
+                    fontSize: '32px',
+                    fontWeight: 400,
+                    fontFamily: 'Forum'
+                  }}>{d.title}</Typography>
+                </SlideAnimation>
+                <SlideAnimation key={i} direction='up' delay={300 * i}>
+                  <Typography>{d.desc}</Typography>
+                </SlideAnimation>
+              </Box>
+            </SlideAnimation>
           ))
         }
       </Stack>
