@@ -16,7 +16,11 @@ const SoEasy = () => {
           bgcolor: 'primary.main',
           color: '#fff',
           p: { xs: 5, md: 10 },
-          borderRadius: !isMobile ? '16px 0 0 16px' : '',
+          // borderRadius: !isMobile ? '16px 0 0 16px' : '',
+          borderTopLeftRadius: '16px',
+          borderTopRightRadius: isMobile ? '16px' : 0,
+          borderBottomLeftRadius: '16px',
+          borderBottomRightRadius: isMobile ? '16px' : 0,
         }} flex={1} >
           <Typography sx={{
             fontWeight: 400,

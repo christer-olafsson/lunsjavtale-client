@@ -59,7 +59,9 @@ const HowItWorks = () => {
   return (
     <Container maxWidth='lg'>
       <SlideAnimation direction='up'>
-        <Typography sx={{ mb: 4, fontSize: { xs: '44px', md: '64px' }, fontFamily: 'Forum' }}>
+        <Typography sx={{
+          mb: 4, fontSize: { xs: '44px', md: '64px' }, lineHeight: { xs: '50px', md: '70px' }, fontFamily: 'Forum'
+        }}>
           Hvordan funker det?
         </Typography>
       </SlideAnimation>

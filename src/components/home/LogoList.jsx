@@ -19,13 +19,13 @@ const LogoList = () => {
   });
 
   return (
-    <Container maxWidth='xl' sx={{ p: 0, my: { xs: 5, md: 15 } }}>
+    <Container maxWidth='xl' sx={{ p: 0, mt: { xs: 10, md: 15 } }}>
       <Marquee autoFill direction='right' gradient={match} speed={20} >
         {
           brands?.map((item, i) => (
             <SlideAnimation key={i} direction='up' delay={200 * i}>
               <Box sx={{
-                width: { xs: '80px', md: '150px', lg: '200px' },
+                width: { xs: '120px', md: '150px', lg: '200px' },
                 mr: { xs: 5, md: 8, lg: 12 },
                 cursor: 'pointer',
               }}>

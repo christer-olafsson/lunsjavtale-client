@@ -54,7 +54,8 @@ const Footer = () => {
         <SlideAnimation direction='up'>
           <Box sx={{
             width: { xs: '100px', md: '200px' },
-            mt: 5
+            mt: 5,
+            mb: 2
           }}>
             <img style={{ width: '100%' }} src={clientDetails?.logoUrl ?? ''} alt="" />
           </Box>
@@ -63,7 +64,7 @@ const Footer = () => {
           <Typography sx={{
             mt: { xs: 0, md: 2 },
             fontFamily: 'Forum',
-            lineHeight: '70px',
+            lineHeight: { xs: '50px', md: '70px' },
             fontSize: { xs: '44px', md: '64px' },
             color: '#fff', textAlign: 'center', mb: 2
           }}>

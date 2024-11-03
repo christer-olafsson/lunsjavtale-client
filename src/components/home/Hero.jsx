@@ -64,10 +64,10 @@ const Hero = () => {
               justifyContent: 'center',
               alignItems: 'center'
             }}>
-              {/* {
+              {
                 import.meta.env.VITE_ENVIRONMENT === 'stage' &&
                 <Typography variant='h5' sx={{ fontWeight: 600, mb: 2, color: 'red', textAlign: 'center' }}>(Test Mode)</Typography>
-              } */}
+              }
               <SlideAnimation direction='up'>
                 <Typography variant='h5' sx={{ mb: 3, textAlign: 'center' }}>{clientDetails?.slogan}</Typography>
               </SlideAnimation>

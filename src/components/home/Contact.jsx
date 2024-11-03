@@ -44,7 +44,7 @@ const Contact = () => {
       mt: 10
     }}>
       <Container maxWidth='lg'>
-        <Stack justifyContent='space-between' direction={{ xs: 'column', md: 'row' }} alignItems='center' py={6}>
+        <Stack justifyContent='space-between' direction={{ xs: 'column', md: 'row' }} gap={3} alignItems='center' py={6}>
           <Box>
             <SlideAnimation direction='up' delay={100}>
               <Typography sx={{ mb: 1, textAlign: { xs: 'center', md: 'start' } }}>Har du spørsmål ?</Typography>
