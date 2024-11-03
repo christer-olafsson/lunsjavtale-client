@@ -80,8 +80,9 @@ const Search = () => {
         </Box>
         <Box sx={{ flex: 1 }}>
           <Typography sx={{
-            fontSize: { xs: '24px', md: '48px' },
-            fontWeight: { xs: 500, md: 800 },
+            fontSize: { xs: '44px', md: '64px' },
+            lineHeight: { xs: '50px', md: '70px' },
+            fontFamily: 'Forum',
             mb: { xs: 2, md: 4 }
           }}>Bedre mat, mindre matsvinn, mer tid</Typography>
           {
