@@ -107,27 +107,25 @@ const WeeklyTab = (props) => {
 
   return (
     <Box sx={{
-      // bgcolor: '#021611',
+      bgcolor: '#021611',
       position: 'relative',
       my: { xs: 10, md: 15 },
       minHeight: '800px',
       py: { xs: 5, md: 10 },
-      '::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(/heroImg2.jpg)`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundAttachment: 'fixed',
-        // filter: 'brightness(0.6)',
-
-        zIndex: -1
-      }
-    }} id='Ukentlig'>
+      // '::before': {
+      //   content: '""',
+      //   position: 'absolute',
+      //   top: 0,
+      //   left: 0,
+      //   right: 0,
+      //   bottom: 0,
+      //   backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(/heroImg2.jpg)`,
+      //   backgroundRepeat: 'no-repeat',
+      //   backgroundSize: 'cover',
+      //   backgroundAttachment: 'fixed',
+      //   zIndex: -1
+      // }
+    }} id='Meny'>
       <Container maxWidth='lg' sx={{ p: 0 }}>
         <Stack sx={{
           mb: 3,

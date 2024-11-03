@@ -65,7 +65,7 @@ const Contact = () => {
             <a className='link' href={`tel: ${clientDetails?.contact}`}>
               <SlideAnimation direction='up' delay={300}>
                 <CButton startIcon={<Phone />} variant='contained'
-                  style={{ mt: 3, width: '150px', bgcolor: '#fff', color: 'primary.main' }}>
+                  style={{ width: '150px', bgcolor: '#fff', color: 'primary.main' }}>
                   Ring oss
                 </CButton>
               </SlideAnimation>

@@ -87,7 +87,7 @@ const ProductCard = ({ data, isWeekly }) => {
                   fontSize: '12px',
                   bgcolor: '#fff',
                   color: '#000',
-                  px: 1, py: .5, borderRadius: '4px',
+                  px: 1, py: .5, borderRadius: '50px',
                 }}>
                 {item.node.name}
               </Typography>

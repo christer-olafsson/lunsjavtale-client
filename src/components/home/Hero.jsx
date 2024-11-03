@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { FadeAnimation, SlideAnimation } from '../animation/Animation'
 import { CLIENT_DETAILS } from '../../graphql/query'
 import { useQuery } from '@apollo/client'
+import Navbar from './Navbar'
 
 
 const Hero = () => {
@@ -13,7 +14,7 @@ const Hero = () => {
   const [clientDetails, setClientDetails] = useState({})
   const [token, setToken] = useState(localStorage.getItem('lunsjavtale'));
 
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'))
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('lg'))
 
   useQuery(CLIENT_DETAILS, {
     onCompleted: (res) => {
@@ -26,101 +27,35 @@ const Hero = () => {
   }, [])
 
   return (
-    <Box id='Hjem' pb={{ xs: 10, md: 25 }}>
-      <Box maxWidth='xxl'
+    <Box id='Hjem'
+    //  pb={{ xs: 10, md: 25 }}
+    >
+      <Box
         sx={{
           position: 'relative',
           p: 0,
-          // height: { xs: '1044px', md: '900px' },
+          // height: '150vh',
           '::before': {
+            // height: { xs: '780px', sm: '800px', md: '1100px', lg: '1200px', xl: '1300px' },
+            height: '97%',
             content: '""',
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(${clientDetails?.coverPhotoUrl})`,
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, .7), rgba(0, 0, 0, .1)), url(${clientDetails?.coverPhotoUrl})`,
+            // backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(${clientDetails?.coverPhotoUrl})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
-            backgroundAttachment: 'fixed',
+            // backgroundAttachment: 'fixed',
             // filter: 'brightness(0.6)',
-            zIndex: -1
+            zIndex: -1,
           }
         }}>
         <Container maxWidth='lg'>
-          <ClickAwayListener onClickAway={() => setSideBarOpen(false)}>
-            <Stack direction='row' alignItems='center' justifyContent='space-between' py={2}>
-              <Box sx={{
-                width: { xs: '150px', md: '300px' }
-              }}>
-                <img style={{ width: '100%' }} src={clientDetails?.logoUrl ?? ''} alt="" />
-              </Box>
-              <>
-                <IconButton onClick={() => setSideBarOpen(!sideBarOpen)} sx={{
-                  bgcolor: 'primary.main',
-                  width: '40px',
-                  height: '40px',
-                  display: isMobile ? 'block' : 'none',
-                  position: 'fixed',
-                  top: 10,
-                  right: 10,
-                  color: '#fff',
-                  zIndex: 9999999,
-                  ":hover": {
-                    bgcolor: 'primary.dark',
-                  }
-                }}>
-                  <Menu />
-                </IconButton>
-                <Box sx={{
-                  position: isMobile ? 'fixed' : 'relative',
-                  transform: isMobile ? (sideBarOpen ? 'translateX(0%)' : 'translateX(-100%)') : 'none',
-                  // backdropFilter: isMobile ? 'blur(10px)' : 'none',
-                  backgroundColor: isMobile ? 'rgba(255, 255, 255, 1)' : 'none',
-                  top: 0,
-                  width: isMobile ? '250px' : 'none',
-                  height: isMobile ? '100vh' : 'none',
-                  left: 0,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
-                  flexDirection: isMobile ? 'column' : 'row',
-                  gap: 2,
-                  p: isMobile ? 3 : 0,
-                  zIndex: 999,
-                  transition: '.5s ease',
-                  boxShadow: { xs: 3, md: 'none' }
-                }}>
-                  <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Hjem'>Hjem</Button>
-                  <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Ukentlig'>Ukentlig</Button>
-                  <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Produkter'>Produkter</Button>
-                  {/* <Button onClick={() => setSideBarOpen(false)} href='#faq'>FAQ</Button> */}
-                  <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Kontakt'>Kontakt</Button>
-                  {
-                    token ?
-                      <Link style={{ width: '100%' }} to='/dashboard/mySide'>
-                        <CButton endIcon={<ArrowOutward />} style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
-                          Dashboard
-                        </CButton>
-                      </Link> :
-                      <Link style={{ width: '100%' }} to='/login'>
-                        <CButton endIcon={<ArrowOutward />} style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
-                          Logg inn
-                        </CButton>
-                      </Link>
-                  }
-                  <IconButton onClick={() => setSideBarOpen(false)} sx={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    display: isMobile ? 'block' : 'none'
-                  }}>
-                    <Close />
-                  </IconButton>
-                </Box>
-              </>
-            </Stack>
-          </ClickAwayListener>
+          {/* //navbar */}
+          <Navbar />
 
           <Stack alignItems='center' justifyContent='space-between' gap={5}>
             <Stack sx={{
@@ -129,21 +64,21 @@ const Hero = () => {
               justifyContent: 'center',
               alignItems: 'center'
             }}>
-              {
+              {/* {
                 import.meta.env.VITE_ENVIRONMENT === 'stage' &&
                 <Typography variant='h5' sx={{ fontWeight: 600, mb: 2, color: 'red', textAlign: 'center' }}>(Test Mode)</Typography>
-              }
+              } */}
               <SlideAnimation direction='up'>
                 <Typography variant='h5' sx={{ mb: 3, textAlign: 'center' }}>{clientDetails?.slogan}</Typography>
               </SlideAnimation>
               <SlideAnimation direction='up' delay={200}>
                 <Typography sx={{
-                  fontSize: { xs: '50px', md: '100px' },
-                  fontWeight: 600,
+                  fontSize: { xs: '50px', sm: '80px', md: '120px' },
+                  fontWeight: 400,
                   fontFamily: "Forum",
-                  lineHeight: { xs: '50px', md: '100px' },
+                  lineHeight: { xs: '60px', sm: '80px', md: '120px', lg: '130px' },
                 }}>
-                  Nytt lunsjkonsept levert <br style={{ display: isMobile ? 'none' : 'block' }} /> gratis til arbeidsplassen ..
+                  Nytt Lunsjkonsept Levert <br style={{ display: isMobile ? 'none' : 'block' }} /> Gratis til Arbeidsplassen..
                 </Typography>
               </SlideAnimation>
               <SlideAnimation direction='up' delay={400}>
@@ -176,38 +111,75 @@ const Hero = () => {
               </SlideAnimation>
 
             </Stack>
-            <SlideAnimation direction='up' delay={800}>
-
-              <Box
-                sx={{
-                  position: 'relative',
-                  mb: { xs: -13, sm: -20, md: -27 },
-                  borderRadius: '15px',
-                  overflow: 'hidden',
-                  width: { xs: '100%', md: '750px' },
-                  minWidth: '300px',
-                  height: 'auto',
-                  aspectRatio: '16/9',
-                }}
-              >
-                <iframe
-                  style={{
-                    borderRadius: '15px',
-                    width: '100%',
-                    height: '100%',
-                  }}
-                  src={`https://www.youtube.com/embed/${'https://www.youtube.com/watch?v=M93NSz5bcIk'.split('v=')[1].split('&')[0]}?autoplay=1&mute=1&loop=1&playlist=M93NSz5bcIk&modestbranding=1&controls=0&rel=0&showinfo=0&disablekb=1`}
-                  frameBorder="0"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                ></iframe>
-              </Box>
-            </SlideAnimation>
-
           </Stack>
         </Container>
 
+
+
+        <Box sx={{ mt: 10 }}>
+          <Stack direction="row" alignItems="flex-end">
+            {/* Left Box */}
+            <Box
+              flex={2}
+              sx={{
+                bgcolor: '#fff',
+                height: {
+                  xs: 'calc((80vw / 16) * 9.2 / 2)',
+                  sm: 'calc((60vw / 16) * 9.2 / 2)',
+                  md: 'calc((750px / 16) * 9.2 / 2)',
+                  lg: 'calc((900px / 16) * 9.2 / 2)',
+                },
+                borderTopRightRadius: { xs: '20px', md: '26px' },
+              }}
+            />
+
+            {/* Center Box with iframe */}
+            <Box
+              flex={5}
+              sx={{
+                bgcolor: '#000',
+                p: { xs: 1.5, md: 2, lg: 2.5 },
+                borderRadius: { xs: '20px', md: '26px' },
+                overflow: 'hidden',
+                minWidth: '300px',
+                height: 'auto',
+                aspectRatio: '16/9.2',
+              }}
+            >
+              <iframe
+                style={{
+                  borderRadius: '20px',
+                  width: '100%',
+                  height: '100%',
+                }}
+                src={`https://www.youtube.com/embed/${'https://www.youtube.com/watch?v=M93NSz5bcIk'.split('v=')[1].split('&')[0]}?autoplay=1&mute=1&loop=1&playlist=M93NSz5bcIk&modestbranding=1&controls=0&rel=0&showinfo=0&disablekb=1`}
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+              ></iframe>
+            </Box>
+
+            {/* Right Box */}
+            <Box
+              flex={2}
+              sx={{
+                bgcolor: '#fff',
+                height: {
+                  xs: 'calc((80vw / 16) * 9.2 / 2)',
+                  sm: 'calc((60vw / 16) * 9.2 / 2)',
+                  md: 'calc((750px / 16) * 9.2 / 2)',
+                  lg: 'calc((900px / 16) * 9.2 / 2)',
+                },
+                borderTopLeftRadius: { xs: '20px', md: '26px' },
+              }}
+            />
+          </Stack>
+        </Box>
+
+
+
       </Box >
+
     </Box>
   )
 }
