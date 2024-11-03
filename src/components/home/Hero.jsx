@@ -98,14 +98,13 @@ const Hero = () => {
                   // pl: { xs: 1.5, md: 2 },
                 }}>
                   <Link to='/search'>
-                    <Button variant='contained' size='large' sx={{
+                    <CButton variant='contained' color='white' size='large' style={{
                       textWrap: 'nowrap',
-                      bgcolor: '#fff',
-                      color: 'primary.main',
                       fontWeight: 500,
+                      color: 'primary.main'
                       // px: { xs: 3, md: 5 },
                       // py: { xs: 1, md: 2 }
-                    }} endIcon={<ArrowOutward />}>Jeg vil begynne nå</Button>
+                    }} endIcon={<ArrowOutward />}>Jeg vil begynne nå</CButton>
                   </Link>
                 </Stack>
               </SlideAnimation>

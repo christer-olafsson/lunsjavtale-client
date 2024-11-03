@@ -120,7 +120,7 @@ const ProductCard = ({ data, isWeekly }) => {
                   Bestill
                 </CButton> :
                 <Link to='/login'>
-                  <CButton variant='contained' color='secondary'>
+                  <CButton variant='outlined' color='white'>
                     Bestill
                   </CButton>
                 </Link>
