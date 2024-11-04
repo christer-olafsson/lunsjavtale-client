@@ -107,20 +107,21 @@ const ProductCard = ({ data, isWeekly }) => {
           <Stack direction='row' gap={1}>
             <Typography sx={{
               flex: 1,
-              bgcolor: 'light.main',
-              paddingY: '8px',
+              // bgcolor: 'light.main',
+              color: '#fff',
+              border: '1px solid #fff',
+              paddingY: '7px',
               borderRadius: '4px',
               textAlign: 'center',
-              color: 'black',
               px: 2
             }}>NOK {data?.node?.priceWithTax}</Typography>
             {
               token ?
-                <CButton onClick={() => setOpenProductAddDialog(true)} style={{}} variant='contained' color='secondary'>
+                <CButton onClick={() => setOpenProductAddDialog(true)} variant='contained' style={{ color: 'primary.main' }} color='white'>
                   Bestill
                 </CButton> :
                 <Link to='/login'>
-                  <CButton variant='outlined' color='white'>
+                  <CButton variant='contained' style={{ color: 'primary.main' }} color='white'>
                     Bestill
                   </CButton>
                 </Link>

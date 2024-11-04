@@ -145,17 +145,22 @@ const Hero = () => {
                 aspectRatio: '16/9.2',
               }}
             >
-              <iframe
-                style={{
-                  borderRadius: '20px',
-                  width: '100%',
-                  height: '100%',
-                }}
-                src={`https://www.youtube.com/embed/${'https://www.youtube.com/watch?v=M93NSz5bcIk'.split('v=')[1].split('&')[0]}?autoplay=1&mute=1&loop=1&playlist=M93NSz5bcIk&modestbranding=1&controls=0&rel=0&showinfo=0&disablekb=1`}
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-              ></iframe>
+              {
+                clientDetails?.coverVideoUrl ?
+                  <iframe
+                    style={{
+                      borderRadius: '20px',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                    src={`https://www.youtube.com/embed/${clientDetails?.coverVideoUrl.split('v=')[1].split('&')[0]}?autoplay=1&mute=1&loop=1&playlist=M93NSz5bcIk&modestbranding=1&controls=0&rel=0&showinfo=0&disablekb=1`}
+                    frameBorder="0"
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                  ></iframe>
+                  :
+                  <img style={{ width: '100%', height: '100%', borderRadius: '20px' }} src="/videobg.png" alt="" />
+              }
             </Box>
 
             {/* Right Box */}

@@ -32,7 +32,8 @@ const Footer = () => {
     setSocialLink({
       facebook: socialLinkJson?.facebook ?? '',
       instagram: socialLinkJson?.instagram ?? '',
-      linkedIn: socialLinkJson?.linkedIn ?? ''
+      linkedIn: socialLinkJson?.linkedIn ?? '',
+      youtube: socialLinkJson?.youtube ?? ''
     })
   }, [socialLinkJson])
 
@@ -95,25 +96,33 @@ const Footer = () => {
             <Typography >{clientDetails?.address}</Typography>
           </Box>
 
-          <Box flex={1} sx={{ textAlign: 'center' }} >
+          <Stack gap={1} flex={1} sx={{ textAlign: 'center' }} >
             <Typography sx={{ fontFamily: 'Forum', fontSize: '32px' }}>Besøk oss på</Typography>
-            <a style={{ textDecoration: 'none', color: '#fff' }} href={socialLink?.facebook ?? ''} target='blank'>
-              <Typography>Facebook</Typography>
-            </a>
-            <a style={{ textDecoration: 'none', color: '#fff' }} href={socialLink?.instagram ?? ''} target='blank'>
-              <Typography>Instagram</Typography>
-            </a>
-            {/* <a style={{ textDecoration: 'none' }} href={socialLink?.linkedIn ?? ''} target='blank'>
-            <ListItem>
-              <ListItemText sx={{ color: '#fff' }}>LinkedIn</ListItemText>
-              <ListItemIcon><CallMade sx={{ color: '#fff' }} /></ListItemIcon>
-            </ListItem>
-          </a> */}
-          </Box>
-
-
-
-
+            {
+              socialLink?.facebook &&
+              <a style={{ textDecoration: 'none', color: '#fff' }} href={socialLink?.facebook ?? ''} target='blank'>
+                <Typography>Facebook</Typography>
+              </a>
+            }
+            {
+              socialLink?.instagram &&
+              <a style={{ textDecoration: 'none', color: '#fff' }} href={socialLink?.instagram ?? ''} target='blank'>
+                <Typography>Instagram</Typography>
+              </a>
+            }
+            {
+              socialLink?.linkedIn &&
+              <a style={{ textDecoration: 'none', color: '#fff' }} href={socialLink?.linkedIn ?? ''} target='blank'>
+                <Typography>LinkedIn</Typography>
+              </a>
+            }
+            {
+              socialLink?.youtube &&
+              <a style={{ textDecoration: 'none', color: '#fff' }} href={socialLink?.youtube ?? ''} target='blank'>
+                <Typography>Youtube</Typography>
+              </a>
+            }
+          </Stack>
 
         </Stack>
       </Container>
