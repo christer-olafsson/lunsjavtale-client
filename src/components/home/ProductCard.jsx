@@ -101,9 +101,14 @@ const ProductCard = ({ data, isWeekly }) => {
         </Typography>
 
         <Stack direction='row' justifyContent='space-between' alignItems='center'>
-          <IconButton onClick={toggleDrawer} >
-            <Info sx={{ color: '#fff' }} />
-          </IconButton>
+          {
+            token ?
+              <IconButton onClick={toggleDrawer} >
+                <Info sx={{ color: '#fff' }} />
+              </IconButton>
+              :
+              <Box />
+          }
           <Stack direction='row' gap={1}>
             <Typography sx={{
               flex: 1,
