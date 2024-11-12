@@ -226,7 +226,7 @@ const CategoryTab = (props) => {
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
             categoryId === null ?
-              <Typography sx={{ fontSize: '32px', mb: 4, fontWeight: 600, textAlign: 'center' }}>Daglig meny</Typography>
+              <Typography sx={{ fontSize: '32px', mb: 4, fontWeight: 600, textAlign: 'center' }}>Alle Produkter</Typography>
               : (
                 allCategorys.find(item => item.node.id === categoryId) && (
                   <Stack>

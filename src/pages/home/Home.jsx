@@ -21,7 +21,7 @@ const Home = () => {
       <Hero />
       <Features />
       <SoEasy />
-      <FeaturesTwo />
+      {/* <FeaturesTwo /> */}
       <LogoList />
       <WhoAreYou />
       <LogoSlide />

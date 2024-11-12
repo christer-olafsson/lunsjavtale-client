@@ -58,7 +58,6 @@ CustomTabPanel.propTypes = {
 
 function WhoAreYou() {
   const [tabIndex, setTabIndex] = useState(0);
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'))
 
   return (
     <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 } }}>
@@ -96,7 +95,7 @@ function WhoAreYou() {
         >
           <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Sjefen"} />
           <TabItem style={{ borderRadius: "30px", marginRight: '10px' }} disableRipple label={"Ansatt"} />
-          <TabItem style={{ borderRadius: "30px" }} disableRipple label={"Lunsjsjef"} />
+          {/* <TabItem style={{ borderRadius: "30px" }} disableRipple label={"Lunsjsjef"} /> */}
         </Tabs>
       </Stack>
       <Divider sx={{ mb: 6 }} />
@@ -112,23 +111,22 @@ function WhoAreYou() {
               <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Sjefen</Typography>
             </SlideAnimation> */}
             <SlideAnimation direction='up' delay={200}>
-              <Typography sx={{ fontSize: '48px', lineHeight: '50px', mb: 2, fontFamily: 'Forum' }}>Kutt kostnader og få mer for dine Penger.</Typography>
+              <Typography sx={{ fontSize: '48px', lineHeight: '50px', mb: 2, fontFamily: 'Forum' }}>Kutt kostnader og få mer for dine penger.</Typography>
               {/* <Typography sx={{ fontSize: '32px', fontWeight: 600, mb: 2 }}>Kutt kostnader  <br style={{display:isMobile ? 'block' : 'none'}} /> og få mer for <br /> dine Penger.</Typography> */}
             </SlideAnimation>
             <SlideAnimation direction='up' delay={400}>
-              <Typography sx={{ maxWidth: '700px' }} mb={1}>For hva er vitsen med kantinebidrag? Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
+              <Typography sx={{ maxWidth: '700px' }} mb={1}>Vi har ingen driftskostnader og du betaler selvfølgelig ingenting for lunsj som ingen skal spise. Kundene våre kutter i gjennomsnitt 25 % av lunsjkostnadene sine!</Typography>
             </SlideAnimation>
             <List>
               {
                 [
                   'Oppdag næringsrike måltidsalternativer skreddersydd for dine smakspreferanser.',
-                  'Få personlige måltidsplaner utformet for å oppfylle dine diettmål.',
-                  'Utforsk eksperternæringstips og råd for å forbedre ditt velvære.',
-                  'Få tilgang til et bredt utvalg av sunne oppskrifter for deilige og sunne måltider.',
-                  'Lær effektive teknikker for å forberede måltider for å spare tid og holde deg på rett spor med kostholdet ditt.',
+                  'Varierte måltider hver uke. Dine ansatte kan selv velge hva de ønsker å spise.',
+                  'Fordel enkelt lunsjbidraget mellom bedriften og den ansatte.',
+                  'Få tilgang til et bredt utvalg deilige og sunne måltider.',
                 ].map((text, id) => (
                   <FadeAnimation key={id} damping={.1} cascade={'cascade'} delay={300 * id}>
-                    <ListItem sx={{ mb: 1 }} disablePadding >
+                    <ListItem sx={{ mb: 2 }} disablePadding >
                       <ListItemIcon>
                         <CheckCircle color='primary' />
                       </ListItemIcon>
@@ -223,10 +221,9 @@ function WhoAreYou() {
               {
                 [
                   'Oppdag næringsrike måltidsalternativer skreddersydd for dine smakspreferanser.',
-                  'Få personlige måltidsplaner utformet for å oppfylle dine diettmål.',
-                  'Utforsk eksperternæringstips og råd for å forbedre ditt velvære.',
-                  'Få tilgang til et bredt utvalg av sunne oppskrifter for deilige og sunne måltider.',
-                  'Lær effektive teknikker for å forberede måltider for å spare tid og holde deg på rett spor med kostholdet ditt.',
+                  'Velg hva du vil spise de dagene du selv ønsker lunsj fra oss.',
+                  'Stort utvalg av varmretter, salater, brødmat, yoghurt, smoothie, snacks og drikkevarer',
+                  'Levert til din arbeidsplass hver dag før kl. 11.00.',
                 ].map((text, id) => (
                   <FadeAnimation key={id} damping={.1} cascade={'cascade'} delay={300 * id}>
                     <ListItem sx={{ mb: 1 }} disablePadding >
@@ -253,16 +250,13 @@ function WhoAreYou() {
         </Stack>
       </CustomTabPanel>
 
-      <CustomTabPanel value={tabIndex} index={2}>
+      {/* <CustomTabPanel value={tabIndex} index={2}>
         <Stack direction={{ sm: 'column', md: 'row' }} gap={6} >
           <Stack alignItems={{ md: 'center', lg: 'start', }} justifyContent='center' sx={{
             flex: 1,
             border: '1px solid lightgray',
             p: 3, borderRadius: '16px'
           }}>
-            {/* <SlideAnimation direction='up'>
-              <Typography color='primary' sx={{ fontSize: '18px', fontWeight: 700 }}>Lunsjsjef</Typography>
-            </SlideAnimation> */}
             <SlideAnimation direction='up' delay={100}>
               <Typography sx={{ fontSize: '48px', lineHeight: '50px', mb: 2, fontFamily: 'Forum' }}>Bruker du unødvendig tid på å organisere lunsj for alle?</Typography>
             </SlideAnimation>
@@ -331,7 +325,7 @@ function WhoAreYou() {
             </Box>
           </Stack>
         </Stack>
-      </CustomTabPanel>
+      </CustomTabPanel> */}
 
     </Container>
   );

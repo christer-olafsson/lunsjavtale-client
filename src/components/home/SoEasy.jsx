@@ -34,11 +34,11 @@ const SoEasy = () => {
           </Typography>
           <List>
             {[
-              "Med våre tjenester kan du enkelt administrere dine lunsjbestillinger.",
+              "Med våre tjenester kan du enkelt administrere dine bestillinger.",
               "Få tilgang til et bredt utvalg av lunsjmåltider for dine ansatte.",
               "Bestill lunsj på nettet på et øyeblikk.",
-              "Vi tilbyr også et enkelt grensesnitt for administrering av deres matbestillinger.",
-              "All mat laget fra bunn av med de beste råvarer tilgjengelig.",
+              "Vi tilbyr også et enkelt grensesnitt for administrering av deres bestillinger.",
+              "All mat er laget fra bunn av med de beste råvarer tilgjengelig.",
             ].map((text, index) => (
               <SlideAnimation key={index} direction='up' cascade>
                 <ListItem sx={{ mb: { xs: 1, md: 1 } }} disablePadding>

@@ -12,13 +12,13 @@ const data = [
   {
     icon: '/Vector (1).png',
     bg: '/Frame2.png',
-    title: 'Starting at Just NOK 65!',
+    title: 'Retter fra kun 30,-',
     desc: 'Nyt fleksibiliteten ved å betale kun for dagene du spiser. Denne tilnærmingen reduserer kostnader og matsvinn, og viser seg smartere enn matpakker og billigere enn kantiner.'
   },
   {
     icon: '/Vector (2).png',
     bg: '/Frame3.png',
-    title: 'Behandling av lunsj',
+    title: 'Administrere bestillinger',
     desc: 'Ansatte kan enkelt bestille og kansellere måltidene sine selvstendig. Velg kostnadsfordeling mellom ansatte og bedrifter for full oversikt og enkel kostnadskontroll.'
   },
 ]

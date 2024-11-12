@@ -139,7 +139,7 @@ const WeeklyTab = (props) => {
               fontFamily: 'Forum',
               color: '#fff',
               textAlign: 'center'
-            }}>Vårt ukentlige utvalgte</Typography>
+            }}>Se hva vi leverer de kommende ukene.</Typography>
           </SlideAnimation>
 
           {/* select week */}
