@@ -19,7 +19,7 @@ const LogoList = () => {
   });
   console.log(brands)
   return (
-    <Container maxWidth='xl' sx={{ p: 0, mt: { xs: 10, md: 15 } }}>
+    <Container maxWidth='xl' sx={{ p: 0, mt: { xs: 10, md: 15 }, overflow: 'hidden' }}>
       <Marquee autoFill direction='right' gradient={match} speed={20} >
         {
           brands?.map((item, i) => (

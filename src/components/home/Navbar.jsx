@@ -29,7 +29,8 @@ const Navbar = () => {
         <Box sx={{
           width: { xs: '150px', md: '300px' }
         }}>
-          <img style={{ width: '100%' }} src={clientDetails?.logoUrl ?? ''} alt="" />
+          <img style={{ width: '100%' }} src='/logo.gif' alt="" />
+          {/* <img style={{ width: '100%' }} src={clientDetails?.logoUrl ?? ''} alt="" /> */}
         </Box>
         <>
           <IconButton onClick={() => setSideBarOpen(!sideBarOpen)} sx={{
