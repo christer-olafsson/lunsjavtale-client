@@ -13,7 +13,6 @@ import { Toaster } from 'react-hot-toast'
 
 import ScrollToTop from './components/home/ScrollToTop.jsx'
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import ChatWidget from './components/ChatWidget.jsx'
 
 const clientId = '836229956498-03lgjfpttkqjop8ndqrpc9qaa12fjqjo.apps.googleusercontent.com'
 

@@ -144,3 +144,8 @@ body {
   /* background-color: #1F2626; */
   color: #fff
 }
+
+/* hide chat bubble upper section */
+.bubble-container-min-width[_ngcontent-vhb-c23]{
+  display: none;
+}
