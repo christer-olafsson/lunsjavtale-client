@@ -53,7 +53,7 @@ const Features = () => {
                     fontFamily: 'Forum'
                   }}>{d.title}</Typography>
                 </SlideAnimation>
-                <SlideAnimation key={i} direction='up' delay={300 * i}>
+                <SlideAnimation direction='up' delay={300 * i}>
                   <Typography>{d.desc}</Typography>
                 </SlideAnimation>
               </Box>

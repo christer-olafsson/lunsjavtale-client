@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import Loader from '../../common/loader/Index';
 import ErrorMsg from '../../common/ErrorMsg/ErrorMsg';
 import CButton from '../../common/CButton/CButton';
-import { ArrowOutward } from '@mui/icons-material';
+import { AddBoxSharp, ArrowOutward } from '@mui/icons-material';
 
 const InstagramSec = () => {
   const [links, setLinks] = useState([]);
@@ -54,16 +54,16 @@ const InstagramSec = () => {
         my: 10,
         overflowX: 'hidden',
       }}>
-      <Typography sx={{ fontSize: { xs: '44px', md: '64px' }, fontFamily: 'Forum', textAlign: 'center', }}>
+      <Box sx={{ fontSize: { xs: '44px', md: '64px' }, fontFamily: 'Forum', textAlign: 'center', }}>
         <SlideAnimation direction='up' delay={100}>
           Se hva som skjer
         </SlideAnimation>
-      </Typography>
-      <Typography sx={{ textAlign: 'center' }} alignSelf='center' mb={3}>
+      </Box>
+      <Box sx={{ textAlign: 'center' }} alignSelf='center' mb={3}>
         <SlideAnimation direction='up' delay={200}>
           lunsjavtale er en digital kantine som gjør lunsjen enklere (og smartere)!
         </SlideAnimation>
-      </Typography>
+      </Box>
       <a style={{ textDecoration: 'none', color: 'inherit', alignSelf: 'center' }} href={socialLink?.instagram} target='blank'>
         <CButton endIcon={<ArrowOutward />} variant='outlined'>Følg oss på Instagram</CButton>
       </a>

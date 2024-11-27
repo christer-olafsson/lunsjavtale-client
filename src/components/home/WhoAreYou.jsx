@@ -61,7 +61,7 @@ function WhoAreYou() {
 
   return (
     <Container maxWidth='lg' sx={{ my: { xs: 10, md: 15 } }}>
-      <Typography sx={{
+      <Box sx={{
         fontSize: { xs: '22px', md: '64px' },
         fontWeight: 400,
         textAlign: 'center',
@@ -70,12 +70,12 @@ function WhoAreYou() {
         <FadeAnimation damping={.1} cascade={'cascade'}>
           Hvem er du?
         </FadeAnimation>
-      </Typography>
-      <Typography sx={{ fontSize: '16px', fontWeight: 500, textAlign: 'center', mb: 6 }}>
+      </Box>
+      <Box sx={{ fontSize: '16px', fontWeight: 500, textAlign: 'center', mb: 6 }}>
         <FadeAnimation damping={.05} cascade={'cascade'}>
           lunsjavtale gir deg kantinen rett i lomma
         </FadeAnimation>
-      </Typography>
+      </Box>
       <Divider />
       <Stack direction='row' my={1} sx={{
         justifyContent: 'center',

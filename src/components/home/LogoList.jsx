@@ -17,7 +17,7 @@ const LogoList = () => {
       setBrands(res.supportedBrands.edges)
     }
   });
-  console.log(brands)
+
   return (
     <Container maxWidth='xl' sx={{ p: 0, mt: { xs: 10, md: 15 }, overflow: 'hidden' }}>
       <Marquee autoFill direction='right' gradient={match} speed={20} >

@@ -22,7 +22,7 @@ const SoEasy = () => {
           borderBottomLeftRadius: '16px',
           borderBottomRightRadius: isMobile ? '16px' : 0,
         }} flex={1} >
-          <Typography sx={{
+          <Box sx={{
             fontWeight: 400,
             fontFamily: 'Forum',
             mb: 3,
@@ -31,7 +31,7 @@ const SoEasy = () => {
             <FadeAnimation damping={.1} cascade={'cascade'}>
               Enkelt og effektivt !
             </FadeAnimation>
-          </Typography>
+          </Box>
           <List>
             {[
               "Med våre tjenester kan du enkelt administrere dine bestillinger.",
