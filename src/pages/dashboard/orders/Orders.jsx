@@ -32,10 +32,10 @@ const Orders = () => {
 
   function timeUntilNorway(futureDate, mode = "") {
     if (mode === "Delivered") {
-      return "Delivered";
+      return "Levert";
     }
     if (mode === "Cancelled") {
-      return "Cancelled";
+      return "Kansellert";
     }
 
     const now = moment().tz("Europe/Oslo").startOf('day');
@@ -43,15 +43,15 @@ const Orders = () => {
 
     const diffInMilliseconds = future.diff(now);
     if (diffInMilliseconds < 0) {
-      return 'Date passed';
+      return 'Dato passert';
     }
 
     const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
 
     if (diffInDays === 0) {
-      return 'Delivery Today';
+      return 'Levering i dag';
     } else {
-      return `Delivery in ${diffInDays} days`;
+      return `Levering om ${diffInDays} dager`;
     }
   }
 
@@ -72,7 +72,7 @@ const Orders = () => {
     {
       field: 'orderDate', width: 170,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Ordered On</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Bestilt den</Typography>
       ),
       renderCell: (params) => {
         return (
@@ -87,9 +87,9 @@ const Orders = () => {
       }
     },
     {
-      field: 'deliveryDate', headerName: 'Prce', width: 200,
+      field: 'deliveryDate', headerName: 'Leveringsdato', width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Delivery Date</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Leveringsdato</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} alignItems='center' direction='row'>
@@ -103,7 +103,7 @@ const Orders = () => {
     {
       field: 'totalPrice', headerName: '', width: 150,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Total Price</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Total pris</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
@@ -117,21 +117,21 @@ const Orders = () => {
     {
       field: 'amount', headerName: '', width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Amount</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Beløp</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} justifyContent='center'>
           {
             params.row.paidAmount > 0 &&
             <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, color: params.row.paidAmount > 0 ? 'green' : 'lightgray' }}>
-              Paid: <b>{params.row.paidAmount}</b>
+              Betalt: <b>{params.row.paidAmount}</b>
               <span style={{ fontWeight: 400, marginLeft: '5px' }}>kr </span>
             </Typography>
           }
           {
             params.row.dueAmount > 0 &&
             <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, color: params.row.dueAmount > 0 ? 'coral' : 'lightgray' }}>
-              Due: <b>{params.row.dueAmount}</b>
+              Skyldig: <b>{params.row.dueAmount}</b>
               <span style={{ fontWeight: 400, marginLeft: '5px' }}>kr </span>
             </Typography>
           }
@@ -200,7 +200,7 @@ const Orders = () => {
   return (
     <Box maxWidth='xl'>
       <Stack sx={{ mb: 2 }} direction='row' alignItems='center'>
-        <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Order History</Typography>
+        <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Bestillingshistorikk</Typography>
         <Typography sx={{
           fontSize: '12px',
           fontWeight: 600,
@@ -221,7 +221,7 @@ const Orders = () => {
         borderRadius: '4px',
         pl: 2
       }}>
-        <Input onChange={e => setOrderId(e.target.value)} type='number' fullWidth disableUnderline placeholder='Order Id' />
+        <Input onChange={e => setOrderId(e.target.value)} type='number' fullWidth disableUnderline placeholder='Bestillings-ID' />
         <IconButton><Search /></IconButton>
       </Box>
       <Box mt={3}>

@@ -42,19 +42,19 @@ const AddPaymentMethod = ({ fetchPaymentMethods, closeDialog }) => {
 
   const handleSave = async () => {
     if (!payload.cardHolderName) {
-      setErrors({ cardHolderName: 'Card Holder Name required!' })
+      setErrors({ cardHolderName: 'Kortinnehaverens navn er påkrevd!' })
       return
     }
     if (!payload.cardNumber) {
-      setErrors({ cardNumber: 'Card Number required!' })
+      setErrors({ cardNumber: 'Kortnummer er påkrevd!' })
       return
     }
     if (!payload.CVV) {
-      setErrors({ CVV: 'CVV required!' })
+      setErrors({ CVV: 'CVV er påkrevd!' })
       return
     }
     if (!payload.expiry) {
-      setErrors({ expiry: 'Expiry Date required!' })
+      setErrors({ expiry: 'Utløpsdato er påkrevd!' })
       return
     }
     paymentMutation({
@@ -71,7 +71,7 @@ const AddPaymentMethod = ({ fetchPaymentMethods, closeDialog }) => {
     <Box>
 
       <Stack direction='row' justifyContent='space-between' mb={4}>
-        <Typography variant='h5'>New Payment Method</Typography>
+        <Typography variant='h5'>Ny betalingsmetode</Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>
@@ -84,7 +84,7 @@ const AddPaymentMethod = ({ fetchPaymentMethods, closeDialog }) => {
           onChange={handleInputChange}
           value={payload.cardHolderName}
           name='cardHolderName'
-          label='Card Holder Name'
+          label='Kortinnehaverens navn'
         />
         <TextField
           error={Boolean(errors.cardNumber)}
@@ -98,7 +98,7 @@ const AddPaymentMethod = ({ fetchPaymentMethods, closeDialog }) => {
           }}
           value={payload.cardNumber}
           name='cardNumber'
-          label='Card Number'
+          label='Kortnummer'
           inputProps={{ maxLength: 13 }}
           type='text'
         />
@@ -117,7 +117,7 @@ const AddPaymentMethod = ({ fetchPaymentMethods, closeDialog }) => {
           label='CVV'
         />
         <Stack>
-          <Typography mb={1} variant='body2'>Expiry date</Typography>
+          <Typography mb={1} variant='body2'>Utløpsdato</Typography>
           <TextField
             error={Boolean(errors.expiry)}
             helperText={errors.expiry}
@@ -129,11 +129,11 @@ const AddPaymentMethod = ({ fetchPaymentMethods, closeDialog }) => {
         </Stack>
         <FormControlLabel
           control={<Switch onChange={e => setPayload({ ...payload, isDefault: e.target.checked })}
-            checked={payload.isDefault} />} label="Default" />
+            checked={payload.isDefault} />} label="Standard" />
       </FormGroup>
 
       <CButton isLoading={loading} onClick={handleSave} variant='contained' style={{ width: '100%', mt: 2 }}>
-        Save and Add
+        Lagre og legg til
       </CButton>
 
     </Box>

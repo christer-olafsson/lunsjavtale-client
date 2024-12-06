@@ -23,7 +23,7 @@ export const downloadPDF = () => {
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight, '', 'FAST'); // Add 'FAST' for additional compression
-      pdf.save('invoice.pdf');
+      pdf.save('faktura.pdf');
 
       // Show the download button again
       // invoiceBtn.style.visibility = 'visible';
@@ -78,15 +78,15 @@ const InvoiceTemplate = ({ data, toggleDrawer }) => {
         </Stack>
         <Box>
           <Stack direction='row'>
-            <Typography sx={{ width: '130px' }}> <b>Company:</b></Typography>
+            <Typography sx={{ width: '130px' }}> <b>Firma:</b></Typography>
             <Typography>{user?.me?.company?.name}</Typography>
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '130px' }}> <b>Email:</b></Typography>
+            <Typography sx={{ width: '130px' }}> <b>E-post:</b></Typography>
             <Typography>{user?.me?.company?.email}</Typography>
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '130px' }}> <b>Post Code:</b></Typography>
+            <Typography sx={{ width: '130px' }}> <b>Postnummer:</b></Typography>
             <Typography>{user?.me?.company?.postCode}</Typography>
           </Stack>
         </Box>
@@ -97,13 +97,13 @@ const InvoiceTemplate = ({ data, toggleDrawer }) => {
 
       <Stack direction='row' justifyContent='space-between'>
         <Stack>
-          <Typography sx={{ fontWeight: 600, mb: 2 }}>Shipping Address</Typography>
+          <Typography sx={{ fontWeight: 600, mb: 2 }}>Leveringsadresse</Typography>
           <Typography>{data?.shippingAddress?.fullName}</Typography>
           <Typography>{data?.shippingAddress?.address}</Typography>
           <Typography>{data?.shippingAddress?.city}, {data?.shippingAddress?.postCode}</Typography>
         </Stack>
         <Stack >
-          <Typography sx={{ fontWeight: 600, mb: 2 }}>Billing Address</Typography>
+          <Typography sx={{ fontWeight: 600, mb: 2 }}>Fakturaadresse</Typography>
           <Typography>{data?.billingAddress?.firstName + " " + data?.billingAddress?.lastName ?? ''}</Typography>
           <Typography>{data?.billingAddress?.address}</Typography>
         </Stack>
@@ -135,41 +135,41 @@ const InvoiceTemplate = ({ data, toggleDrawer }) => {
       </Stack>
 
       <Box mb={10} mt={8}>
-        <Typography sx={{ fontSize: '25px', fontWeight: 600, mb: 2 }}>Invoice</Typography>
+        <Typography sx={{ fontSize: '25px', fontWeight: 600, mb: 2 }}>Faktura</Typography>
         <Stack gap={.8}>
           <Divider sx={{ borderBottomWidth: '3px', borderBottomColor: 'black' }} />
           <Stack direction='row'>
-            <Typography sx={{ width: '200px' }}> <b>Order ID:</b></Typography>
+            <Typography sx={{ width: '200px' }}> <b>Bestillings-ID:</b></Typography>
             <Typography>#{data?.id}</Typography>
           </Stack>
           <Divider />
           <Stack direction='row'>
-            <Typography sx={{ width: '200px' }}> <b>Order Date:</b></Typography>
+            <Typography sx={{ width: '200px' }}> <b>Bestillingsdato:</b></Typography>
             {data?.createdOn && <Typography>{format(data?.createdOn, 'dd-MMMM-yyyy')}</Typography>}
           </Stack>
           <Divider />
           <Stack direction='row'>
-            <Typography sx={{ width: '200px' }}> <b>Delivery Date:</b></Typography>
+            <Typography sx={{ width: '200px' }}> <b>Leveringsdato:</b></Typography>
             {data?.deliveryDate && <Typography>{format(data?.deliveryDate, 'dd-MMMM-yyyy')}</Typography>}
           </Stack>
           <Divider />
           <Stack direction='row'>
-            <Typography sx={{ width: '200px' }}> <b>Payment Type:</b></Typography>
+            <Typography sx={{ width: '200px' }}> <b>Betalingsmetode:</b></Typography>
             <Typography>{data?.paymentType === 'online' ? 'Vipps' : data?.paymentType}</Typography>
           </Stack>
           <Divider />
           <Stack direction='row'>
-            <Typography sx={{ width: '200px' }}> <b>Total Price:</b></Typography>
+            <Typography sx={{ width: '200px' }}> <b>Totalpris:</b></Typography>
             <Typography>{data?.finalPrice} kr</Typography>
           </Stack>
           <Divider />
           <Stack direction='row'>
-            <Typography sx={{ width: '200px' }}> <b>Due Amount:</b></Typography>
+            <Typography sx={{ width: '200px' }}> <b>Skyldig beløp:</b></Typography>
             <Typography>{data?.dueAmount} kr</Typography>
           </Stack>
           <Divider />
           <Stack direction='row'>
-            <Typography sx={{ width: '200px' }}> <b>Paid Amount:</b></Typography>
+            <Typography sx={{ width: '200px' }}> <b>Betalt beløp:</b></Typography>
             <Typography>{data?.paidAmount} kr</Typography>
           </Stack>
           <Divider />
@@ -180,10 +180,10 @@ const InvoiceTemplate = ({ data, toggleDrawer }) => {
         <table className="invoice-table">
           <thead>
             <tr>
-              <th>Product Description</th>
-              <th>Item Price</th>
-              <th>Qty</th>
-              <th>Amount</th>
+              <th>Produktbeskrivelse</th>
+              <th>Enhetspris</th>
+              <th>Antall</th>
+              <th>Beløp</th>
             </tr>
           </thead>
           <tbody>
@@ -199,7 +199,7 @@ const InvoiceTemplate = ({ data, toggleDrawer }) => {
                         {/* <Avatar sx={{ borderRadius: '10px', width: '70px' }} src={img ?? ''} /> */}
                         <Box>
                           <Typography>{item?.node.item.name}</Typography>
-                          <Typography variant='body2'>Category: {item?.node.item.category.name}</Typography>
+                          <Typography variant='body2'>Kategori: {item?.node.item.category.name}</Typography>
                         </Box>
                       </Stack>
                     </td>
@@ -239,7 +239,7 @@ const InvoiceTemplate = ({ data, toggleDrawer }) => {
       </Box>
 
       <Box sx={{ border: '1px solid lightgray', mt: 20, p: 2, minHeight: '150px' }}>
-        <Typography sx={{ fontSize: '20px', mb: 2 }}>Note and Term</Typography>
+        <Typography sx={{ fontSize: '20px', mb: 2 }}>Notat og vilkår</Typography>
         <Typography>{data?.note}</Typography>
       </Box>
 

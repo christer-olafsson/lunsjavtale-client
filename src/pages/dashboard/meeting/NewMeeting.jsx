@@ -65,19 +65,19 @@ const NewMeeting = ({ fetchMeeting, closeDialog }) => {
 
   const handleCreate = () => {
     if (!payload.title) {
-      setErrors({ title: 'Meeting Title Required!' })
+      setErrors({ title: 'Møtetittel er påkrevd!' })
       return
     }
     if (!payload.meetingType) {
-      setErrors({ meetingType: 'Meeting Type Required!' })
+      setErrors({ meetingType: 'Møtetype er påkrevd!' })
       return
     }
     if (!payload.meetingTime) {
-      setErrors({ meetingTime: 'Meeting Time Required!' })
+      setErrors({ meetingTime: 'Møtetid er påkrevd!' })
       return
     }
     if (!payload.description) {
-      setErrors({ description: 'Meeting Description Required!' })
+      setErrors({ description: 'Møtebeskrivelse er påkrevd!' })
       return
     }
     meetingMutation({
@@ -96,7 +96,7 @@ const NewMeeting = ({ fetchMeeting, closeDialog }) => {
     }}>
 
       <Stack direction='row' justifyContent='space-between' mb={4}>
-        <Typography variant='h5'>Create Meeting</Typography>
+        <Typography variant='h5'>Opprett møte</Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>
@@ -104,33 +104,33 @@ const NewMeeting = ({ fetchMeeting, closeDialog }) => {
 
       <FormGroup>
         <Stack >
-          <TextField error={errors.title} helperText={errors.title} onChange={handleInputChange} name='title' label='Title' />
+          <TextField error={errors.title} helperText={errors.title} onChange={handleInputChange} name='title' label='Tittel' />
           <Stack direction='row' gap={2} my={2}>
             {/* <Stack flex={1} gap={2}>
-              <TextField value={payload.firstName} onChange={handleInputChange} name='firstName' label='First Name' />
-              <TextField value={payload.companyName} onChange={handleInputChange} name='companyName' label='Company Name' />
-              <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Phone number' />
+              <TextField value={payload.firstName} onChange={handleInputChange} name='firstName' label='Fornavn' />
+              <TextField value={payload.companyName} onChange={handleInputChange} name='companyName' label='Firmanavn' />
+              <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Telefonnummer' />
             </Stack> */}
             <Stack flex={1} gap={2}>
-              {/* <TextField value={payload.lastName} onChange={handleInputChange} name='lastName' label='Last name' />
-              <TextField value={payload.email} onChange={handleInputChange} name='email' label='Email' /> */}
+              {/* <TextField value={payload.lastName} onChange={handleInputChange} name='lastName' label='Etternavn' />
+              <TextField value={payload.email} onChange={handleInputChange} name='email' label='E-post' /> */}
               <FormControl error={Boolean(errors.meetingType)} fullWidth>
-                <InputLabel>Meeting Type</InputLabel>
+                <InputLabel>Møtetype</InputLabel>
                 <Select
-                  label="Meeting Type"
+                  label="Møtetype"
                   onChange={(e) => setPayload({ ...payload, meetingType: e.target.value })}
                 >
-                  <MenuItem value={'remote'}>Remote</MenuItem>
-                  <MenuItem value={'interview'}>Interview</MenuItem>
-                  <MenuItem value={'in-person'}>In Person</MenuItem>
-                  <MenuItem value={'others'}>Others</MenuItem>
+                  <MenuItem value={'remote'}>Fjernt</MenuItem>
+                  <MenuItem value={'interview'}>Intervju</MenuItem>
+                  <MenuItem value={'in-person'}>Personlig</MenuItem>
+                  <MenuItem value={'others'}>Andre</MenuItem>
                 </Select>
                 {errors.meetingType && <FormHelperText>{errors.meetingType}</FormHelperText>}
               </FormControl>
             </Stack>
           </Stack>
           <Box mb={2}>
-            <Typography variant='body2'>Meeting Time</Typography>
+            <Typography variant='body2'>Møtetid</Typography>
             <TextField onChange={handleDateTimeChange} error={Boolean(errors.meetingTime)} helperText={errors.meetingTime} fullWidth type='datetime-local' />
           </Box>
           <Stack gap={2}>
@@ -152,13 +152,13 @@ const NewMeeting = ({ fetchMeeting, closeDialog }) => {
                 </li>
               )}
               renderInput={(params) => (
-                <TextField {...params} label="Meeting Topic" />
+                <TextField {...params} label="Møtetema" />
               )}
             />
 
           </Stack>
-          <TextField value={payload.description} error={Boolean(errors.description)} helperText={errors.description} onChange={handleInputChange} name='description' sx={{ my: 2 }} label='Description' rows={4} multiline />
-          <CButton onClick={handleCreate} isLoading={meetingLoading} variant='contained'>Create Meeting</CButton>
+          <TextField value={payload.description} error={Boolean(errors.description)} helperText={errors.description} onChange={handleInputChange} name='description' sx={{ my: 2 }} label='Beskrivelse' rows={4} multiline />
+          <CButton onClick={handleCreate} isLoading={meetingLoading} variant='contained'>Opprett møte</CButton>
         </Stack>
       </FormGroup>
 

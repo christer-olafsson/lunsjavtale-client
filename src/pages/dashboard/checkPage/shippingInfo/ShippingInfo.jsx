@@ -62,11 +62,11 @@ const ShippingInfo = ({ shippingInfoErr }) => {
     <Stack>
       {
         pathname !== '/dashboard/setting' &&
-        <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Shipping Information</Typography>
+        <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Fraktinformasjon</Typography>
       }
       <Stack direction='row' justifyContent='space-between' my={2}>
         <Box />
-        <Button onClick={() => setOpenAddAddressDialog(true)} variant='outlined'>Add Address</Button>
+        <Button onClick={() => setOpenAddAddressDialog(true)} variant='outlined'>Legg til adresse</Button>
       </Stack>
       {/* add address */}
       <CDialog openDialog={openAddAddressDialog}>
@@ -77,7 +77,7 @@ const ShippingInfo = ({ shippingInfoErr }) => {
           color: 'red',
           bgcolor: '#F7DADA',
           p: 1.5, borderRadius: '8px'
-        }}>Select or add new shipping address</Typography>
+        }}>Velg eller legg til ny leveringsadresse</Typography>
       }
       {
         loading ? <Loader /> : error ? <ErrorMsg /> :
@@ -90,7 +90,7 @@ const ShippingInfo = ({ shippingInfoErr }) => {
               <Box>
                 <Stack direction='row' justifyContent='space-between'>
                   <Typography sx={{ fontSize: '16px', fontWeight: 600, mb: 2 }}>
-                    {item.addressType === "permanent-address" ? 'PERMANENT ADDRESS' : 'OFFICE ADDRESS'}
+                    {item.addressType === "permanent-address" ? 'PERMANENT ADRESSE' : 'KONTORADRESSE'}
                   </Typography>
                   {
                     item.default &&
@@ -102,8 +102,8 @@ const ShippingInfo = ({ shippingInfoErr }) => {
               </Box>
               <Divider sx={{ mt: 2 }} />
               <Stack direction='row' justifyContent='space-between'>
-                <Button onClick={() => handleEdit(item)}>Edit and Select</Button>
-                <Button onClick={() => (setDeletedAddressId(item.id), setAddressDeleteDialog(true))}>Remove</Button>
+                <Button onClick={() => handleEdit(item)}>Rediger og velg</Button>
+                <Button onClick={() => (setDeletedAddressId(item.id), setAddressDeleteDialog(true))}>Fjern</Button>
               </Stack>
               {/* edit address */}
               {
@@ -116,10 +116,10 @@ const ShippingInfo = ({ shippingInfoErr }) => {
               {
                 deletedAddressId === item.id &&
                 <CDialog openDialog={addressDeleteDialog} closeDialog={() => setAddressDeleteDialog(false)} >
-                  <Typography variant='h5'>Confirm Remove?</Typography>
+                  <Typography variant='h5'>Bekreft fjerning?</Typography>
                   <DialogActions>
-                    <CButton variant='outlined' onClick={() => setAddressDeleteDialog(false)}>Cancel</CButton>
-                    <CButton isLoading={addressDeleteLoading} onClick={handlAddressDelete} variant='contained'>Confirm</CButton>
+                    <CButton variant='outlined' onClick={() => setAddressDeleteDialog(false)}>Avbryt</CButton>
+                    <CButton isLoading={addressDeleteLoading} onClick={handlAddressDelete} variant='contained'>Bekreft</CButton>
                   </DialogActions>
                 </CDialog>
               }

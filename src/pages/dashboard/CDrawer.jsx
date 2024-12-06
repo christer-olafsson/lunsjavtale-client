@@ -76,20 +76,20 @@ const CDrawer = ({ handleDrawerClose }) => {
 
 
   const navItems = [
-    { name: 'My Side', icon: <SpaceDashboard />, path: '/dashboard/mySide', end: true },
-    { name: 'Order Cart', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
-    { name: 'Notifications', icon: <NotificationsNoneOutlined />, path: '/dashboard/notifications', notification: unreadNotificationCount },
+    { name: 'Min Side', icon: <SpaceDashboard />, path: '/dashboard/mySide', end: true },
+    { name: 'Ordrekurv', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
+    { name: 'Varsler', icon: <NotificationsNoneOutlined />, path: '/dashboard/notifications', notification: unreadNotificationCount },
     ...(user ? (
       !isStaff ? [
-        { name: 'Manage Staffs', icon: <PeopleAltOutlined />, path: '/dashboard/manage-staff' },
-        { name: 'Meeting Schedule', icon: <Diversity3 />, path: '/dashboard/meetings' },
+        { name: 'Administrer Ansatte', icon: <PeopleAltOutlined />, path: '/dashboard/manage-staff' },
+        { name: 'Møteplan', icon: <Diversity3 />, path: '/dashboard/meetings' },
       ] : []
     ) : []),
-    { name: 'Products', icon: <CategoryOutlined />, path: '/dashboard/products' },
-    { name: 'Order History', icon: <ViewStreamOutlined />, path: '/dashboard/orders' },
-    { name: 'Payment History', icon: <PaidOutlined />, path: '/dashboard/payments-history' },
-    { name: isStaff ? 'My Order Request' : 'Staff Order Request', icon: <ShoppingCartCheckout />, path: '/dashboard/staffs-order', notification: addedEmployeeCarts.length },
-    { name: 'Setting ', icon: <SettingsOutlined />, path: '/dashboard/setting' },
+    { name: 'Produkter', icon: <CategoryOutlined />, path: '/dashboard/products' },
+    { name: 'Ordrehistorikk', icon: <ViewStreamOutlined />, path: '/dashboard/orders' },
+    { name: 'Betalingshistorikk', icon: <PaidOutlined />, path: '/dashboard/payments-history' },
+    { name: isStaff ? 'Min Forespørsel' : 'Ordreforespørsel', icon: <ShoppingCartCheckout />, path: '/dashboard/staffs-order', notification: addedEmployeeCarts.length },
+    { name: 'Innstillinger', icon: <SettingsOutlined />, path: '/dashboard/setting' },
   ];
 
 

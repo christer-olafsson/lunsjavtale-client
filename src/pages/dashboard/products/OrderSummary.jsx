@@ -49,7 +49,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
       border: `1px solid ${theme.palette.primary.main}`,
       borderRadius: '8px'
     }}>
-      <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Order Summary</Typography>
+      <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Ordresammendrag</Typography>
 
       {/* company allowance dialog */}
       <CDialog openDialog={allowanceDialog}>
@@ -63,10 +63,10 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
               border: '1px solid gray',
               borderRadius: '8px', mb: 2
             }} direction='row' justifyContent='space-between' alignItems='center'>
-              <Typography sx={{ fontSize: { xs: '18px', md: '24px' }, fontWeight: 600 }}>Company Allowance</Typography>
+              <Typography sx={{ fontSize: { xs: '18px', md: '24px' }, fontWeight: 600 }}>Firma Godtgjørelse</Typography>
               <IconButton onClick={handleAllowanceDialogClose}><Close /></IconButton>
             </Stack>
-            <Typography sx={{ fontWeight: 600, mb: 1 }}>How much you want to pay for this order</Typography>
+            <Typography sx={{ fontWeight: 600, mb: 1 }}>Hvor mye vil du betale for denne ordren</Typography>
             <Autocomplete
               onInputChange={(event, newValue) => {
                 if (newValue === '' || (/^(100|[1-9]?[0-9])$/).test(newValue)) {
@@ -77,10 +77,10 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
               freeSolo
               options={['0', '25', '30', '35', '40', '45', '50', '75', '100']}
               sx={{ width: '100%' }}
-              renderInput={(params) => <TextField  {...params} label="Select your percent" />}
+              renderInput={(params) => <TextField  {...params} label="Velg din prosentandel" />}
             />
           </Box>
-          <Button onClick={handleAllowanceDialogClose} variant='contained'>Continue</Button>
+          <Button onClick={handleAllowanceDialogClose} variant='contained'>Fortsette</Button>
         </Stack>
       </CDialog>
       {/* {
@@ -102,8 +102,8 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
 
       <Stack direction='row' justifyContent='space-between' p={isMySideCartPage ? 0 : 2}>
         <Stack sx={{ px: 2 }} gap={3}>
-          <Typography sx={{ whiteSpace: 'nowrap' }}>SubTotal :</Typography>
-          <Typography sx={{ whiteSpace: 'nowrap' }}>Total Quantity :</Typography>
+          <Typography sx={{ whiteSpace: 'nowrap' }}>Subtotal :</Typography>
+          <Typography sx={{ whiteSpace: 'nowrap' }}>Totalt Antall :</Typography>
           {/* <Typography>Discount (VELZON15) :</Typography> */}
           {/* <Typography>Shipping Charge :</Typography> */}
         </Stack>
@@ -128,10 +128,10 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
               color={errors.companyAllowance ? 'error' : 'primary'}
               endIcon={<Edit />}
               variant='outlined'>
-              Company Allowance {companyAllowance}%
+              Firma Godtgjørelse {companyAllowance}%
             </Button>
             {errors.companyAllowance &&
-              <Typography variant='body2' sx={{ color: 'red', textAlign: 'center' }}>Company Allowance Required!</Typography>}
+              <Typography variant='body2' sx={{ color: 'red', textAlign: 'center' }}>Firma Godtgjørelse Påkrevd!</Typography>}
           </>
         )
       }
@@ -144,7 +144,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
             // color:'#fff',
             p: 2, borderRadius: '8px', mt: 2
           }} direction='row' justifyContent='space-between'>
-            <Typography sx={{ fontWeight: 600 }}>Total Staffs Due:</Typography>
+            <Typography sx={{ fontWeight: 600 }}>Totalt Ansatte Skyldig:</Typography>
             <Typography sx={{ fontWeight: 600 }}>{orderSummaryData?.employeeDue} kr</Typography>
           </Stack>
           <Stack sx={{
@@ -153,7 +153,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
             // color:'#fff',
             p: 2, borderRadius: '8px', mt: 2
           }} direction='row' justifyContent='space-between'>
-            <Typography sx={{ fontWeight: 600 }}>Total Company Due:</Typography>
+            <Typography sx={{ fontWeight: 600 }}>Totalt Firma Skyldig:</Typography>
             <Typography sx={{ fontWeight: 600 }}>{orderSummaryData.companyDue} kr</Typography>
           </Stack>
         </>
@@ -163,13 +163,13 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
         bgcolor: 'light.main',
         p: 2, borderRadius: '8px', mt: 2
       }} direction='row' justifyContent='space-between'>
-        <Typography sx={{ fontWeight: 600 }}>Total <i style={{ fontWeight: 400, fontSize: '13px' }}>(Tax 15%)</i>  :</Typography>
+        <Typography sx={{ fontWeight: 600 }}>Totalt <i style={{ fontWeight: 400, fontSize: '13px' }}>(Skatt 15%)</i>  :</Typography>
         <Typography sx={{ fontWeight: 600 }}>kr {orderSummaryData?.total}</Typography>
       </Stack>
       {
         (isMySideCartPage || isProductCartPage) &&
         <Link to={isProductCartPage ? '/dashboard/products/checkout' : '/dashboard/myside/checkout'}>
-          <Button variant='contained' sx={{ mt: 3, width: '100%' }}>Checkout</Button>
+          <Button variant='contained' sx={{ mt: 3, width: '100%' }}>Sjekk ut</Button>
         </Link>
       }
     </Stack>

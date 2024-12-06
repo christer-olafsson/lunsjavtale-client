@@ -37,17 +37,17 @@ const PayStaffDue = ({ orderData, closeDialog, staffCart, totalDue }) => {
 
       <Stack direction='row' justifyContent='space-between' mb={1}>
         <Typography sx={{ fontWeight: 600, fontSize: '18px' }}>
-          Create payment for order
+          Opprett betaling for bestilling
           <span style={{ color: 'coral' }}> #{orderData?.id}</span>
         </Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>
       </Stack>
-      <Typography>Total Due for Pay <b style={{ color: 'coral' }}>{totalDue}</b>  kr</Typography>
+      <Typography>Total skyldig for betaling <b style={{ color: 'coral' }}>{totalDue}</b>  kr</Typography>
 
       <CButton isLoading={loading} onClick={handlePay} variant='contained' style={{ width: '100%', mt: 2 }}>
-        Confirm
+        Bekreft
       </CButton>
 
     </Box>

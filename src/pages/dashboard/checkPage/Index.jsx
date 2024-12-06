@@ -66,7 +66,7 @@ const CheckPage = () => {
 
   const [placeOrder, { loading }] = useMutation(PLACE_ORDER, {
     onCompleted: (res) => {
-      toast.success('Order Placed Successfully')
+      toast.success('Bestilling plassert')
       setErrors({})
       if (res.placeOrder.paymentUrl) {
         openPaymentGateway(res.placeOrder.paymentUrl)
@@ -94,23 +94,23 @@ const CheckPage = () => {
 
   const handleSendPaymentInfo = () => {
     if (!billingAddressPayload.address) {
-      setErrors({ address: 'Billing Address Required!' })
-      toast.error('Billing Address Required!')
+      setErrors({ address: 'Fakturaadresse er påkrevd!' })
+      toast.error('Fakturaadresse er påkrevd!')
       return
     }
     if (!shippingAddressId) {
-      setErrors({ shippingAddress: 'Shipping Address Required!' })
-      toast.error('Shipping Address Required!')
+      setErrors({ shippingAddress: 'Leveringsadresse er påkrevd!' })
+      toast.error('Leveringsadresse er påkrevd!')
       return
     }
     if (!paymentType) {
-      setErrors({ paymentType: 'Payment Type Required!' })
-      toast.error('Payment Type Required!')
+      setErrors({ paymentType: 'Betalingstype er påkrevd!' })
+      toast.error('Betalingstype er påkrevd!')
       return
     }
     if (companyAllowance === null) {
-      setErrors({ companyAllowance: 'CompanyAllowance Required!' })
-      toast.error('CompanyAllowance Required!')
+      setErrors({ companyAllowance: 'Firma godtgjørelse er påkrevd!' })
+      toast.error('Firma godtgjørelse er påkrevd!')
       return
     }
     placeOrder({
@@ -150,7 +150,7 @@ const CheckPage = () => {
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBack />
         </IconButton>
-        <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Checkout</Typography>
+        <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Kasse</Typography>
       </Stack>
       <Stack direction={{ xs: 'column-reverse', md: 'row' }} gap={{ xs: 2, lg: 3 }} mt={3}>
 
@@ -160,30 +160,30 @@ const CheckPage = () => {
         }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} aria-label="basic tabs example">
-              <Tab sx={{ textTransform: 'none' }} label="Billing Information" />
-              <Tab sx={{ textTransform: 'none' }} label="Shipping Information" />
-              <Tab sx={{ textTransform: 'none' }} label="Payment Information" />
+              <Tab sx={{ textTransform: 'none' }} label="Faktureringsinformasjon" />
+              <Tab sx={{ textTransform: 'none' }} label="Fraktinformasjon" />
+              <Tab sx={{ textTransform: 'none' }} label="Betalingsinformasjon" />
             </Tabs>
           </Box>
 
           <CustomTabPanel value={tabValue} index={0}>
             <Box>
-              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Billing Information</Typography>
-              <Typography>Please fill all information below</Typography>
+              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Faktureringsinformasjon</Typography>
+              <Typography>Vennligst fyll ut all informasjon nedenfor</Typography>
 
               <Stack flex={1} gap={2} mt={3}>
                 <TextField
                   value={billingAddressPayload.firstName}
                   onChange={handleBillingInputChange}
                   name='firstName'
-                  label="First Name"
+                  label="Fornavn"
                   variant="standard"
                 />
                 <TextField
                   value={billingAddressPayload.lastName}
                   onChange={handleBillingInputChange}
                   name='lastName'
-                  label="Last Name"
+                  label="Etternavn"
                   variant="standard"
                 />
                 <TextField
@@ -192,14 +192,14 @@ const CheckPage = () => {
                   value={billingAddressPayload.address}
                   onChange={handleBillingInputChange}
                   name='address'
-                  label="Address"
+                  label="Adresse"
                   variant="standard"
                 />
                 <TextField
                   value={billingAddressPayload.sector}
                   onChange={handleBillingInputChange}
                   name='sector'
-                  label="Sector"
+                  label="Sektor"
                   variant="standard"
                 />
                 <TextField
@@ -207,7 +207,7 @@ const CheckPage = () => {
                   onChange={handleBillingInputChange}
                   name='phone'
                   type='number'
-                  label="Phone"
+                  label="Telefon"
                   variant="standard"
                 />
                 <Button
@@ -219,7 +219,7 @@ const CheckPage = () => {
                     justifySelf: 'end',
                     mt: 2
                   }}
-                >Processing to Shipping
+                >Fortsett til frakt
                 </Button>
               </Stack>
 
@@ -229,26 +229,26 @@ const CheckPage = () => {
           <CustomTabPanel value={tabValue} index={1}>
             <ShippingInfo shippingInfoErr={errors.shippingAddress} />
             <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
-              <Button onClick={() => setTabValue(0)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Billing Info</Button>
-              <Button onClick={() => setTabValue(2)} sx={{ textWrap: 'nowrap' }} variant='contained' >Continue to Payment</Button>
+              <Button onClick={() => setTabValue(0)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Tilbake til fakturainformasjon</Button>
+              <Button onClick={() => setTabValue(2)} sx={{ textWrap: 'nowrap' }} variant='contained' >Fortsett til betaling</Button>
             </Stack>
           </CustomTabPanel>
 
           <CustomTabPanel value={tabValue} index={2}>
             <Stack>
-              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Payment Selection</Typography>
-              <Typography>Please fill all information below</Typography>
+              <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Betalingsvalg</Typography>
+              <Typography>Vennligst fyll ut all informasjon nedenfor</Typography>
 
               <FormControl error={Boolean(errors.paymentType)} sx={{ my: 2 }}>
-                <InputLabel >Payment Type</InputLabel>
+                <InputLabel >Betalingstype</InputLabel>
                 <Select
                   value={paymentType}
-                  label="Payment Type"
+                  label="Betalingstype"
                   onChange={(e) => setPaymentType(e.target.value)}
                 >
                   <MenuItem value={'online'}>Vipps</MenuItem>
-                  <MenuItem value={'pay-by-invoice'}>Pay By Invoice</MenuItem>
-                  <MenuItem value={'cash-on-delivery'}>Cash On Delivery</MenuItem>
+                  <MenuItem value={'pay-by-invoice'}>Betal med faktura</MenuItem>
+                  <MenuItem value={'cash-on-delivery'}>Kontant ved levering</MenuItem>
                 </Select>
               </FormControl>
 
@@ -270,9 +270,9 @@ const CheckPage = () => {
                 <TextField size='small' label='CCV' />
               </Stack> */}
               <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
-                <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Back to Shipping Info</Button>
+                <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Tilbake til fraktinformasjon</Button>
                 {/* <Link to='/dashboard/complete'> */}
-                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>{paymentType === 'online' ? 'Pay Now' : 'Place Order'}</CButton>
+                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>{paymentType === 'online' ? 'Betal nå' : 'Plasser bestilling'}</CButton>
                 {/* </Link> */}
               </Stack>
             </Stack>

@@ -55,7 +55,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
       field: 'staffs',
       width: 250,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Staffs</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Ansatte</Typography>
       ),
       renderCell: (params) => {
         const { row } = params
@@ -85,7 +85,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
     {
       field: 'contact', headerName: '', width: 250,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Contact</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Kontakt</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} justifyContent='center'>
@@ -101,7 +101,7 @@ const SelectedStaffs = ({ order, orderCarts }) => {
     {
       field: 'dueAmount', headerName: '', width: 150,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Due Amount</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Skyldig beløp</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} justifyContent='center'>
@@ -131,15 +131,15 @@ const SelectedStaffs = ({ order, orderCarts }) => {
         {
           staffSelectionOn ?
             <Stack direction='row' gap={2}>
-              <CButton onClick={() => setStaffSelectionOn(false)} variant='outlined' >Cancel</CButton>
-              <CButton onClick={handlePay} isLoading={paymentLoading} disable={selectedRowData.length === 0} variant='contained' >Pay Now (Vipps)</CButton>
+              <CButton onClick={() => setStaffSelectionOn(false)} variant='outlined' >Avbryt</CButton>
+              <CButton onClick={handlePay} isLoading={paymentLoading} disable={selectedRowData.length === 0} variant='contained' >Betal nå (Vipps)</CButton>
             </Stack> :
             <CButton disable={cartUsers.length === 0 || order?.employeeDueAmount === '0.00'} onClick={() => setStaffSelectionOn(true)} variant='contained' >
-              Make Payment
+              Foreta betaling
             </CButton>
         }
       </Box>
-      {staffSelectionOn && <Typography mb={2}>Total Pay: <b>{totalPayment}</b> kr</Typography>}
+      {staffSelectionOn && <Typography mb={2}>Total betaling: <b>{totalPayment}</b> kr</Typography>}
 
       <DataTable
         headerColor={false}

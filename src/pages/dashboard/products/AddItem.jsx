@@ -53,7 +53,7 @@ const AddItem = ({ closeDialog, data }) => {
   // add to cart mutation
   const [addToCartMutation, { loading }] = useMutation(ADD_TO_CART, {
     onCompleted: (res) => {
-      toast.success('Added To Cart')
+      toast.success('Lagt til i handlekurv')
       closeDialog()
     },
     refetchQueries: [ADDED_PRODUCTS],
@@ -64,15 +64,15 @@ const AddItem = ({ closeDialog, data }) => {
 
   const handleAddToCart = () => {
     if (selectedDates.length === 0) {
-      toast.error("No Date Selected!")
+      toast.error("Ingen dato valgt!")
       return
     }
     if (!formattedData.some(item => item.quantity > 0)) {
-      toast.error("No Quantity Selected!")
+      toast.error("Ingen mengde valgt!")
       return
     }
     if (!formattedData.every(item => item.quantity > 0)) {
-      toast.error("Empty Quantity Selected!")
+      toast.error("Tom mengde valgt!")
       return
     }
     addToCartMutation({
@@ -113,7 +113,7 @@ const AddItem = ({ closeDialog, data }) => {
     // },
     {
       field: 'users',
-      headerName: 'Users',
+      headerName: 'Brukere',
       width: 200,
       renderCell: (params) => {
         const { row } = params
@@ -130,7 +130,7 @@ const AddItem = ({ closeDialog, data }) => {
     },
     {
       field: 'role',
-      headerName: 'Role',
+      headerName: 'Rolle',
       width: 150,
       renderCell: (params) => {
         const { row } = params
@@ -148,7 +148,7 @@ const AddItem = ({ closeDialog, data }) => {
     },
     {
       field: 'email',
-      headerName: 'Email',
+      headerName: 'E-post',
       width: 200,
     },
   ];
@@ -208,7 +208,7 @@ const AddItem = ({ closeDialog, data }) => {
 
   const handleClickNext = () => {
     if (selectedDates.length === 0) {
-      toast.error("No Date Selected!")
+      toast.error("Ingen dato valgt!")
       return
     }
     setNextPage(true)
@@ -258,7 +258,7 @@ const AddItem = ({ closeDialog, data }) => {
           (
             <Box>
               <Stack direction='row' justifyContent='space-between' mb={4}>
-                <Typography variant='h4'>Add Item</Typography>
+                <Typography variant='h4'>Legg til vare</Typography>
                 <IconButton onClick={closeDialog}>
                   <Close />
                 </IconButton>
@@ -287,7 +287,7 @@ const AddItem = ({ closeDialog, data }) => {
               <Box sx={{ mb: 2 }}>
                 <ReactDatePicker
                   withPortal
-                  placeholderText="Click to select date"
+                  placeholderText="Klikk for å velge dato"
                   minDate={new Date()}
                   maxDate={addMonths(new Date(), 1)}
                   selectedDates={selectedDates}
@@ -303,9 +303,9 @@ const AddItem = ({ closeDialog, data }) => {
                 <table className='shopping-cart-table'>
                   <thead>
                     <tr>
-                      <th>Date</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
+                      <th>Dato</th>
+                      <th>Antall</th>
+                      <th>Pris</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -372,18 +372,18 @@ const AddItem = ({ closeDialog, data }) => {
                     </li>
                   )}
                   renderInput={(params) => (
-                    <TextField {...params} label="Select Allergies" />
+                    <TextField {...params} label="Velg allergier" />
                   )}
                 />
               }
               {
                 user?.me.role === 'company-employee' ?
-                  <CButton onClick={handleAddToCart} isLoading={loading} variant='contained' style={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>Add To Cart</CButton>
+                  <CButton onClick={handleAddToCart} isLoading={loading} variant='contained' style={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>Legg til i handlekurv</CButton>
                   :
 
                   <Button onClick={handleClickNext} variant='contained'
                     sx={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>
-                    Next
+                    Neste
                   </Button>
               }
             </Box>
@@ -397,16 +397,16 @@ const AddItem = ({ closeDialog, data }) => {
                   <ArrowBackIos />
                 </IconButton>
                 <Box>
-                  <Typography variant='h4'>Select Staffs</Typography>
-                  <Typography variant='body'>Click Arrow button to Select Staffs</Typography>
+                  <Typography variant='h4'>Velg ansatte</Typography>
+                  <Typography variant='body'>Klikk på pilknappen for å velge ansatte</Typography>
                 </Box>
               </Stack>
 
               <Box>
                 <Stack sx={{ bgcolor: 'light.main', borderRadius: '8px', py: 2, px: 4, mb: 2 }} direction='row' alignItems='center' justifyContent='space-between'>
-                  <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Date</Typography>
-                  <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Number Of Quantity</Typography>
-                  <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Price</Typography>
+                  <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Dato</Typography>
+                  <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Antall</Typography>
+                  <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Pris</Typography>
                 </Stack>
 
                 <Stack gap={2}>
@@ -477,11 +477,11 @@ const AddItem = ({ closeDialog, data }) => {
                               },
                             }}
                             localeText={{
-                              noRowsLabel: 'Empty',
+                              noRowsLabel: 'Tom',
                               footerRowSelected: (count) =>
                                 count !== 1
-                                  ? `${count.toLocaleString()} Selected`
-                                  : `${count.toLocaleString()} Selected`,
+                                  ? `${count.toLocaleString()} valgt`
+                                  : `${count.toLocaleString()} valgt`,
                             }}
                             pageSizeOptions={[10]}
                             autoHeight
@@ -510,7 +510,7 @@ const AddItem = ({ closeDialog, data }) => {
 
               </Box>
 
-              <CButton onClick={handleAddToCart} isLoading={loading} variant='contained' style={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>Add To Cart</CButton>
+              <CButton onClick={handleAddToCart} isLoading={loading} variant='contained' style={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>Legg til i handlekurv</CButton>
             </Box>
           )
       }

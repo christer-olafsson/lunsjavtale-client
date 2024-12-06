@@ -41,7 +41,7 @@ const ProductCartPage = () => {
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBack />
         </IconButton>
-        <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Product Cart</Typography>
+        <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Produktkurv</Typography>
       </Stack>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={{ xs: 2, lg: 3 }} mt={3}>
         <Stack gap={3} sx={{

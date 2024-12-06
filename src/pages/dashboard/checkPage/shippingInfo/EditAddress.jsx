@@ -48,15 +48,15 @@ const EditAddress = ({ data, closeDialog }) => {
 
   const handleUpdate = () => {
     if (!payload.address) {
-      setErrors({ address: 'Address Required!' })
+      setErrors({ address: 'Adresse er påkrevd!' })
       return
     }
     if (!payload.addressType) {
-      setErrors({ addressType: 'Address Type Required!' })
+      setErrors({ addressType: 'Adressenavn er påkrevd!' })
       return
     }
     if (!payload.postCode) {
-      setErrors({ postCode: 'Post Code Required!' })
+      setErrors({ postCode: 'Postnummer er påkrevd!' })
       return
     }
     addressMutation({
@@ -91,7 +91,7 @@ const EditAddress = ({ data, closeDialog }) => {
     <FormGroup>
       <Stack gap={2}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={2}>
-          <Typography variant='h5'>Update Shipping Address</Typography>
+          <Typography variant='h5'>Oppdater leveringsadresse</Typography>
           <IconButton sx={{ alignSelf: 'flex-end' }} onClick={() => closeDialog(false)}><Close /></IconButton>
         </Stack>
         <TextField
@@ -102,38 +102,38 @@ const EditAddress = ({ data, closeDialog }) => {
           rows={3}
           onChange={handleInputChange}
           name='address'
-          label='Address'
+          label='Adresse'
         />
         <FormControl error={Boolean(errors.addressType)} fullWidth>
-          <InputLabel>Address Type</InputLabel>
+          <InputLabel>Adressenavn</InputLabel>
           <Select
             value={payload.addressType}
-            label="Address Type"
+            label="Adressenavn"
             onChange={(e) => setPayload({ ...payload, addressType: e.target.value })}
           >
-            <MenuItem value={'permanent-address'}>Permanent Address</MenuItem>
-            <MenuItem value={'office-address'}>Office Address</MenuItem>
+            <MenuItem value={'permanent-address'}>Permanent adresse</MenuItem>
+            <MenuItem value={'office-address'}>Kontoradresse</MenuItem>
           </Select>
           {errors.addressType && <FormHelperText>{errors.addressType}</FormHelperText>}
         </FormControl>
         <Stack direction='row' gap={2}>
           <Stack flex={1} gap={2}>
-            <TextField value={payload.city} onChange={handleInputChange} name='city' label='City' />
-            <TextField value={payload.fullName} onChange={handleInputChange} name='fullName' label='Full Name' />
+            <TextField value={payload.city} onChange={handleInputChange} name='city' label='By' />
+            <TextField value={payload.fullName} onChange={handleInputChange} name='fullName' label='Fullt navn' />
           </Stack>
           <Stack flex={1} gap={2}>
-            <TextField value={payload.postCode} helperText={errors.postCode} error={Boolean(errors.postCode)} onChange={handleInputChange} name='postCode' type='number' label='Post Code' />
-            <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Phone number' />
+            <TextField value={payload.postCode} helperText={errors.postCode} error={Boolean(errors.postCode)} onChange={handleInputChange} name='postCode' type='number' label='Postnummer' />
+            <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Telefonnummer' />
           </Stack>
         </Stack>
-        <TextField value={payload.instruction} onChange={handleInputChange} name='instruction' label='Instruction' />
+        <TextField value={payload.instruction} onChange={handleInputChange} name='instruction' label='Instruksjon' />
         <FormGroup>
           <FormControlLabel
             control={<Switch checked={payload.default}
               onChange={e => setPayload({ ...payload, default: e.target.checked })}
-            />} label="Default Address" />
+            />} label="Standardadresse" />
         </FormGroup>
-        <CButton onClick={handleUpdate} isLoading={loading} variant='contained'>Update Address</CButton>
+        <CButton onClick={handleUpdate} isLoading={loading} variant='contained'>Oppdater adresse</CButton>
       </Stack>
     </FormGroup>
   )

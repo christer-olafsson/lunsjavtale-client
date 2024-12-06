@@ -4,7 +4,7 @@ import React from 'react'
 const NotFound = () => {
   return (
     <Box>
-      <h1>Page Not Found!</h1>
+      <h1>Siden ble ikke funnet!</h1>
     </Box>
   )
 }

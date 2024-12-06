@@ -37,11 +37,11 @@ const CreatePayment = ({ closeDialog }) => {
 
   const handlePay = () => {
     if (!selectedStaff.id) {
-      toast.error('Please select Staff')
+      toast.error('Vennligst velg ansatt')
       return
     }
     if (!paidAmount) {
-      toast.error('Amount Empty')
+      toast.error('Beløp er tomt')
       return
     }
     createPayment({
@@ -67,7 +67,7 @@ const CreatePayment = ({ closeDialog }) => {
 
       <Stack direction='row' justifyContent='space-between' mb={1}>
         <Typography sx={{ fontWeight: 600, fontSize: '18px' }}>
-          Create payment For Staff
+          Opprett betaling for ansatt
         </Typography>
         <IconButton onClick={closeDialog}>
           <Close />
@@ -85,16 +85,16 @@ const CreatePayment = ({ closeDialog }) => {
             <Stack direction='row' gap={2}>
               <Avatar src={option.photoUrl ?? ''} />
               <Box>
-                <Typography sx={{ fontSize: '14px' }}> <b>Email: </b> {option.email}</Typography>
-                <Typography sx={{ fontSize: '14px' }}><b>Username: </b>{option.username}</Typography>
-                <Typography sx={{ fontSize: '14px' }}> <b>Due: </b> {option.dueAmount}</Typography>
+                <Typography sx={{ fontSize: '14px' }}> <b>E-post: </b> {option.email}</Typography>
+                <Typography sx={{ fontSize: '14px' }}><b>Brukernavn: </b>{option.username}</Typography>
+                <Typography sx={{ fontSize: '14px' }}> <b>Skyldig: </b> {option.dueAmount}</Typography>
               </Box>
             </Stack>
 
           </li>
         )}
         renderInput={(params) => (
-          <TextField {...params} label="Payment for (User)" />
+          <TextField {...params} label="Betaling for (Bruker)" />
         )}
       />
 
@@ -102,14 +102,14 @@ const CreatePayment = ({ closeDialog }) => {
         <TextField
           onChange={e => setPaidAmount(e.target.value)}
           value={paidAmount}
-          label='Amount'
+          label='Beløp'
           type='number'
           InputProps={{ readOnly: true }}
         />
       </FormGroup>
 
       <CButton disable={selectedStaff?.dueAmount === '0.00'} isLoading={paymentLoading} onClick={handlePay} variant='contained' style={{ width: '100%', mt: 2 }}>
-        Confirm
+        Bekreft
       </CButton>
 
     </Box>

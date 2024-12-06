@@ -56,11 +56,11 @@ const Account = () => {
 
   const handleUpdate = () => {
     if (!payload.username) {
-      toast.error('User name required!')
+      toast.error('Brukernavn er påkrevd!')
       return
     }
     if (payload.newPass !== payload.repeatPass) {
-      setPasswordErr('Password not match!')
+      setPasswordErr('PassPassordet stemmer ikke overens!')
       return;
     } else {
       setPasswordErr(null)
@@ -90,7 +90,7 @@ const Account = () => {
 
   const handleForgotePassword = () => {
     if (!forgotEmail.email) {
-      toast.error('Please enter your email!')
+      toast.error('Vennligst skriv inn din e-post!')
       return;
     }
     passwordReset({
@@ -118,8 +118,8 @@ const Account = () => {
 
   return (
     <Stack>
-      <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Account Settings</Typography>
-      <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>View and update your account  details</Typography>
+      <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Kontoinnstillinger</Typography>
+      <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>Se og oppdater kontodetaljene dine</Typography>
       {
         forgotePassSecOpen ?
           <Stack sx={{
@@ -131,7 +131,7 @@ const Account = () => {
               <Button onClick={() => setForgotePassSecOpen(false)} sx={{
                 color: 'gray',
                 my: 2,
-              }} startIcon={<KeyboardArrowLeft />}> Back </Button>
+              }} startIcon={<KeyboardArrowLeft />}> Tilbake </Button>
             </Stack>
             {
               passResetData ?
@@ -141,18 +141,18 @@ const Account = () => {
                   px: 2, py: 1, color: 'primary.main'
                 }}>{passResetData.passwordResetMail.message}</Typography> :
                 <Stack>
-                  <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Forgote Password?</Typography>
-                  <Input value={forgotEmail.email} sx={{ mb: 2 }} placeholder='Enter Your Email' onChange={(e) => setForgotEmail({ email: e.target.value })} type="text" />
+                  <Typography sx={{ fontWeight: 600, fontSize: '25px', mb: 3 }}>Glemt passord?</Typography>
+                  <Input value={forgotEmail.email} sx={{ mb: 2 }} placeholder='Skriv inn din e-post' onChange={(e) => setForgotEmail({ email: e.target.value })} type="text" />
                   {/* <TextField onChange={(e)=> setForgotEmail(e.target.value)} sx={{ mb: 2 }} fullWidth placeholder='email address' variant="outlined" /> */}
-                  <CButton isLoading={passResetLoading} disable={passResetLoading} onClick={handleForgotePassword} variant='contained'>Submit</CButton>
+                  <CButton isLoading={passResetLoading} disable={passResetLoading} onClick={handleForgotePassword} variant='contained'>Send inn</CButton>
                 </Stack>
             }
           </Stack> :
           <Stack>
-            <InputLabel sx={{ mt: 3, fontWeight: 600 }}>Username</InputLabel>
+            <InputLabel sx={{ mt: 3, fontWeight: 600 }}>Brukernavn</InputLabel>
             <Input disabled={!editOn} name='username' value={payload.username} onChange={handleInputChange}
             />
-            <InputLabel sx={{ mt: 3 }}>Current password</InputLabel>
+            <InputLabel sx={{ mt: 3 }}>Nåværende passord</InputLabel>
             <Input
               disabled={!editOn}
               name='currentPass'
@@ -172,7 +172,7 @@ const Account = () => {
                 </InputAdornment>
               }
             />
-            <InputLabel sx={{ mt: 3 }}>New Password</InputLabel>
+            <InputLabel sx={{ mt: 3 }}>Nytt passord</InputLabel>
             <Input
               disabled={!editOn}
               type={showPassword ? 'text' : 'password'}
@@ -192,7 +192,7 @@ const Account = () => {
                 </InputAdornment>
               }
             />
-            <InputLabel sx={{ mt: 3 }}>Repeat Password</InputLabel>
+            <InputLabel sx={{ mt: 3 }}>Gjenta passord</InputLabel>
             <Input
               disabled={!editOn}
               type={showPassword ? 'text' : 'password'}
@@ -212,8 +212,8 @@ const Account = () => {
                 </InputAdornment>
               }
             />
-            {passwordErr && <Typography sx={{ fontSize: '14px', my: 1, color: 'red' }}>Password not match!</Typography>}
-            <Button disabled={!editOn} onClick={() => setForgotePassSecOpen(true)} sx={{ width: 'fit-content', mt: 3 }}>Forget Password?</Button>
+            {passwordErr && <Typography sx={{ fontSize: '14px', my: 1, color: 'red' }}>Passordet stemmer ikke overens!</Typography>}
+            <Button disabled={!editOn} onClick={() => setForgotePassSecOpen(true)} sx={{ width: 'fit-content', mt: 3 }}>Glemt passord?</Button>
             {
               errors.length > 0 &&
               <ul style={{ color: 'red', fontSize: '13px' }}>
@@ -229,10 +229,10 @@ const Account = () => {
               {
                 editOn ?
                   <Stack direction='row' gap={2} alignItems='center'>
-                    <Button onClick={() => setEditOn(false)} variant='outlined'>Cancel</Button>
-                    <CButton disable={user?.me.company.isBlocked} isLoading={updateLoading} onClick={handleUpdate} variant='contained'>Save Changes</CButton>
+                    <Button onClick={() => setEditOn(false)} variant='outlined'>Avbryt</Button>
+                    <CButton disable={user?.me.company.isBlocked} isLoading={updateLoading} onClick={handleUpdate} variant='contained'>Lagre endringer</CButton>
                   </Stack>
-                  : <Button onClick={() => setEditOn(true)} variant='contained'>Edit</Button>
+                  : <Button onClick={() => setEditOn(true)} variant='contained'>Rediger</Button>
               }
             </Stack>
           </Stack>

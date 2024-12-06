@@ -59,8 +59,8 @@ const EmailVerification = () => {
           }} alignItems='center' justifyContent='center'>
             <Check sx={{ fontSize: '50px', color: 'primary.main' }} />
           </Stack>
-          <Typography variant='h2'>Email Verified!</Typography>
-          <Typography variant='body'>Redirect to login page..</Typography>
+          <Typography variant='h2'>E-post Bekreftet!</Typography>
+          <Typography variant='body'>Omdirigerer til innloggingssiden..</Typography>
         </Stack>
       }
     </Stack>

@@ -81,7 +81,7 @@ const Meeting = () => {
 
     const diffInMilliseconds = future.diff(now);
     if (diffInMilliseconds < 0) {
-      return 'Date passed!';
+      return 'Dato passert!';
     }
 
     const diffInMinutes = Math.floor(diffInMilliseconds / 60000);
@@ -89,11 +89,11 @@ const Meeting = () => {
     const diffInDays = Math.floor(diffInHours / 24);
 
     if (diffInMinutes < 60) {
-      return `${diffInMinutes} minutes`;
+      return `${diffInMinutes} minutter`;
     } else if (diffInHours < 24) {
-      return `${diffInHours} hours`;
+      return `${diffInHours} timer`;
     } else {
-      return `${diffInDays} days`;
+      return `${diffInDays} dager`;
     }
   }
 
@@ -121,7 +121,7 @@ const Meeting = () => {
     {
       field: 'title', width: 250,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Title</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Tittel</Typography>
       ),
       renderCell: (params) => {
         const { row } = params
@@ -146,7 +146,7 @@ const Meeting = () => {
     {
       field: 'Created On', headerName: '', width: 150,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Created On</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Opprettet</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', }} justifyContent='center'>
@@ -160,7 +160,7 @@ const Meeting = () => {
     {
       field: 'meeting-time', headerName: '', width: 150,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Meeting time</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Møtetid</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', }} justifyContent='center'>
@@ -175,7 +175,7 @@ const Meeting = () => {
     {
       field: 'startIn', headerName: '', width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' }, ml: '20px' }}>Start In</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' }, ml: '20px' }}>Starter om</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%', ml: '20px' }} direction='row' alignItems='center' gap={.5}>
@@ -219,7 +219,7 @@ const Meeting = () => {
       width: isMobile ? 400 : undefined,
       flex: isMobile ? undefined : 1,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Note</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Notat</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} justifyContent='center'>
@@ -248,7 +248,7 @@ const Meeting = () => {
   return (
     <Box maxWidth='xl'>
       <Stack direction='row' gap={2} alignItems='center'>
-        <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Meetings</Typography>
+        <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Møter</Typography>
         <Typography sx={{
           fontSize: '12px',
           fontWeight: 600,
@@ -256,7 +256,7 @@ const Meeting = () => {
           borderRadius: '4px',
           color: 'primary.main',
           px: 1
-        }}>{meetings?.length ?? 0} meetings</Typography>
+        }}>{meetings?.length ?? 0} møter</Typography>
       </Stack>
       <Stack direction='row' justifyContent='space-between' mt={3} sx={{ height: '40px' }}>
         <Box />
@@ -268,13 +268,13 @@ const Meeting = () => {
               label="Filter"
               onChange={handleFilterChange}
             >
-              <MenuItem value={5}>All </MenuItem>
-              <MenuItem value={10}>Upcoming</MenuItem>
-              <MenuItem value={20}>Complete</MenuItem>
+              <MenuItem value={5}>Alle </MenuItem>
+              <MenuItem value={10}>Kommende</MenuItem>
+              <MenuItem value={20}>Fullført</MenuItem>
             </Select>
           </FormControl>
         </Box> */}
-        <Button onClick={() => setCreateMeetingDialogOpen(true)} variant='contained' startIcon={<Add />}>Create Meeting</Button>
+        <Button onClick={() => setCreateMeetingDialogOpen(true)} variant='contained' startIcon={<Add />}>Opprett møte</Button>
       </Stack>
       {/* edit meeting */}
       <CDialog openDialog={editMeetingDialogOpen}>

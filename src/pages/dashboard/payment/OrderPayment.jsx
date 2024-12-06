@@ -42,14 +42,14 @@ const OrderPayment = ({ closeDialog }) => {
     <Box>
 
       <Stack direction='row' justifyContent='space-between' mb={1}>
-        <Typography sx={{ fontWeight: 600, fontSize: '20px' }}>Make Vipps Payment</Typography>
+        <Typography sx={{ fontWeight: 600, fontSize: '20px' }}>Utfør Vipps-betaling</Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>
       </Stack>
 
       <Typography>
-        Total For Payment:
+        Totalt for betaling:
         <b>{isStaff ? user?.me?.dueAmount : user?.me?.company?.balance}</b> kr
       </Typography>
 
@@ -60,7 +60,7 @@ const OrderPayment = ({ closeDialog }) => {
         variant='contained'
         style={{ width: '100%', mt: 2 }}
       >
-        Pay Now (Vipps)
+        Betal nå (Vipps)
       </CButton>
 
     </Box>

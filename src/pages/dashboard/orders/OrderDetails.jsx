@@ -81,7 +81,7 @@ const OrderDetails = () => {
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBack />
         </IconButton>
-        <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Order Details</Typography>
+        <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Bestillingsdetaljer</Typography>
       </Stack>
       {/* invoice page */}
       <InvoiceTemplate data={order} toggleDrawer={toggleDrawer} />
@@ -106,7 +106,7 @@ const OrderDetails = () => {
             <Button size='small'
               // onClick={toggleDrawer}
               onClick={() => downloadPDF()}
-              sx={{ borderRadius: '50px', height: '30px', mb: 2 }} variant='outlined' startIcon={<Download />}>Invoice</Button>
+              sx={{ borderRadius: '50px', height: '30px', mb: 2 }} variant='outlined' startIcon={<Download />}>Faktura</Button>
           }
         </Stack>
         <Stack gap={1}>
@@ -134,11 +134,11 @@ const OrderDetails = () => {
             </Stack>
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Order ID:</b></Typography>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Bestillings-ID:</b></Typography>
             <Typography>#{order?.id}</Typography>
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Ordered On:</b></Typography>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Bestilt den:</b></Typography>
             <Box >
               {
                 order?.createdOn &&
@@ -150,16 +150,16 @@ const OrderDetails = () => {
             </Box>
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Delivery Date:</b></Typography>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Leveringsdato:</b></Typography>
             {order?.deliveryDate && <Typography><b>{format(order?.deliveryDate, 'dd-MM-yyyy')}</b></Typography>}
 
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Payment Type:</b></Typography>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Betalingsmetode:</b></Typography>
             <Typography>{order?.paymentType === 'online' ? 'Vipps' : order?.paymentType}</Typography>
           </Stack>
           <Stack direction='row'>
-            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Company Allowance:</b></Typography>
+            <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Firma godtgjørelse:</b></Typography>
             <Typography>{order?.companyAllowance ?? '0'} %</Typography>
           </Stack>
 
@@ -167,27 +167,27 @@ const OrderDetails = () => {
             !isStaff &&
             <>
               <Stack direction='row'>
-                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Discount Amount:</b></Typography>
+                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Rabattbeløp:</b></Typography>
                 <Typography>{order?.discountAmount} kr</Typography>
               </Stack>
               <Stack direction='row'>
-                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Final Price:</b></Typography>
+                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Sluttpris:</b></Typography>
                 <Typography sx={{ color: 'blue', fontWeight: 600 }}>{order?.finalPrice ?? '0'} kr</Typography>
               </Stack>
               <Stack direction='row'>
-                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Company Due Amount:</b></Typography>
+                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Firma skyldig beløp:</b></Typography>
                 <Stack direction='row'>
                   <Typography sx={{ fontWeight: 600, color: 'coral' }} mr={1}>{order?.companyDueAmount} kr </Typography>
                 </Stack>
               </Stack>
               <Stack direction='row'>
-                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Staffs Due Amount:</b></Typography>
+                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Ansattes skyldig beløp:</b></Typography>
                 <Stack direction='row'>
                   <Typography sx={{ fontWeight: 600, color: 'coral' }} mr={1}>{order?.employeeDueAmount} kr </Typography>
                 </Stack>
               </Stack>
               <Stack direction='row'>
-                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Paid Amount:</b></Typography>
+                <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Betalt beløp:</b></Typography>
                 <Typography sx={{ fontWeight: 600, color: 'green' }}>{order?.paidAmount} kr</Typography>
               </Stack>
             </>
@@ -203,7 +203,7 @@ const OrderDetails = () => {
               pl: 1, borderRadius: '4px', mt: 2,
             }}>
               <Typography sx={{ color: 'coral' }}>
-                Total Due:
+                Totalt skyldig:
                 <b style={{ marginLeft: '5px' }}>{totalCurrentStaffDue}</b> kr
               </Typography>
               <Button
@@ -211,7 +211,7 @@ const OrderDetails = () => {
                 onClick={() => setOpenStaffPaymentDialog(true)}
                 sx={{ alignSelf: 'flex-start', ml: 2 }}
                 variant='contained'>
-                Pay Now (Vipps)
+                Betal nå (Vipps)
               </Button>
             </Stack>
           }
@@ -225,7 +225,7 @@ const OrderDetails = () => {
             pl: 1, borderRadius: '4px', mt: 2, mb: 1
           }}>
             <Typography sx={{ color: 'coral' }}>
-              Company Due
+              Firma skyldig
               <b style={{ marginLeft: '5px' }}>{order?.companyDueAmount}</b> kr
             </Typography>
             <Button
@@ -234,7 +234,7 @@ const OrderDetails = () => {
               sx={{ alignSelf: 'flex-start', ml: 2 }}
               variant='contained'>
               {
-                isStaff ? 'Pay Now (Vipps)' : 'Pay Now (Vipps)'
+                isStaff ? 'Betal nå (Vipps)' : 'Betal nå (Vipps)'
               }
             </Button>
           </Stack>
@@ -248,7 +248,7 @@ const OrderDetails = () => {
               maxWidth: '400px',
               color: 'coral'
             }}>
-              Note: <b>{order?.note}</b>
+              Merk: <b>{order?.note}</b>
             </Typography>
           }
         </Stack>
@@ -261,7 +261,7 @@ const OrderDetails = () => {
             <Stack gap={3}>
               {
                 loading ? <Loader /> : orderErr ? <ErrorMsg /> : order === null ?
-                  <Typography>Order not Found!</Typography> :
+                  <Typography>Bestilling ikke funnet!</Typography> :
                   order?.orderCarts?.edges.map(data => (
                     <OrderCart order={order} orderCarts={data} key={data.node.id} />
                   ))
@@ -269,7 +269,7 @@ const OrderDetails = () => {
             </Stack>
             {/* order timeline */}
             <Stack mt={4}>
-              <Typography variant='h5' sx={{ px: 3, mb: 2 }}>Order Timeline</Typography>
+              <Typography variant='h5' sx={{ px: 3, mb: 2 }}>Bestillingstidslinje</Typography>
               <Box sx={{ px: 3 }}>
                 {order?.statuses?.edges.map((status, index) => (
                   <Box key={status.node.id} sx={{ display: 'flex', mb: 2 }}>

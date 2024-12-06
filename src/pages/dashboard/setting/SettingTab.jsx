@@ -59,11 +59,11 @@ CustomTabPanel.propTypes = {
 };
 
 const tabName = [
-  'General ',
-  'Account',
+  'Generell ',
+  'Konto',
   // 'Notification',
   // 'Security',
-  'Payment'
+  'Betaling'
 ]
 
 const SettingTab = () => {

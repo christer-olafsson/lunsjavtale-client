@@ -64,7 +64,7 @@ const StaffsOrder = () => {
     {
       field: 'staffs', width: 300,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Staffs</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Ansatte</Typography>
       ),
       renderCell: (params) => {
         const { row } = params
@@ -86,7 +86,7 @@ const StaffsOrder = () => {
     {
       field: 'products', width: 250,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Products</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Produkter</Typography>
       ),
       renderCell: (params) => {
         return (
@@ -104,15 +104,15 @@ const StaffsOrder = () => {
     {
       field: 'Date', width: 250,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Date</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Dato</Typography>
       ),
       renderCell: (params) => {
         return (
           <Stack sx={{ height: '100%' }} justifyContent='center'>
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Order: <b>{format(params.row.createdOn, 'dd-MM-yyyy ')}</b>
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Bestilling: <b>{format(params.row.createdOn, 'dd-MM-yyyy ')}</b>
               <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(params.row?.createdOn, 'hh:mm a')}</span>
             </Typography>
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Delivery: <b>{format(params.row.date, 'dd-MM-yyyy')}</b> </Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Levering: <b>{format(params.row.date, 'dd-MM-yyyy')}</b> </Typography>
           </Stack>
         )
       }
@@ -120,7 +120,7 @@ const StaffsOrder = () => {
     {
       field: 'quentity', width: 120,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Quantity</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Mengde</Typography>
       ),
       renderCell: (params) => {
         return (
@@ -133,7 +133,7 @@ const StaffsOrder = () => {
     {
       field: 'totalprice', width: 150,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Total Price</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Total pris</Typography>
       ),
       renderCell: (params) => {
         return (
@@ -148,7 +148,7 @@ const StaffsOrder = () => {
       headerName: '',
       width: 150,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Due Amount</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Skyldig beløp</Typography>
       ),
       renderCell: (params) => {
         const { row } = params
@@ -174,7 +174,7 @@ const StaffsOrder = () => {
       width: isMobile ? 150 : undefined,
       flex: isMobile ? undefined : 1,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Order Status</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Bestillingsstatus</Typography>
       ),
       renderCell: (params) => {
         return (
@@ -209,7 +209,7 @@ const StaffsOrder = () => {
 
   return (
     <Box maxWidth='xl'>
-      <Typography sx={{ fontSize: '24px', fontWeight: 600, mb: 5 }}>Order Request</Typography>
+      <Typography sx={{ fontSize: '24px', fontWeight: 600, mb: 5 }}>Bestillingsforespørsel</Typography>
       <Stack direction='row' justifyContent='space-between' gap={2} sx={{
         mb: 4,
       }}>
@@ -224,20 +224,20 @@ const StaffsOrder = () => {
                   label="Status"
                   onChange={e => setReqStatus(e.target.value)}
                 >
-                  <MenuItem value={'accepted'}>Accepted </MenuItem>
-                  <MenuItem value={'rejected'}>Rejected</MenuItem>
+                  <MenuItem value={'accepted'}>Akseptert </MenuItem>
+                  <MenuItem value={'rejected'}>Avvist</MenuItem>
                 </Select>
               </FormControl>
             </Box>
-            <CButton disable={reqStatus === ''} isLoading={cartReqLoading} onClick={handleCartRequest} variant='contained'>Approve</CButton>
+            <CButton disable={reqStatus === ''} isLoading={cartReqLoading} onClick={handleCartRequest} variant='contained'>Godkjenn</CButton>
           </Stack>
         }
       </Stack>
       <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
-        <Typography variant='h5'>Confirm Remove?</Typography>
+        <Typography variant='h5'>Bekreft fjerning?</Typography>
         <DialogActions>
-          <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Cancel</Button>
-          {/* <CButton isLoading={userDeleteLoading || loadingFiledelete} onClick={handlStaffDelete} variant='contained'>Confirm</CButton> */}
+          <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Avbryt</Button>
+          {/* <CButton isLoading={userDeleteLoading || loadingFiledelete} onClick={handlStaffDelete} variant='contained'>Bekreft</CButton> */}
         </DialogActions>
       </CDialog>
       <Box>

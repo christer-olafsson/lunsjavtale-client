@@ -29,7 +29,7 @@ const StaffDetails = () => {
         <IconButton onClick={() => navigate(-1)}>
           <West />
         </IconButton>
-        <Typography sx={{ fontSize: '20px', fontWeight: 600 }}>Staff Details</Typography>
+        <Typography sx={{ fontSize: '20px', fontWeight: 600 }}>Ansattdetaljer</Typography>
       </Stack>
 
 
@@ -48,15 +48,15 @@ const StaffDetails = () => {
                     }} src={user.photoUrl ? user.photoUrl : "/noImage.png"} alt="" />
                     <Box>
                       {user?.createdOn &&
-                        <Typography>Added On: <b>{format(user?.createdOn, 'dd-MM-yyyy')}</b> </Typography>
+                        <Typography>Lagt til: <b>{format(user?.createdOn, 'dd-MM-yyyy')}</b> </Typography>
                       }
-                      <Typography>User name: <b>{user?.username}</b> </Typography>
-                      <Typography>Name: <b>{user?.firstName + ' ' + user?.lastName}</b> </Typography>
-                      <Typography>Email: <b>{user?.email}</b> </Typography>
-                      <Typography>Phone: <b>{user?.phone}</b> </Typography>
-                      <Typography>Gender: <b>{user?.gender}</b> </Typography>
-                      <Typography>Address: <b>{user?.address}</b> </Typography>
-                      <Typography>Allergies: </Typography>
+                      <Typography>Brukernavn: <b>{user?.username}</b> </Typography>
+                      <Typography>Navn: <b>{user?.firstName + ' ' + user?.lastName}</b> </Typography>
+                      <Typography>E-post: <b>{user?.email}</b> </Typography>
+                      <Typography>Telefon: <b>{user?.phone}</b> </Typography>
+                      <Typography>Kjønn: <b>{user?.gender}</b> </Typography>
+                      <Typography>Adresse: <b>{user?.address}</b> </Typography>
+                      <Typography>Allergier: </Typography>
                       <ul>
                         {
                           user?.allergies?.edges.map(item => (
@@ -76,7 +76,7 @@ const StaffDetails = () => {
                       textAlign: 'center',
                       p: 1
                     }}>
-                      <i>Total Due: </i>
+                      <i>Total skyldig: </i>
                       {user?.dueAmount ?? '00'} <span style={{ fontWeight: 400 }}>kr</span>
                     </Typography>
                   </Stack>

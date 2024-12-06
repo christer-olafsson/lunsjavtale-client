@@ -9,7 +9,7 @@ const MeetingDetails = ({ data, closeDialog }) => {
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' alignItems='center' mb={3}>
-        <Typography variant='h4' fontWeight='bold'>Meeting Details</Typography>
+        <Typography variant='h4' fontWeight='bold'>Møtedetaljer</Typography>
         <IconButton onClick={closeDialog} sx={{ bgcolor: 'grey.200', '&:hover': { bgcolor: 'grey.300' } }}>
           <Close />
         </IconButton>
@@ -31,7 +31,7 @@ const MeetingDetails = ({ data, closeDialog }) => {
 
       {data?.note && (
         <Paper variant="outlined" sx={{ p: 2, mb: 3, borderColor: 'primary.main' }}>
-          <Typography variant='subtitle1' fontWeight='bold' color='primary.main' gutterBottom>Note:</Typography>
+          <Typography variant='subtitle1' fontWeight='bold' color='primary.main' gutterBottom>Notat:</Typography>
           <Typography variant='body1'>{data?.note}</Typography>
         </Paper>
       )}
@@ -40,13 +40,13 @@ const MeetingDetails = ({ data, closeDialog }) => {
         <Grid item xs={12} md={6}>
           <Stack direction='row' alignItems='center' spacing={1}>
             <AccessTime color='primary' />
-            <Typography><b>Submit Time:</b> {format(data?.createdOn, 'dd-MM-yyyy hh:mm a')}</Typography>
+            <Typography><b>Innsendingstid:</b> {format(data?.createdOn, 'dd-MM-yyyy hh:mm a')}</Typography>
           </Stack>
         </Grid>
         <Grid item xs={12} md={6}>
           <Stack direction='row' alignItems='center' spacing={1}>
             <CalendarToday color='primary' />
-            <Typography><b>Meeting Time:</b> {format(data?.meetingTime, 'dd-MM-yyyy hh:mm a')}</Typography>
+            <Typography><b>Møtetid:</b> {format(data?.meetingTime, 'dd-MM-yyyy hh:mm a')}</Typography>
           </Stack>
         </Grid>
       </Grid>
@@ -56,15 +56,15 @@ const MeetingDetails = ({ data, closeDialog }) => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Stack spacing={2}>
-            <DetailItem icon={<Title />} label="Meeting Title" value={data?.title} />
-            <DetailItem icon={<Description />} label="Meeting Type" value={data?.meetingType} />
-            <DetailItem icon={<Description />} label="Description" value={data?.description} />
+            <DetailItem icon={<Title />} label="Møtetittel" value={data?.title} />
+            <DetailItem icon={<Description />} label="Møtetype" value={data?.meetingType} />
+            <DetailItem icon={<Description />} label="Beskrivelse" value={data?.description} />
           </Stack>
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography variant='h6' fontWeight='bold' mb={2}>
             <Topic color='primary' sx={{ mr: 1, verticalAlign: 'middle' }} />
-            Topics:
+            Emner:
           </Typography>
           <Stack direction='row' flexWrap='wrap' gap={1}>
             {data?.topics?.edges.map(item => (

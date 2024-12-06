@@ -38,7 +38,7 @@ const ReqFoodChange = ({ orderCarts, closeDialog }) => {
 
   function handleReqSend() {
     if (!selectedProduct.id) {
-      toast.error('No Product Selected')
+      toast.error('Ingen produkt valgt')
       return
     }
     userCartUpdate({
@@ -53,7 +53,7 @@ const ReqFoodChange = ({ orderCarts, closeDialog }) => {
     <Box>
       <Stack direction='row' justifyContent='space-between' mb={1}>
         <Typography sx={{ fontWeight: 600, fontSize: '18px' }}>
-          Request For Change
+          Forespørsel om endring
         </Typography>
         <IconButton onClick={closeDialog}>
           <Close />
@@ -69,8 +69,8 @@ const ReqFoodChange = ({ orderCarts, closeDialog }) => {
         }} src={orderCarts?.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
         <Box>
           <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{orderCarts?.item.name}</Typography>
-          <Typography variant='body2'>Category: <b>{orderCarts?.item.category.name}</b></Typography>
-          <Typography>Price: <b>{orderCarts?.item.priceWithTax}</b> kr</Typography>
+          <Typography variant='body2'>Kategori: <b>{orderCarts?.item.category.name}</b></Typography>
+          <Typography>Pris: <b>{orderCarts?.item.priceWithTax}</b> kr</Typography>
         </Box>
       </Stack>
 
@@ -100,20 +100,20 @@ const ReqFoodChange = ({ orderCarts, closeDialog }) => {
             </li>
           )}
           renderInput={(params) => (
-            <TextField {...params} label="Select Product" />
+            <TextField {...params} label="Velg produkt" />
           )}
         />
         <Divider sx={{ mb: 2 }} />
         <Stack direction='row' alignItems='center' gap={1}>
           <Avatar sx={{ borderRadius: '8px', width: '70px', height: '70px' }} src={selectedProduct?.attachments?.edges?.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} />
           <Box>
-            <Typography>{selectedProduct?.name ?? 'No Product Selected'}</Typography>
+            <Typography>{selectedProduct?.name ?? 'Ingen produkt valgt'}</Typography>
             <Typography sx={{ fontSize: '12px' }}>{selectedProduct?.category?.name}</Typography>
           </Box>
         </Stack>
       </Stack>
 
-      <CButton isLoading={userCartUpdateLoading} onClick={handleReqSend} style={{ width: '100%', mt: 2 }} variant='contained'>Request Change</CButton>
+      <CButton isLoading={userCartUpdateLoading} onClick={handleReqSend} style={{ width: '100%', mt: 2 }} variant='contained'>Be om endring</CButton>
 
     </Box>
   )

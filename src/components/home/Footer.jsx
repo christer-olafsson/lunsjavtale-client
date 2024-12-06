@@ -69,7 +69,7 @@ const Footer = () => {
             fontSize: { xs: '44px', md: '64px' },
             color: '#fff', textAlign: 'center', mb: 2
           }}>
-            Friske råvarer, gode smaker, gratis <br /> levering i Follo.
+            Friske råvarer, gode smaker og <br /> gratis levering.
           </Typography>
         </SlideAnimation>
         <Link to='/search'>

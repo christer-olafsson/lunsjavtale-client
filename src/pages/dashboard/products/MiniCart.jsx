@@ -87,13 +87,13 @@ const MiniCart = () => {
           addedProducts.length ?
             <>
               <Stack direction='row' justifyContent='space-between' alignItems='center' mb={1}>
-                <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Order Cart</Typography>
+                <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Handlekurv</Typography>
                 {
                   user?.me.role === 'company-employee' ?
-                    <CButton isLoading={sendCartReqLoading} disable={user?.me.company.isBlocked} onClick={handleRequestOrder} variant='contained'>Request Order</CButton> :
+                    <CButton isLoading={sendCartReqLoading} disable={user?.me.company.isBlocked} onClick={handleRequestOrder} variant='contained'>Be om bestilling</CButton> :
                     <Link to='/dashboard/products/cart'>
                       <Button disabled={user?.me.company.isBlocked} variant='contained'>
-                        Place Order
+                        Legg inn bestilling
                       </Button>
                     </Link>
                 }
@@ -117,8 +117,8 @@ const MiniCart = () => {
                         }} src={data.attachments.edges.find(item => item.node?.isCover)?.node?.fileUrl || '/noImage.png'} alt="" />
                         <Box>
                           <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{data.name}</Typography>
-                          <Typography sx={{ fontSize: '12px' }}> <b> Category: </b> {data.category.name}</Typography>
-                          <Typography sx={{ fontSize: '12px' }}> <b> Price: </b> {data.priceWithTax
+                          <Typography sx={{ fontSize: '12px' }}> <b> Kategori: </b> {data.category.name}</Typography>
+                          <Typography sx={{ fontSize: '12px' }}> <b> Pris: </b> {data.priceWithTax
                           }</Typography>
                         </Box>
                         <IconButton onClick={() => handleProductRemoveDialog(data.id)} sx={{
@@ -142,10 +142,10 @@ const MiniCart = () => {
                             p: 1,
                             zIndex: 10
                           }}>
-                            <Typography variant='body2'>Confirm Remove?</Typography>
+                            <Typography variant='body2'>Bekreft fjerning?</Typography>
                             <Stack direction='row' gap={2} mt={1}>
-                              <Button onClick={() => setRemoveProductId(null)} style={{ fontSize: '12px', height: '25px' }} variant='outlined' size='small'>Cencel</Button>
-                              <CButton isLoading={loading} onClick={handleRemoveProduct} style={{ fontSize: '12px', height: '25px' }} variant='contained' size='small' color='warning'>Confirm</CButton>
+                              <Button onClick={() => setRemoveProductId(null)} style={{ fontSize: '12px', height: '25px' }} variant='outlined' size='small'>Avbryt</Button>
+                              <CButton isLoading={loading} onClick={handleRemoveProduct} style={{ fontSize: '12px', height: '25px' }} variant='contained' size='small' color='warning'>Bekreft</CButton>
                             </Stack>
                           </Paper>
                         }
@@ -160,8 +160,8 @@ const MiniCart = () => {
               bgcolor: 'primary.main',
               color: '#fff',
             }}>
-              <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Shopping Cart</Typography>
-              <Typography sx={{ fontSize: '14px' }}>Choose some of the delicious dishes from the list.</Typography>
+              <Typography sx={{ fontSize: '17px', fontWeight: '600' }}>Matkurv</Typography>
+              <Typography sx={{ fontSize: '14px' }}>Velg noen av de deilige rettene fra listen.</Typography>
             </Box>
         }
 

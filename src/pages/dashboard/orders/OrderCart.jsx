@@ -88,11 +88,11 @@ const OrderCart = ({ order, orderCarts }) => {
                 color: 'coral',
                 border: '1px solid coral',
                 borderRadius: '4px', px: 1
-              }}> Change Request ({allStaffReqCart?.length})</Typography>
+              }}> Endringsforespørsel ({allStaffReqCart?.length})</Typography>
             }
             <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{orderCarts?.node.item.name}</Typography>
-            <Typography variant='body2'>Category: <b>{orderCarts?.node.item.category.name}</b></Typography>
-            <Typography>Price: <b>{orderCarts?.node?.item.priceWithTax}</b> kr</Typography>
+            <Typography variant='body2'>Kategori: <b>{orderCarts?.node.item.category.name}</b></Typography>
+            <Typography>Pris: <b>{orderCarts?.node?.item.priceWithTax}</b> kr</Typography>
           </Box>
         </Stack>
         {/* req food change dialog */}
@@ -103,7 +103,7 @@ const OrderCart = ({ order, orderCarts }) => {
           isStaff ? (
             currentStaffReqCart ?
               <Box mt={{ xs: 3, md: 0 }} sx={{ border: '1px solid coral', p: 1, borderRadius: '8px' }}>
-                <Typography sx={{ color: 'coral', fontWeight: 600, mb: .5 }}>Requested For Change</Typography>
+                <Typography sx={{ color: 'coral', fontWeight: 600, mb: .5 }}>Forespurt om endring</Typography>
                 <Stack direction={{ xs: 'row', md: 'row' }} gap={2} alignItems='center'>
                   <img style={{
                     border: '1px solid lightgray',
@@ -114,8 +114,8 @@ const OrderCart = ({ order, orderCarts }) => {
                   }} src={currentStaffReqCart?.node?.alterCart?.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
                   <Box>
                     <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{currentStaffReqCart?.node?.alterCart?.item.name}</Typography>
-                    <Typography variant='body2'>Category: <b>{currentStaffReqCart?.node?.alterCart?.item.category.name}</b></Typography>
-                    <Typography>Price: <b>{currentStaffReqCart?.node?.alterCart?.item.priceWithTax}</b> kr</Typography>
+                    <Typography variant='body2'>Kategori: <b>{currentStaffReqCart?.node?.alterCart?.item.category.name}</b></Typography>
+                    <Typography>Pris: <b>{currentStaffReqCart?.node?.alterCart?.item.priceWithTax}</b> kr</Typography>
                     <Typography sx={{
                       fontSize: '14px',
                       bgcolor: currentStaffReqCart?.node?.alterCart?.status !== 'pending' ? 'green' : 'darkgray',
@@ -130,13 +130,13 @@ const OrderCart = ({ order, orderCarts }) => {
               <Button disabled={
                 user?.me.company.isBlocked
                 || (order?.status !== 'Placed' && order?.status !== 'Updated' && order?.status !== 'Payment-pending' && order?.status !== 'Payment-completed')
-              } sx={{ mt: { xs: 2, md: 0 }, whiteSpace: 'nowrap' }} onClick={() => setReqFoodChangeDialogOpen(true)} variant='contained'>Request Food Change</Button>
+              } sx={{ mt: { xs: 2, md: 0 }, whiteSpace: 'nowrap' }} onClick={() => setReqFoodChangeDialogOpen(true)} variant='contained'>Be om matendring</Button>
           )
             :
             <Stack gap={.5} mr={2}>
-              <Typography>Quantity: <b>{orderCarts?.node?.orderedQuantity}</b> </Typography>
-              <Typography>Selected Staffs: <b>({orderCarts?.node?.users?.edges?.length})</b></Typography>
-              <Typography>Total Price: <b>{orderCarts?.node?.totalPriceWithTax} </b> kr </Typography>
+              <Typography>Antall: <b>{orderCarts?.node?.orderedQuantity}</b> </Typography>
+              <Typography>Valgte ansatte: <b>({orderCarts?.node?.users?.edges?.length})</b></Typography>
+              <Typography>Total pris: <b>{orderCarts?.node?.totalPriceWithTax} </b> kr </Typography>
               <Stack direction='row' gap={1}>
                 <Button
                   onClick={() => setCartDetailsOpen(!cartDetailsOpen)}
@@ -144,7 +144,7 @@ const OrderCart = ({ order, orderCarts }) => {
                   variant='outlined'
                   endIcon={<ArrowDropDownOutlined />}
                   size='small'>
-                  Details
+                  Detaljer
                 </Button>
                 <Button
                   disabled={
@@ -159,7 +159,7 @@ const OrderCart = ({ order, orderCarts }) => {
                   endIcon={<DriveFileRenameOutlineOutlined />}
                   variant='contained'
                   size='small'>
-                  Update
+                  Oppdater
                 </Button>
               </Stack>
             </Stack>
@@ -181,8 +181,8 @@ const OrderCart = ({ order, orderCarts }) => {
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={tabValue} onChange={(e, value) => setTabValue(value)}>
-              <Tab label="Selected Staffs" {...a11yProps(0)} />
-              <Tab label={`Change Request (${allStaffReqCart.length})`} {...a11yProps(1)} />
+              <Tab label="Valgte ansatte" {...a11yProps(0)} />
+              <Tab label={`Endringsforespørsel (${allStaffReqCart.length})`} {...a11yProps(1)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={tabValue} index={0}>

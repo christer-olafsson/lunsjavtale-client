@@ -78,7 +78,7 @@ const MySide = (props) => {
     },
   });
 
-  const { loading: weeklyLoading, error: weeklyError } = useQuery(PRODUCTS, {
+  useQuery(PRODUCTS, {
     variables: {
       weeklyVariants: selectedWeeklyVariantId ?? null
     },
@@ -105,7 +105,7 @@ const MySide = (props) => {
                 fontWeight: 600,
                 fontSize: '18px',
                 height: '50px',
-              }}>Featured Products</Typography>
+              }}>Utvalgte Produkter</Typography>
               <Box className='custom-scrollbar' sx={{
                 height: '470px',
                 overflowY: 'auto',
@@ -117,7 +117,7 @@ const MySide = (props) => {
                     <Typography sx={{
                       textAlign: 'center',
                       p: 5
-                    }}>No featured products found</Typography>
+                    }}>Ingen utvalgte produkter funnet</Typography>
                   }
                   {
                     products?.length > 0 &&
@@ -135,67 +135,67 @@ const MySide = (props) => {
         {/* weekly selected */}
         {
           // selectedWeeklyProducts?.length > 0 &&
-          <Paper sx={{ mb: 4, }} elevation={3}>
-            <Stack direction='row' alignItems='center' justifyContent='center' sx={{
-              bgcolor: '#52525B',
-              padding: '12px 24px',
-              color: '#fff',
-              textAlign: 'center',
-              borderRadius: '5px',
-              height: '50px',
-            }}>
-              <Typography sx={{
-                fontWeight: 600,
-                fontSize: '18px',
-              }}>Weekly Selected</Typography>
+          // <Paper sx={{ mb: 4, }} elevation={3}>
+          //   <Stack direction='row' alignItems='center' justifyContent='center' sx={{
+          //     bgcolor: '#52525B',
+          //     padding: '12px 24px',
+          //     color: '#fff',
+          //     textAlign: 'center',
+          //     borderRadius: '5px',
+          //     height: '50px',
+          //   }}>
+          //     <Typography sx={{
+          //       fontWeight: 600,
+          //       fontSize: '18px',
+          //     }}>Ukens Utvalgte</Typography>
 
-            </Stack>
-            <Box className='custom-scrollbar' sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              height: selectedWeeklyProducts?.length === 0 ? '150px' : '526px',
-              overflowY: 'auto',
-              p: 2,
-            }}>
-              <FormControl sx={{ mb: 2, ml: 2 }}>
-                <RadioGroup
-                  row
-                  value={selectedWeeklyVariantId}
-                  onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
-                >
-                  <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Alle uker' />
-                  {
-                    allWeeklyVariants?.map((item, index) => (
-                      <FormControlLabel
-                        key={item.id}
-                        value={item.id}
-                        control={<Radio />}
-                        label={item.name}
-                      />
-                    ))
-                  }
-                </RadioGroup>
-              </FormControl>
-              <Grid container spacing={2}>
-                {
-                  selectedWeeklyProducts?.length === 0 &&
-                  <Typography sx={{
-                    textAlign: 'center',
-                    p: 2
-                  }}>No Weekly Selected products found</Typography>
-                }
-                {
-                  weeklyLoading ? <Loader /> : weeklyError ? <ErrorMsg /> :
-                    selectedWeeklyProducts?.map((item, id) => (
-                      <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
-                        <ProductCard data={item} />
-                      </Grid>
-                    ))
-                }
-              </Grid>
-            </Box>
-          </Paper>
+          //   </Stack>
+          //   <Box className='custom-scrollbar' sx={{
+          //     display: 'flex',
+          //     flexDirection: 'column',
+          //     alignItems: 'center',
+          //     height: selectedWeeklyProducts?.length === 0 ? '150px' : '526px',
+          //     overflowY: 'auto',
+          //     p: 2,
+          //   }}>
+          //     <FormControl sx={{ mb: 2, ml: 2 }}>
+          //       <RadioGroup
+          //         row
+          //         value={selectedWeeklyVariantId}
+          //         onChange={(e) => setSelectedWeeklyVariantId(e.target.value)}
+          //       >
+          //         <FormControlLabel checked={!selectedWeeklyVariantId} value='' control={<Radio />} label='Alle uker' />
+          //         {
+          //           allWeeklyVariants?.map((item, index) => (
+          //             <FormControlLabel
+          //               key={item.id}
+          //               value={item.id}
+          //               control={<Radio />}
+          //               label={item.name}
+          //             />
+          //           ))
+          //         }
+          //       </RadioGroup>
+          //     </FormControl>
+          //     <Grid container spacing={2}>
+          //       {
+          //         selectedWeeklyProducts?.length === 0 &&
+          //         <Typography sx={{
+          //           textAlign: 'center',
+          //           p: 2
+          //         }}>Ingen ukentlige utvalgte produkter funnet</Typography>
+          //       }
+          //       {
+          //         weeklyLoading ? <Loader /> : weeklyError ? <ErrorMsg /> :
+          //           selectedWeeklyProducts?.map((item, id) => (
+          //             <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
+          //               <ProductCard data={item} />
+          //             </Grid>
+          //           ))
+          //       }
+          //     </Grid>
+          //   </Box>
+          // </Paper>
         }
 
         {
@@ -212,7 +212,7 @@ const MySide = (props) => {
                 height: '50px',
                 fontWeight: 600,
                 fontSize: '18px',
-              }}>{optionProducts[0]?.category?.name ?? 'Optional Products'}</Typography>
+              }}>{optionProducts[0]?.category?.name ?? 'Valgfrie Produkter'}</Typography>
               <Box sx={{
                 width: { xs: '100%', sm: '100%' },
                 px: 2,
@@ -223,7 +223,7 @@ const MySide = (props) => {
                   <Typography sx={{
                     textAlign: 'center',
                     p: 5
-                  }}>No optional products found</Typography>
+                  }}>Ingen valgfrie produkter funnet</Typography>
                 }
                 {
                   optionProducts?.length > 0 &&

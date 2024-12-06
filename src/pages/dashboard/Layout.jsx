@@ -10,8 +10,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Link, Outlet, useLocation, useMatch } from 'react-router-dom';
-import { AccountCircle, CategoryOutlined, Diversity3, Logout, NotificationsNone, PaidOutlined, PeopleAltOutlined, Search, Settings, SettingsOutlined, ShoppingCartCheckout, ShoppingCartOutlined, SpaceDashboardOutlined, ViewStreamOutlined } from '@mui/icons-material';
+import { Link, Outlet } from 'react-router-dom';
+import { Logout, NotificationsNone, ShoppingCartOutlined } from '@mui/icons-material';
 import { Avatar, Badge, Button, ClickAwayListener, Collapse, MenuItem, Stack } from '@mui/material';
 import { LOGOUT } from '../login/graphql/mutation';
 import LoadingBar from '../../common/loadingBar/LoadingBar';
@@ -21,44 +21,12 @@ import { CLIENT_DETAILS, ME } from '../../graphql/query';
 import SmallNotification from './notification/SmallNotification';
 import OrderPayment from './payment/OrderPayment';
 import CDialog from '../../common/dialog/CDialog';
-import { UNREAD_NOTIFICATION_COUNT, USER_NOTIFICATIONS } from './notification/query';
+import { UNREAD_NOTIFICATION_COUNT } from './notification/query';
 import { googleLogout } from '@react-oauth/google';
-import { ADDED_EMPLOYEE_CARTS } from './staffsOrder/graphql/query';
-import StaffsOrder from './staffsOrder/Index';
 import CDrawer from './CDrawer';
 import { ADDED_PRODUCTS } from './products/graphql/query';
 
 const drawerWidth = 300;
-
-const ListBtn = ({ style, text, icon, link, selected, onClick, notification }) => {
-  return (
-    <Link onClick={onClick} className='link' to={link ? link : ''}>
-      <Box sx={{
-        width: '100%',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '8px 12px',
-        borderRadius: '4px',
-        color: selected ? '#fff' : '#68686F',
-        mb: 1,
-        cursor: 'pointer',
-        bgcolor: selected ? 'primary.main' : '',
-        ...style
-      }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {icon}
-          <Typography sx={{
-            color: 'gray',
-            fontSize: '15px',
-            ml: 1
-          }}>{text}</Typography>
-        </Box>
-        {notification && <Badge sx={{ ml: 2, mr: .5 }} badgeContent={notification} color="error" />}
-      </Box>
-    </Link>
-  )
-};
 
 
 function Layout() {
@@ -152,9 +120,9 @@ function Layout() {
             mb: 1
           }}>
             <Typography sx={{ fontWeight: 600 }}>
-              Account Restricted.
+              Konto begrenset.
             </Typography>
-            <a style={{ fontSize: '13px' }} href={`https://wa.me/${clientDetails?.contact}`} target='blank'>Contact</a>
+            <a style={{ fontSize: '13px' }} href={`https://wa.me/${clientDetails?.contact}`} target='blank'>Kontakt</a>
           </Stack>
         }
         <Typography sx={{
@@ -167,7 +135,7 @@ function Layout() {
           textAlign: 'center',
           position: 'relative'
         }}>
-          Deal: <b>{user?.me.company?.name}</b>
+          Avtale: <b>{user?.me.company?.name}</b>
         </Typography>
         {
           (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
@@ -180,14 +148,14 @@ function Layout() {
             textAlign: 'center',
             display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
-            <Typography>Due: <b>{user?.me.company.balance}</b>  kr</Typography>
+            <Typography>Forfalt: <b>{user?.me.company.balance}</b>  kr</Typography>
             <Button
               disabled={user?.me.company?.isBlocked || user?.me?.company?.balance === '0.00'}
               onClick={() => setOpenCompanyPaymentDialog(true)}
               variant='outlined'
               size='small'
             >
-              Pay by Vipps
+              Betal med Vipps
             </Button>
           </Stack>
         }
@@ -202,14 +170,14 @@ function Layout() {
             textAlign: 'center',
             display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
-            <Typography>Due Amount: <b>{user?.me?.dueAmount}</b>  kr</Typography>
+            <Typography>Forfalt beløp: <b>{user?.me?.dueAmount}</b>  kr</Typography>
             <Button
               disabled={user?.me.company?.isBlocked || user?.me?.dueAmount === '0.00'}
               onClick={() => setOpenStaffPaymentDialog(true)}
               variant='outlined'
               size='small'
             >
-              Pay Now (Vipps)
+              Betal nå (Vipps)
             </Button>
           </Stack>
         }
@@ -266,7 +234,7 @@ function Layout() {
                 fontSize: { xs: '14px', md: '18px' },
                 fontWeight: 600,
                 color: 'red', mr: { xs: 0, md: 4 }
-              }}>Test Mode</Typography>
+              }}>test mode</Typography>
             }
             <Link to='/dashboard/cart'>
               <IconButton>
@@ -291,14 +259,14 @@ function Layout() {
                 </IconButton>
                 {
                   openNotification &&
-                  <Collapse sx={{
+                  <Box sx={{
                     position: 'absolute',
-                    left: { xs: '50%', md: '0' },
+                    left: { xs: '50%', md: '-20px' },
                     transform: 'translateX(-50%)',
                     top: 55,
-                  }} in={openNotification}>
+                  }}>
                     <SmallNotification onClose={() => setOpenNotification(false)} />
-                  </Collapse>
+                  </Box>
                 }
               </Box>
             </ClickAwayListener>
@@ -344,12 +312,6 @@ function Layout() {
                     <Typography sx={{ fontSize: '20px', textAlign: 'center' }}>{user?.me.username}</Typography>
                     <Typography sx={{ textAlign: 'center', fontSize: '14px' }}>{user?.me.email}</Typography>
                     <Typography sx={{ textAlign: 'center', fontSize: '14px', mb: 2 }}>{user?.me.phone}</Typography>
-                    {/* <MenuItem onClick={() => setUsermenuOpen(false)}>
-                      <ListItemIcon>
-                        <Settings fontSize="small" />
-                      </ListItemIcon>
-                      Settings
-                    </MenuItem> */}
                     <Divider sx={{ width: '100%' }} />
                     <MenuItem onClick={() => (
                       setUsermenuOpen(false),
@@ -358,7 +320,7 @@ function Layout() {
                       <ListItemIcon>
                         <Logout fontSize="small" />
                       </ListItemIcon>
-                      Logout
+                      Logg ut
                     </MenuItem>
                   </Stack>
                 </Collapse>

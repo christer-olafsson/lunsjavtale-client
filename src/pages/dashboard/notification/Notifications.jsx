@@ -81,7 +81,7 @@ const Notifications = () => {
   ]
   return (
     <Box maxWidth='xl'>
-      <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>All Notifications</Typography>
+      <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Alle Varsler</Typography>
       <Box mt={3}>
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :

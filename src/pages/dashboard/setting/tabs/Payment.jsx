@@ -60,13 +60,13 @@ const Payment = () => {
 
   return (
     <Box>
-      <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Payment Settings</Typography>
-      <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>View and update your payment  details</Typography>
+      <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Betalingsinnstillinger</Typography>
+      <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>Vis og oppdater betalingsdetaljene dine</Typography>
 
       {/* payment getway integration */}
       <Paper sx={{ p: 2, mt: 3 }}>
         <Stack sx={{ cursor: 'pointer' }} onClick={() => setOpenPaymentGateway(!openPaymentGateway)} direction='row' justifyContent='space-between' alignItems='center'>
-          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Payment Methods</Typography>
+          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Betalingsmetoder</Typography>
           <IconButton>
             <ArrowForwardIos sx={{
               transition: 'transform .3s ease',
@@ -77,7 +77,7 @@ const Payment = () => {
         <Collapse in={openPaymentGateway} >
           <Stack mt={2} direction='row' alignItems='center' justifyContent='space-between'>
             <Box></Box>
-            <Button onClick={() => setOpenPaymentMethodDialog(true)} variant='contained' startIcon={<Add />}>Add</Button>
+            <Button onClick={() => setOpenPaymentMethodDialog(true)} variant='contained' startIcon={<Add />}>Legg til</Button>
           </Stack>
           {/* add payment method */}
           <CDialog openDialog={openPaymentMethodDialog}>
@@ -96,10 +96,10 @@ const Payment = () => {
                     data.isDefault &&
                     <Typography sx={{ fontSize: '16px', fontWeight: 600, display: 'inline-flex', gap: '5px' }}>
                       <CheckCircleOutlined sx={{ color: 'green' }} />
-                      Primary Payment Method
+                      Primær betalingsmetode
                     </Typography>
                   }
-                  <Typography sx={{ fontSize: '14px', fontWeight: 300 }}>Added On: {format(data.createdOn, 'dd-MM-yyyy')}</Typography>
+                  <Typography sx={{ fontSize: '14px', fontWeight: 300 }}>Lagt til: {format(data.createdOn, 'dd-MM-yyyy')}</Typography>
                   <Stack mt={2} direction={{ xs: 'column', md: 'row' }} justifyContent='space-between'>
                     <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'center' }} spacing={2}>
                       <Box sx={{
@@ -114,15 +114,15 @@ const Payment = () => {
                       </Box>
                       <Box>
                         <Typography sx={{ fontSize: '15px', fontWeight: 700 }}>
-                          Holder Name:
+                          Kortholderens navn:
                           <span style={{ fontWeight: 300, marginLeft: '10px' }}>{data.cardHolderName} </span>
                         </Typography>
                         <Typography sx={{ fontSize: '15px', fontWeight: 700 }}>
-                          Card Number:
+                          Kortnummer:
                           <span style={{ fontWeight: 300, marginLeft: '10px' }}>{data.cardNumber.replace(/.(?=.{4})/g, '*')} </span>
                         </Typography>
                         <Typography sx={{ fontSize: '15px', fontWeight: 700 }}>
-                          Expiry:
+                          Utløpsdato:
                           <span style={{ fontWeight: 300, marginLeft: '10px' }}>{format(data.expiry, 'dd-MM-yyyy')} </span>
                         </Typography>
                       </Box>
@@ -144,11 +144,11 @@ const Payment = () => {
                       <CDialog closeDialog={() => setDeleteId('')} maxWidth='sm' openDialog={data.id === deleteId}>
                         <Box>
                           <ErrorOutline fontSize='large' sx={{ color: 'red' }} />
-                          <Typography sx={{ fontSize: { xs: '18px', lg: '22px' }, fontWeight: 600 }}>Confirm Deletion?</Typography>
-                          <Typography sx={{ fontSize: '14px', mt: 1 }}>Are you sure you want to delete this payment method? This action cannot be undone.</Typography>
+                          <Typography sx={{ fontSize: { xs: '18px', lg: '22px' }, fontWeight: 600 }}>Bekreft sletting?</Typography>
+                          <Typography sx={{ fontSize: '14px', mt: 1 }}>Er du sikker på at du vil slette denne betalingsmetoden? Denne handlingen kan ikke angres.</Typography>
                           <Stack direction='row' gap={2} mt={3}>
-                            <Button onClick={() => setDeleteId('')} fullWidth variant='outlined'>Cancel</Button>
-                            <Button onClick={handleDelete} disabled={deleteLoading} fullWidth variant='contained' color='error'>Delete</Button>
+                            <Button onClick={() => setDeleteId('')} fullWidth variant='outlined'>Avbryt</Button>
+                            <Button onClick={handleDelete} disabled={deleteLoading} fullWidth variant='contained' color='error'>Slett</Button>
                           </Stack>
                         </Box>
                       </CDialog>
@@ -164,7 +164,7 @@ const Payment = () => {
       {/* billing information */}
       <Paper sx={{ p: 2, mt: 3 }}>
         <Stack sx={{ cursor: 'pointer' }} onClick={() => setOpenBillingInfo(!openBillingInfo)} direction='row' justifyContent='space-between' alignItems='center'>
-          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Billing Information</Typography>
+          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Faktureringsinformasjon</Typography>
           <IconButton disabled={user?.me.role === 'company-employee'}>
             <ArrowForwardIos sx={{
               transition: 'transform .3s ease',
@@ -181,7 +181,7 @@ const Payment = () => {
       {/* shipping information */}
       <Paper sx={{ p: 2, mt: 3 }}>
         <Stack sx={{ cursor: 'pointer' }} onClick={() => setOpenShippingInfo(!openShippingInfo)} direction='row' justifyContent='space-between' alignItems='center'>
-          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Shipping Information</Typography>
+          <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Fraktinformasjon</Typography>
           <IconButton disabled={user?.me.role === 'company-employee'}>
             <ArrowForwardIos sx={{
               transition: 'transform .3s ease',

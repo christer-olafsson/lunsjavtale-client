@@ -37,17 +37,17 @@ const UserPassReset = ({ data, closeDialog }) => {
   const handleResetPassword = () => {
     if (!payload.password) {
       setError(true)
-      toast.error('Password Empty!')
+      toast.error('Passord er tomt!')
       return
     }
     if (!payload.confirmPassword) {
       setError(true)
-      toast.error('Confirm Password Empty!')
+      toast.error('Bekreft passord er tomt!')
       return
     }
     if (payload.password !== payload.confirmPassword) {
       setError(true)
-      toast.error('Password not Match!')
+      toast.error('Passordene stemmer ikke overens!')
       return
     }
     userPasswordReset({
@@ -59,13 +59,13 @@ const UserPassReset = ({ data, closeDialog }) => {
   }
   return (
     <Stack gap={2}>
-      <Typography variant='h6'>Password Reset for ({data.email})</Typography>
+      <Typography variant='h6'>Tilbakestill passord for ({data.email})</Typography>
 
       <TextField
         variant="outlined"
         type={passwordVisibility ? "text" : "password"}
         name="password"
-        label="Password"
+        label="Passord"
         error={error}
         onChange={handleInputChange}
         InputProps={{
@@ -86,7 +86,7 @@ const UserPassReset = ({ data, closeDialog }) => {
         variant="outlined"
         type={passwordVisibility ? "text" : "password"}
         name="confirmPassword"
-        label="Confirm Password"
+        label="Bekreft passord"
         error={error}
         onChange={handleInputChange}
         InputProps={{
@@ -106,8 +106,8 @@ const UserPassReset = ({ data, closeDialog }) => {
 
 
       <DialogActions>
-        <CButton variant='outlined' onClick={() => closeDialog(false)}>Cancel</CButton>
-        <CButton isLoading={loading} onClick={handleResetPassword} variant='contained'>Reset</CButton>
+        <CButton variant='outlined' onClick={() => closeDialog(false)}>Avbryt</CButton>
+        <CButton isLoading={loading} onClick={handleResetPassword} variant='contained'>Tilbakestill</CButton>
       </DialogActions>
     </Stack>
   )

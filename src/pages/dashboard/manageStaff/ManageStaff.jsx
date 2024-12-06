@@ -141,7 +141,7 @@ const ManageStaff = () => {
     {
       field: 'contact', headerName: '', width: 250,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Contact</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Kontakt</Typography>
       ),
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} justifyContent='center'>
@@ -159,7 +159,7 @@ const ManageStaff = () => {
       headerName: '',
       width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Due Amount</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Skyldig Beløp</Typography>
       ),
       renderCell: (params) => {
         const { row } = params
@@ -183,7 +183,7 @@ const ManageStaff = () => {
       headerName: '',
       width: 200,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Added On</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Lagt Til</Typography>
       ),
       renderCell: (params) => {
         const { row } = params
@@ -229,7 +229,7 @@ const ManageStaff = () => {
 
   return (
     <Box maxWidth='xl'>
-      <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Manage Staff</Typography>
+      <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Administrer Ansatte</Typography>
       <Stack direction={{ xs: 'column-reverse', md: 'row' }} justifyContent='space-between' gap={2} sx={{
         my: 2
       }}>
@@ -248,8 +248,8 @@ const ManageStaff = () => {
           <IconButton><Search /></IconButton>
         </Box>
         <Stack direction='row' justifyContent='space-between' gap={2}>
-          <Button variant='outlined' onClick={() => setMakeOnlinePaymentDialogOpen(true)}>Create Staff Payment</Button>
-          <Button disabled={user?.me.company.isBlocked} onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Add Staff</Button>
+          <Button variant='outlined' onClick={() => setMakeOnlinePaymentDialogOpen(true)}>Opprett Betaling for Ansatt</Button>
+          <Button disabled={user?.me.company.isBlocked} onClick={() => setAddStaffDilogOpen(true)} variant='contained' sx={{ textWrap: 'nowrap' }}>Legg til Ansatt</Button>
         </Stack>
       </Stack>
       {/* make online payment */}
@@ -266,11 +266,11 @@ const ManageStaff = () => {
       </CDialog>
       {/* remove staff */}
       <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
-        <Typography variant='h5'>Confirm Remove <i style={{ color: 'red' }}>{deleteStaffData.email}</i>?</Typography>
-        <Typography color='red'>This user will be permanently removed from the staff list</Typography>
+        <Typography variant='h5'>Bekreft fjerning <i style={{ color: 'red' }}>{deleteStaffData.email}</i>?</Typography>
+        <Typography color='red'>Denne brukeren vil bli permanent fjernet fra ansattlisten</Typography>
         <DialogActions>
-          <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Cancel</Button>
-          <CButton isLoading={userDeleteLoading || loadingFiledelete} onClick={handlStaffDelete} variant='contained'>Confirm</CButton>
+          <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Avbryt</Button>
+          <CButton isLoading={userDeleteLoading || loadingFiledelete} onClick={handlStaffDelete} variant='contained'>Bekreft</CButton>
         </DialogActions>
       </CDialog>
       <Box>

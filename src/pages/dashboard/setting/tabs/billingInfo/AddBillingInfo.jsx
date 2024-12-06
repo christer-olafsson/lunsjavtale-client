@@ -43,7 +43,7 @@ const AddBillingInfo = () => {
 
   const handleAdd = () => {
     if (!payload.address) {
-      setErrors({ address: 'Address Required!' })
+      setErrors({ address: 'Adresse er påkrevd!' })
     }
     billingAddressMutation({
       variables: {
@@ -74,7 +74,7 @@ const AddBillingInfo = () => {
         value={payload.address}
         onChange={handleBillingInputChange}
         name='address'
-        label="Business Address"
+        label="Forretningsadresse"
         variant="standard"
         disabled={!editOn}
       />
@@ -84,7 +84,7 @@ const AddBillingInfo = () => {
           value={payload.firstName}
           onChange={handleBillingInputChange}
           name='firstName'
-          label="First Name"
+          label="Fornavn"
           variant="standard"
           disabled={!editOn}
         />
@@ -93,7 +93,7 @@ const AddBillingInfo = () => {
           value={payload.lastName}
           onChange={handleBillingInputChange}
           name='lastName'
-          label="Last Name"
+          label="Etternavn"
           variant="standard"
           disabled={!editOn}
         />
@@ -105,7 +105,7 @@ const AddBillingInfo = () => {
           onChange={handleBillingInputChange}
           name='phone'
           type='number'
-          label="Phone"
+          label="Telefon"
           variant="standard"
           disabled={!editOn}
         />
@@ -114,17 +114,17 @@ const AddBillingInfo = () => {
         value={payload.sector}
         onChange={handleBillingInputChange}
         name='sector'
-        label="Sector"
+        label="Sektor"
         variant="standard"
         disabled={!editOn}
       />
       {
         editOn ?
           <Stack direction='row' gap={2} alignItems='center' alignSelf='flex-end'>
-            <Button onClick={() => setEditOn(false)} variant='outlined'>Cancel</Button>
-            <CButton onClick={handleAdd} isLoading={loading} variant='contained'>Save Changes</CButton>
+            <Button onClick={() => setEditOn(false)} variant='outlined'>Avbryt</Button>
+            <CButton onClick={handleAdd} isLoading={loading} variant='contained'>Lagre endringer</CButton>
           </Stack>
-          : <Button onClick={() => setEditOn(true)} sx={{ width: 'fit-content', alignSelf: 'flex-end' }} variant='contained'>Edit</Button>
+          : <Button onClick={() => setEditOn(true)} sx={{ width: 'fit-content', alignSelf: 'flex-end' }} variant='contained'>Rediger</Button>
       }
     </Stack>
   )

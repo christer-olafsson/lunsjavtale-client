@@ -56,23 +56,23 @@ const CompanyProfile = () => {
   const handleUpdate = async () => {
     let fileId = user.me.fileId;
     if (!payload.name) {
-      setErrors({ name: 'Company Name Required!' });
+      setErrors({ name: 'Firmanavn er påkrevd!' });
       return
     }
     if (!payload.firstName) {
-      setErrors({ firstName: 'Owner Name Required!' });
+      setErrors({ firstName: 'Eiernavn er påkrevd!' });
       return
     }
     if (!payload.postCode) {
-      setErrors({ postCode: 'Post Code Required!' });
+      setErrors({ postCode: 'Postnummer er påkrevd!' });
       return
     }
     if (!payload.email) {
-      setErrors({ email: 'Email Required!' });
+      setErrors({ email: 'E-post er påkrevd!' });
       return
     }
     if (!payload.contact) {
-      setErrors({ contact: 'Contact Number Required!' });
+      setErrors({ contact: 'Kontakt nummer er påkrevd!' });
       return
     }
     let logoUrl = user.me.company.logoUrl;
@@ -119,8 +119,8 @@ const CompanyProfile = () => {
 
   return (
     <Box>
-      <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Company Profile</Typography>
-      <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>View and update your Company profile  details</Typography>
+      <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Bedriftsprofil</Typography>
+      <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>Vis og oppdater bedriftsprofilen din</Typography>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={3} alignItems='center' justifyContent='space-between' mt={1}>
         <Stack direction='row' gap={3} alignItems='center'>
           {
@@ -136,7 +136,7 @@ const CompanyProfile = () => {
                 border: '1px solid lightgray',
                 padding: '5px 24px',
                 borderRadius: '6px',
-              }} htmlFor="avatar">Choose</label>
+              }} htmlFor="avatar">Velg</label>
             </>
           }
           <input
@@ -144,7 +144,7 @@ const CompanyProfile = () => {
               const file = e.target.files[0];
               const maxFileSize = 500 * 1024; // 500KB in bytes
               if (file.size > maxFileSize) {
-                alert(`File ${file.name} is too large. Please select a file smaller than 500KB.`);
+                alert(`Filen ${file.name} er for stor. Vennligst velg en fil som er mindre enn 500KB.`);
                 return
               }
               setFile(e.target.files[0])
@@ -153,7 +153,7 @@ const CompanyProfile = () => {
             id="avatar"
             hidden accept="jpg,png,gif"
           />
-          {/* <Button disabled={!payloadEditOn} onClick={() => setFile(null)} startIcon={<Delete />}>Remove</Button> */}
+          {/* <Button disabled={!payloadEditOn} onClick={() => setFile(null)} startIcon={<Delete />}>Fjern</Button> */}
         </Stack>
       </Stack>
       <FormGroup>
@@ -168,7 +168,7 @@ const CompanyProfile = () => {
                 onChange={handleInputChange}
                 name='name'
                 size='small'
-                label='Company Name'
+                label='Firmanavn'
               />
               <TextField
                 disabled={!payloadEditOn}
@@ -176,7 +176,7 @@ const CompanyProfile = () => {
                 onChange={handleInputChange}
                 name='noOfEmployees'
                 size='small'
-                label='No Of Employees'
+                label='Antall ansatte'
               />
               <TextField
                 helperText={errors.email}
@@ -186,7 +186,7 @@ const CompanyProfile = () => {
                 onChange={handleInputChange}
                 name='email'
                 size='small'
-                label='Email'
+                label='E-post'
                 inputProps={{ readOnly: true }}
               />
               <TextField
@@ -196,7 +196,7 @@ const CompanyProfile = () => {
                 onChange={handleInputChange}
                 size='small'
                 type='date'
-                helperText={`Formation Date`} />
+                helperText={`Stiftelsesdato`} />
             </Stack>
             <Stack flex={1} gap={2}>
               <TextField
@@ -207,7 +207,7 @@ const CompanyProfile = () => {
                 onChange={handleInputChange}
                 name='firstName'
                 size='small'
-                label='Owner Name' />
+                label='Eiernavn' />
               <TextField
                 helperText={errors.postCode}
                 error={Boolean(errors.postCode)}
@@ -216,7 +216,7 @@ const CompanyProfile = () => {
                 onChange={handleInputChange}
                 name='postCode'
                 size='small'
-                label='Post Code' />
+                label='Postnummer' />
               <TextField
                 helperText={errors.contact}
                 error={Boolean(errors.contact)}
@@ -225,7 +225,7 @@ const CompanyProfile = () => {
                 onChange={handleInputChange}
                 name='contact'
                 size='small'
-                label='Contact number'
+                label='Kontakt nummer'
               />
             </Stack>
           </Stack>
@@ -236,7 +236,7 @@ const CompanyProfile = () => {
             onChange={handleInputChange}
             name='address'
             size='small'
-            label='Address'
+            label='Adresse'
           />
           <TextField
             disabled={!payloadEditOn}
@@ -244,7 +244,7 @@ const CompanyProfile = () => {
             onChange={handleInputChange}
             name='description'
             size='small'
-            label='Description'
+            label='Beskrivelse'
             multiline
             rows={2}
           />
@@ -255,10 +255,10 @@ const CompanyProfile = () => {
         {
           payloadEditOn ?
             <Stack direction='row' alignItems='center' gap={2}>
-              <CButton onClick={() => setPayloadEditOn(false)} variant='outlined'>Cencel</CButton>
-              <CButton isLoading={updateLoading || fileUploadLoading} onClick={handleUpdate} variant='contained'>Save Changes</CButton>
+              <CButton onClick={() => setPayloadEditOn(false)} variant='outlined'>Avbryt</CButton>
+              <CButton isLoading={updateLoading || fileUploadLoading} onClick={handleUpdate} variant='contained'>Lagre endringer</CButton>
             </Stack> :
-            <CButton disable={user?.me.company.isBlocked || user?.me.role === 'company-employee'} onClick={() => setPayloadEditOn(true)} variant='contained'>Edit</CButton>
+            <CButton disable={user?.me.company.isBlocked || user?.me.role === 'company-employee'} onClick={() => setPayloadEditOn(true)} variant='contained'>Rediger</CButton>
         }
       </Stack>
     </Box>

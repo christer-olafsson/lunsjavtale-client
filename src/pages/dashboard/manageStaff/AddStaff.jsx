@@ -61,19 +61,19 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
 
   const handleAddStaff = async () => {
     if (!payload.username) {
-      setErrors({ username: 'User Name required!' });
+      setErrors({ username: 'Brukernavn er påkrevd!' });
       return
     }
     if (!payload.email) {
-      setErrors({ email: 'Email required!' });
+      setErrors({ email: 'E-post er påkrevd!' });
       return
     }
     if (!payload.role) {
-      setErrors({ role: 'User Role required!' });
+      setErrors({ role: 'Brukerrolle er påkrevd!' });
       return
     }
     if (!payload.phone) {
-      setErrors({ phone: 'Phone number required!' });
+      setErrors({ phone: 'Telefonnummer er påkrevd!' });
       return
     }
     let photoUrl = '';
@@ -105,7 +105,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' mb={4}>
-        <Typography variant='h4'>Add Staff</Typography>
+        <Typography variant='h4'>Legg til Ansatt</Typography>
         <IconButton onClick={closeDialog}>
           <Close />
         </IconButton>
@@ -123,7 +123,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
             const file = e.target.files[0];
             const maxFileSize = 500 * 1024; // 500KB in bytes
             if (file.size > maxFileSize) {
-              alert(`File ${file.name} is too large. Please select a file smaller than 500KB.`);
+              alert(`Filen ${file.name} er for stor. Vennligst velg en fil som er mindre enn 500KB.`);
               return
             }
             setFile(e.target.files[0])
@@ -134,19 +134,19 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
         <Stack mt={4}>
           <Stack direction='row' gap={2} mb={2}>
             <Stack flex={1} gap={2}>
-              <TextField onChange={handleInputChange} name='firstName' size='small' label='First Name' />
-              <TextField onChange={handleInputChange} helperText={errors.username} error={Boolean(errors.username)} name='username' size='small' label='User Name' />
+              <TextField onChange={handleInputChange} name='firstName' size='small' label='Fornavn' />
+              <TextField onChange={handleInputChange} helperText={errors.username} error={Boolean(errors.username)} name='username' size='small' label='Brukernavn' />
               <FormControl error={Boolean(errors.role)} size='small' fullWidth>
-                <InputLabel>Staff Role</InputLabel>
+                <InputLabel>Ansatt Rolle</InputLabel>
                 <Select
                   value={payload.role}
-                  label="Staff Role"
+                  label="Ansatt Rolle"
                   onChange={handleRoleChange}
                 >
-                  <MenuItem selected value={'company-employee'}>Employee</MenuItem>
+                  <MenuItem selected value={'company-employee'}>Ansatt</MenuItem>
                   {
                     user?.me.role === 'company-owner' &&
-                    <MenuItem value={'company-manager'}>Manager</MenuItem>
+                    <MenuItem value={'company-manager'}>Leder</MenuItem>
                   }
                 </Select>
                 {errors.role && <FormHelperText>{errors.role}</FormHelperText>}
@@ -158,7 +158,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
                 onChange={handleInputChange}
                 name='lastName'
                 size='small'
-                label='Last Name'
+                label='Etternavn'
               />
               <TextField
                 helperText={errors.email}
@@ -166,7 +166,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
                 onChange={handleInputChange}
                 name='email'
                 size='small'
-                label='Email' />
+                label='E-post' />
               <TextField
                 helperText={errors.phone}
                 error={Boolean(errors.phone)}
@@ -174,7 +174,7 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
                 type='number'
                 name='phone'
                 size='small'
-                label='Phone Number'
+                label='Telefonnummer'
               />
             </Stack>
           </Stack>
@@ -200,12 +200,12 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
           </li>
         )}
         renderInput={(params) => (
-          <TextField {...params} label="Select Allergies" />
+          <TextField {...params} label="Velg Allergier" />
         )}
       />
 
       <CButton isLoading={createStaffLoading || fileUploadLoading} onClick={handleAddStaff} variant='contained' style={{ width: '100%', mt: 2, height: { xs: '45px', md: '45px' } }}>
-        Add
+        Legg til
       </CButton>
 
     </Box >

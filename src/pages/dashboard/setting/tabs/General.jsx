@@ -21,10 +21,10 @@ const General = () => {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab sx={{ textTransform: 'none' }} label="User Profile" value="1" />
+            <Tab sx={{ textTransform: 'none' }} label="Brukerprofil" value="1" />
             {
               user?.me.role !== 'employee' &&
-              <Tab sx={{ textTransform: 'none' }} label="Company Profile" value="2" />
+              <Tab sx={{ textTransform: 'none' }} label="Bedriftsprofil" value="2" />
             }
           </TabList>
         </Box>

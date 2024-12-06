@@ -22,7 +22,7 @@ const Setting = () => {
 
   return (
     <Box maxWidth='lg'>
-      <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>System Settings</Typography>
+      <Typography sx={{ fontSize: '24px', fontWeight: 600 }}>Systeminnstillinger</Typography>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={4} mt={4}>
         <Box sx={{
           position: { xs: 'none', lg: 'sticky' },
@@ -50,7 +50,7 @@ const Setting = () => {
             }}><Avatar src={user?.me.photoUrl ? user.me.photoUrl : ''} sx={{ width: '100%', height: '100%', }} />
             </Box>
             <Typography sx={{ fontSize: '18px', fontWeight: 500 }}>{user?.me.company.name}</Typography>
-            <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>IT Tecnhology</Typography>
+            {/* <Typography sx={{ fontSize: '14px', fontWeight: 500 }}>IT Tecnhology</Typography> */}
             {
               loading ? <Loader /> : paymentMethodErr ? <ErrorMsg /> :
                 paymentMethods.map(data => (
@@ -73,15 +73,15 @@ const Setting = () => {
                         </Box>
                         <Box>
                           <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>
-                            Card Holder Name:
+                            Kortinnehaverens navn:
                             <span style={{ fontWeight: 300, marginLeft: '10px' }}>{data.cardHolderName} </span>
                           </Typography>
                           <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>
-                            Card Number:
+                            Kortnummer:
                             <span style={{ fontWeight: 300, marginLeft: '10px' }}>{data.cardNumber.replace(/.(?=.{4})/g, '*')} </span>
                           </Typography>
                           <Typography sx={{ fontSize: '14px', fontWeight: 700 }}>
-                            Expiry Date:
+                            Utløpsdato:
                             <span style={{ fontWeight: 300, marginLeft: '10px' }}>{format(data.expiry, 'dd-MM-yyyy')} </span>
                           </Typography>
                         </Box>

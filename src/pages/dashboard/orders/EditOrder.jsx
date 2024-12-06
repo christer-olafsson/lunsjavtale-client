@@ -36,7 +36,7 @@ const EditOrder = ({ data, closeDialog }) => {
 
   const handleCartUpdate = () => {
     if (orderedQuantity === 0) {
-      toast.error('Quantity empty!');
+      toast.error('Antall tomt!');
       return;
     }
     cartUpdate({
@@ -51,7 +51,7 @@ const EditOrder = ({ data, closeDialog }) => {
   const columns = [
     {
       field: 'users',
-      headerName: 'Users',
+      headerName: 'Brukere',
       width: 200,
       renderCell: (params) => {
         const { row } = params;
@@ -68,7 +68,7 @@ const EditOrder = ({ data, closeDialog }) => {
     },
     {
       field: 'role',
-      headerName: 'Role',
+      headerName: 'Rolle',
       width: 150,
       renderCell: (params) => {
         const { row } = params;
@@ -86,7 +86,7 @@ const EditOrder = ({ data, closeDialog }) => {
     },
     {
       field: 'email',
-      headerName: 'Email',
+      headerName: 'E-post',
       width: 250,
     },
   ];
@@ -183,11 +183,11 @@ const EditOrder = ({ data, closeDialog }) => {
         }} src={data?.item.attachments?.edges.find(item => item.node.isCover)?.node.fileUrl ?? "/noImage.png"} alt="" />
         <Box>
           <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{data?.item.name}</Typography>
-          <Typography variant='body2'>Category: <b>{data?.item.category.name}</b></Typography>
-          <Typography>Price: <b>{data?.item.priceWithTax}</b> kr</Typography>
+          <Typography variant='body2'>Kategori: <b>{data?.item.category.name}</b></Typography>
+          <Typography>Pris: <b>{data?.item.priceWithTax}</b> kr</Typography>
         </Box>
       </Stack>
-      <Typography variant='body2' mb={.5}>Ordered Quantity</Typography>
+      <Typography variant='body2' mb={.5}>Bestilt Mengde</Typography>
       <Stack direction='row' justifyContent='space-between' gap={2} alignItems='center'>
         <Stack sx={{
           width: '150px',
@@ -204,18 +204,18 @@ const EditOrder = ({ data, closeDialog }) => {
           variant='outlined'
           endIcon={<ArrowDropDownOutlined />}
         >
-          Staffs
+          Ansatte
         </Button>
       </Stack>
 
       <Collapse in={tableOpen}>
         <DataGrid
           localeText={{
-            noRowsLabel: 'Empty',
+            noRowsLabel: 'Tom',
             footerRowSelected: (count) =>
               count !== 1
-                ? `${count.toLocaleString()} Selected`
-                : `${count.toLocaleString()} Selected`,
+                ? `${count.toLocaleString()} Valgt`
+                : `${count.toLocaleString()} Valgt`,
           }}
           sx={{ my: 2 }}
           rows={rows}
@@ -233,8 +233,8 @@ const EditOrder = ({ data, closeDialog }) => {
       <Stack direction='row' justifyContent='space-between' >
         <Box />
         <Stack direction='row' gap={2} mt={2}>
-          <Button onClick={closeDialog} variant='outlined'>Cancel</Button>
-          <CButton onClick={handleCartUpdate} isLoading={loading} variant='contained'>Update</CButton>
+          <Button onClick={closeDialog} variant='outlined'>Avbryt</Button>
+          <CButton onClick={handleCartUpdate} isLoading={loading} variant='contained'>Oppdater</CButton>
         </Stack>
       </Stack>
     </Box>

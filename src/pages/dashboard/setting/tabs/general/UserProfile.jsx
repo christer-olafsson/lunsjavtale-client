@@ -120,8 +120,8 @@ const UserProfile = () => {
 
   return (
     <Box>
-      <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>User Profile</Typography>
-      <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>View and update your profile  details</Typography>
+      <Typography sx={{ fontSize: '18px', fontWeight: 700, mb: 1 }}>Brukerprofil</Typography>
+      <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>Vis og oppdater profilinformasjonen din</Typography>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={3} alignItems='center' justifyContent='space-between' mt={1}>
         <Stack direction='row' gap={3} alignItems='center'>
           {
@@ -132,55 +132,55 @@ const UserProfile = () => {
                 border: '1px solid lightgray',
                 padding: '5px 24px',
                 borderRadius: '6px',
-              }} htmlFor="avatar">Choose</label>
+              }} htmlFor="avatar">Velg</label>
             </>
           }
           <input onChange={(e) => {
             const file = e.target.files[0];
             const maxFileSize = 500 * 1024; // 500KB in bytes
             if (file.size > maxFileSize) {
-              alert(`File ${file.name} is too large. Please select a file smaller than 500KB.`);
+              alert(`Filen ${file.name} er for stor. Vennligst velg en fil som er mindre enn 500KB.`);
               return
             }
             setFile(e.target.files[0])
           }} type="file" id="avatar" hidden accept="jpg,png,gif" />
-          {/* <Button disabled={!payloadEditOn} onClick={() => setFile(null)} startIcon={<Delete />}>Remove</Button> */}
+          {/* <Button disabled={!payloadEditOn} onClick={() => setFile(null)} startIcon={<Delete />}>Fjern</Button> */}
         </Stack>
       </Stack>
       <FormGroup>
         <Stack mt={4}>
           <Stack direction='row' gap={2} mb={2}>
             <Stack flex={1} gap={2}>
-              <TextField disabled={!payloadEditOn} value={payload.firstName} onChange={handleInputChange} name='firstName' size='small' label='First Name' />
-              <TextField disabled={!payloadEditOn} value={payload.address} onChange={handleInputChange} name='address' size='small' label='Address' />
-              <TextField disabled={!payloadEditOn} value={payload.phone} onChange={handleInputChange} name='phone' size='small' label='Phone number' />
+              <TextField disabled={!payloadEditOn} value={payload.firstName} onChange={handleInputChange} name='firstName' size='small' label='Fornavn' />
+              <TextField disabled={!payloadEditOn} value={payload.address} onChange={handleInputChange} name='address' size='small' label='Adresse' />
+              <TextField disabled={!payloadEditOn} value={payload.phone} onChange={handleInputChange} name='phone' size='small' label='Telefonnummer' />
             </Stack>
             <Stack flex={1} gap={2}>
-              <TextField disabled={!payloadEditOn} value={payload.lastName} onChange={handleInputChange} name='lastName' size='small' label='Last Name' />
-              {/* <TextField disabled={!payloadEditOn} value={payload.postCode} onChange={handleInputChange} name='postCode' type='number' size='small' label='Post Code' /> */}
+              <TextField disabled={!payloadEditOn} value={payload.lastName} onChange={handleInputChange} name='lastName' size='small' label='Etternavn' />
+              {/* <TextField disabled={!payloadEditOn} value={payload.postCode} onChange={handleInputChange} name='postCode' type='number' size='small' label='Postnummer' /> */}
               <FormControl disabled={!payloadEditOn} size='small'>
-                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                <InputLabel id="demo-simple-select-label">Kjønn</InputLabel>
                 <Select
                   value={payload.gender}
-                  label="Gender"
+                  label="Kjønn"
                   name='gender'
                   onChange={handleInputChange}
                 >
-                  <MenuItem value={'male'}>Male</MenuItem>
-                  <MenuItem value={'female'}>Female</MenuItem>
-                  <MenuItem value={'other'}>Other</MenuItem>
+                  <MenuItem value={'male'}>Mann</MenuItem>
+                  <MenuItem value={'female'}>Kvinne</MenuItem>
+                  <MenuItem value={'other'}>Annet</MenuItem>
                 </Select>
               </FormControl>
-              <TextField disabled={!payloadEditOn} value={payload.dateOfBirth ? payload.dateOfBirth : ''} name='dateOfBirth' onChange={handleInputChange} size='small' type='date' helperText={`Date of birth`} />
+              <TextField disabled={!payloadEditOn} value={payload.dateOfBirth ? payload.dateOfBirth : ''} name='dateOfBirth' onChange={handleInputChange} size='small' type='date' helperText={`Fødselsdato`} />
 
             </Stack>
           </Stack>
-          <TextField disabled={!payloadEditOn} value={payload.about} onChange={handleInputChange} name='about' size='small' label='About' multiline rows={2} />
-          {/* allergies */}
+          <TextField disabled={!payloadEditOn} value={payload.about} onChange={handleInputChange} name='about' size='small' label='Om' multiline rows={2} />
+          {/* allergier */}
           {
             payloadEditOn &&
             <Box mt={2}>
-              <Typography variant='h6' mb={1}>Allergies</Typography>
+              <Typography variant='h6' mb={1}>Allergier</Typography>
 
               <Autocomplete
                 size='small'
@@ -202,7 +202,7 @@ const UserProfile = () => {
                   </li>
                 )}
                 renderInput={(params) => (
-                  <TextField {...params} label="Select Allergies" />
+                  <TextField {...params} label="Velg allergier" />
                 )}
               />
 
@@ -225,10 +225,10 @@ const UserProfile = () => {
         {
           payloadEditOn ?
             <Stack direction='row' alignItems='center' gap={2}>
-              <CButton onClick={() => setPayloadEditOn(false)} variant='outlined'>Cencel</CButton>
-              <CButton isLoading={updateLoading || fileUploadLoading} onClick={handleUpdate} variant='contained'>Save Changes</CButton>
+              <CButton onClick={() => setPayloadEditOn(false)} variant='outlined'>Avbryt</CButton>
+              <CButton isLoading={updateLoading || fileUploadLoading} onClick={handleUpdate} variant='contained'>Lagre endringer</CButton>
             </Stack> :
-            <CButton disable={user?.me.company.isBlocked} onClick={() => setPayloadEditOn(true)} variant='contained'>Edit</CButton>
+            <CButton disable={user?.me.company.isBlocked} onClick={() => setPayloadEditOn(true)} variant='contained'>Rediger</CButton>
         }
       </Stack>
     </Box>

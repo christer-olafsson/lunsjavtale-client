@@ -88,11 +88,11 @@ const Login = (props) => {
     onCompleted: (res) => {
       const userRole = res.loginUser.user.role;
       if (userRole !== "company-owner" && userRole !== "company-employee" && userRole !== "company-manager") {
-        toast.error('Please login with company account');
+        toast.error('Vennligst logg inn med bedriftskonto');
         return;
       }
       localStorage.setItem("lunsjavtale", res.loginUser.access);
-      toast.success('Login Success!');
+      toast.success('Innlogging vellykket!');
       window.location.href = "/dashboard/mySide";
     },
     onError: (err) => {
@@ -112,7 +112,7 @@ const Login = (props) => {
   const [googleLogin, { GoogleLoginloading, }] = useMutation(SOCIAL_LOGIN, {
     onCompleted: (res) => {
       localStorage.setItem("lunsjavtale", res.socialLogin.access);
-      toast.success('Login Success!');
+      toast.success('Innlogging vellykket!');
       window.location.href = "/dashboard/mySide";
     },
     onError: (err) => {
@@ -131,8 +131,8 @@ const Login = (props) => {
         }
       });
     } catch (error) {
-      console.error('Error decoding token or during login:', error);
-      toast.error('Failed to login with Google');
+      console.error('Feil ved dekoding av token eller under innlogging:', error);
+      toast.error('Kunne ikke logge inn med Google');
     }
   };
 
@@ -143,14 +143,14 @@ const Login = (props) => {
 
   const handleLogin = () => {
     if (!payload.email) {
-      setPayloadError({ ...payloadError, email: 'Please enter email!' });
+      setPayloadError({ ...payloadError, email: 'Vennligst skriv inn e-post!' });
       return;
     }
     if (!payload.password) {
-      setPayloadError({ ...payloadError, password: 'Please enter password!' })
+      setPayloadError({ ...payloadError, password: 'Vennligst skriv inn passord!' })
       return;
     }
-    if (loginErr) toast.error('SomeThing went wrong!')
+    if (loginErr) toast.error('Noe gikk galt!')
     loginUser({ variables: payload })
   }
 
@@ -198,7 +198,7 @@ const Login = (props) => {
 
   const handleForgotePassword = () => {
     if (!forgotEmail.email) {
-      toast.error('Please enter your email!')
+      toast.error('Vennligst skriv inn din e-post!')
       return;
     }
     passwordReset({

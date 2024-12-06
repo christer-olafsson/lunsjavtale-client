@@ -47,7 +47,7 @@ const ChangeReq = ({ orderCarts }) => {
       field: 'users',
       width: 300,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Staffs</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Ansatte</Typography>
       ),
       renderCell: (params) => {
         const { row } = params
@@ -76,7 +76,7 @@ const ChangeReq = ({ orderCarts }) => {
       field: 'reqitem',
       width: 250,
       renderHeader: () => (
-        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Requested Item</Typography>
+        <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Forespurt Vare</Typography>
       ),
       renderCell: (params) => {
         const { row } = params
@@ -131,7 +131,7 @@ const ChangeReq = ({ orderCarts }) => {
             isLoading={selectedAlterCartData.id === params.row.id ? loading : false}
             onClick={() => handleAcceptClick(params.row)} variant='contained'
           >
-            Accept
+            Godta
           </CButton>
         </Stack>
       )
