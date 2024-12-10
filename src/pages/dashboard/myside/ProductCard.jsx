@@ -34,26 +34,52 @@ const ProductCard = ({ data }) => {
   return (
 
     <Stack gap={{ xs: 0, lg: 1 }} sx={{
+      position: 'relative',
       width: '100%',
       maxWidth: '1000px',
       minHeight: '310px',
       height: { xs: '100%' },
       overflow: 'hidden',
-      bgcolor: 'light.main',
-      p: { xs: 2, lg: 2.5 },
+      // p: { xs: 2, lg: 2 },
       borderRadius: '8px',
       border: `1px solid ${theme.palette.primary.main}`
     }}>
+      {
+        data?.vendor &&
+        <Typography sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          px: 2,
+          color: '#fff',
+          bgcolor: 'primary.main',
+          py: 1,
+          height: 'fit-content',
+          borderRadius: '4px',
+          width: 'fit-content',
+          fontSize: '14px'
+        }}>
+          Supplier: <b>{data?.vendor?.name}</b>
+        </Typography>
+      }
       <Box sx={{
         width: '100%',
         height: '245px',
       }}>
-        <img style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }}
+        <img style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           src={data?.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
       </Box>
-      <Stack sx={{ flex: 1 }} justifyContent='space-between'>
+      {/* info section */}
+      <Stack sx={{
+        flex: 1, px: 2, py: 1,
+        mt: -2,
+        borderTopRightRadius: '8px',
+        borderTopLeftRadius: '8px',
+        bgcolor: 'primary.main',
+        color: '#fff',
+      }} justifyContent='space-between'>
         <Stack gap={{ xs: 0, lg: .5 }} mt={{ xs: 1, lg: 0 }}>
-          <Typography sx={{ fontSize: { xs: '16px', lg: '18px' }, fontWeight: '600' }}>
+          <Typography sx={{ fontSize: { xs: '16px', lg: '18px' }, fontWeight: '600', lineHeight: '20px' }}>
             {data?.name.substring(0, 50)}
             {data.name.length > 50 ? '...' : ''}
           </Typography>
@@ -77,23 +103,24 @@ const ProductCard = ({ data }) => {
               }
             </Stack>
           }
-          <Typography sx={{ fontSize: '14px' }}>
+          <Typography sx={{ fontSize: '14px', fontWeight: 300 }}>
             {data.description.substring(0, 60)}
             {data.description.length > 60 ? '...' : ''}
           </Typography>
           {/* <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography> */}
         </Stack>
-        <Stack direction='row' alignItems='center' gap={2} justifyContent='space-between'>
-          <Button onClick={toggleDrawer} endIcon={<ArrowRight />} >
+
+        <Stack direction='row' alignItems='center' mt={1} gap={2} justifyContent='space-between'>
+          <Button color='white' size='small' onClick={toggleDrawer} endIcon={<ArrowRight />} >
             Details
           </Button>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
-            <Box sx={{ padding: '6px 16px', mr: 1, borderRadius: '40px', fontSize: '14px', border: '1px solid gray' }}>
+            <Box sx={{ padding: '6px 16px', mr: 1, borderRadius: '40px', fontSize: '14px', border: '1px solid #fff' }}>
               <Typography sx={{ fontSize: '14px', whiteSpace: 'nowrap' }}>kr: <b>{data.priceWithTax}</b> </Typography>
             </Box>
-            <IconButton disabled={user?.me.company.isBlocked} onClick={() => setOpenProductAddDialog(true)} sx={{
-              bgcolor: 'light.main',
-              border: '1px solid gray'
+            <IconButton color='white' disabled={user?.me.company.isBlocked} onClick={() => setOpenProductAddDialog(true)} sx={{
+              // bgcolor: 'light.main',
+              border: '1px solid #fff'
             }}>
               <Add fontSize='small' />
             </IconButton>

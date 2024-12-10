@@ -53,22 +53,7 @@ const SmallProductCard = ({ data }) => {
               {data?.name.substring(0, 100)}
               {data.name.length > 100 ? '...' : ''}
             </Typography>
-            {
-              data?.vendor &&
-              <Typography sx={{
-                fontWeight: '600',
-                px: 1,
-                color: 'blue',
-                // border: '1px solid coral',
-                py: .5,
-                height: 'fit-content',
-                // borderRadius: '4px',
-                width: 'fit-content',
-                fontSize: '14px'
-              }}>
-                Supplier: <br />{data?.vendor?.name}
-              </Typography>
-            }
+
           </Stack>
           <Typography sx={{ fontSize: '13px', width: 'fit-content', fontWeight: 500, border: '1px solid lightgray', borderRadius: '4px', px: 1 }}><i>{data?.category?.name ? data?.category?.name : 'Uncategorised'}</i> </Typography>
 
@@ -95,6 +80,21 @@ const SmallProductCard = ({ data }) => {
             }
           </Stack>
         </Stack>
+        {
+          data?.vendor &&
+          <Typography sx={{
+            px: 1,
+            color: 'blue',
+            border: '1px solid blue',
+            py: .5,
+            height: 'fit-content',
+            borderRadius: '4px',
+            width: 'fit-content',
+            fontSize: '14px'
+          }}>
+            Supplier: <b>{data?.vendor?.name}</b>
+          </Typography>
+        }
         <Stack sx={{ width: '100%' }} direction='row' alignItems='center' justifyContent='space-between' gap={2}>
           <Button onClick={toggleDrawer} endIcon={<ArrowRight />} >Details</Button>
           <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>

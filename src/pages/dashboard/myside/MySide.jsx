@@ -58,7 +58,7 @@ const MySide = (props) => {
 
   const { loading, error } = useQuery(PRODUCTS, {
     onCompleted: (res) => {
-      setProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted && item.node.isFeatured).map(item => item.node))
+      setProducts(res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node))
     },
   });
 
@@ -91,7 +91,7 @@ const MySide = (props) => {
   return (
     <Stack maxWidth='xl' mb={5} direction={{ xs: 'column-reverse', lg: 'row' }} gap={3}>
       <Box sx={{
-        width: { xs: '100%', lg: '70%' },
+        width: { xs: '100%', xl: '70%' },
       }}>
         {
           loading ? <Loader /> : error ? <ErrorMsg /> :
@@ -105,7 +105,7 @@ const MySide = (props) => {
                 fontWeight: 600,
                 fontSize: '18px',
                 height: '50px',
-              }}>Utvalgte Produkter</Typography>
+              }}>Tilgjengelig i ditt område</Typography>
               <Box className='custom-scrollbar' sx={{
                 height: '470px',
                 overflowY: 'auto',
@@ -122,7 +122,7 @@ const MySide = (props) => {
                   {
                     products?.length > 0 &&
                     products?.map((item, id) => (
-                      <Grid sx={{ width: '100%' }} item xs={0} md={6} key={id}>
+                      <Grid sx={{ width: '100%' }} item xs={0} md={6} lg={4} key={id}>
                         <ProductCard data={item} />
                       </Grid>
                     ))
@@ -263,7 +263,7 @@ const MySide = (props) => {
         }
       </Box>
       <Box sx={{
-        display: { xs: 'none', lg: 'block' },
+        display: { xs: 'none', xl: 'block' },
         flex: 1
       }}>
         <MiniCart />

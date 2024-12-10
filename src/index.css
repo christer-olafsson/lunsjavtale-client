@@ -146,6 +146,6 @@ body {
 }
 
 /* hide chat bubble upper section */
-.bubble-container-min-width[_ngcontent-vhb-c23]{
+.element.style{
   display: none;
 }

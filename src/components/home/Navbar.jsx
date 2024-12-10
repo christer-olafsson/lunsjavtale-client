@@ -69,7 +69,7 @@ const Navbar = () => {
             boxShadow: { xs: 3, md: 'none' }
           }}>
             <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Hjem'>Hjem</Button>
-            <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Meny'>Meny</Button>
+            {/* <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Meny'>Meny</Button> */}
             <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Produkter'>Produkter</Button>
             {/* <Button onClick={() => setSideBarOpen(false)} href='#faq'>FAQ</Button> */}
             <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Kontakt'>Kontakt</Button>
