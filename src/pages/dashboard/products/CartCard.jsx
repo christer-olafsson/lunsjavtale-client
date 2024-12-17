@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useMutation } from '@apollo/client';
 import { useTheme } from '@emotion/react';
-import { Add, ArrowBack, CalendarMonthOutlined, Close, Remove } from '@mui/icons-material';
+import { Add, ArrowBack, CalendarMonthOutlined, Close, Remove, RemoveCircle } from '@mui/icons-material';
 import { Box, Button, DialogActions, Divider, IconButton, ListItem, ListItemIcon, ListItemText, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { REMOVE_CART } from './graphql/mutation';
@@ -58,19 +58,20 @@ const CartCard = ({ data }) => {
           </Box>
           <Box>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}>{data?.item?.name}</Typography>
-            <Typography sx={{ fontSize: '14px' }} mb={1}>Category: {data?.item?.category.name}</Typography>
+            <Typography sx={{ fontSize: '14px' }} mb={1}>Kategori: {data?.item?.category.name}</Typography>
             <Typography sx={{
               fontSize: '14px',
               fontWeight: 600,
               border: '1px solid gray',
+              width: 'fit-content',
               minWidth: '120px',
               p: .5, textAlign: 'center',
               borderRadius: '50px'
-            }}>Quantity: x{data?.quantity}</Typography>
+            }}>Mengde: x{data?.quantity}</Typography>
           </Box>
         </Stack>
         <Stack direction={{ xs: 'row', md: 'column' }} my={{ xs: 1, md: 0 }}>
-          <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Item Price: </Typography>
+          <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Pris: </Typography>
           <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}><b>{data?.item?.priceWithTax} kr</b> </Typography>
         </Stack>
       </Stack>
@@ -80,15 +81,17 @@ const CartCard = ({ data }) => {
         px: 3,
         py: .5
       }} direction='row' justifyContent='space-between' alignItems='center'>
-        <CButton onClick={() => setRemoveDialogOpen(true)} size='small' startIcon={<Close />}>Remove</CButton>
+        <IconButton onClick={() => setRemoveDialogOpen(true)} size='small' >
+          <RemoveCircle />
+        </IconButton>
         <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Total: <b> {data?.totalPriceWithTax} kr</b></Typography>
       </Stack>
       {/* remove dialog */}
       <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
-        <Typography variant='h5'>Confirm Remove?</Typography>
+        <Typography variant='h5'>Bekreft fjerning??</Typography>
         <DialogActions>
-          <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Cancel</Button>
-          <CButton isLoading={removeLoading} onClick={handleProductRemove} variant='contained'>Confirm</CButton>
+          <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Kansellere</Button>
+          <CButton isLoading={removeLoading} onClick={handleProductRemove} variant='contained'>Bekrefte</CButton>
         </DialogActions>
       </CDialog>
     </Box>

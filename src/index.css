@@ -144,8 +144,3 @@ body {
   /* background-color: #1F2626; */
   color: #fff
 }
-
-/* hide chat bubble upper section */
-.element.style{
-  display: none;
-}

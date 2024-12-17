@@ -29,7 +29,7 @@ const FoodDetails = ({ data, toggleDrawer }) => {
         <IconButton onClick={toggleDrawer}>
           <Close />
         </IconButton>
-        <Typography sx={{ fontSize: '20px', fontWeight: 600 }}>Food Details</Typography>
+        <Typography sx={{ fontSize: '20px', fontWeight: 600 }}>Matdetaljer</Typography>
       </Stack>
       <Stack direction={{ xs: 'column', lg: 'row' }} gap={3}>
         <Stack direction={{ xs: 'column-reverse', md: 'row' }} gap={2}>
@@ -111,17 +111,17 @@ const FoodDetails = ({ data, toggleDrawer }) => {
             </Stack>
           }
           <Box>
-            <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}> <i>Description:</i> </Typography>
+            <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}> <i>Beskrivelse:</i> </Typography>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>{product?.description}</Typography>
           </Box>
           <Box>
-            <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}> <i>Contains:</i> </Typography>
+            <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}> <i>Inneholder:</i> </Typography>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>{product?.contains && typeof product.contains === 'string' ? JSON.parse(product.contains) : ''}</Typography>
           </Box>
           {
             product?.ingredients?.edges.length > 0 &&
             <Box>
-              <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}> <i>Allergies: </i> </Typography>
+              <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}> <i>Allergier: </i> </Typography>
               <ul>
                 {
                   product?.ingredients?.edges.map(item => (

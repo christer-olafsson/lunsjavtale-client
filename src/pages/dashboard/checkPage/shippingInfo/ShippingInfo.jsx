@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import AddAddress from './AddAddress'
 import { useMutation, useQuery } from '@apollo/client'
 import { useTheme } from '@emotion/react'
-import { CheckCircle } from '@mui/icons-material'
+import { CheckCircle, RemoveCircle } from '@mui/icons-material'
 import EditAddress from './EditAddress'
 import toast from 'react-hot-toast'
 import CDialog from '../../../../common/dialog/CDialog'
@@ -103,7 +103,9 @@ const ShippingInfo = ({ shippingInfoErr }) => {
               <Divider sx={{ mt: 2 }} />
               <Stack direction='row' justifyContent='space-between'>
                 <Button onClick={() => handleEdit(item)}>Rediger og velg</Button>
-                <Button onClick={() => (setDeletedAddressId(item.id), setAddressDeleteDialog(true))}>Fjern</Button>
+                <IconButton onClick={() => (setDeletedAddressId(item.id), setAddressDeleteDialog(true))}>
+                  <RemoveCircle />
+                </IconButton>
               </Stack>
               {/* edit address */}
               {
