@@ -53,6 +53,7 @@ function App() {
         <Route path='/email-verification/:token?' element={<EmailVerification />} />
         <Route path='/password-reset/:token?' element={<PassReset />} />
         <Route element={token ? <Layout /> : <Navigate to='/login' />}>
+          <Route path='/dashboard' element={<Navigate to='/dashboard/mySide' />} />
           <Route path='/dashboard/mySide' element={<MySide />} />
           <Route path='/dashboard/cart' element={<Cart />} />
           <Route path='/dashboard/notifications' element={<Notifications />} />
