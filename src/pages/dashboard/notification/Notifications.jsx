@@ -68,11 +68,17 @@ const Notifications = () => {
         const { row } = params
         return (
           <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
-            <Link style={{ color: row.isSeen ? 'gray' : 'inherit' }}
-              to={row.objectId ? `/dashboard/orders/details/${row.objectId}` : `/dashboard/orders`}>
-              <Typography sx={{
-                color: row.isSeen ? 'gray' : 'green'
-              }} variant='body2'>{row.message}</Typography>
+            <Link
+              style={{ color: row.isSeen ? 'gray' : 'inherit' }}
+              to={row.notificationType === 'order-placed' ? '/dashboard/orders' :
+                row.notificationType === 'vendor-product-added' ?
+                  `/dashboard/food-item/details/${row.objectId}` :
+                  row.notificationType === 'vendor-product-ordered' ? '/dashboard/sales-history' :
+                    row.notificationType === 'order-status-changed' ? `/dashboard/orders/details/${row.objectId}` :
+                      row.notificationType === 'order-cart-added' ? `/dashboard/staffs-order` : ''
+              }
+            >
+              <Typography sx={{ fontSize: '14px' }}>{row.message}</Typography>
             </Link>
           </Stack>
         )

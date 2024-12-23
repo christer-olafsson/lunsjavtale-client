@@ -12,6 +12,7 @@ export const USER_NOTIFICATIONS = gql`
       status
       sentOn
       objectId
+      notificationType
     }
   }
 }

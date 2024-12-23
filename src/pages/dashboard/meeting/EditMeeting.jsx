@@ -8,7 +8,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { MEETING_MUTATION } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
-import { format } from 'date-fns';
+import { addDays, format, startOfDay } from 'date-fns';
 import { nb } from 'date-fns/locale';
 
 
@@ -65,6 +65,9 @@ const EditMeeting = ({ data, fetchMeeting, closeDialog }) => {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   }
 
+  const tomorrow = format(addDays(startOfDay(new Date()), 1), "yyyy-MM-dd'T'HH:mm");
+
+
   const handleDateTimeChange = (e) => {
     const selectedDate = new Date(e.target.value);
     // Format the date as 'YYYY-MM-DDTHH:mm:ssXXX' (ISO 8601 format)
@@ -117,11 +120,9 @@ const EditMeeting = ({ data, fetchMeeting, closeDialog }) => {
       })
     }
   }, [data])
-
+  console.log(payload)
   return (
-    <Box sx={{
-      p: { xs: 0, md: 2 }
-    }}>
+    <Box>
 
       <Stack direction='row' justifyContent='space-between' mb={4}>
         <Typography variant='h5'>Rediger møte</Typography>
@@ -160,24 +161,22 @@ const EditMeeting = ({ data, fetchMeeting, closeDialog }) => {
           </Stack>
           <Box mb={2}>
             <Typography variant='body2'>Møtetid <b>({format(data.meetingTime, 'dd-MM-yyyy hh:mm a')})</b> </Typography>
-            <TextField onChange={handleDateTimeChange} error={Boolean(errors.meetingTime)} helperText={errors.meetingTime} fullWidth type='datetime-local' />
+            <TextField value={format(data.meetingTime, "yyyy-MM-dd'T'HH:mm:ssXXX")} onChange={handleDateTimeChange} error={Boolean(errors.meetingTime)} helperText={errors.meetingTime} inputProps={{
+              min: tomorrow // Prevents selecting a previous date
+            }} fullWidth type='datetime-local' />
           </Box>
           <Stack gap={2}>
             <Autocomplete
               multiple
               value={payload.topics}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
               options={allCategories ? allCategories : []}
               disableCloseOnSelect
               onChange={(event, value) => setPayload({ ...payload, topics: value.map(item => item) })}
               getOptionLabel={(option) => option.name}
               renderOption={(props, option, { selected }) => (
                 <li {...props}>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                  />
+
                   {option.name}
                 </li>
               )}

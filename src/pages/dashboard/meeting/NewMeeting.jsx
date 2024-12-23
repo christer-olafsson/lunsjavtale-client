@@ -8,7 +8,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { MEETING_MUTATION } from './graphql/mutation';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
-import { format } from 'date-fns';
+import { addDays, format, startOfDay } from 'date-fns';
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
@@ -56,9 +56,11 @@ const NewMeeting = ({ fetchMeeting, closeDialog }) => {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   }
 
+  const tomorrow = format(addDays(startOfDay(new Date()), 1), "yyyy-MM-dd'T'HH:mm");
+
   const handleDateTimeChange = (e) => {
     const selectedDate = new Date(e.target.value);
-    // Format the date as 'YYYY-MM-DDTHH:mm:ssXXX' (ISO 8601 format)
+    // Format the date as 'YYYY-MM-DDTHH:mm:ssXXX' (ISO 8601 format) for match backend time 
     const formattedDate = format(selectedDate, "yyyy-MM-dd'T'HH:mm:ssXXX");
     setPayload({ ...payload, meetingTime: formattedDate });
   };
@@ -131,7 +133,16 @@ const NewMeeting = ({ fetchMeeting, closeDialog }) => {
           </Stack>
           <Box mb={2}>
             <Typography variant='body2'>Møtetid</Typography>
-            <TextField onChange={handleDateTimeChange} error={Boolean(errors.meetingTime)} helperText={errors.meetingTime} fullWidth type='datetime-local' />
+            <TextField
+              onChange={handleDateTimeChange}
+              error={Boolean(errors.meetingTime)}
+              helperText={errors.meetingTime}
+              fullWidth
+              type="datetime-local"
+              inputProps={{
+                min: tomorrow // Prevents selecting a previous date
+              }}
+            />
           </Box>
           <Stack gap={2}>
             <Autocomplete

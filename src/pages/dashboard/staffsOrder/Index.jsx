@@ -16,6 +16,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { APPROVE_CART_REQUEST } from './graphql/mutation';
 import { Link } from 'react-router-dom';
 import useIsMobile from '../../../hook/useIsMobile';
+import { ADDED_PRODUCTS } from '../products/graphql/query';
 
 
 const StaffsOrder = () => {
@@ -29,7 +30,6 @@ const StaffsOrder = () => {
   const isMobile = useIsMobile()
 
   const { loading, error } = useQuery(ADDED_EMPLOYEE_CARTS, {
-    fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
       setAddedEmployeeCarts(res.addedEmployeeCarts.edges.map(item => item.node))
@@ -37,7 +37,7 @@ const StaffsOrder = () => {
   });
 
   const [cartRequest, { loading: cartReqLoading }] = useMutation(APPROVE_CART_REQUEST, {
-    refetchQueries: [ADDED_EMPLOYEE_CARTS],
+    refetchQueries: [ADDED_EMPLOYEE_CARTS, ADDED_PRODUCTS],
     onCompleted: (res) => {
       toast.success(res.approveCartRequest.message)
     },

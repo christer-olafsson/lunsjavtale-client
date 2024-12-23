@@ -114,15 +114,15 @@ const InvoiceTemplate = ({ data, toggleDrawer }) => {
           px: 4,
           alignItems: 'center',
           justifyContent: 'center',
-          bgcolor: data.status === 'Cancelled'
+          bgcolor: data?.status === 'Cancelled'
             ? 'red'
-            : data.status === 'Confirmed'
+            : data?.status === 'Confirmed'
               ? 'lightgreen'
-              : data.status === 'Delivered'
+              : data?.status === 'Delivered'
                 ? 'green'
-                : data.status === 'Processing'
+                : data?.status === 'Processing'
                   ? '#8294C4'
-                  : data.status === 'Ready-to-deliver'
+                  : data?.status === 'Ready-to-deliver'
                     ? '#01B8A9'
                     : 'yellow',
           color: data?.status === 'Placed'

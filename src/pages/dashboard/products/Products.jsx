@@ -206,7 +206,7 @@ const Products = () => {
                       textAlign: 'center'
                     }}>
                       {item?.node.name}
-                      <i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.products?.edges.length})</i>
+                      <i style={{ fontSize: '14px', fontWeight: 600, marginLeft: '5px' }}>({item?.node?.productsAdded})</i>
                     </Typography>
                   </Box>
                 ))

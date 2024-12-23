@@ -87,6 +87,7 @@ query($vendor: String,$weeklyVariants: String){
       name
       description
       isActive
+      productsAdded
       products(isDeleted: false, availability : true,vendor: $vendor,weeklyVariants: $weeklyVariants){
         edges{
           node{

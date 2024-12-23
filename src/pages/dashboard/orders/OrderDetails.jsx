@@ -75,6 +75,19 @@ const OrderDetails = () => {
   if (orderErr) {
     return <ErrorMsg />
   }
+
+  if (!order) {
+    return (
+      <Box>
+        <IconButton onClick={() => navigate(-1)}>
+          <ArrowBack />
+        </IconButton>
+        <Typography variant='h4' py={10}>Order not Found!</Typography>
+      </Box>
+    )
+  }
+
+
   return (
     <Box maxWidth='xl'>
       <Stack direction='row' gap={2}>

@@ -55,14 +55,12 @@ const CDrawer = ({ handleDrawerClose }) => {
     }
   });
   useQuery(ADDED_EMPLOYEE_CARTS, {
-    fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
       setAddedEmployeeCarts(res.addedEmployeeCarts.edges.map(item => item.node))
     },
   });
   useQuery(ADDED_PRODUCTS, {
-    fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
       setAddedProducts(res.addedProducts.edges.map(item => item.node))

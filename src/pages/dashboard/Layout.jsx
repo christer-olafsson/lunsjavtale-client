@@ -69,6 +69,7 @@ function Layout() {
   });
 
   useQuery(UNREAD_NOTIFICATION_COUNT, {
+    notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
       setUnreadNotificationCount(res.unreadNotificationCount)
     }
