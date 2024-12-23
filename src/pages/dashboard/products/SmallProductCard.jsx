@@ -37,11 +37,15 @@ const SmallProductCard = ({ data }) => {
       maxWidth: '1000px',
       bgcolor: 'light.main',
       p: { xs: 1, lg: 2.5 },
-      borderRadius: '8px'
+      borderRadius: '8px',
+      boxShadow: 2,
+      border: '1px solid lightgray'
     }}>
       <Box sx={{
         width: { xs: '100%', md: '230px' },
         height: '150px',
+        border: '1px solid lightgray',
+        borderRadius: '8px'
       }}>
         <img style={{ width: '100%', height: '100%', borderRadius: '8px', objectFit: 'cover' }}
           src={data?.attachments?.edges?.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />

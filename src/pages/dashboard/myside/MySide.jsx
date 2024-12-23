@@ -1,9 +1,9 @@
 import { ArrowBack, ArrowForward } from '@mui/icons-material'
 import { Box, FormControl, FormControlLabel, Grid, IconButton, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, Stack, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel';
 import { PRODUCTS } from '../../../graphql/query';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import LoadingBar from '../../../common/loadingBar/LoadingBar';
 import ProductCard from './ProductCard';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
@@ -56,7 +56,8 @@ const MySide = (props) => {
   const [selectedWeeklyVariantId, setSelectedWeeklyVariantId] = useState(null)
   const [selectedWeeklyProducts, setSelectedWeeklyProducts] = useState([])
 
-  const { loading, error } = useQuery(PRODUCTS, {
+  const [fetchProducts, { loading, error }] = useLazyQuery(PRODUCTS, {
+    fetchPolicy: 'network-only',
     onCompleted: (res) => {
       setProducts(res.products.edges.map(item => item.node))
     },
@@ -69,7 +70,8 @@ const MySide = (props) => {
     },
   });
 
-  const { loading: optionLoading, error: optionError } = useQuery(PRODUCTS, {
+  const [fetchOptionProducts, { loading: optionLoading, error: optionError }] = useLazyQuery(PRODUCTS, {
+    fetchPolicy: 'network-only',
     variables: {
       category: import.meta.env.VITE_STATIC_CATEGORY_ID
     },
@@ -86,6 +88,12 @@ const MySide = (props) => {
       setSelectedWeeklyProducts(res.products.edges.filter(item => item.node.weeklyVariants.edges.length > 0).map(item => item.node))
     },
   });
+
+
+  useEffect(() => {
+    fetchProducts()
+    fetchOptionProducts()
+  }, [])
 
 
   return (
@@ -107,7 +115,8 @@ const MySide = (props) => {
                 height: '50px',
               }}>Tilgjengelig i ditt område</Typography>
               <Box className='custom-scrollbar' sx={{
-                height: '470px',
+                maxHeight: '500px',
+                minHeight: '470px',
                 overflowY: 'auto',
                 p: 2,
               }}>

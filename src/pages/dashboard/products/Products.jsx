@@ -1,7 +1,7 @@
 import { Autocomplete, Avatar, Box, FormControl, FormControlLabel, FormLabel, IconButton, Input, Pagination, Paper, Radio, RadioGroup, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import MiniCart from './MiniCart';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { GET_ALL_CATEGORY, PRODUCTS } from '../../../graphql/query';
 import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
@@ -46,14 +46,15 @@ const Products = () => {
       // isVendorProduct: vendorProductShow ? vendorProductShow : null
     },
     onCompleted: (res) => {
-      const data = res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node)
+      const data = res.products.edges.map(item => item.node)
       setProductsLength(data.length)
     },
   });
 
 
 
-  const { error: categoryErr } = useQuery(GET_ALL_CATEGORY, {
+  const [fetchAllCategory, { error: categoryErr }] = useLazyQuery(GET_ALL_CATEGORY, {
+    fetchPolicy: 'network-only',
     variables: {
       vendor: selectedVendor ? selectedVendor.id : null,
       // isVendorProduct: vendorProductShow ? vendorProductShow : null
@@ -79,10 +80,10 @@ const Products = () => {
       offset: (page - 1) * 10,
       first: 10,
       vendor: selectedVendor ? selectedVendor.id : null,
-      weeklyVariants: selectedWeeklyVariantId ?? null
+      // weeklyVariants: selectedWeeklyVariantId ?? null
     },
     onCompleted: (res) => {
-      const data = res.products.edges.filter(item => !item.node.vendor?.isDeleted).map(item => item.node)
+      const data = res.products.edges.map(item => item.node)
       setProductState({
         isLoading: false,
         error: null,
@@ -100,6 +101,7 @@ const Products = () => {
 
   useEffect(() => {
     setPage(1)
+    fetchAllCategory()
   }, [categoryId, selectedVendor])
 
   useEffect(() => {
@@ -214,7 +216,7 @@ const Products = () => {
         </Box>
 
         {/* select week */}
-        <FormControl sx={{ mb: 2, ml: 2 }}>
+        {/* <FormControl sx={{ mb: 2, ml: 2 }}>
           <RadioGroup
             row
             value={selectedWeeklyVariantId}
@@ -232,7 +234,7 @@ const Products = () => {
               ))
             }
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
 
 
         <Stack direction='row' flexWrap='wrap' gap={2} px={{ xs: 0, lg: 3 }}>

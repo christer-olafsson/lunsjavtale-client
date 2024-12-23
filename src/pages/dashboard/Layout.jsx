@@ -26,7 +26,7 @@ import { googleLogout } from '@react-oauth/google';
 import CDrawer from './CDrawer';
 import { ADDED_PRODUCTS } from './products/graphql/query';
 
-const drawerWidth = 300;
+const drawerWidth = 250;
 
 
 function Layout() {

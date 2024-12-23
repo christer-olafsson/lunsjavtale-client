@@ -80,17 +80,17 @@ const FoodDetails = ({ data, toggleDrawer }) => {
           {
             product?.vendor &&
             <Stack sx={{
-              border: '1px solid coral',
+              border: '1px solid blue',
               p: 1, borderRadius: '8px',
               width: 'fit-content',
-              color: 'coral'
+              color: 'blue'
             }}>
               <Typography >Supplier: <b>{product?.vendor.name}</b></Typography>
 
             </Stack>
           }
 
-          {
+          {/* {
             product?.weeklyVariants?.edges.length > 0 &&
             <Stack direction='row' flexWrap='wrap' gap={1}>
               {
@@ -109,7 +109,7 @@ const FoodDetails = ({ data, toggleDrawer }) => {
                 ))
               }
             </Stack>
-          }
+          } */}
           <Box>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}> <i>Beskrivelse:</i> </Typography>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>{product?.description}</Typography>

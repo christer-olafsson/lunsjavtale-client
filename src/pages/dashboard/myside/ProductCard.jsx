@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Add, ArrowRight, ArrowRightAltOutlined } from '@mui/icons-material'
+import { Add, ArrowRight, ArrowRightAltOutlined, Info, KeyboardArrowRight } from '@mui/icons-material'
 import { Box, Button, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import CDialog from '../../../common/dialog/CDialog';
@@ -40,6 +40,7 @@ const ProductCard = ({ data }) => {
       minHeight: '310px',
       height: { xs: '100%' },
       overflow: 'hidden',
+      boxShadow: 2,
       // p: { xs: 2, lg: 2 },
       borderRadius: '8px',
       border: `1px solid ${theme.palette.primary.main}`
@@ -64,7 +65,12 @@ const ProductCard = ({ data }) => {
       }
       <Box sx={{
         width: '100%',
-        height: '245px',
+        height: '230px',
+        transition: '.5s ',
+        overflow: 'hidden',
+        ":hover": {
+          transform: 'scale(1.4)'
+        }
       }}>
         <img style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           src={data?.attachments.edges.find(item => item.node.isCover)?.node.fileUrl || '/noImage.png'} alt="" />
@@ -77,13 +83,14 @@ const ProductCard = ({ data }) => {
         borderTopLeftRadius: '8px',
         bgcolor: 'primary.main',
         color: '#fff',
+        zIndex: 2
       }} justifyContent='space-between'>
         <Stack gap={{ xs: 0, lg: .5 }} mt={{ xs: 1, lg: 0 }}>
-          <Typography sx={{ fontSize: { xs: '16px', lg: '18px' }, fontWeight: '600', lineHeight: '20px' }}>
-            {data?.name.substring(0, 50)}
-            {data.name.length > 50 ? '...' : ''}
+          <Typography sx={{ fontSize: { xs: '16px', lg: '16px' }, fontWeight: '600', lineHeight: '20px' }}>
+            {data?.name.substring(0, 45)}
+            {data.name.length > 45 ? '...' : ''}
           </Typography>
-          {
+          {/* {
             data?.weeklyVariants?.edges.length > 0 &&
             <Stack direction='row' flexWrap='wrap' gap={1}>
               {
@@ -102,27 +109,40 @@ const ProductCard = ({ data }) => {
                 ))
               }
             </Stack>
-          }
-          <Typography sx={{ fontSize: '14px', fontWeight: 300 }}>
+          } */}
+          <Typography variant='body2' sx={{ lineHeight: '18px', color: 'rgba(255,255,255,0.8)' }}>
             {data.description.substring(0, 60)}
             {data.description.length > 60 ? '...' : ''}
           </Typography>
-          {/* <Typography sx={{ fontSize: { xs: '12px', md: '14px' } }}> <b><i>Contains: </i></b> <i>{JSON.parse(data.contains)}</i> </Typography> */}
         </Stack>
 
         <Stack direction='row' alignItems='center' mt={1} gap={2} justifyContent='space-between'>
-          <Button color='white' size='small' onClick={toggleDrawer} endIcon={<ArrowRight />} >
-            Details
-          </Button>
-          <Box sx={{ display: 'inline-flex', alignSelf: 'flex-end', mt: 1 }}>
-            <Box sx={{ padding: '6px 16px', mr: 1, borderRadius: '40px', fontSize: '14px', border: '1px solid #fff' }}>
-              <Typography sx={{ fontSize: '14px', whiteSpace: 'nowrap' }}>kr: <b>{data.priceWithTax}</b> </Typography>
-            </Box>
-            <IconButton color='white' disabled={user?.me.company.isBlocked} onClick={() => setOpenProductAddDialog(true)} sx={{
-              // bgcolor: 'light.main',
-              border: '1px solid #fff'
+          <IconButton sx={{
+            border: '1px solid #fff',
+            width: '30px',
+            height: '30px',
+            color: '#000',
+            ":hover": {
+              border: '1px solid lightgray',
+            }
+          }} color='white' size='small' onClick={toggleDrawer} >
+            <KeyboardArrowRight sx={{ color: '#fff' }} />
+          </IconButton>
+          <Box sx={{ display: 'flex', alignItems: "center" }}>
+            <Typography sx={{ fontSize: '12px', border: '1px solid lightgray', mr: 1, p: '8px 12px', borderRadius: '50px', whiteSpace: 'nowrap', lineHeight: '10px' }}>kr: <b>{data.priceWithTax}</b> </Typography>
+
+            <IconButton size='small' color='white' disabled={user?.me.company.isBlocked} onClick={() => setOpenProductAddDialog(true)} sx={{
+              border: '1px solid #fff',
+              width: '40px',
+              height: '40px',
+              bgcolor: '#fff',
+              color: '#000',
+              ":hover": {
+                bgcolor: 'lightgray',
+                border: '1px solid lightgray',
+              }
             }}>
-              <Add fontSize='small' />
+              <Add sx={{ fontSize: '30px', color: 'primary.main' }} />
             </IconButton>
           </Box>
         </Stack>
