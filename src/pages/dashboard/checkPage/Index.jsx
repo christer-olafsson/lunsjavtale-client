@@ -12,6 +12,7 @@ import ShippingInfo from './shippingInfo/ShippingInfo';
 import { PLACE_ORDER } from './graphql/mutation';
 import { ME } from '../../../graphql/query';
 import { ORDERS } from '../orders/graphql/query';
+import { ADDED_PRODUCTS } from '../products/graphql/query';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -75,7 +76,7 @@ const CheckPage = () => {
       }
 
     },
-    refetchQueries: [ADDRESSES, ORDERS],
+    refetchQueries: [ADDRESSES, ORDERS, ADDED_PRODUCTS],
     onError: (err) => {
       toast.error(err.message)
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {

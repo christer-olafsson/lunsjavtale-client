@@ -59,11 +59,9 @@ const OrderCart = ({ order, orderCarts }) => {
       );
       setCurrentStaffReqCart(cartData)
     }
-    if (orderCarts) {
-      const allReqCart = orderCarts.node.users.edges.filter(item => item.node.alterCart !== null && item.node.alterCart.status !== 'accepted').map(item => item.node)
-      setAllStaffReqCart(allReqCart)
-    }
-  }, [orderCarts, user]);
+    const allReqCart = orderCarts?.node?.users?.edges?.filter(item => item?.node?.alterCart !== null && item?.node?.alterCart.status !== 'accepted').map(item => item.node)
+    setAllStaffReqCart(allReqCart)
+  }, []);
 
   return (
     <Box sx={{
@@ -182,7 +180,7 @@ const OrderCart = ({ order, orderCarts }) => {
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={tabValue} onChange={(e, value) => setTabValue(value)}>
               <Tab label="Valgte ansatte" {...a11yProps(0)} />
-              <Tab label={`Endringsforespørsel (${allStaffReqCart.length})`} {...a11yProps(1)} />
+              <Tab label={`Endringsforespørsel ( ${allStaffReqCart.length} )`} {...a11yProps(1)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={tabValue} index={0}>

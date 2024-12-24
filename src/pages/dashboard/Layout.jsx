@@ -136,18 +136,17 @@ function Layout() {
           textAlign: 'center',
           position: 'relative'
         }}>
-          Avtale: <b>{user?.me.company?.name}</b>
+          <span style={{ fontSize: '20px', lineHeight: '10px', fontWeight: 'bold' }}>@</span> : <b>{user?.me.company?.name}</b>
         </Typography>
         {
           (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
           <Stack gap={.5} justifyContent='center' sx={{
             padding: '10px 12px',
-            color: 'red',
-            bgcolor: '#F7DCD9',
+            color: user?.me?.company?.balance === '0.00' ? '#000' : 'red',
+            bgcolor: user?.me?.company?.balance === '0.00' ? 'light.main' : '#F7DCD9',
             borderRadius: '4px',
             fontSize: '15px',
             textAlign: 'center',
-            display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
             <Typography>Forfalt: <b>{user?.me.company.balance}</b>  kr</Typography>
             <Button
@@ -164,12 +163,11 @@ function Layout() {
           (user?.me.role === 'company-employee') &&
           <Stack gap={.5} justifyContent='center' sx={{
             padding: '10px 12px',
-            color: 'red',
-            bgcolor: '#F7DCD9',
+            color: user?.me?.dueAmount === '0.00' ? '#000' : 'red',
+            bgcolor: user?.me?.dueAmount === '0.00' ? 'light.main' : '#F7DCD9',
             borderRadius: '4px',
             fontSize: '15px',
             textAlign: 'center',
-            display: user?.me.company.balance > 0 ? 'flex' : 'none'
           }}>
             <Typography>Forfalt beløp: <b>{user?.me?.dueAmount}</b>  kr</Typography>
             <Button

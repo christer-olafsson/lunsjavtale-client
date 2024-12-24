@@ -75,8 +75,8 @@ const CDrawer = ({ handleDrawerClose }) => {
 
   const navItems = [
     { name: 'Min Side', icon: <SpaceDashboard />, path: '/dashboard/mySide', end: true },
-    { name: 'Ordrekurv', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
     { name: 'Varsler', icon: <NotificationsNoneOutlined />, path: '/dashboard/notifications', notification: unreadNotificationCount },
+    { name: 'Ordrekurv', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
     ...(user ? (
       !isStaff ? [
         { name: 'Administrer Ansatte', icon: <PeopleAltOutlined />, path: '/dashboard/manage-staff' },

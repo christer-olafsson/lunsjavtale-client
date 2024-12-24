@@ -188,6 +188,7 @@ const UserProfile = () => {
                 options={allAllergies}
                 disableCloseOnSelect
                 value={selectedAllergies}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
                 getOptionLabel={(option) => option.name}
                 onChange={(event, value) => setSelectedAllergies(value.map(item => item))}
                 renderOption={(props, option, { selected }) => (

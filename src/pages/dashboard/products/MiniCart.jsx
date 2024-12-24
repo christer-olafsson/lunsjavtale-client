@@ -9,6 +9,7 @@ import { REMOVE_PRODUCT_CART, SEND_CART_REQUEST } from './graphql/mutation'
 import toast from 'react-hot-toast'
 import CButton from '../../../common/CButton/CButton'
 import { ME } from '../../../graphql/query'
+import { ADDED_EMPLOYEE_CARTS } from '../staffsOrder/graphql/query'
 
 const MiniCart = () => {
   const [addedProducts, setAddedProducts] = useState([]);
@@ -41,7 +42,7 @@ const MiniCart = () => {
     onCompleted: (res) => {
       toast.success(res.sendCartRequest.message)
     },
-    refetchQueries: [ADDED_PRODUCTS],
+    refetchQueries: [ADDED_PRODUCTS, ADDED_EMPLOYEE_CARTS],
     onError: (err) => {
       toast.error(err.message)
     }

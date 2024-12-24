@@ -141,7 +141,7 @@ const AddItem = ({ closeDialog, data }) => {
               bgcolor: row.role === 'company-manager' ? 'primary.main' : row.role === 'company-owner' ? 'purple' : 'gray.main',
               px: 1, borderRadius: '4px',
               color: row.role === 'company-manager' ? '#fff' : row.role === 'company-owner' ? '#fff' : 'inherit',
-            }}>{params.row.role}</Typography>
+            }}>{params.row.role.replace('company-', '')}</Typography>
           </Stack>
         )
       }

@@ -23,7 +23,7 @@ const DataTable = ({
       },
     }}>
       <DataGrid
-        sx={{ minHeight: { xs: 0, md: '650px' } }}
+        sx={{ boxShadow: 2 }}
         rows={rows}
         columns={columns}
         autoHeight

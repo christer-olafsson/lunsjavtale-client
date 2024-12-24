@@ -32,7 +32,7 @@ const SmallNotification = ({ onClose }) => {
       border: '1px solid lightgray',
       borderRadius: '8px',
       px: '20px',
-      boxShadow:3,
+      boxShadow: 3,
       pt: 2
     }} gap={1.5}>
       {
@@ -40,11 +40,17 @@ const SmallNotification = ({ onClose }) => {
           notifications?.length === 0 ?
             <Typography sx={{ textAlign: 'center', color: 'gray' }}>No Notification</Typography> :
             notifications?.slice(0, 5).map(item => (
-              <Link className='link' key={item.id} to={item.objectId ? `/dashboard/orders/details/${item.objectId}` : `/dashboard/orders`}>
+              <Link className='link' key={item.id}
+                to={item.notificationType === 'order-placed' ? '/dashboard/orders' :
+                  item.notificationType === 'order-status-changed' ? `/dashboard/orders/details/${item.objectId}` :
+                    item.notificationType === 'order-cart-updated' ? `/dashboard/orders/details/${item.objectId}` :
+                      item.notificationType === 'order-cart-added' ? `/dashboard/orders/details/${item.objectId}` : null
+                }
+              >
                 <Box sx={{
                   borderBottom: '1px solid lightgray',
                   p: 1,
-                  borderRadius:'4px',
+                  borderRadius: '4px',
                   boxShadow: 2,
                   bgcolor: item.isSeen ? '#fff' : '#F5F5F5'
                 }} >
