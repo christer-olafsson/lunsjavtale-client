@@ -22,6 +22,7 @@ const CreatePayment = ({ closeDialog }) => {
         window.location.href = res.makeOnlinePayment.paymentUrl
       }
     },
+    refetchQueries: [GET_COMPANY_STAFFS],
     onError: (err) => {
       toast.error(err.message)
     }

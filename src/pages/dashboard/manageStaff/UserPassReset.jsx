@@ -6,8 +6,9 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useMutation } from '@apollo/client'
 import { USER_PASSWORD_RESET } from './graphql/mutation'
+import { GET_COMPANY_STAFFS } from './graphql/query'
 
-const UserPassReset = ({ data, closeDialog }) => {
+const UserPassReset = ({ data, closeDialog, closePassDialog }) => {
   const [error, setError] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [payload, setPayload] = useState({
@@ -19,8 +20,10 @@ const UserPassReset = ({ data, closeDialog }) => {
   const [userPasswordReset, { loading }] = useMutation(USER_PASSWORD_RESET, {
     onCompleted: (res) => {
       toast.success(res.userPasswordReset.message);
+      closePassDialog()
       closeDialog()
     },
+    refetchQueries: [GET_COMPANY_STAFFS],
     onError: (err) => {
       toast.error(err.message)
     }

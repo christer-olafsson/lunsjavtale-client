@@ -7,6 +7,7 @@ const DataTable = ({
   rows,
   columns,
   rowHeight,
+  loading,
   getRowHeight,
   checkboxSelection,
   isRowSelectable,
@@ -27,6 +28,7 @@ const DataTable = ({
         rows={rows}
         columns={columns}
         autoHeight
+        loading={loading}
         rowHeight={rowHeight}
         getRowHeight={getRowHeight}
         initialState={{

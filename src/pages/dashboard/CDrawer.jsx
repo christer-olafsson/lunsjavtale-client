@@ -79,7 +79,7 @@ const CDrawer = ({ handleDrawerClose }) => {
     { name: 'Ordrekurv', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
     ...(user ? (
       !isStaff ? [
-        { name: 'Administrer Ansatte', icon: <PeopleAltOutlined />, path: '/dashboard/manage-staff' },
+        { name: 'Ansatte', icon: <PeopleAltOutlined />, path: '/dashboard/manage-staff' },
         { name: 'Møteplan', icon: <Diversity3 />, path: '/dashboard/meetings' },
       ] : []
     ) : []),

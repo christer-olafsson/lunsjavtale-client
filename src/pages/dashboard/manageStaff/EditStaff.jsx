@@ -5,24 +5,26 @@ import React, { useEffect, useState } from 'react'
 import CButton from '../../../common/CButton/CButton';
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_COMPANY_STAFF } from './graphql/mutation';
-import { GET_INGREDIENTS } from './graphql/query';
+import { GET_COMPANY_STAFFS, GET_INGREDIENTS } from './graphql/query';
 import toast from 'react-hot-toast';
 import { uploadFile } from '../../../utils/uploadFile';
 import { deleteFile } from '../../../utils/deleteFile';
 import CDialog from '../../../common/dialog/CDialog';
 import UserPassReset from './UserPassReset';
+import UserDelete from './UserDelete';
 
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
 
-const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
+const EditStaff = ({ closeDialog, data }) => {
   const [file, setFile] = useState(null);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
   const [allAllergies, setAllAllergies] = useState([]);
   const [errors, setErrors] = useState({});
   const [fileUploadLoading, setFileUploadLoading] = useState(false)
   const [resetPassDialogOpen, setResetPassDialogOpen] = useState(false)
+  const [userDeleteDialogOpen, setUserDeleteDialogOpen] = useState(false)
   const [payload, setPayload] = useState({
     firstName: '',
     lastName: '',
@@ -35,9 +37,9 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
   const [editStaff, { loading: editStaffLoading }] = useMutation(CREATE_COMPANY_STAFF, {
     onCompleted: () => {
       toast.success('Vellykket oppdatering!');
-      getCompanyStaffs()
       closeDialog()
     },
+    refetchQueries: [GET_COMPANY_STAFFS],
     onError: (err) => {
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {
         const graphqlError = err.graphQLErrors[0];
@@ -135,7 +137,7 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
           <Stack direction='row' gap={2} mb={2}>
             <Stack flex={1} gap={2}>
               <TextField value={payload.firstName} onChange={handleInputChange} name='firstName' size='small' label='Fornavn' />
-              <TextField value={payload.username} onChange={handleInputChange} helperText={errors.username} error={Boolean(errors.username)} name='username' size='small' label='Brukernavn' />
+              <TextField value={payload.username} inputProps={{ readOnly: true }} onChange={handleInputChange} helperText={errors.username} error={Boolean(errors.username)} name='username' size='small' label='Brukernavn' />
               <FormControl error={Boolean(errors.role)} size='small' fullWidth>
                 <InputLabel>Ansatt Rolle</InputLabel>
                 <Select
@@ -151,7 +153,7 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
             </Stack>
             <Stack flex={1} gap={2}>
               <TextField value={payload.lastName} onChange={handleInputChange} name='lastName' size='small' label='Etternavn' />
-              <TextField value={payload.email} helperText={errors.email} error={Boolean(errors.email)} onChange={handleInputChange} name='email' size='small' label='E-post' />
+              <TextField value={payload.email} inputProps={{ readOnly: true }} helperText={errors.email} error={Boolean(errors.email)} onChange={handleInputChange} name='email' size='small' label='E-post' />
               <TextField value={payload.phone} helperText={errors.phone} error={Boolean(errors.phone)} onChange={handleInputChange} name='phone' size='small' label='Telefonnummer' />
             </Stack>
           </Stack>
@@ -164,6 +166,7 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
         options={allAllergies}
         disableCloseOnSelect
         value={selectedAllergies}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
         getOptionLabel={(option) => option.name}
         onChange={(event, value) => setSelectedAllergies(value.map(item => item))}
         renderOption={(props, option, { selected }) => (
@@ -191,11 +194,18 @@ const EditStaff = ({ closeDialog, data, getCompanyStaffs }) => {
         Oppdater
       </CButton>
 
+
+      <Button color='warning' onClick={() => setUserDeleteDialogOpen(true)}>Remove</Button>
       <Button onClick={() => setResetPassDialogOpen(true)}>Tilbakestill Passord</Button>
 
       {/* reset password */}
       <CDialog openDialog={resetPassDialogOpen} closeDialog={() => setResetPassDialogOpen(false)} >
-        <UserPassReset data={data} closeDialog={() => setResetPassDialogOpen(false)} />
+        <UserPassReset data={data} closeDialog={() => closeDialog()} closePassDialog={() => setResetPassDialogOpen(false)} />
+      </CDialog>
+
+      {/* user delete */}
+      <CDialog openDialog={userDeleteDialogOpen} closeDialog={() => setUserDeleteDialogOpen(false)}>
+        <UserDelete data={data} closeDialog={() => closeDialog()} closeDeleteDialog={() => setUserDeleteDialogOpen(false)} />
       </CDialog>
 
     </Box >

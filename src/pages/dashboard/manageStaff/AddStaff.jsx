@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import CButton from '../../../common/CButton/CButton';
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_COMPANY_STAFF } from './graphql/mutation';
-import { GET_INGREDIENTS } from './graphql/query';
+import { GET_COMPANY_STAFFS, GET_INGREDIENTS } from './graphql/query';
 import toast from 'react-hot-toast';
 import { ME } from '../../../graphql/query';
 import { uploadFile } from '../../../utils/uploadFile';
@@ -13,7 +13,7 @@ import { uploadFile } from '../../../utils/uploadFile';
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
 
-const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
+const AddStaff = ({ closeDialog }) => {
   const [file, setFile] = useState(null);
   const [selectedAllergiesId, setSelectedAllergiesId] = useState([]);
   const [allAllergies, setAllAllergies] = useState([]);
@@ -37,9 +37,9 @@ const AddStaff = ({ closeDialog, getCompanyStaffs }) => {
   const [createStaff, { loading: createStaffLoading }] = useMutation(CREATE_COMPANY_STAFF, {
     onCompleted: (res) => {
       toast.success(res.createCompanyStaff.message)
-      getCompanyStaffs()
       closeDialog()
     },
+    refetchQueries: [GET_COMPANY_STAFFS],
     onError: (err) => {
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {
         const graphqlError = err.graphQLErrors[0];

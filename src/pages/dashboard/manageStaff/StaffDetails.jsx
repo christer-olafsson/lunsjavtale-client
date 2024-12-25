@@ -1,12 +1,13 @@
 import { useQuery } from '@apollo/client'
 import { LockOutlined, West } from '@mui/icons-material'
-import { Box, IconButton, Stack, Typography } from '@mui/material'
+import { Box, Divider, IconButton, Stack, Typography } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import Loader from '../../../common/loader/Index'
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg'
 import { USER } from './graphql/query'
 import { format } from 'date-fns'
+import StaffOrders from './StaffOrders'
 
 const StaffDetails = () => {
   const [user, setUser] = useState({})
@@ -22,7 +23,7 @@ const StaffDetails = () => {
       setUser(res.user)
     },
   });
-  console.log(user)
+  // console.log(user)
   return (
     <Box maxWidth='xl'>
       <Stack direction='row' alignItems='center' gap={2} mb={2}>
@@ -86,6 +87,10 @@ const StaffDetails = () => {
         </Box>
 
       </Box >
+
+      <Divider sx={{ mb: 2 }} />
+
+      <StaffOrders user={user} />
 
 
 

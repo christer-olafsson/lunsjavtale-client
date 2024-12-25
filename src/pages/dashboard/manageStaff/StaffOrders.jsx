@@ -4,24 +4,24 @@ import DataTable from '../../../components/dashboard/DataTable'
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { ORDERS } from './graphql/query';
 import { format } from 'date-fns';
 import Loader from '../../../common/loader/Index';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
-import { nb } from 'date-fns/locale';
 import moment from 'moment-timezone';
 import useIsMobile from '../../../hook/useIsMobile';
+import { ORDERS } from '../orders/graphql/query';
 
-const Orders = () => {
+const StaffOrders = ({ user }) => {
   const [orders, setOrders] = useState([])
   const [orderId, setOrderId] = useState('')
 
   const isMobile = useIsMobile()
 
   const { loading, error: orderErr } = useQuery(ORDERS, {
-    notifyOnNetworkStatusChange: true,
+    skip: !user.id,
     variables: {
-      id: orderId
+      id: orderId,
+      addedFor: user?.id
     },
     onCompleted: (res) => {
       setOrders(res.orders.edges.map(item => item.node));
@@ -237,4 +237,4 @@ const Orders = () => {
   )
 }
 
-export default Orders
+export default StaffOrders

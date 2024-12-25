@@ -1,19 +1,16 @@
 import { CalendarMonthOutlined, Close, MailOutline, ModeEdit, PhoneInTalkOutlined, Search } from '@mui/icons-material'
-import { Avatar, Box, Button, DialogActions, IconButton, Input, Stack, Typography, useMediaQuery } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { Avatar, Box, Button, DialogActions, IconButton, Input, Stack, Typography } from '@mui/material'
+import { useState } from 'react'
 import DataTable from '../../../components/dashboard/DataTable'
 import CDialog from '../../../common/dialog/CDialog';
 import AddStaff from './AddStaff';
 import EditStaff from './EditStaff';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { GET_COMPANY_STAFFS } from './graphql/query';
 import { format } from 'date-fns';
 import ErrorMsg from '../../../common/ErrorMsg/ErrorMsg';
 import Loader from '../../../common/loader/Index';
-import { USER_DELETE } from './graphql/mutation';
-import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
-import { deleteFile } from '../../../utils/deleteFile';
 import { ME } from '../../../graphql/query';
 import { Link } from 'react-router-dom';
 import useIsMobile from '../../../hook/useIsMobile';
@@ -27,7 +24,6 @@ const ManageStaff = () => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [editStaffData, setEditStaffData] = useState({});
   const [deleteStaffData, setDeleteStaffData] = useState({ email: '', fileId: '' });
-  const [loadingFiledelete, setLoadingFileDelete] = useState(false)
   const [searchText, setSearchText] = useState('')
   const [makeOnlinePaymentDialogOpen, setMakeOnlinePaymentDialogOpen] = useState(false)
 
@@ -35,38 +31,16 @@ const ManageStaff = () => {
 
   const isMobile = useIsMobile()
 
-  const [getCompanyStaffs, { loading, error }] = useLazyQuery(GET_COMPANY_STAFFS, {
-    fetchPolicy: "network-only",
+  const { loading, error } = useQuery(GET_COMPANY_STAFFS, {
     variables: {
       title: searchText,
     },
+    notifyOnNetworkStatusChange: true,
     onCompleted: (res) => {
       const data = res.companyStaffs.edges.filter(({ node }) => !node.isDeleted);
       setRowData(data);
     },
   });
-
-  const [userDelete, { loading: userDeleteLoading }] = useMutation(USER_DELETE, {
-    onCompleted: (res) => {
-      toast.success(res.userDelete.message)
-      getCompanyStaffs()
-      setRemoveDialogOpen(false)
-    },
-    onError: (err) => {
-      toast.error(err.message)
-    }
-  });
-
-  const handlStaffDelete = async () => {
-    setLoadingFileDelete(true)
-    await deleteFile(deleteStaffData.fileId);
-    setLoadingFileDelete(false)
-    userDelete({
-      variables: {
-        email: deleteStaffData.email
-      }
-    })
-  }
 
 
   const rows = rowdata?.map(item => ({
@@ -120,7 +94,7 @@ const ManageStaff = () => {
             <Stack direction='row' gap={1} alignItems='center'>
               <Avatar src={params.row?.photoUrl ? row.photoUrl : ''} />
               <Box>
-                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{row.firstName + row.lastName}</Typography>
+                <Typography sx={{ fontSize: '14px', fontWeight: 600 }}>{row.firstName + ' ' + row.lastName}</Typography>
                 <Stack direction='row' alignItems='center' gap={2}>
                   <Link to={`/dashboard/staff-details/${row.id}`} sx={{ fontSize: '12px' }}>
                     <Typography sx={{ fontSize: '14px' }}>@{row.username}</Typography>
@@ -209,23 +183,12 @@ const ManageStaff = () => {
           }} onClick={() => handleStaffEdit(params.row)}>
             <ModeEdit fontSize='small' />
           </IconButton>
-          <IconButton disabled={user?.me.company.isBlocked} sx={{
-            // border: '1px solid lightgray',
-            borderRadius: '5px',
-            width: '40px',
-            height: '40px',
-          }} onClick={() => handleStaffRemove(params.row)}>
-            <Close fontSize='small' />
-          </IconButton>
         </Stack>
       ),
     },
   ];
 
 
-  useEffect(() => {
-    getCompanyStaffs()
-  }, [])
 
   return (
     <Box maxWidth='xl'>
@@ -258,29 +221,21 @@ const ManageStaff = () => {
       </CDialog>
       {/* Add Staff */}
       <CDialog openDialog={addStaffDialogOpen} >
-        <AddStaff closeDialog={handleAddStaffDialogClose} getCompanyStaffs={getCompanyStaffs} />
+        <AddStaff closeDialog={handleAddStaffDialogClose} />
       </CDialog>
       {/* edit staff */}
       <CDialog openDialog={editStaffDialogOpen} >
-        <EditStaff data={editStaffData} closeDialog={() => setEditStaffDilogOpen(false)} getCompanyStaffs={getCompanyStaffs} />
+        <EditStaff data={editStaffData} closeDialog={() => setEditStaffDilogOpen(false)} />
       </CDialog>
-      {/* remove staff */}
-      <CDialog openDialog={removeDialogOpen} closeDialog={() => setRemoveDialogOpen(false)} >
-        <Typography variant='h5'>Bekreft fjerning <i style={{ color: 'red' }}>{deleteStaffData.email}</i>?</Typography>
-        <Typography color='red'>Denne brukeren vil bli permanent fjernet fra ansattlisten</Typography>
-        <DialogActions>
-          <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Avbryt</Button>
-          <CButton isLoading={userDeleteLoading || loadingFiledelete} onClick={handlStaffDelete} variant='contained'>Bekreft</CButton>
-        </DialogActions>
-      </CDialog>
+
       <Box>
         {
-          loading ? <Loader /> : error ? <ErrorMsg /> :
+          error ? <ErrorMsg /> :
             <DataTable
               rows={rows}
               columns={columns}
               rowHeight={70}
-            // columnVisibilityModel={columnVisibilityModel}
+              loading={loading}
             />
         }
       </Box>
