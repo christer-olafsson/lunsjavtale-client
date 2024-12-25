@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useMutation } from '@apollo/client';
 import { useTheme } from '@emotion/react';
-import { Add, ArrowBack, CalendarMonthOutlined, Close, Remove, RemoveCircle } from '@mui/icons-material';
+import { Add, ArrowBack, CalendarMonthOutlined, Close, Edit, Person, Remove, RemoveCircle } from '@mui/icons-material';
 import { Box, Button, DialogActions, Divider, IconButton, ListItem, ListItemIcon, ListItemText, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { REMOVE_CART } from './graphql/mutation';
@@ -10,9 +10,13 @@ import CButton from '../../../common/CButton/CButton';
 import { ADDED_CARTS, ADDED_CARTS_LIST } from './graphql/query';
 import CDialog from '../../../common/dialog/CDialog';
 import { ORDER_SUMMARY } from '../checkPage/graphql/query';
+import EditCart from './EditCart';
 
 const CartCard = ({ data }) => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false)
+  const [editDialogOpen, setEditDialogOpen] = useState(false)
+
+
   const [removeCart, { loading: removeLoading }] = useMutation(REMOVE_CART, {
     onCompleted: (res) => {
       toast.success(res.removeCart.message)
@@ -59,15 +63,33 @@ const CartCard = ({ data }) => {
           <Box>
             <Typography sx={{ fontSize: { xs: '14px', lg: '16px' }, fontWeight: 600 }}>{data?.item?.name}</Typography>
             <Typography sx={{ fontSize: '14px' }} mb={1}>Kategori: {data?.item?.category.name}</Typography>
-            <Typography sx={{
-              fontSize: '14px',
-              fontWeight: 600,
-              border: '1px solid gray',
-              width: 'fit-content',
-              minWidth: '120px',
-              p: .5, textAlign: 'center',
-              borderRadius: '50px'
-            }}>Mengde: x{data?.quantity}</Typography>
+            <Stack direction='row' alignItems='center' gap={2}>
+
+              <Typography sx={{
+                fontSize: '14px',
+                fontWeight: 600,
+                display: 'inline-flex',
+                gap: .5,
+                justifyContent: 'center',
+                border: '1px solid gray',
+                width: 'fit-content',
+                minWidth: '60px',
+                p: .5, textAlign: 'center',
+                borderRadius: '50px'
+              }}> x {data?.quantity}</Typography>
+              <Typography sx={{
+                fontSize: '14px',
+                fontWeight: 600,
+                display: 'inline-flex',
+                gap: .5,
+                justifyContent: 'center',
+                border: '1px solid gray',
+                width: 'fit-content',
+                minWidth: '60px',
+                p: .5, textAlign: 'center',
+                borderRadius: '50px'
+              }}> <Person fontSize='small' /> {data?.addedFor?.edges?.length}</Typography>
+            </Stack>
           </Box>
         </Stack>
         <Stack direction={{ xs: 'row', md: 'column' }} my={{ xs: 1, md: 0 }}>
@@ -81,9 +103,14 @@ const CartCard = ({ data }) => {
         px: 3,
         py: .5
       }} direction='row' justifyContent='space-between' alignItems='center'>
-        <IconButton onClick={() => setRemoveDialogOpen(true)} size='small' >
-          <RemoveCircle />
-        </IconButton>
+        <Stack direction='row' gap={1} alignItems='center'>
+          <IconButton onClick={() => setRemoveDialogOpen(true)} size='small' >
+            <RemoveCircle />
+          </IconButton>
+          <IconButton onClick={() => setEditDialogOpen(true)}>
+            <Edit />
+          </IconButton>
+        </Stack>
         <Typography sx={{ fontSize: { xs: '14px', lg: '16px' } }}>Total: <b> {data?.totalPriceWithTax} kr</b></Typography>
       </Stack>
       {/* remove dialog */}
@@ -93,6 +120,10 @@ const CartCard = ({ data }) => {
           <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Kansellere</Button>
           <CButton isLoading={removeLoading} onClick={handleProductRemove} variant='contained'>Bekrefte</CButton>
         </DialogActions>
+      </CDialog>
+      {/* edit dialog */}
+      <CDialog maxWidth='md' openDialog={editDialogOpen} closeDialog={() => setEditDialogOpen(false)} >
+        <EditCart data={data} closeDialog={() => setEditDialogOpen(false)} />
       </CDialog>
     </Box>
   )

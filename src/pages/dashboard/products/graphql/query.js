@@ -66,6 +66,27 @@ export const ADDED_CARTS_LIST = gql`
           priceWithTax
           totalPriceWithTax
           orderedQuantity
+          addedFor{
+            edges{
+              node{
+                id
+                photoUrl
+                firstName
+                lastName
+                username
+                email
+                role
+              }
+            }
+          }
+          ingredients{
+          edges{
+              node{
+                id
+                name
+              }
+            }
+          }
           item{
             id
             priceWithTax

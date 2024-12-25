@@ -77,7 +77,7 @@ const AddItem = ({ closeDialog, data }) => {
     }
     addToCartMutation({
       variables: {
-        dates: formattedData,
+        dates: formattedData, //date,quantity and addedfor all in formated data
         ingredients: selectedAllergies,
         item: data.id
       }
@@ -353,7 +353,7 @@ const AddItem = ({ closeDialog, data }) => {
                 </table>
               </Box>
               {
-                data?.category.id !== import.meta.env.VITE_STATIC_CATEGORY_ID &&
+                data?.category.id !== import.meta.env.VITE_STATIC_CATEGORY_ID && //category id different in stage and main
                 <Autocomplete
                   multiple
                   options={allAllergies}
