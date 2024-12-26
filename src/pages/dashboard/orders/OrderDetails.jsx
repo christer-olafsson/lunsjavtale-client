@@ -86,7 +86,7 @@ const OrderDetails = () => {
       </Box>
     )
   }
-
+  console.log(order)
 
   return (
     <Box maxWidth='xl'>

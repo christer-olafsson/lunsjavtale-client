@@ -16,30 +16,6 @@ export const ORDERS = gql`
           dueAmount
           paidAmount
           note
-          orderCarts(addedFor: "141"){
-            edges{
-              node{
-                id
-                quantity
-                priceWithTax
-                totalPriceWithTax
-                orderedQuantity
-                item{
-                  id
-                  priceWithTax
-                  name
-                  attachments{
-                  edges{
-                    node{
-                      fileUrl
-                      isCover
-                    }
-                  }
-                }
-                }
-              }
-            }
-          }
         }
       }
     }
@@ -103,6 +79,14 @@ export const ORDER = gql`
           orderedQuantity
           priceWithTax
           totalPriceWithTax
+          ingredients{
+              edges{
+                node{
+                  id
+                  name
+                }
+              }
+            }
           item{
             id
             priceWithTax

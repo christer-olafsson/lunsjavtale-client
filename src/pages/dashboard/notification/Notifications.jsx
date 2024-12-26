@@ -25,7 +25,7 @@ const Notifications = () => {
     const date = parseISO(isoString);
     return formatDistanceToNow(date, { addSuffix: true });
   };
-
+  console.log(notifications)
   const columns = [
     {
       field: 'Time', headerName: '', width: 250,
@@ -73,7 +73,7 @@ const Notifications = () => {
               to={row.notificationType === 'order-placed' ? '/dashboard/orders' :
                 row.notificationType === 'order-status-changed' ? `/dashboard/orders/details/${row.objectId}` :
                   row.notificationType === 'order-cart-updated' ? `/dashboard/orders/details/${row.objectId}` :
-                    row.notificationType === 'order-cart-added' ? `/dashboard/orders/details/${row.objectId}` : null
+                    row.notificationType === 'order-cart-added' ? `/dashboard/staffs-order` : null
               }
             >
               <Typography sx={{ fontSize: '14px' }}>{row.message}</Typography>

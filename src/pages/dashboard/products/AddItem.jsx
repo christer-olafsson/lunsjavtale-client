@@ -289,7 +289,7 @@ const AddItem = ({ closeDialog, data }) => {
                   withPortal
                   placeholderText="Klikk for å velge dato"
                   minDate={new Date()}
-                  maxDate={addMonths(new Date(), 1)}
+                  maxDate={addMonths(new Date(), 2)}
                   selectedDates={selectedDates}
                   selectsMultiple
                   onChange={onChangeDate}
@@ -316,7 +316,8 @@ const AddItem = ({ closeDialog, data }) => {
                           <td style={{ whiteSpace: '' }}>{format(date, 'dd-MM-yyyy')}</td>
                           <td>
                             <Stack sx={{
-                              minwidth: { xs: '90px', md: '150px' },
+                              // minwidth: { xs: '90px', md: '150px' },
+                              width: { xs: '100px', md: '150px' },
                               border: `1px solid ${theme.palette.primary.main}`,
                               borderRadius: '50px',
                             }} direction='row' alignItems='center' justifyContent='space-between' >
@@ -353,7 +354,7 @@ const AddItem = ({ closeDialog, data }) => {
                 </table>
               </Box>
               {
-                data?.category.id !== import.meta.env.VITE_STATIC_CATEGORY_ID && //category id different in stage and main
+                (data?.category.id !== import.meta.env.VITE_STATIC_CATEGORY_ID && user?.me.role !== 'company-employee') && //category id different in stage and main
                 <Autocomplete
                   multiple
                   options={allAllergies}
@@ -407,6 +408,7 @@ const AddItem = ({ closeDialog, data }) => {
                   <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Dato</Typography>
                   <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Antall</Typography>
                   <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Pris</Typography>
+                  <Typography></Typography>
                 </Stack>
 
                 <Stack gap={2}>

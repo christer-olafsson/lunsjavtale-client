@@ -1,4 +1,4 @@
-import { ArrowBack, ArrowDropDown, CalendarMonthOutlined } from '@mui/icons-material';
+import { ArrowBack, ArrowDropDown, CalendarMonthOutlined, ExpandMore } from '@mui/icons-material';
 import { Box, Button, Collapse, IconButton, Paper, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
@@ -52,14 +52,14 @@ const ProductCartPage = () => {
             loading ? <Loader /> : error ? <ErrorMsg /> :
               addedCartsList.map((data, idx) => (
                 <Paper elevation={3} sx={{ p: { xs: 2, md: 3 } }} key={idx}>
-                  <Stack direction={{ xs: 'column', md: 'row' }} justifyContent='space-between' alignItems='center'>
+                  <Stack sx={{ cursor: 'pointer' }} onClick={() => handleCartList(idx)} direction={{ xs: 'column', md: 'row' }} justifyContent='space-between' alignItems='center'>
                     <Stack sx={{ width: { xs: '100%', md: 'none' } }} alignSelf={{ xs: 'flex-start', md: 'center' }} direction='row' gap={2}>
                       <CalendarMonthOutlined />
                       <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{format(data?.date, 'dd-MM-yyyy')}</Typography>
                     </Stack>
                     <Stack sx={{ width: { xs: '100%', md: 'none' } }} direction='row' justifyContent='space-between' alignItems='center'>
                       <Typography sx={{ fontWeight: 600 }}> <span style={{ fontWeight: 400 }}>Total NOK: </span>{data.totalPrice}</Typography>
-                      <Button onClick={() => handleCartList(idx)} endIcon={<ArrowDropDown />}>Details</Button>
+                      <IconButton onClick={() => handleCartList(idx)}><ExpandMore /></IconButton>
                     </Stack>
                   </Stack>
                   <Collapse in={idx === cartListId}>

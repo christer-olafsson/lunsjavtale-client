@@ -91,6 +91,17 @@ const OrderCart = ({ order, orderCarts }) => {
             <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{orderCarts?.node.item.name}</Typography>
             <Typography variant='body2'>Kategori: <b>{orderCarts?.node.item.category.name}</b></Typography>
             <Typography>Pris: <b>{orderCarts?.node?.item.priceWithTax}</b> kr</Typography>
+            <Typography sx={{ fontWeight: 600 }}>Ingredients: </Typography>
+            {
+              orderCarts?.node.ingredients?.edges &&
+              <ul>
+                {
+                  orderCarts?.node.ingredients?.edges.map(item => (
+                    <li key={item.node.id}>{item.node.name}</li>
+                  ))
+                }
+              </ul>
+            }
           </Box>
         </Stack>
         {/* req food change dialog */}
@@ -114,6 +125,7 @@ const OrderCart = ({ order, orderCarts }) => {
                     <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>{currentStaffReqCart?.node?.alterCart?.item.name}</Typography>
                     <Typography variant='body2'>Kategori: <b>{currentStaffReqCart?.node?.alterCart?.item.category.name}</b></Typography>
                     <Typography>Pris: <b>{currentStaffReqCart?.node?.alterCart?.item.priceWithTax}</b> kr</Typography>
+
                     <Typography sx={{
                       fontSize: '14px',
                       bgcolor: currentStaffReqCart?.node?.alterCart?.status !== 'pending' ? 'green' : 'darkgray',
@@ -135,6 +147,7 @@ const OrderCart = ({ order, orderCarts }) => {
               <Typography>Antall: <b>{orderCarts?.node?.orderedQuantity}</b> </Typography>
               <Typography>Valgte ansatte: <b>({orderCarts?.node?.users?.edges?.length})</b></Typography>
               <Typography>Total pris: <b>{orderCarts?.node?.totalPriceWithTax} </b> kr </Typography>
+
               <Stack direction='row' gap={1}>
                 <Button
                   onClick={() => setCartDetailsOpen(!cartDetailsOpen)}

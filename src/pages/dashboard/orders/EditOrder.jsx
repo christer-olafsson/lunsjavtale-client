@@ -1,20 +1,26 @@
 /* eslint-disable react/prop-types */
-import { Add, ArrowDropDownOutlined, Close, Remove } from '@mui/icons-material';
-import { Avatar, Box, Button, Collapse, IconButton, Stack, Typography } from '@mui/material';
+import { Add, ArrowDropDownOutlined, CheckBox, CheckBoxOutlineBlank, Close, Remove } from '@mui/icons-material';
+import { Autocomplete, Avatar, Box, Button, Checkbox, Collapse, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { DataGrid } from '@mui/x-data-grid';
-import { GET_COMPANY_STAFFS } from '../manageStaff/graphql/query';
+import { GET_COMPANY_STAFFS, GET_INGREDIENTS } from '../manageStaff/graphql/query';
 import { CART_UPDATE } from './graphql/mutation';
 import { ORDER } from './graphql/query';
 import toast from 'react-hot-toast';
 import CButton from '../../../common/CButton/CButton';
+
+const icon = <CheckBoxOutlineBlank fontSize="small" />;
+const checkedIcon = <CheckBox fontSize="small" />;
+
 
 const EditOrder = ({ data, closeDialog }) => {
   const [tableOpen, setTableOpen] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [orderedQuantity, setOrderedQuantity] = useState('');
+  const [allAllergies, setAllAllergies] = useState([]);
+  const [selectedAllergies, setSelectedAllergies] = useState([]);
 
   useQuery(GET_COMPANY_STAFFS, {
     onCompleted: (res) => {
@@ -22,6 +28,15 @@ const EditOrder = ({ data, closeDialog }) => {
       setRowData(data);
     },
   });
+
+  //get all allergies
+  useQuery(GET_INGREDIENTS, {
+    onCompleted: (res) => {
+      const data = res.ingredients.edges.map(item => item.node)
+      setAllAllergies(data)
+    }
+  });
+
 
   const [cartUpdate, { loading }] = useMutation(CART_UPDATE, {
     onCompleted: (res) => {
@@ -44,6 +59,7 @@ const EditOrder = ({ data, closeDialog }) => {
         id: data.id,
         quantity: parseInt(orderedQuantity),
         addedFor: selectedRows
+        //pending ingredient update
       }
     });
   };
@@ -143,6 +159,7 @@ const EditOrder = ({ data, closeDialog }) => {
       });
       setSelectedRows(rows.map(item => item.id));
       setOrderedQuantity(data.orderedQuantity);
+      setSelectedAllergies(data.ingredients?.edges?.map(item => item.node))
     }
   }, [data]);
 
@@ -188,7 +205,7 @@ const EditOrder = ({ data, closeDialog }) => {
         </Box>
       </Stack>
       <Typography variant='body2' mb={.5}>Bestilt Mengde</Typography>
-      <Stack direction='row' justifyContent='space-between' gap={2} alignItems='center'>
+      <Stack direction='row' gap={2} alignItems='center'>
         <Stack sx={{
           width: '150px',
           border: `1px solid lightgray`,
@@ -198,6 +215,32 @@ const EditOrder = ({ data, closeDialog }) => {
           <Typography>{orderedQuantity}</Typography>
           <IconButton sx={{ height: '35px' }} onClick={() => toggleQuantity('increase')}><Add fontSize='small' /></IconButton>
         </Stack>
+        {/* //allergies */}
+        <Autocomplete
+          size='small'
+          sx={{ flex: 1 }}
+          multiple
+          options={allAllergies}
+          value={selectedAllergies}
+          disableCloseOnSelect
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          onChange={(event, value) => setSelectedAllergies(value.map(iiem => iiem))}
+          getOptionLabel={(option) => option.name}
+          renderOption={(props, option, { selected }) => (
+            <li {...props}>
+              <Checkbox
+                icon={icon}
+                checkedIcon={checkedIcon}
+                style={{ marginRight: 8 }}
+                checked={selected}
+              />
+              {option.name}
+            </li>
+          )}
+          renderInput={(params) => (
+            <TextField {...params} label="Velg allergier" />
+          )}
+        />
         <Button
           onClick={() => setTableOpen(!tableOpen)}
           sx={{ height: '100%', whiteSpace: 'nowrap' }}

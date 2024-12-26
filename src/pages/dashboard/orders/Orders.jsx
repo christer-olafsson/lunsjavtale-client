@@ -15,7 +15,7 @@ import useIsMobile from '../../../hook/useIsMobile';
 const Orders = () => {
   const [orders, setOrders] = useState([])
   const [orderId, setOrderId] = useState('')
-
+  console.log(orders)
   const isMobile = useIsMobile()
 
   const { loading, error: orderErr } = useQuery(ORDERS, {
