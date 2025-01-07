@@ -71,7 +71,7 @@ const Account = () => {
           username: payload.username,
           currentPassword: payload.currentPass,
           password: payload.repeatPass,
-          id: user.me.id
+          id: user.me?.id
         }
       }
     })
@@ -111,9 +111,9 @@ const Account = () => {
   useEffect(() => {
     setPayload({
       ...payload,
-      username: user.me.username
+      username: user?.me?.username
     });
-    setForgotEmail({ email: user?.me.email })
+    setForgotEmail({ email: user?.me?.email })
   }, [user])
 
   return (
@@ -230,7 +230,7 @@ const Account = () => {
                 editOn ?
                   <Stack direction='row' gap={2} alignItems='center'>
                     <Button onClick={() => setEditOn(false)} variant='outlined'>Avbryt</Button>
-                    <CButton disable={user?.me.company.isBlocked} isLoading={updateLoading} onClick={handleUpdate} variant='contained'>Lagre endringer</CButton>
+                    <CButton disable={user?.me?.company.isBlocked} isLoading={updateLoading} onClick={handleUpdate} variant='contained'>Lagre endringer</CButton>
                   </Stack>
                   : <Button onClick={() => setEditOn(true)} variant='contained'>Rediger</Button>
               }

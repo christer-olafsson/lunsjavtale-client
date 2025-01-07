@@ -56,7 +56,7 @@ const EditAddress = ({ data, closeDialog }) => {
       return
     }
     if (!payload.postCode) {
-      setErrors({ postCode: 'Postnummer er påkrevd!' })
+      setErrors({ postCode: 'Poststed er påkrevd!' })
       return
     }
     addressMutation({
@@ -122,11 +122,11 @@ const EditAddress = ({ data, closeDialog }) => {
             <TextField value={payload.fullName} onChange={handleInputChange} name='fullName' label='Fullt navn' />
           </Stack>
           <Stack flex={1} gap={2}>
-            <TextField value={payload.postCode} helperText={errors.postCode} error={Boolean(errors.postCode)} onChange={handleInputChange} name='postCode' type='number' label='Postnummer' />
-            <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Telefonnummer' />
+            <TextField value={payload.postCode} helperText={errors.postCode} error={Boolean(errors.postCode)} onChange={handleInputChange} name='postCode' type='number' label='Poststed' />
+            <TextField value={payload.phone} onChange={handleInputChange} name='phone' type='number' label='Organisasjonsnummer ' />
           </Stack>
         </Stack>
-        <TextField value={payload.instruction} onChange={handleInputChange} name='instruction' label='Instruksjon' />
+        <TextField value={payload.instruction} multiline rows={2} onChange={handleInputChange} name='instruction' label='Instruksjon' />
         <FormGroup>
           <FormControlLabel
             control={<Switch checked={payload.default}

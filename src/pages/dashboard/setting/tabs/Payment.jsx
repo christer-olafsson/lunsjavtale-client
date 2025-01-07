@@ -64,7 +64,7 @@ const Payment = () => {
       <Typography sx={{ fontSize: '16px', fontWeight: 400 }}>Vis og oppdater betalingsdetaljene dine</Typography>
 
       {/* payment getway integration */}
-      <Paper sx={{ p: 2, mt: 3 }}>
+      {/* <Paper sx={{ p: 2, mt: 3 }}>
         <Stack sx={{ cursor: 'pointer' }} onClick={() => setOpenPaymentGateway(!openPaymentGateway)} direction='row' justifyContent='space-between' alignItems='center'>
           <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>Betalingsmetoder</Typography>
           <IconButton>
@@ -79,7 +79,6 @@ const Payment = () => {
             <Box></Box>
             <Button onClick={() => setOpenPaymentMethodDialog(true)} variant='contained' startIcon={<Add />}>Legg til</Button>
           </Stack>
-          {/* add payment method */}
           <CDialog openDialog={openPaymentMethodDialog}>
             <AddPaymentMethod fetchPaymentMethods={fetchPaymentMethods} closeDialog={() => setOpenPaymentMethodDialog(false)} />
           </CDialog>
@@ -135,11 +134,10 @@ const Payment = () => {
                         <DeleteOutlineOutlined fontSize='small' />
                       </IconButton>
                     </Stack>
-                    {/* edit payment method */}
                     <CDialog openDialog={data.id === editPaymentMethodId}>
                       <EditPaymentMethod fetchPaymentMethods={fetchPaymentMethods} data={data} closeDialog={() => setEditPaymentMethodId('')} />
                     </CDialog>
-                    {/* delete */}
+                   
                     {
                       <CDialog closeDialog={() => setDeleteId('')} maxWidth='sm' openDialog={data.id === deleteId}>
                         <Box>
@@ -158,7 +156,7 @@ const Payment = () => {
               ))
           }
         </Collapse>
-      </Paper>
+      </Paper> */}
 
 
       {/* billing information */}

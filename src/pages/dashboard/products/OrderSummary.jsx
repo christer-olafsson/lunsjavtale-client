@@ -66,7 +66,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
               <Typography sx={{ fontSize: { xs: '18px', md: '24px' }, fontWeight: 600 }}>Firma Godtgjørelse</Typography>
               <IconButton onClick={handleAllowanceDialogClose}><Close /></IconButton>
             </Stack>
-            <Typography sx={{ fontWeight: 600, mb: 1 }}>Hvor mye vil du betale for denne ordren</Typography>
+            <Typography sx={{ fontWeight: 600, mb: 1 }}>Hvor stor andel skal firma betale for denne ordren</Typography>
             <Autocomplete
               onInputChange={(event, newValue) => {
                 if (newValue === '' || (/^(100|[1-9]?[0-9])$/).test(newValue)) {
@@ -144,7 +144,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
             // color:'#fff',
             p: 2, borderRadius: '8px', mt: 2
           }} direction='row' justifyContent='space-between'>
-            <Typography sx={{ fontWeight: 600 }}>Totalt Ansatte Skyldig:</Typography>
+            <Typography sx={{ fontWeight: 600 }}>Totalt andel ansatt(e):</Typography>
             <Typography sx={{ fontWeight: 600 }}>{orderSummaryData?.employeeDue} kr</Typography>
           </Stack>
           <Stack sx={{
@@ -153,7 +153,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
             // color:'#fff',
             p: 2, borderRadius: '8px', mt: 2
           }} direction='row' justifyContent='space-between'>
-            <Typography sx={{ fontWeight: 600 }}>Totalt Firma Skyldig:</Typography>
+            <Typography sx={{ fontWeight: 600 }}>Totalt andel firma:</Typography>
             <Typography sx={{ fontWeight: 600 }}>{orderSummaryData.companyDue} kr</Typography>
           </Stack>
         </>

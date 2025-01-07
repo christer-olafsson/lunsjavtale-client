@@ -2,7 +2,7 @@
 import { useTheme } from '@emotion/react'
 import { Add, ArrowBackIos, ArrowDropDown, ArrowForwardIos, CheckBox, CheckBoxOutlineBlank, Close, ExpandMore, Remove } from '@mui/icons-material'
 import { Autocomplete, Avatar, Box, Button, Checkbox, Collapse, IconButton, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
-import { addDays, addMonths, format, isToday } from 'date-fns';
+import { addMonths, format, isToday } from 'date-fns';
 import React, { useEffect, useState } from 'react'
 import ReactDatePicker from 'react-datepicker';
 import { GET_COMPANY_STAFFS, GET_INGREDIENTS } from '../manageStaff/graphql/query';
@@ -29,9 +29,6 @@ const AddItem = ({ closeDialog, data }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [allAllergies, setAllAllergies] = useState([]);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
-
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
 
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -99,59 +96,10 @@ const AddItem = ({ closeDialog, data }) => {
 
 
   // date selection 
-  // const onChangeDate = (dates) => {
-  //   const selectedDateList = dates.map((date) => format(date, 'yyyy-MM-dd'));
-  //   setSelectedDates(selectedDateList);
-  // };
-
-
-  // Add selected date to the list
-  const onChangeDate = (date) => {
-    if (!date) return;
-
-    const formattedDate = format(date, "yyyy-MM-dd");
-    if (selectedDates.includes(formattedDate)) {
-      toast.error("Denne datoen er allerede valgt!");
-      return;
-    }
-
-    setSelectedDates((prev) => [...prev, formattedDate]);
-    setCartItems((prev) => ({
-      ...prev,
-      [formattedDate]: {
-        quantity: 1,
-        totalPrice: 100, // Default price, can be customized
-      },
-    }));
+  const onChangeDate = (dates) => {
+    const selectedDateList = dates.map((date) => format(date, 'yyyy-MM-dd'));
+    setSelectedDates(selectedDateList);
   };
-
-
-  // Add date and time to the list
-  const handleAddDateTime = () => {
-    if (!date || !time) {
-      toast.error("Velg både dato og klokkeslett!");
-      return;
-    }
-
-    const datetime = `${date} ${time}`;
-    if (selectedDates.includes(datetime)) {
-      toast.error("Denne datoen og klokkeslettet er allerede valgt!");
-      return;
-    }
-
-    setSelectedDates((prev) => [...prev, datetime]);
-    setCartItems((prev) => ({
-      ...prev,
-      [datetime]: {
-        quantity: 1,
-        totalPrice: 100, // Default price
-      },
-    }));
-    setDate(""); // Clear inputs
-    setTime("");
-  };
-
-  console.log(formattedData)
 
   const dateDeselect = (date) => {
     setSelectedDates(selectedDates.filter(prev => prev !== date))
@@ -337,49 +285,7 @@ const AddItem = ({ closeDialog, data }) => {
               </Stack>
 
               <Box sx={{ mb: 2 }}>
-                <Stack direction="row" spacing={2} alignItems="center" mb={2}>
-                  <TextField
-                    size="small"
-                    type="date"
-                    label="Dato"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    InputLabelProps={{ shrink: true }}
-                    inputProps={{
-                      min: format(addDays(new Date(), 1), "yyyy-MM-dd"), // Disable past dates
-                      max: format(addMonths(new Date(), 2), "yyyy-MM-dd") // Limit to next 3 months
-                    }}
-                  />
-                  <TextField
-                    size='small'
-                    type="time"
-                    label="Tid"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                    InputLabelProps={{ shrink: true }}
-                  />
-                  <Button variant="contained" onClick={handleAddDateTime}>
-                    Legg til
-                  </Button>
-                </Stack>
-                {/* <ReactDatePicker
-                  withPortal
-                  showTimeSelect
-                  timeFormat="HH:mm"
-                  timeIntervals={30}
-                  // showTimeInput
-                  placeholderText="Klikk for å velge dato"
-                  minDate={new Date()}
-                  maxDate={addMonths(new Date(), 2)}
-                  selected={null} // Single date selection
-                  onChange={onChangeDate}
-                  dateFormat="dd-MM-yyyy HH:mm"
-                  shouldCloseOnSelect
-                  disabledKeyboardNavigation
-                  filterDate={(date) => !isToday(date)} // Disables today's date
-                  /> */}
-
-                {/* <ReactDatePicker
+                <ReactDatePicker
                   withPortal
                   placeholderText="Klikk for å velge dato"
                   minDate={new Date()}
@@ -387,14 +293,12 @@ const AddItem = ({ closeDialog, data }) => {
                   selectedDates={selectedDates}
                   selectsMultiple
                   onChange={onChangeDate}
-                  // showTimeSelect
-                  // showTimeInput
                   dateFormat='dd-MM-yyyy'
                   shouldCloseOnSelect={false}
                   disabledKeyboardNavigation
                   filterDate={(date) => !isToday(date)} // Disables today's date
 
-                /> */}
+                />
               </Box>
 
               <Box mb={2}>
@@ -411,10 +315,7 @@ const AddItem = ({ closeDialog, data }) => {
                     {
                       selectedDates.sort((a, b) => new Date(a) - new Date(b)).map(date => (
                         <tr style={{ overflowX: 'auto' }} key={date}>
-                          <td style={{ whiteSpace: '' }}>
-                            {format(date, 'dd-MM-yyyy')}
-                            <Typography style={{ fontSize: '14px', fontWeight: 'bold' }}>{format(date, 'hh:mm a')}</Typography>
-                          </td>
+                          <td style={{ whiteSpace: '' }}>{format(date, 'dd-MM-yyyy')}</td>
                           <td>
                             <Stack sx={{
                               // minwidth: { xs: '90px', md: '150px' },
@@ -540,10 +441,7 @@ const AddItem = ({ closeDialog, data }) => {
                               transform: 'rotate(90deg)'
                             }} />
                           </IconButton>
-                          <Stack>
-                            <Typography sx={{ fontSize: { xs: '13px', md: '16px', whiteSpace: 'nowrap' } }}>{format(date, 'dd-MM-yyyy')} </Typography>
-                            <span style={{ fontWeight: '600', fontSize: "14px" }}> {format(date, 'hh:mm a')}</span>
-                          </Stack>
+                          <Typography sx={{ fontSize: { xs: '13px', md: '16px', whiteSpace: 'nowrap' } }}>{format(date, 'dd-MM-yyyy')}</Typography>
                         </Stack>
                         <Stack
                           sx={{

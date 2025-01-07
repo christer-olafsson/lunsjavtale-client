@@ -41,7 +41,7 @@ export const ME = gql`
           firstName
           lastName
           address
-          sector
+          
           country
           phone
         }

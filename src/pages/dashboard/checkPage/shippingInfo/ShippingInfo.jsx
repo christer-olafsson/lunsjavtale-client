@@ -62,7 +62,7 @@ const ShippingInfo = ({ shippingInfoErr }) => {
     <Stack>
       {
         pathname !== '/dashboard/setting' &&
-        <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Fraktinformasjon</Typography>
+        <Typography sx={{ fontSize: '18px', fontWeight: 600 }}>Leveringsinformasjon</Typography>
       }
       <Stack direction='row' justifyContent='space-between' my={2}>
         <Box />

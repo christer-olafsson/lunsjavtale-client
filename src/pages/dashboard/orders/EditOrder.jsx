@@ -131,11 +131,13 @@ const EditOrder = ({ data, closeDialog }) => {
     }
   };
 
+
   const toggleQuantity = (type) => {
     if (type === 'increase') {
       setOrderedQuantity(orderedQuantity + 1);
-    } else {
-      if (orderedQuantity > selectedRows.length) {
+    } else if (type === 'decrease') {
+      const minimumQuantity = Math.max(selectedRows.length, 1); // Ensure minimum quantity is at least 1
+      if (orderedQuantity > minimumQuantity) {
         setOrderedQuantity(orderedQuantity - 1);
       }
     }

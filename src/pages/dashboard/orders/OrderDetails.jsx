@@ -113,7 +113,8 @@ const OrderDetails = () => {
       </CDialog>
 
       <Box mt={3}>
-        <Stack direction='row' alignItems='center' gap={3}>
+        {/* invoice download button */}
+        {/* <Stack direction='row' alignItems='center' gap={3}>
           {
             (order?.status === 'Delivered') && !isStaff &&
             <Button size='small'
@@ -121,7 +122,7 @@ const OrderDetails = () => {
               onClick={() => downloadPDF()}
               sx={{ borderRadius: '50px', height: '30px', mb: 2 }} variant='outlined' startIcon={<Download />}>Faktura</Button>
           }
-        </Stack>
+        </Stack> */}
         <Stack gap={1}>
           <Stack direction='row' alignItems='center'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Status:</b></Typography>
@@ -230,27 +231,30 @@ const OrderDetails = () => {
           }
 
           {/* Company due */}
-          <Stack direction='row' alignItems=' center' sx={{
-            display: isStaff ? 'none' : 'flex',
-            border: '1px solid lightgray',
-            maxWidth: 'fit-content',
-            whiteSpace: 'nowrap',
-            pl: 1, borderRadius: '4px', mt: 2, mb: 1
-          }}>
-            <Typography sx={{ color: 'coral' }}>
-              Firma skyldig
-              <b style={{ marginLeft: '5px' }}>{order?.companyDueAmount}</b> kr
-            </Typography>
-            <Button
-              disabled={(order?.companyDueAmount === '0.00')}
-              onClick={() => setOpenCompanyPaymentDialog(true)}
-              sx={{ alignSelf: 'flex-start', ml: 2 }}
-              variant='contained'>
-              {
-                isStaff ? 'Betal nå (Vipps)' : 'Betal nå (Vipps)'
-              }
-            </Button>
-          </Stack>
+          {
+            order?.paymentType === 'online' &&
+            <Stack direction='row' alignItems=' center' sx={{
+              display: isStaff ? 'none' : 'flex',
+              border: '1px solid lightgray',
+              maxWidth: 'fit-content',
+              whiteSpace: 'nowrap',
+              pl: 1, borderRadius: '4px', mt: 2, mb: 1
+            }}>
+              <Typography sx={{ color: 'coral' }}>
+                Firma skyldig
+                <b style={{ marginLeft: '5px' }}>{order?.companyDueAmount}</b> kr
+              </Typography>
+              <Button
+                disabled={(order?.companyDueAmount === '0.00')}
+                onClick={() => setOpenCompanyPaymentDialog(true)}
+                sx={{ alignSelf: 'flex-start', ml: 2 }}
+                variant='contained'>
+                {
+                  isStaff ? 'Betal nå (Vipps)' : 'Betal nå (Vipps)'
+                }
+              </Button>
+            </Stack>
+          }
 
           {
             order?.note &&

@@ -136,7 +136,7 @@ function Layout() {
           textAlign: 'center',
           position: 'relative'
         }}>
-          <span style={{ fontSize: '20px', lineHeight: '10px', fontWeight: 'bold' }}>@</span> : <b>{user?.me.company?.name}</b>
+          <span style={{ fontSize: '20px', lineHeight: '10px', fontWeight: 'bold' }}></span><b>{user?.me.company?.name}</b>
         </Typography>
         {
           (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&

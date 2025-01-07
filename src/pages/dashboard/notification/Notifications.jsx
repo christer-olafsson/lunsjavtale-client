@@ -73,7 +73,7 @@ const Notifications = () => {
               to={row.notificationType === 'order-placed' ? '/dashboard/orders' :
                 row.notificationType === 'order-status-changed' ? `/dashboard/orders/details/${row.objectId}` :
                   row.notificationType === 'order-cart-updated' ? `/dashboard/orders/details/${row.objectId}` :
-                    row.notificationType === 'order-cart-added' ? `/dashboard/staffs-order` : null
+                    row.notificationType === 'order-cart-added' ? `/dashboard/staffs-order/details/${row.objectId}` : null
               }
             >
               <Typography sx={{ fontSize: '14px' }}>{row.message}</Typography>

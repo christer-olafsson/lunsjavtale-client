@@ -13,7 +13,7 @@ const AddBillingInfo = () => {
     firstName: '',
     lastName: '',
     address: '',
-    sector: '',
+    postCode: '',
     phone: '',
   })
 
@@ -60,7 +60,7 @@ const AddBillingInfo = () => {
       firstName: data.firstName ?? '',
       lastName: data.lastName ?? '',
       address: data.address ?? '',
-      sector: data.sector ?? '',
+      postCode: data.postCode ?? '',
       phone: data.phone ?? '',
     })
   }, [user])
@@ -74,7 +74,7 @@ const AddBillingInfo = () => {
         value={payload.address}
         onChange={handleBillingInputChange}
         name='address'
-        label="Forretningsadresse"
+        label="Sted"
         variant="standard"
         disabled={!editOn}
       />
@@ -105,19 +105,22 @@ const AddBillingInfo = () => {
           onChange={handleBillingInputChange}
           name='phone'
           type='number'
-          label="Telefon"
+          label="Organisasjonsnummer "
+          variant="standard"
+          disabled={!editOn}
+        />
+        <TextField
+          fullWidth
+          value={payload.postCode}
+          onChange={handleBillingInputChange}
+          name='postCode'
+          type='number'
+          label="Poststed"
           variant="standard"
           disabled={!editOn}
         />
       </Stack>
-      <TextField
-        value={payload.sector}
-        onChange={handleBillingInputChange}
-        name='sector'
-        label="Sektor"
-        variant="standard"
-        disabled={!editOn}
-      />
+
       {
         editOn ?
           <Stack direction='row' gap={2} alignItems='center' alignSelf='flex-end'>

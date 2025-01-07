@@ -15,7 +15,7 @@ import useIsMobile from '../../../hook/useIsMobile';
 const Orders = () => {
   const [orders, setOrders] = useState([])
   const [orderId, setOrderId] = useState('')
-  console.log(orders)
+
   const isMobile = useIsMobile()
 
   const { loading, error: orderErr } = useQuery(ORDERS, {
@@ -170,8 +170,8 @@ const Orders = () => {
     {
       field: 'timeUntil',
       headerName: '',
-      width: isMobile ? 200 : undefined,
-      flex: isMobile ? undefined : 1,
+      width: isMobile ? 200 : 345,
+      // flex: isMobile ? undefined : 1,
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
           <Typography variant='body2' sx={{ fontWeight: 500, display: 'inline-flex' }}>
@@ -197,7 +197,7 @@ const Orders = () => {
 
 
   return (
-    <Box maxWidth='xl'>
+    <Box maxWidth='lg'>
       <Stack sx={{ mb: 2 }} direction='row' alignItems='center'>
         <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Bestillingshistorikk</Typography>
         <Typography sx={{

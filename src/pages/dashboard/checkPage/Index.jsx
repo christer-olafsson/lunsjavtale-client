@@ -45,7 +45,7 @@ const CheckPage = () => {
     firstName: '',
     lastName: '',
     address: '',
-    sector: '',
+    // postCode: '',
     phone: '',
   })
 
@@ -140,7 +140,7 @@ const CheckPage = () => {
       firstName: data.firstName ?? '',
       lastName: data.lastName ?? '',
       address: data.address ?? '',
-      sector: data.sector ?? '',
+      // postCode: data.postCode ?? '',
       phone: data.phone ?? '',
     })
   }, [user])
@@ -162,7 +162,7 @@ const CheckPage = () => {
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} aria-label="basic tabs example">
               <Tab sx={{ textTransform: 'none' }} label="Faktureringsinformasjon" />
-              <Tab sx={{ textTransform: 'none' }} label="Fraktinformasjon" />
+              <Tab sx={{ textTransform: 'none' }} label="Leveringsinformasjon" />
               <Tab sx={{ textTransform: 'none' }} label="Betalingsinformasjon" />
             </Tabs>
           </Box>
@@ -193,22 +193,25 @@ const CheckPage = () => {
                   value={billingAddressPayload.address}
                   onChange={handleBillingInputChange}
                   name='address'
-                  label="Adresse"
+                  label="Sted"
                   variant="standard"
                 />
                 <TextField
-                  value={billingAddressPayload.sector}
+                  error={Boolean(errors.postCode)}
+                  helperText={errors.postCode}
+                  value={billingAddressPayload.postCode}
                   onChange={handleBillingInputChange}
-                  name='sector'
-                  label="Sektor"
+                  name='postCode'
+                  label="Poststed"
                   variant="standard"
                 />
+
                 <TextField
                   value={billingAddressPayload.phone}
                   onChange={handleBillingInputChange}
                   name='phone'
                   type='number'
-                  label="Telefon"
+                  label="Organisasjonsnummer "
                   variant="standard"
                 />
                 <Button
@@ -249,7 +252,7 @@ const CheckPage = () => {
                 >
                   <MenuItem value={'online'}>Vipps</MenuItem>
                   <MenuItem value={'pay-by-invoice'}>Betal med faktura</MenuItem>
-                  <MenuItem value={'cash-on-delivery'}>Kontant ved levering</MenuItem>
+                  {/* <MenuItem value={'cash-on-delivery'}>Kontant ved levering</MenuItem> */}
                 </Select>
               </FormControl>
 
@@ -271,9 +274,9 @@ const CheckPage = () => {
                 <TextField size='small' label='CCV' />
               </Stack> */}
               <Stack sx={{ mt: 4 }} gap={2} direction='row' justifyContent='space-between'>
-                <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Tilbake til fraktinformasjon</Button>
+                <Button onClick={() => setTabValue(1)} sx={{ textWrap: 'nowrap' }} variant='outlined' >Tilbake til Leveringsinformasjon</Button>
                 {/* <Link to='/dashboard/complete'> */}
-                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>{paymentType === 'online' ? 'Betal nå' : 'Plasser bestilling'}</CButton>
+                <CButton isLoading={loading} onClick={handleSendPaymentInfo} variant='contained' style={{ textWrap: 'nowrap' }}>{paymentType === 'online' ? 'Betal nå' : 'Send bestilling'}</CButton>
                 {/* </Link> */}
               </Stack>
             </Stack>
