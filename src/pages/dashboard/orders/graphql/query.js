@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const ORDERS = gql`
-  query($id:ID, $addedFor:String){
-    orders(id:$id,addedFor:$addedFor){
+  query($id:ID, $addedFor:String,$status: String){
+    orders(id:$id,addedFor:$addedFor,status:$status){
       edges{
         node{
           id

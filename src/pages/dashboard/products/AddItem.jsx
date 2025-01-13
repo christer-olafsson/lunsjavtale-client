@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useTheme } from '@emotion/react'
-import { Add, ArrowBackIos, ArrowDropDown, ArrowForwardIos, CheckBox, CheckBoxOutlineBlank, Close, ExpandMore, Remove } from '@mui/icons-material'
-import { Autocomplete, Avatar, Box, Button, Checkbox, Collapse, IconButton, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
-import { addDays, addMonths, format, isToday } from 'date-fns';
+import { Add, ArrowBackIos, ArrowDropDown, ArrowForwardIos, CheckBox, CheckBoxOutlineBlank, Close, ExpandMore, Info, Remove } from '@mui/icons-material'
+import { Autocomplete, Avatar, Box, Button, Checkbox, Collapse, IconButton, ListItem, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
+import { add, addDays, addMonths, format, isToday } from 'date-fns';
 import React, { useEffect, useState } from 'react'
 import ReactDatePicker from 'react-datepicker';
 import { GET_COMPANY_STAFFS, GET_INGREDIENTS } from '../manageStaff/graphql/query';
@@ -65,6 +65,7 @@ const AddItem = ({ closeDialog, data }) => {
     }
   });
 
+
   const handleAddToCart = () => {
     if (selectedDates.length === 0) {
       toast.error("Ingen dato valgt!")
@@ -106,52 +107,97 @@ const AddItem = ({ closeDialog, data }) => {
 
 
   // Add selected date to the list
-  const onChangeDate = (date) => {
-    if (!date) return;
+  // const onChangeDate = (date) => {
+  //   if (!date) return;
 
-    const formattedDate = format(date, "yyyy-MM-dd");
-    if (selectedDates.includes(formattedDate)) {
-      toast.error("Denne datoen er allerede valgt!");
-      return;
-    }
+  //   const formattedDate = format(date, "yyyy-MM-dd");
+  //   if (selectedDates.includes(formattedDate)) {
+  //     toast.error("Denne datoen er allerede valgt!");
+  //     return;
+  //   }
 
-    setSelectedDates((prev) => [...prev, formattedDate]);
-    setCartItems((prev) => ({
-      ...prev,
-      [formattedDate]: {
-        quantity: 1,
-        totalPrice: 100, // Default price, can be customized
-      },
-    }));
-  };
+  //   setSelectedDates((prev) => [...prev, formattedDate]);
+  //   setCartItems((prev) => ({
+  //     ...prev,
+  //     [formattedDate]: {
+  //       quantity: 1,
+  //       totalPrice: 100, // Default price, can be customized
+  //     },
+  //   }));
+  // };
+
+
+
 
 
   // Add date and time to the list
   const handleAddDateTime = () => {
-    if (!date || !time) {
+    if (!date) {
       toast.error("Velg både dato og klokkeslett!");
       return;
     }
 
-    const datetime = `${date} ${time}`;
-    if (selectedDates.includes(datetime)) {
-      toast.error("Denne datoen og klokkeslettet er allerede valgt!");
+    // Extract the date part from already selected dates
+    // const dateOnly = selectedDates.map((dt) => dt.split("T")[0]);
+    // Check if the exact date (without time) is already included
+    // if (dateOnly.includes(date.split("T")[0])) {
+    //   toast.error("Denne datoen er allerede valgt! Velg en annen dato.");
+    //   return;
+    // }
+
+
+    // Extract the time part from already selected dates
+    const timeOnly = selectedDates.map((dt) => dt.split("T")[1]);
+    // Check if the exact date (with time) is already included
+    if (timeOnly.includes(date.split("T")[1])) {
+      toast.error("Denne datoen er allerede valgt! Velg en annen dato.");
       return;
     }
 
-    setSelectedDates((prev) => [...prev, datetime]);
+
+    // Add the selected date to the list
+    setSelectedDates((prev) => [...prev, date]);
+
+    // Update cart items for the selected date
     setCartItems((prev) => ({
       ...prev,
-      [datetime]: {
+      [date]: {
         quantity: 1,
         totalPrice: 100, // Default price
       },
     }));
-    setDate(""); // Clear inputs
-    setTime("");
+
+    // Clear the date input
+    setDate("");
   };
 
-  console.log(formattedData)
+
+
+
+  // const handleAddDateTime = () => {
+  //   if (!date) {
+  //     toast.error("Velg både dato og klokkeslett!");
+  //     return;
+  //   }
+
+  //   const datetime = `${date} ${time}`;
+  //   if (selectedDates.includes(datetime)) {
+  //     toast.error("Denne datoen og klokkeslettet er allerede valgt!");
+  //     return;
+  //   }
+
+  //   setSelectedDates((prev) => [...prev, datetime]);
+  //   setCartItems((prev) => ({
+  //     ...prev,
+  //     [datetime]: {
+  //       quantity: 1,
+  //       totalPrice: 100, // Default price
+  //     },
+  //   }));
+  //   setDate(""); // Clear inputs
+  //   setTime("");
+  // };
+
 
   const dateDeselect = (date) => {
     setSelectedDates(selectedDates.filter(prev => prev !== date))
@@ -336,30 +382,31 @@ const AddItem = ({ closeDialog, data }) => {
                 </Box>
               </Stack>
 
-              <Box sx={{ mb: 2 }}>
-                <Stack direction="row" spacing={2} alignItems="center" mb={2}>
+              <Box>
+                {/* <Typography>{date ? format(date, 'dd-MMM-yyyy / hh:mm') : ''}</Typography> */}
+                <Stack direction="row" spacing={2} alignItems="center" >
                   <TextField
                     size="small"
-                    type="date"
-                    label="Dato"
+                    type="datetime-local"
+                    label="Select Date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     InputLabelProps={{ shrink: true }}
                     inputProps={{
-                      min: format(addDays(new Date(), 1), "yyyy-MM-dd"), // Disable past dates
-                      max: format(addMonths(new Date(), 2), "yyyy-MM-dd") // Limit to next 3 months
+                      min: format(addDays(new Date(), 1), "yyyy-MM-dd hh:mm"), // Disable past dates
+                      max: format(addMonths(new Date(), 2), "yyyy-MM-dd hh:mm") // Limit to next 2 months
                     }}
                   />
-                  <TextField
+                  {/* <TextField
                     size='small'
                     type="time"
                     label="Tid"
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
                     InputLabelProps={{ shrink: true }}
-                  />
-                  <Button variant="contained" onClick={handleAddDateTime}>
-                    Legg til
+                  /> */}
+                  <Button startIcon={<Add />} disabled={!date} variant="contained" onClick={handleAddDateTime}>
+                    Add
                   </Button>
                 </Stack>
                 {/* <ReactDatePicker
@@ -397,6 +444,11 @@ const AddItem = ({ closeDialog, data }) => {
                 /> */}
               </Box>
 
+              <ListItem sx={{ my: 1, color: 'green' }}>
+                <Info fontSize='small' />
+                <Typography variant='body2' sx={{ ml: 1 }}>Kan bestilles for flere dato og klokkeslett</Typography>
+              </ListItem>
+
               <Box mb={2}>
                 <table className='shopping-cart-table'>
                   <thead>
@@ -417,7 +469,6 @@ const AddItem = ({ closeDialog, data }) => {
                           </td>
                           <td>
                             <Stack sx={{
-                              // minwidth: { xs: '90px', md: '150px' },
                               width: { xs: '100px', md: '150px' },
                               border: `1px solid ${theme.palette.primary.main}`,
                               borderRadius: '50px',
@@ -447,7 +498,6 @@ const AddItem = ({ closeDialog, data }) => {
                       <td><b>Total:</b></td>
                       <td>
                         <b><i></i>{totalPrice} kr</b>
-                        {/* <b><i>NOK:</i>{calculateTotalPrice()}</b> */}
                       </td>
                       <td></td>
                     </tr>
@@ -483,9 +533,9 @@ const AddItem = ({ closeDialog, data }) => {
                   <CButton onClick={handleAddToCart} isLoading={loading} variant='contained' style={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>Legg til i handlekurv</CButton>
                   :
 
-                  <Button onClick={handleClickNext} variant='contained'
+                  <Button endIcon={<ArrowForwardIos />} onClick={handleClickNext} variant='contained'
                     sx={{ width: '100%', height: '56px', fontSize: { xs: '15px', md: '18px' }, mt: 2 }}>
-                    Neste
+                    Next
                   </Button>
               }
             </Box>

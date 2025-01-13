@@ -91,10 +91,14 @@ const StaffOrders = ({ user }) => {
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Leveringsdato</Typography>
       ),
       renderCell: (params) => (
-        <Stack sx={{ height: '100%' }} alignItems='center' direction='row'>
+        <Stack sx={{ height: '100%' }} justifyContent='center' >
           <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600, display: 'inline-flex', gap: '5px' }}>
             <CalendarMonthOutlined fontSize='small' />
             {format(params.row.deliveryDate, 'dd-MMM-yy')}
+          </Typography>
+          <Typography sx={{ fontSize: { xs: '12px', md: '14px', fontWeight: 600 }, color: 'green', display: 'inline-flex' }}>
+            <AccessTime sx={{ mr: .5 }} fontSize='small' />
+            {format(params.row.deliveryDate, 'hh:mm a')}
           </Typography>
         </Stack>
       )

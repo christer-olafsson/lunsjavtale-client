@@ -86,7 +86,7 @@ const OrderDetails = () => {
       </Box>
     )
   }
-  console.log(order)
+
 
   return (
     <Box maxWidth='xl'>
@@ -157,7 +157,7 @@ const OrderDetails = () => {
               {
                 order?.createdOn &&
                 <Typography sx={{ whiteSpace: 'nowrap' }}>
-                  <b>{format(order?.createdOn, 'dd-MM-yyyy')}</b>
+                  {format(order?.createdOn, 'dd-MM-yyyy')}
                   <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(order?.createdOn, 'hh:mm a')}</span>
                 </Typography>
               }
@@ -165,12 +165,12 @@ const OrderDetails = () => {
           </Stack>
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Leveringsdato:</b></Typography>
-            {order?.deliveryDate && <Typography><b>{format(order?.deliveryDate, 'dd-MM-yyyy')}</b></Typography>}
+            {order?.deliveryDate && <Typography><b>{format(order?.deliveryDate, 'dd-MM-yyyy')}</b><span style={{ fontSize: '13px', marginLeft: '5px', color: 'green', fontWeight: 'bold' }}>{format(order?.deliveryDate, 'hh:mm a')}</span></Typography>}
 
           </Stack>
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Betalingsmetode:</b></Typography>
-            <Typography>{order?.paymentType === 'online' ? 'Vipps' : order?.paymentType}</Typography>
+            <Typography sx={{ border: '1px solid lightgray', px: 1, borderRadius: '5px' }}>{order?.paymentType === 'online' ? 'Vipps' : order?.paymentType}</Typography>
           </Stack>
           <Stack direction='row'>
             <Typography sx={{ width: '200px', whiteSpace: 'nowarp' }}> <b>Firma godtgjørelse:</b></Typography>

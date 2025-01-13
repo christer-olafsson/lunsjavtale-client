@@ -62,7 +62,7 @@ const StaffsOrder = () => {
 
   const columns = [
     {
-      field: 'staffs', width: 300,
+      field: 'staffs', width: 250,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Ansatte</Typography>
       ),
@@ -102,7 +102,7 @@ const StaffsOrder = () => {
     },
 
     {
-      field: 'Date', width: 250,
+      field: 'Date', width: 280,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Dato</Typography>
       ),
@@ -112,7 +112,7 @@ const StaffsOrder = () => {
             <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Bestilling: <b>{format(params.row.createdOn, 'dd-MM-yyyy ')}</b>
               <span style={{ fontSize: '13px', marginLeft: '5px' }}>{format(params.row?.createdOn, 'hh:mm a')}</span>
             </Typography>
-            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Levering: <b>{format(params.row.date, 'dd-MM-yyyy')}</b> </Typography>
+            <Typography sx={{ fontSize: { xs: '12px', md: '16px' } }}> Levering: <b>{format(params.row.date, 'dd-MM-yyyy')}</b>  <span style={{ fontSize: '13px', marginLeft: '5px', color: 'green' }}>{format(params.row?.date, 'hh:mm a')}</span> </Typography>
           </Stack>
         )
       }

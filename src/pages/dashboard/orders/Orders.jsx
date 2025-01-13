@@ -1,5 +1,5 @@
 import { AccessTime, AccessTimeOutlined, ArrowRight, BorderColor, CalendarMonthOutlined, Search, TrendingFlat } from '@mui/icons-material'
-import { Box, Button, IconButton, Input, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
+import { Box, Button, FormControl, IconButton, Input, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import DataTable from '../../../components/dashboard/DataTable'
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -14,14 +14,17 @@ import useIsMobile from '../../../hook/useIsMobile';
 
 const Orders = () => {
   const [orders, setOrders] = useState([])
-  const [orderId, setOrderId] = useState('')
+  const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState('');
+
 
   const isMobile = useIsMobile()
 
   const { loading, error: orderErr } = useQuery(ORDERS, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      id: orderId
+      id: search,
+      status: statusFilter === 'all' ? '' : statusFilter
     },
     onCompleted: (res) => {
       setOrders(res.orders.edges.map(item => item.node));
@@ -30,6 +33,7 @@ const Orders = () => {
 
 
   function timeUntilNorway(futureDate, mode = "") {
+
     if (mode === "Delivered") {
       return "Levert";
     }
@@ -37,22 +41,54 @@ const Orders = () => {
       return "Kansellert";
     }
 
-    const now = moment().tz("Europe/Oslo").startOf('day');
-    const future = moment.tz(futureDate, "UTC").tz("Europe/Oslo").startOf('day');
+    const now = moment().tz("Europe/Oslo");
+    const future = moment.tz(futureDate, "UTC").tz("Europe/Oslo");
 
     const diffInMilliseconds = future.diff(now);
+
     if (diffInMilliseconds < 0) {
-      return 'Dato passert';
+      return "Dato passert";
     }
 
     const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+    const remainingMilliseconds = diffInMilliseconds % (1000 * 60 * 60 * 24);
+    const diffInHours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
 
-    if (diffInDays === 0) {
-      return 'Levering i dag';
+    if (diffInDays === 0 && diffInHours === 0) {
+      return "Levering i dag";
+    } else if (diffInDays === 0) {
+      return `Levering om ${diffInHours} timer`;
     } else {
-      return `Levering om ${diffInDays} dager`;
+      return `Levering om ${diffInDays} dager ${diffInHours} timer`;
     }
   }
+
+
+
+  // function timeUntilNorway(futureDate, mode = "") {
+  //   if (mode === "Delivered") {
+  //     return "Levert";
+  //   }
+  //   if (mode === "Cancelled") {
+  //     return "Kansellert";
+  //   }
+
+  //   const now = moment().tz("Europe/Oslo").startOf('day');
+  //   const future = moment.tz(futureDate, "UTC").tz("Europe/Oslo").startOf('day');
+
+  //   const diffInMilliseconds = future.diff(now);
+  //   if (diffInMilliseconds < 0) {
+  //     return 'Dato passert';
+  //   }
+
+  //   const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+
+  //   if (diffInDays === 0) {
+  //     return 'Levering i dag';
+  //   } else {
+  //     return `Levering om ${diffInDays} dager`;
+  //   }
+  // }
 
   const columns = [
     {
@@ -86,15 +122,19 @@ const Orders = () => {
       }
     },
     {
-      field: 'deliveryDate', headerName: 'Leveringsdato', width: 200,
+      field: 'deliveryDate', headerName: 'Leveringsdato', width: 170,
       renderHeader: () => (
         <Typography sx={{ fontSize: { xs: '12px', fontWeight: 600, lg: '15px' } }}>Leveringsdato</Typography>
       ),
       renderCell: (params) => (
-        <Stack sx={{ height: '100%' }} alignItems='center' direction='row'>
+        <Stack sx={{ height: '100%' }} justifyContent='center' >
           <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, fontWeight: 600, display: 'inline-flex', gap: '5px' }}>
             <CalendarMonthOutlined fontSize='small' />
             {format(params.row.deliveryDate, 'dd-MMM-yy')}
+          </Typography>
+          <Typography sx={{ fontSize: { xs: '12px', md: '14px', fontWeight: 600 }, color: 'green', display: 'inline-flex' }}>
+            <AccessTime sx={{ mr: .5 }} fontSize='small' />
+            {format(params.row.deliveryDate, 'hh:mm a')}
           </Typography>
         </Stack>
       )
@@ -123,14 +163,14 @@ const Orders = () => {
           {
             params.row.paidAmount > 0 &&
             <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, color: params.row.paidAmount > 0 ? 'green' : 'lightgray' }}>
-              Betalt: <b>{params.row.paidAmount}</b>
+              Paid: <b>{params.row.paidAmount}</b>
               <span style={{ fontWeight: 400, marginLeft: '5px' }}>kr </span>
             </Typography>
           }
           {
             params.row.dueAmount > 0 &&
             <Typography sx={{ fontSize: { xs: '12px', md: '16px' }, color: params.row.dueAmount > 0 ? 'coral' : 'lightgray' }}>
-              Skyldig: <b>{params.row.dueAmount}</b>
+              Due: <b>{params.row.dueAmount}</b>
               <span style={{ fontWeight: 400, marginLeft: '5px' }}>kr </span>
             </Typography>
           }
@@ -170,7 +210,7 @@ const Orders = () => {
     {
       field: 'timeUntil',
       headerName: '',
-      width: isMobile ? 200 : 345,
+      width: isMobile ? 200 : 376,
       // flex: isMobile ? undefined : 1,
       renderCell: (params) => (
         <Stack sx={{ height: '100%' }} direction='row' alignItems='center'>
@@ -209,20 +249,41 @@ const Orders = () => {
           px: 1
         }}>({orders?.length})</Typography>
       </Stack>
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        maxWidth: '300px',
-        bgcolor: '#fff',
-        width: '100%',
-        border: '1px solid lightgray',
-        borderRadius: '4px',
-        pl: 2
-      }}>
-        <Input onChange={e => setOrderId(e.target.value)} type='number' fullWidth disableUnderline placeholder='Bestillings-ID' />
-        <IconButton><Search /></IconButton>
-      </Box>
+      <Stack direction='row' gap={2} alignItems='center'>
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          maxWidth: '300px',
+          bgcolor: '#fff',
+          width: '100%',
+          border: '1px solid lightgray',
+          borderRadius: '4px',
+          pl: 2
+        }}>
+          <Input onChange={e => setSearch(e.target.value)} type='number' fullWidth disableUnderline placeholder='Bestillings-ID' />
+          <IconButton><Search /></IconButton>
+        </Box>
+        <Box sx={{ minWidth: { xs: 150, md: 200 } }}>
+          <FormControl size='small' fullWidth>
+            <InputLabel>Status</InputLabel>
+            <Select
+              value={statusFilter}
+              label="Status"
+              onChange={e => setStatusFilter(e.target.value)}
+            >
+              <MenuItem value={'all'}>All </MenuItem>
+              <MenuItem value={'Placed'}>Placed</MenuItem>
+              <MenuItem value={'Updated'}>Updated</MenuItem>
+              <MenuItem value={'Confirmed'}>Confirmed</MenuItem>
+              <MenuItem value={'Processing'}>Processing</MenuItem>
+              <MenuItem value={'Delivered'}>Delivered</MenuItem>
+              <MenuItem value={'Cancelled'}>Cancelled</MenuItem>
+              <MenuItem value={'Payment-pending'}>Payment-Pending</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      </Stack>
       <Box mt={3}>
         {
           loading ? <Loader /> : orderErr ? <ErrorMsg /> :

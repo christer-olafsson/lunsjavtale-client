@@ -22,6 +22,7 @@ const EditOrder = ({ data, closeDialog }) => {
   const [allAllergies, setAllAllergies] = useState([]);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
 
+
   useQuery(GET_COMPANY_STAFFS, {
     onCompleted: (res) => {
       const data = res.companyStaffs.edges.filter(({ node }) => !node.isDeleted);
@@ -58,12 +59,12 @@ const EditOrder = ({ data, closeDialog }) => {
       variables: {
         id: data.id,
         quantity: parseInt(orderedQuantity),
-        addedFor: selectedRows
-        //pending ingredient update
+        addedFor: selectedRows.map(id => id),
+        ingredients: selectedAllergies.map(item => item.id),
       }
     });
   };
-
+  console.log(selectedRows)
   const columns = [
     {
       field: 'users',
@@ -206,8 +207,15 @@ const EditOrder = ({ data, closeDialog }) => {
           <Typography>Pris: <b>{data?.item.priceWithTax}</b> kr</Typography>
         </Box>
       </Stack>
-      <Typography variant='body2' mb={.5}>Bestilt Mengde</Typography>
       <Stack direction='row' gap={2} alignItems='center'>
+        <Button
+          onClick={() => setTableOpen(!tableOpen)}
+          sx={{ height: '100%', whiteSpace: 'nowrap' }}
+          variant='outlined'
+          endIcon={<ArrowDropDownOutlined />}
+        >
+          Ansatte
+        </Button>
         <Stack sx={{
           width: '150px',
           border: `1px solid lightgray`,
@@ -217,6 +225,7 @@ const EditOrder = ({ data, closeDialog }) => {
           <Typography>{orderedQuantity}</Typography>
           <IconButton sx={{ height: '35px' }} onClick={() => toggleQuantity('increase')}><Add fontSize='small' /></IconButton>
         </Stack>
+
         {/* //allergies */}
         <Autocomplete
           size='small'
@@ -243,14 +252,7 @@ const EditOrder = ({ data, closeDialog }) => {
             <TextField {...params} label="Velg allergier" />
           )}
         />
-        <Button
-          onClick={() => setTableOpen(!tableOpen)}
-          sx={{ height: '100%', whiteSpace: 'nowrap' }}
-          variant='outlined'
-          endIcon={<ArrowDropDownOutlined />}
-        >
-          Ansatte
-        </Button>
+
       </Stack>
 
       <Collapse in={tableOpen}>

@@ -33,7 +33,7 @@ const ProductCartPage = () => {
       setCartListId(id)
     }
   }
-
+  console.log(addedCartsList)
 
   return (
     <Box maxWidth='lg'>
@@ -55,7 +55,10 @@ const ProductCartPage = () => {
                   <Stack sx={{ cursor: 'pointer' }} onClick={() => handleCartList(idx)} direction={{ xs: 'column', md: 'row' }} justifyContent='space-between' alignItems='center'>
                     <Stack sx={{ width: { xs: '100%', md: 'none' } }} alignSelf={{ xs: 'flex-start', md: 'center' }} direction='row' gap={2}>
                       <CalendarMonthOutlined />
-                      <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{format(data?.date, 'dd-MM-yyyy')}</Typography>
+                      <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        {format(data?.date, 'dd-MMM-yyyy')}
+                        <span style={{ fontSize: '14px', fontWeight: 'bold', marginLeft: '10px', color: 'green' }}>{format(data?.date, 'hh:mm a')}</span>
+                      </Typography>
                     </Stack>
                     <Stack sx={{ width: { xs: '100%', md: 'none' } }} direction='row' justifyContent='space-between' alignItems='center'>
                       <Typography sx={{ fontWeight: 600 }}> <span style={{ fontWeight: 400 }}>Total NOK: </span>{data.totalPrice}</Typography>

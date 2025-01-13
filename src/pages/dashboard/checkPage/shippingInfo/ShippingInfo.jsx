@@ -102,8 +102,8 @@ const ShippingInfo = ({ shippingInfoErr }) => {
               </Box>
               <Divider sx={{ mt: 2 }} />
               <Stack direction='row' justifyContent='space-between'>
-                <Button onClick={() => handleEdit(item)}>Rediger og velg</Button>
-                <IconButton onClick={() => (setDeletedAddressId(item.id), setAddressDeleteDialog(true))}>
+                <Button onClick={() => handleEdit(item)}>Edit & Select</Button>
+                <IconButton color='warning' onClick={() => (setDeletedAddressId(item.id), setAddressDeleteDialog(true))}>
                   <RemoveCircle />
                 </IconButton>
               </Stack>
@@ -121,7 +121,7 @@ const ShippingInfo = ({ shippingInfoErr }) => {
                   <Typography variant='h5'>Bekreft fjerning?</Typography>
                   <DialogActions>
                     <CButton variant='outlined' onClick={() => setAddressDeleteDialog(false)}>Avbryt</CButton>
-                    <CButton isLoading={addressDeleteLoading} onClick={handlAddressDelete} variant='contained'>Bekreft</CButton>
+                    <CButton color='warning' isLoading={addressDeleteLoading} onClick={handlAddressDelete} variant='contained'>Bekreft</CButton>
                   </DialogActions>
                 </CDialog>
               }

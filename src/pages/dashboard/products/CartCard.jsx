@@ -104,10 +104,10 @@ const CartCard = ({ data }) => {
         py: .5
       }} direction='row' justifyContent='space-between' alignItems='center'>
         <Stack direction='row' gap={1} alignItems='center'>
-          <IconButton onClick={() => setRemoveDialogOpen(true)} size='small' >
+          <IconButton color='warning' onClick={() => setRemoveDialogOpen(true)} size='small' >
             <RemoveCircle />
           </IconButton>
-          <IconButton onClick={() => setEditDialogOpen(true)}>
+          <IconButton color='primary' onClick={() => setEditDialogOpen(true)} size='small'>
             <Edit />
           </IconButton>
         </Stack>
@@ -118,7 +118,7 @@ const CartCard = ({ data }) => {
         <Typography variant='h5'>Bekreft fjerning??</Typography>
         <DialogActions>
           <Button variant='outlined' onClick={() => setRemoveDialogOpen(false)}>Kansellere</Button>
-          <CButton isLoading={removeLoading} onClick={handleProductRemove} variant='contained'>Bekrefte</CButton>
+          <CButton color='warning' isLoading={removeLoading} onClick={handleProductRemove} variant='contained'>Bekrefte</CButton>
         </DialogActions>
       </CDialog>
       {/* edit dialog */}
