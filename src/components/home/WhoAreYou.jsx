@@ -7,7 +7,7 @@ import CButton from "../../common/CButton/CButton";
 function WhoAreYou() {
   return (
     <Container maxWidth="lg" sx={{ my: { xs: 10, md: 15 } }}>
-      <Box
+      {/* <Box
         sx={{
           fontSize: { xs: "22px", md: "64px" },
           fontWeight: 400,
@@ -25,7 +25,7 @@ function WhoAreYou() {
         <FadeAnimation damping={0.05} cascade={"cascade"}>
           lunsjavtale gir deg kantinen rett i lomma
         </FadeAnimation>
-      </Box>
+      </Box> */}
 
       {/* Section 1: Sjefen */}
       <Stack direction={{ xs: "column", lg: "row" }} mt={{ xs: 5, md: 10 }} gap={6} alignItems="center">
