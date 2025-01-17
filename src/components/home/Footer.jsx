@@ -58,7 +58,8 @@ const Footer = () => {
             mt: 5,
             mb: 2
           }}>
-            <img style={{ width: '100%' }} src={clientDetails?.logoUrl ?? ''} alt="" />
+            <img style={{ width: '100%' }} src={'./logo.gif'} alt="" />
+            {/* <img style={{ width: '100%' }} src={clientDetails?.logoUrl ?? ''} alt="" /> */}
           </Box>
         </SlideAnimation>
         <SlideAnimation direction='up' delay={200}>
