@@ -196,7 +196,7 @@ const CheckPage = () => {
                   label="Sted"
                   variant="standard"
                 />
-                <TextField
+                {/* <TextField
                   error={Boolean(errors.postCode)}
                   helperText={errors.postCode}
                   value={billingAddressPayload.postCode}
@@ -204,7 +204,7 @@ const CheckPage = () => {
                   name='postCode'
                   label="Poststed"
                   variant="standard"
-                />
+                /> */}
 
                 <TextField
                   value={billingAddressPayload.phone}

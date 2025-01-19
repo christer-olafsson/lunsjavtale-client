@@ -13,7 +13,7 @@ const AddBillingInfo = () => {
     firstName: '',
     lastName: '',
     address: '',
-    postCode: '',
+    // postCode: '',
     phone: '',
   })
 
@@ -60,7 +60,7 @@ const AddBillingInfo = () => {
       firstName: data.firstName ?? '',
       lastName: data.lastName ?? '',
       address: data.address ?? '',
-      postCode: data.postCode ?? '',
+      // postCode: data.postCode ?? '',
       phone: data.phone ?? '',
     })
   }, [user])
@@ -109,7 +109,7 @@ const AddBillingInfo = () => {
           variant="standard"
           disabled={!editOn}
         />
-        <TextField
+        {/* <TextField
           fullWidth
           value={payload.postCode}
           onChange={handleBillingInputChange}
@@ -118,7 +118,7 @@ const AddBillingInfo = () => {
           label="Poststed"
           variant="standard"
           disabled={!editOn}
-        />
+        /> */}
       </Stack>
 
       {
