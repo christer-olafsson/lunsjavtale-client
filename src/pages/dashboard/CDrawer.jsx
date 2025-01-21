@@ -74,7 +74,8 @@ const CDrawer = ({ handleDrawerClose }) => {
 
 
   const navItems = [
-    { name: 'Min Side', icon: <SpaceDashboard />, path: '/dashboard/mySide', end: true },
+    // { name: 'Min Side', icon: <SpaceDashboard />, path: '/dashboard/mySide', end: true },
+    { name: 'Produkter', icon: <CategoryOutlined />, path: '/dashboard/products', end: true },
     { name: 'Varsler', icon: <NotificationsNoneOutlined />, path: '/dashboard/notifications', notification: unreadNotificationCount },
     { name: 'Ordrekurv', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
     ...(user ? (
@@ -83,7 +84,6 @@ const CDrawer = ({ handleDrawerClose }) => {
         { name: 'Møteplan', icon: <Diversity3 />, path: '/dashboard/meetings' },
       ] : []
     ) : []),
-    { name: 'Produkter', icon: <CategoryOutlined />, path: '/dashboard/products' },
     { name: 'Ordrehistorikk', icon: <ViewStreamOutlined />, path: '/dashboard/orders' },
     { name: 'Betalingshistorikk', icon: <PaidOutlined />, path: '/dashboard/payments-history' },
     { name: isStaff ? 'Min Forespørsel' : 'Ordreforespørsel', icon: <ShoppingCartCheckout />, path: '/dashboard/staffs-order', notification: addedEmployeeCarts.length },

@@ -75,7 +75,7 @@ const Navbar = () => {
             <Button sx={{ color: !isMobile ? '#fff' : '' }} onClick={() => setSideBarOpen(false)} href='#Kontakt'>Kontakt</Button>
             {
               token ?
-                <Link style={{ width: '100%' }} to='/dashboard/mySide'>
+                <Link style={{ width: '100%' }} to='/dashboard/products'>
                   <CButton endIcon={<ArrowOutward />} style={{ width: isMobile ? '100%' : 'fit-content' }} variant='contained'>
                     Dashboard
                   </CButton>

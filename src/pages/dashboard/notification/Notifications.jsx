@@ -25,7 +25,7 @@ const Notifications = () => {
     const date = parseISO(isoString);
     return formatDistanceToNow(date, { addSuffix: true });
   };
-  console.log(notifications)
+
   const columns = [
     {
       field: 'Time', headerName: '', width: 250,

@@ -93,7 +93,7 @@ const Login = (props) => {
       }
       localStorage.setItem("lunsjavtale", res.loginUser.access);
       toast.success('Innlogging vellykket!');
-      window.location.href = "/dashboard/mySide";
+      window.location.href = "/dashboard/products";
     },
     onError: (err) => {
       if (err.graphQLErrors && err.graphQLErrors.length > 0) {
@@ -113,7 +113,7 @@ const Login = (props) => {
     onCompleted: (res) => {
       localStorage.setItem("lunsjavtale", res.socialLogin.access);
       toast.success('Innlogging vellykket!');
-      window.location.href = "/dashboard/mySide";
+      window.location.href = "/dashboard/products";
     },
     onError: (err) => {
       toast.error(err.message)

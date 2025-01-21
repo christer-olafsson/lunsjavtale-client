@@ -11,7 +11,7 @@ const ProtectedRoutes = ({ user, loading }) => {
   }
 
   if (!user || (user.me.role !== 'company-owner' && user.me.role !== 'company-manager')) {
-    return <Navigate to="/dashboard/mySide" />;
+    return <Navigate to="/dashboard/products" />;
   }
 
   return (

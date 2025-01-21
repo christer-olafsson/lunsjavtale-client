@@ -37,7 +37,7 @@ const CartPage = () => {
   return (
     <Box maxWidth='lg'>
       <Stack direction='row' justifyContent='space-between' alignItems='center'>
-        <Link to='/dashboard/myside'>
+        <Link to='/dashboard/products'>
           <IconButton>
             <ArrowBack />
           </IconButton>

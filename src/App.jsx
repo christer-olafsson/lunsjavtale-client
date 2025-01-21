@@ -48,13 +48,13 @@ function App() {
     <div>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/login' element={token ? <Navigate to='/dashboard/mySide' /> : <Login />} />
+        <Route path='/login' element={token ? <Navigate to='/dashboard/products' /> : <Login />} />
         <Route path='/search' element={<Search />} />
         <Route path='/email-verification/:token?' element={<EmailVerification />} />
         <Route path='/password-reset/:token?' element={<PassReset />} />
         <Route element={token ? <Layout /> : <Navigate to='/login' />}>
-          <Route path='/dashboard' element={<Navigate to='/dashboard/mySide' />} />
-          <Route path='/dashboard/mySide' element={<MySide />} />
+          <Route path='/dashboard' element={<Navigate to='/dashboard/products' />} />
+          {/* <Route path='/dashboard/mySide' element={<MySide />} /> */}
           <Route path='/dashboard/cart' element={<Cart />} />
           <Route path='/dashboard/notifications' element={<Notifications />} />
           <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} />
