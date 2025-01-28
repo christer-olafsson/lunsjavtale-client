@@ -38,7 +38,7 @@ import { UNREAD_NOTIFICATION_COUNT } from './notification/query';
 import { ADDED_EMPLOYEE_CARTS } from './staffsOrder/graphql/query';
 import { ADDED_PRODUCTS } from './products/graphql/query';
 
-const CDrawer = ({ handleDrawerClose }) => {
+const NavItem = ({ handleDrawerClose }) => {
   const [expandedNavlinkIndex, setExpandedNavlinkIndex] = useState(null);
   const [unreadNotificationCount, setUnreadNotificationCount] = useState([])
   const [addedEmployeeCarts, setAddedEmployeeCarts] = useState([])
@@ -75,7 +75,7 @@ const CDrawer = ({ handleDrawerClose }) => {
 
   const navItems = [
     // { name: 'Min Side', icon: <SpaceDashboard />, path: '/dashboard/mySide', end: true },
-    { name: 'Produkter', icon: <CategoryOutlined />, path: '/dashboard/products', end: true },
+    { name: 'Produkter', icon: <CategoryOutlined />, path: '/dashboard/products', },
     { name: 'Varsler', icon: <NotificationsNoneOutlined />, path: '/dashboard/notifications', notification: unreadNotificationCount },
     { name: 'Ordrekurv', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
     ...(user ? (
@@ -143,7 +143,7 @@ const CDrawer = ({ handleDrawerClose }) => {
               </Collapse>
             </>
           ) : (
-            <NavLink className="link" to={item.path}>
+            <NavLink end={item.end} className="link" to={item.path}>
               {({ isActive }) => (
                 <Stack
                   direction='row'
@@ -176,4 +176,4 @@ const CDrawer = ({ handleDrawerClose }) => {
   );
 };
 
-export default CDrawer;
+export default NavItem;

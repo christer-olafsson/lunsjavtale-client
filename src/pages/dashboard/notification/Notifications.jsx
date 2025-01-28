@@ -88,10 +88,10 @@ const Notifications = () => {
       <Typography sx={{ fontSize: { xs: '18px', lg: '24px' }, fontWeight: 600 }}>Alle Varsler</Typography>
       <Box mt={3}>
         {
-          loading ? <Loader /> : error ? <ErrorMsg /> :
+          loading ? <Loader /> : error ? <ErrorMsg /> : notifications.length === 0 ? <Typography variant='h4' >Ingen varsel</Typography> :
             <DataTable
               columns={columns}
-              rows={notifications ?? []}
+              rows={notifications}
             />
         }
       </Box>

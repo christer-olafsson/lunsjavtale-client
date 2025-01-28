@@ -23,7 +23,7 @@ import OrderPayment from './payment/OrderPayment';
 import CDialog from '../../common/dialog/CDialog';
 import { UNREAD_NOTIFICATION_COUNT } from './notification/query';
 import { googleLogout } from '@react-oauth/google';
-import CDrawer from './CDrawer';
+import NavItem from './NavItem';
 import { ADDED_PRODUCTS } from './products/graphql/query';
 
 const drawerWidth = 250;
@@ -190,7 +190,7 @@ function Layout() {
         <OrderPayment closeDialog={() => setOpenStaffPaymentDialog(false)} />
       </CDialog>
       {/* drawer item */}
-      <CDrawer handleDrawerClose={handleDrawerClose} />
+      <NavItem handleDrawerClose={handleDrawerClose} />
     </Box>
   );
 
@@ -260,7 +260,7 @@ function Layout() {
                   openNotification &&
                   <Box sx={{
                     position: 'absolute',
-                    left: { xs: '50%', md: '-20px' },
+                    left: { xs: '30%', md: '-20px' },
                     transform: 'translateX(-50%)',
                     top: 55,
                   }}>
@@ -282,7 +282,7 @@ function Layout() {
                 >
                   <Avatar src={user?.me.photoUrl ? user?.me.photoUrl : ''} sx={{ width: 32, height: 32 }} />
                   <Box ml={1}>
-                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{user?.me.username}</Typography>
+                    <Typography sx={{ fontSize: '16px', fontWeight: 600 }}>{user?.me?.company?.name}</Typography>
                     <Typography sx={{
                       fontSize: '12px',
                       bgcolor: user?.me.role === 'company-manager' ?
@@ -308,7 +308,7 @@ function Layout() {
                 }} in={userMenuOpen}>
                   <Stack sx={{ width: '100%' }} alignItems='center'>
                     <Avatar src={user?.me.photoUrl ?? ''} sx={{ width: '100px', height: '100px', mb: 2 }} />
-                    <Typography sx={{ fontSize: '20px', textAlign: 'center' }}>{user?.me.username}</Typography>
+                    <Typography sx={{ fontSize: '20px', textAlign: 'center' }}>{user?.me?.company?.name}</Typography>
                     <Typography sx={{ textAlign: 'center', fontSize: '14px' }}>{user?.me.email}</Typography>
                     <Typography sx={{ textAlign: 'center', fontSize: '14px', mb: 2 }}>{user?.me.phone}</Typography>
                     <Divider sx={{ width: '100%' }} />

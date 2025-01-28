@@ -242,10 +242,11 @@ const StaffsOrder = () => {
       </CDialog>
       <Box>
         {
-          loading ? <Loader /> : error ? <ErrorMsg /> :
+          error ? <ErrorMsg /> : addedEmployeeCarts.length === 0 ? <Typography variant='h4'>Ingen bestillingsforespørsel</Typography> :
             <DataTable
               rows={addedEmployeeCarts}
               columns={columns}
+              loading={loading}
               checkboxSelection={user?.me.role !== 'company-employee'}
               onRowSelectionModelChange={(newSelection) => setSelectedRowIds(newSelection)}
             />

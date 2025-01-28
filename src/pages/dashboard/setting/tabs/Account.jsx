@@ -55,8 +55,20 @@ const Account = () => {
   }
 
   const handleUpdate = () => {
-    if (!payload.username) {
-      toast.error('Brukernavn er påkrevd!')
+    // if (!payload.username) {
+    //   toast.error('Brukernavn er påkrevd!')
+    //   return
+    // }
+    if (!payload.currentPass) {
+      toast.error('Nåværende passord er påkrevd!')
+      return
+    }
+    if (!payload.newPass) {
+      toast.error('Nytt passord er påkrevd!')
+      return
+    }
+    if (!payload.repeatPass) {
+      toast.error('Gjenta passord er påkrevd!')
       return
     }
     if (payload.newPass !== payload.repeatPass) {
