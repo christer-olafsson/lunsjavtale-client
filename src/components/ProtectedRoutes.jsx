@@ -17,7 +17,7 @@ const ProtectedRoutes = ({ user, loading }) => {
   return (
     <Routes>
       <Route path="manage-staff" element={<ManageStaff />} />
-      <Route path="meetings" element={<Meeting />} />
+      {/* <Route path="meetings" element={<Meeting />} /> */}
     </Routes>
   );
 };

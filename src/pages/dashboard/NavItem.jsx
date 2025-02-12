@@ -77,11 +77,11 @@ const NavItem = ({ handleDrawerClose }) => {
     // { name: 'Min Side', icon: <SpaceDashboard />, path: '/dashboard/mySide', end: true },
     { name: 'Produkter', icon: <CategoryOutlined />, path: '/dashboard/products', },
     { name: 'Varsler', icon: <NotificationsNoneOutlined />, path: '/dashboard/notifications', notification: unreadNotificationCount },
-    { name: 'Ordrekurv', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
+    { name: 'Handlekurv', icon: <ShoppingCartOutlined />, path: '/dashboard/cart', notification: addedProducts.length },
     ...(user ? (
       !isStaff ? [
         { name: 'Ansatte', icon: <PeopleAltOutlined />, path: '/dashboard/manage-staff' },
-        { name: 'Møteplan', icon: <Diversity3 />, path: '/dashboard/meetings' },
+        // { name: 'Møteplan', icon: <Diversity3 />, path: '/dashboard/meetings' },
       ] : []
     ) : []),
     { name: 'Ordrehistorikk', icon: <ViewStreamOutlined />, path: '/dashboard/orders' },

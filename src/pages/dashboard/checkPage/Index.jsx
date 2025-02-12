@@ -138,7 +138,7 @@ const CheckPage = () => {
     const data = user?.me?.company?.billingAddress ?? {}
     setBillingAddressPayload({
       firstName: data.firstName ?? '',
-      lastName: data.lastName ?? '',
+      // lastName: data.lastName ?? '',
       address: data.address ?? '',
       // postCode: data.postCode ?? '',
       phone: data.phone ?? '',
@@ -177,16 +177,16 @@ const CheckPage = () => {
                   value={billingAddressPayload.firstName}
                   onChange={handleBillingInputChange}
                   name='firstName'
-                  label="Fornavn"
+                  label="Firmanavn"
                   variant="standard"
                 />
-                <TextField
+                {/* <TextField
                   value={billingAddressPayload.lastName}
                   onChange={handleBillingInputChange}
                   name='lastName'
                   label="Etternavn"
                   variant="standard"
-                />
+                /> */}
                 <TextField
                   error={Boolean(errors.address)}
                   helperText={errors.address}
