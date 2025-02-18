@@ -9,6 +9,7 @@ import CButton from '../../../common/CButton/CButton';
 import { GET_COMPANY_STAFFS, GET_INGREDIENTS } from '../manageStaff/graphql/query';
 import { ADD_TO_CART } from './graphql/mutation';
 import { ADDED_CARTS_LIST } from './graphql/query';
+import { ORDER_SUMMARY } from '../checkPage/graphql/query';
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
@@ -42,7 +43,7 @@ const EditCart = ({ data, closeDialog }) => {
       toast.success('Lagt til i handlekurv')
       closeDialog()
     },
-    refetchQueries: [ADDED_CARTS_LIST],
+    refetchQueries: [ADDED_CARTS_LIST, ORDER_SUMMARY],
     onError: (err) => {
       toast.error(err.message)
     }

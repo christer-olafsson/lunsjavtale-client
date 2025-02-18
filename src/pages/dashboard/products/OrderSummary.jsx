@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { Close, Edit } from '@mui/icons-material';
-import { Autocomplete, Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material'
+import { Close, Edit, KeyboardArrowDown } from '@mui/icons-material';
+import { Autocomplete, Box, Button, Collapse, IconButton, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
@@ -8,16 +8,19 @@ import CDialog from '../../../common/dialog/CDialog';
 import { ME } from '../../../graphql/query';
 import { useTheme } from '@emotion/react';
 import { ORDER_SUMMARY } from '../checkPage/graphql/query';
+import Loader from '../../../common/loader/Index';
+import { format } from 'date-fns';
 
 const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
   const [allowanceDialog, setAllowanceDialog] = useState(false);
   const [orderSummaryData, setOrderSummaryData] = useState({})
+  const [openDeliveryChargeSec, setOpenDeliveryChargeSec] = useState(false)
 
   const { pathname } = useLocation();
   const { data: user } = useQuery(ME)
   const theme = useTheme()
 
-  useQuery(ORDER_SUMMARY, {
+  const { loading } = useQuery(ORDER_SUMMARY, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     variables: {
@@ -28,7 +31,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
     }
   });
 
-
+  console.log(orderSummaryData)
 
   const isMySideCartPage = pathname === '/dashboard/myside/cart';
   const isProductCartPage = pathname === '/dashboard/products/cart';
@@ -37,6 +40,7 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
     setAllowanceDialog(false)
   }
 
+  // if (loading) return <Loader />
 
   return (
     <Stack sx={{
@@ -102,18 +106,50 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
 
       <Stack direction='row' justifyContent='space-between' p={isMySideCartPage ? 0 : 2}>
         <Stack sx={{ px: 2 }} gap={3}>
-          <Typography sx={{ whiteSpace: 'nowrap' }}>Subtotal :</Typography>
+          <Typography sx={{ whiteSpace: 'nowrap' }}>Total kr (tax) :</Typography>
           <Typography sx={{ whiteSpace: 'nowrap' }}>Totalt Antall :</Typography>
+          <Typography onClick={() => setOpenDeliveryChargeSec(p => !p)} sx={{ whiteSpace: 'nowrap', display: 'inline-flex', cursor: 'pointer' }}> Totalt leveringsgebyr : <KeyboardArrowDown /></Typography>
           {/* <Typography>Discount (VELZON15) :</Typography> */}
           {/* <Typography>Shipping Charge :</Typography> */}
         </Stack>
         <Stack sx={{ px: 2 }} gap={3}>
-          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}> <b>{orderSummaryData?.subTotal}</b>  kr</Typography>
+          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}> <b>{orderSummaryData?.total}</b>  kr</Typography>
           <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>x {orderSummaryData?.quantity}</Typography>
+          <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}> {orderSummaryData?.totalDeliveryCharge} kr</Typography>
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>- $ 53.99</Typography> */}
           {/* <Typography sx={{ textWrap: 'nowrap', alignSelf: 'flex-end' }}>$ 65.00</Typography> */}
         </Stack>
       </Stack>
+
+      {/* delivery charges list */}
+      <Collapse in={openDeliveryChargeSec}>
+        <TableContainer sx={{ maxWidth: 600, mb: 2 }}>
+          <Table>
+            <TableHead>
+              <TableRow >
+                <TableCell sx={{ fontWeight: "bold" }}>Date</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Supplier</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Charge</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {orderSummaryData?.deliveryCharges?.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <Typography>
+                      {format(row.date, "dd-MM-yyyy")}
+                    </Typography>
+                    <span style={{ fontSize: '14px', color: 'green' }}>{format(row?.date, 'hh:mm a')}</span>
+                  </TableCell>
+                  <TableCell >{row?.supplier?.name}</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>{row?.deliveryCharge} kr</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Collapse>
+
       {
         (pathname === '/dashboard/products/checkout') &&
         (user?.me.role === 'company-owner' || user?.me.role === 'company-manager') &&
@@ -163,9 +199,11 @@ const OrderSummary = ({ errors, companyAllowance, setCompanyAllowance }) => {
         bgcolor: 'light.main',
         p: 2, borderRadius: '8px', mt: 2
       }} direction='row' justifyContent='space-between'>
-        <Typography sx={{ fontWeight: 600 }}>Totalt <i style={{ fontWeight: 400, fontSize: '13px' }}>(Skatt 15%)</i>  :</Typography>
-        <Typography sx={{ fontWeight: 600 }}>kr {orderSummaryData?.total}</Typography>
-      </Stack>
+        <Typography sx={{ fontWeight: 600 }}>Totalt <i style={{ fontWeight: 400, fontSize: '13px' }}></i>  :</Typography>
+        <Typography sx={{ fontWeight: 600 }}>
+          {Number(orderSummaryData?.total || 0) + Number(orderSummaryData?.totalDeliveryCharge || 0)} kr
+        </Typography>      </Stack>
+
       {
         (isMySideCartPage || isProductCartPage) &&
         <Link to={isProductCartPage ? '/dashboard/products/checkout' : '/dashboard/myside/checkout'}>

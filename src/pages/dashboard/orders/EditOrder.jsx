@@ -64,7 +64,7 @@ const EditOrder = ({ data, closeDialog }) => {
       }
     });
   };
-  console.log(selectedRows)
+
   const columns = [
     {
       field: 'users',

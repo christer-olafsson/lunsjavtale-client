@@ -42,6 +42,7 @@ export const ORDER = gql`
       employeeDueAmount
       companyDueAmount
       note
+      shippingCharge
       statuses{
         edges{
           node{
