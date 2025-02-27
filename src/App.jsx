@@ -1,29 +1,39 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import Home from './pages/home/Home'
-import NotFound from './pages/notFound/Index'
-import Search from './pages/search/Search'
-import Login from './pages/login/Login'
-import Layout from './pages/dashboard/Layout'
-import MySide from './pages/dashboard/myside/MySide'
-import Products from './pages/dashboard/products/Products'
-import Orders from './pages/dashboard/orders/Orders'
-import Setting from './pages/dashboard/setting/Setting'
-import ProductCartPage from './pages/dashboard/products/ProductCartPage'
-import EditOrder from './pages/dashboard/orders/EditOrder'
-import OrderDetails from './pages/dashboard/orders/OrderDetails'
-import { useEffect, useState } from 'react'
-import EmailVerification from './pages/emailVerification/EmailVerification'
-import PassReset from './pages/passReset/PassReset'
 import { useQuery } from '@apollo/client'
 import { ME } from './graphql/query'
-import CheckPage from './pages/dashboard/checkPage/Index'
-import PaymentHistory from './pages/dashboard/payment-history/PaymentHistory'
-import StaffsOrder from './pages/dashboard/staffsOrder/Index'
-import Notifications from './pages/dashboard/notification/Notifications'
-import StaffDetails from './pages/dashboard/manageStaff/StaffDetails'
-import PaymentSuccess from './pages/dashboard/payment/PaymentSuccess'
-import Cart from './pages/dashboard/cart/Cart'
-import ProtectedRoutes from './components/ProtectedRoutes' // You'll need to create this component
+import { useEffect, useState } from 'react'
+import { lazy } from 'react'
+import { Suspense } from 'react'
+import ProtectedRoutes from './components/ProtectedRoutes'
+import Loader from './common/loader/Index'
+
+const Home = lazy(() => import('./pages/home/Home'));
+const Login = lazy(() => import('./pages/login/Login'));
+const Search = lazy(() => import('./pages/search/Search'));
+const NotFound = lazy(() => import('./pages/notFound/Index'));
+const Layout = lazy(() => import('./pages/dashboard/Layout'));
+const Products = lazy(() => import('./pages/dashboard/products/Products'));
+const Cart = lazy(() => import('./pages/dashboard/cart/Cart'));
+const Notifications = lazy(() => import('./pages/dashboard/notification/Notifications'));
+const StaffDetails = lazy(() => import('./pages/dashboard/manageStaff/StaffDetails'));
+const StaffsOrder = lazy(() => import('./pages/dashboard/staffsOrder/Index'));
+const ProductCartPage = lazy(() => import('./pages/dashboard/products/ProductCartPage'));
+const CheckPage = lazy(() => import('./pages/dashboard/checkPage/Index'));
+const Orders = lazy(() => import('./pages/dashboard/orders/Orders'));
+const OrderDetails = lazy(() => import('./pages/dashboard/orders/OrderDetails'));
+const EditOrder = lazy(() => import('./pages/dashboard/orders/EditOrder'));
+const PaymentSuccess = lazy(() => import('./pages/dashboard/payment/PaymentSuccess'));
+const PaymentHistory = lazy(() => import('./pages/dashboard/payment-history/PaymentHistory'));
+const Setting = lazy(() => import('./pages/dashboard/setting/Setting'));
+const EmailVerification = lazy(() => import('./pages/emailVerification/EmailVerification'));
+const PassReset = lazy(() => import('./pages/passReset/PassReset'));
+
+
+const LazyLoad = ({ component: Component }) => (
+  <Suspense fallback={<div><Loader /></div>}>
+    <Component />
+  </Suspense>
+)
 
 function App() {
 
@@ -45,34 +55,31 @@ function App() {
 
 
   return (
-    <div>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={token ? <Navigate to='/dashboard/products' /> : <Login />} />
-        <Route path='/search' element={<Search />} />
-        <Route path='/email-verification/:token?' element={<EmailVerification />} />
-        <Route path='/password-reset/:token?' element={<PassReset />} />
-        <Route element={token ? <Layout /> : <Navigate to='/login' />}>
-          <Route path='/dashboard' element={<Navigate to='/dashboard/products' />} />
-          {/* <Route path='/dashboard/mySide' element={<MySide />} /> */}
-          <Route path='/dashboard/cart' element={<Cart />} />
-          <Route path='/dashboard/notifications' element={<Notifications />} />
-          <Route path='/dashboard/staff-details/:id' element={<StaffDetails />} />
-          <Route path='/dashboard/staffs-order' element={<StaffsOrder />} />
-          <Route path='/dashboard/products' element={<Products />} />
-          <Route path='/dashboard/products/cart' element={<ProductCartPage />} />
-          <Route path='/dashboard/products/checkout' element={<CheckPage />} />
-          <Route path='/dashboard/*' element={<ProtectedRoutes user={user} loading={loading} />} />
-          <Route path='/dashboard/orders' element={<Orders />} />
-          <Route path='/dashboard/payment-success' element={<PaymentSuccess />} />
-          <Route path='/dashboard/payments-history' element={<PaymentHistory />} />
-          <Route path='/dashboard/orders/details/:id' element={<OrderDetails />} />
-          <Route path='/dashboard/orders/edit/:id' element={<EditOrder />} />
-          <Route path='/dashboard/setting' element={<Setting />} />
-        </Route>
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path='/' element={<LazyLoad component={Home} />} />
+      <Route path='/login' element={token ? <Navigate to='/dashboard/products' /> : <LazyLoad component={Login} />} />
+      <Route path='/search' element={<LazyLoad component={Search} />} />
+      <Route path='/email-verification/:token?' element={<LazyLoad component={EmailVerification} />} />
+      <Route path='/password-reset/:token?' element={<LazyLoad component={PassReset} />} />
+      <Route element={token ? <LazyLoad component={Layout} /> : <Navigate to='/login' />}>
+        <Route path='/dashboard' element={<Navigate to='/dashboard/products' />} />
+        <Route path='/dashboard/cart' element={<LazyLoad component={Cart} />} />
+        <Route path='/dashboard/notifications' element={<LazyLoad component={Notifications} />} />
+        <Route path='/dashboard/staff-details/:id' element={<LazyLoad component={StaffDetails} />} />
+        <Route path='/dashboard/staffs-order' element={<LazyLoad component={StaffsOrder} />} />
+        <Route path='/dashboard/products' element={<LazyLoad component={Products} />} />
+        <Route path='/dashboard/products/cart' element={<LazyLoad component={ProductCartPage} />} />
+        <Route path='/dashboard/products/checkout' element={<LazyLoad component={CheckPage} />} />
+        <Route path='/dashboard/*' element={<ProtectedRoutes user={user} loading={loading} />} />
+        <Route path='/dashboard/orders' element={<LazyLoad component={Orders} />} />
+        <Route path='/dashboard/payment-success' element={<LazyLoad component={PaymentSuccess} />} />
+        <Route path='/dashboard/payments-history' element={<LazyLoad component={PaymentHistory} />} />
+        <Route path='/dashboard/orders/details/:id' element={<LazyLoad component={OrderDetails} />} />
+        <Route path='/dashboard/orders/edit/:id' element={<LazyLoad component={EditOrder} />} />
+        <Route path='/dashboard/setting' element={<LazyLoad component={Setting} />} />
+      </Route>
+      <Route path='*' element={<LazyLoad component={NotFound} />} />
+    </Routes>
   )
 }
 
