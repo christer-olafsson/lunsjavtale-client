@@ -26,7 +26,7 @@ const errorLink = onError(
         console.log('graphql err:',message)
         if (
           message === "Signature has expired" ||
-          code === "unauthorized"
+          extensions.code === "unauthorized"
         ) {
           localStorage.removeItem("lunsjavtale");
           // localStorage.removeItem("refresh");
